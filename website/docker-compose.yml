@@ -1,0 +1,14 @@
+version: '2'
+
+services:
+  carma-web:
+    image: carma-web:latest
+    network_mode: host
+    container_name: carma-web
+    volumes_from: 
+      - container:carma-config:ro
+    volumes: 
+      - /var/run/docker.sock:/var/run/docker.sock 
+#    stdin_open: true
+#    tty: true
+#    entrypoint: bash

@@ -16,29 +16,33 @@
 
 set -ex
 
+# Configure apt with Docker repos
 apt-get update
-
 apt-get -y install apt-transport-https \
         ca-certificates \
         curl \
         gnupg2 \
         software-properties-common
-
 curl -fsSL https://download.docker.com/linux/$(. /etc/os-release; echo "$ID")/gpg > /tmp/dkey; apt-key add /tmp/dkey
 add-apt-repository \
         "deb [arch=amd64] https://download.docker.com/linux/$(. /etc/os-release; echo "$ID") \
         $(lsb_release -cs) \
         stable"
 
+# Install docker and docker-compose
 apt-get update
 apt-get -y install docker-ce 
 curl -L "https://github.com/docker/compose/releases/download/1.23.1/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
 chmod +x /usr/local/bin/docker-compose
 
+# Configure user permissions for docker
 usermod -aG docker www-data
+
+# Switch to dockerized version of launch and kill script
 mv /var/www/html/scripts/docker_launch.bash /var/www/html/scripts/launch.bash
 mv /var/www/html/scripts/docker_kill.bash /var/www/html/scripts/kill.bash
 
+# Install stub carma.config.js to be overriden by later configuration
 mkdir -p /opt/carma/vehicle
 touch /opt/carma/vehicle/carma.config.js
 ln -sf /opt/carma/vehicle/carma.config.js /var/www/html/scripts/carma.config.js

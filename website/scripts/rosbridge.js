@@ -65,7 +65,7 @@ var t_nav_sat_fix = '';
 var t_robot_status = '';
 var t_cmd_speed = '';
 var t_lateral_control_driver = '';
-var t_light_bar_status = '/control/light_bar_status'; //02/2019: added to display lightbar on UI
+var t_light_bar_status = 'control/light_bar_status'; //02/2019: added to display lightbar on UI
 
 var t_can_engine_speed = '';
 var t_can_speed = '';
@@ -1883,7 +1883,7 @@ function showLightBarStatus (){
         insertNewTableRow('tblFirstB', 'LightBar:takedown: ', message.takedown); //Not used, green and yellow flashing.
 
         if (!SVG.supported) {
-            alert('SVG not supported. Some images will not be displayed.');
+            console.log('SVG not supported. Some images will not be displayed.');
             return;
         }
 

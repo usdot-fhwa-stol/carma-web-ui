@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2018 LEIDOS.
+ * Copyright (C) 2018-2019 LEIDOS.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
@@ -15,12 +15,12 @@
  */
 
 /***
- This file shall contain ROS relate function calls.
+ This file shall contain ROS related function calls.
 ****/
 
 // *** Global variables ***
 // Deployment variables
-var ip = CarmaJS.Config.getIP(); // TODO: Update with proper environment IP address to 166.241.207.252 or 192.168.88.10
+var ip = CarmaJS.Config.getIP();
 
 // Topics
 var t_system_alert = 'system_alert';
@@ -65,6 +65,7 @@ var t_nav_sat_fix = '';
 var t_robot_status = '';
 var t_cmd_speed = '';
 var t_lateral_control_driver = '';
+var t_light_bar_status = 'control/light_bar_status'; //02/2019: added to display lightbar on UI
 
 var t_can_engine_speed = '';
 var t_can_speed = '';
@@ -108,7 +109,6 @@ var waitingForRouteStateSegmentStartup = false;
 var timer;
 var engaged_timer = '00h 00m 00s'; //timer starts after vehicle first engages.
 var host_instructions = '';
-
 
 //Elements frequently accessed.
 var divCapabilitiesMessage = document.getElementById('divCapabilitiesMessage');
@@ -241,7 +241,7 @@ function sleep(ms) {
 }
 
 /*
-* Connection to ROS
+    Connection to ROS
 */
 function connectToROS() {
 
@@ -297,11 +297,9 @@ function connectToROS() {
     }
 }
 
-
-
-/**
-* Check System Alerts from Interface Manager
-**/
+/*
+    Check System Alerts from Interface Manager
+*/
 function checkSystemAlerts() {
 
     // Subscribing to a Topic
@@ -365,7 +363,7 @@ function checkSystemAlerts() {
 }
 
 /*
- Show user the available route options.
+    Show user the available route options.
 */
 function showRouteOptions() {
 
@@ -412,7 +410,7 @@ function showRouteOptions() {
 }
 
 /*
- Set the route once based on user selection.
+    Set the route once based on user selection.
 */
 function setRoute(id) {
 
@@ -465,7 +463,7 @@ function setRoute(id) {
 }
 
 /*
-Start Active Route
+    Start Active Route
 */
 function startActiveRoute(id) {
 
@@ -569,6 +567,7 @@ function showSubCapabilitiesView2() {
     //console.log('showPluginOptions called.');
     showPluginOptions();
 }
+
 /*
  Show user the registered plugins.
 */
@@ -715,7 +714,6 @@ function activatePlugin(id) {
         enableGuidance();
     });
 }
-
 
 /*
     Enable the Guidance if at least 1 capability is selected.
@@ -909,9 +907,9 @@ function setCAVButtonState(state) {
     }
 }
 
-/**
-* Check Guidance State
-**/
+/*
+    Check Guidance State
+*/
 function checkGuidanceState() {
 
     // Subscribing to a Topic
@@ -1097,7 +1095,6 @@ function checkRobotEnabled() {
     });
 }
 
-
 /*
    Log for Diagnostics
 */
@@ -1218,8 +1215,7 @@ function showDriverStatus() {
 /*
     Show which plugins are controlling the lateral and longitudinal manuevers.
 */
-function showControllingPlugins()
-{
+function showControllingPlugins() {
         var listenerControllingPlugins = new ROSLIB.Topic({
             ros: ros,
             name: t_controlling_plugins,
@@ -1429,7 +1425,6 @@ function checkRouteInfo() {
             divRouteInfo.innerHTML = selectedRoute.name + ' : ' + engaged_timer;
     });
 }
-
 
 /*
     Watch out for route completed, and display the Route State in the System Status tab.
@@ -1681,6 +1676,7 @@ function showActualSpeed(){
         insertNewTableRow('tblFirstB', 'SF Velocity (MPH)', actualSpeedMPH);
     });
 }
+
 /*
     Display the Vehicle Info in the System Status tab.
 */
@@ -1708,151 +1704,6 @@ function showVehicleInfo(itemName, index) {
         });
     }
 }
-
-
-/* 10/16/2018 MF Issue #1015: commented out to enforce this logic individually *
-    The interface manager manages the fully qualified topic names based on available capability.
-    Currently interface manager can only handle list from same capability/driver at a time.
-*
-function getDriversWithCapabilities()
-{
-      if (bGetDriversWithCapCalled == true)
-        return;
-
-      bGetDriversWithCapCalled = true;
-
-      //Get the drivers for inbound and outbound
-      //rosservice call /saxton_cav/interface_manager/get_drivers_with_capabilities "['inbound_binary_msg','outbound_binary_msg']"
-      //driver_data: [/saxton_cav/drivers/dsrc/comms/inbound_binary_msg, /saxton_cav/drivers/dsrc/comms/outbound_binary_msg]
-      var serviceClient = new ROSLIB.Service({
-          ros: ros,
-          name: t_get_drivers_with_capabilities,
-          serviceType: 'cav_srvs/GetDriversWithCapabilities'
-      });
-
-      var driverList = [];
-
-      //controller
-      driverList.push(tbn_robot_status);
-      driverList.push(tbn_cmd_speed);
-
-      // Create a Service Request
-      var request = new ROSLIB.ServiceRequest({
-        capabilities: driverList
-      });
-
-      // Call the service and get back the results in the callback.
-      serviceClient.callService(request, function (result) {
-
-          if (result.driver_data.length == 0)
-          {
-            console.log('getDriversWithCapabilities() returned no CONTROLLER drivers: ' + result.driver_data.length);
-            return;
-          }
-
-          //JS ES6 syntax to assign the fully qualified name of the topic to the specific variable.
-          t_robot_status = result.driver_data.find(element => element.endsWith(tbn_robot_status));
-          t_cmd_speed = result.driver_data.find(element => element.endsWith(tbn_cmd_speed));
-
-          //console.log(t_robot_status + ';' + t_cmd_speed);
-      });
-
-      //mock controller
-      driverList = [];
-      driverList.push(tbn_lateral_control_driver);
-
-      request = new ROSLIB.ServiceRequest({
-            capabilities: driverList
-      });
-
-      serviceClient.callService(request, function (result) {
-
-          if (result.driver_data.length == 0)
-          {
-            console.log('getDriversWithCapabilities() returned no MOCK drivers: ' + result.driver_data.length);
-            return;
-          }
-
-          //JS ES6 syntax to assign the fully qualified name of the topic to the specific variable.
-          t_lateral_control_driver = result.driver_data.find(element => element.endsWith(tbn_lateral_control_driver));
-          //console.log(t_lateral_control_driver );
-      });
-
-      //position
-      driverList = [];
-      driverList.push(tbn_nav_sat_fix);
-
-      request = new ROSLIB.ServiceRequest({
-        capabilities: driverList
-      });
-
-      serviceClient.callService(request, function (result) {
-
-        if (result.driver_data.length == 0)
-        {
-          console.log('getDriversWithCapabilities() returned no POSITION drivers: ' + result.driver_data.length);
-          return;
-        }
-
-        //JS ES6 syntax to assign the fully qualified name of the topic to the specific variable.
-        t_nav_sat_fix = result.driver_data.find(element => element.endsWith(tbn_nav_sat_fix));
-        console.log(t_nav_sat_fix );
-      });
-
-      //can drivers
-      driverList = [];
-      driverList.push(tbn_can_engine_speed);
-      driverList.push(tbn_can_speed);
-      driverList.push(tbn_acc_engaged);
-
-      request = new ROSLIB.ServiceRequest({
-            capabilities: driverList
-      });
-
-      serviceClient.callService(request, function (result) {
-
-          if (result.driver_data.length == 0)
-          {
-            console.log('getDriversWithCapabilities() returned no CAN drivers: ' + result.driver_data.length);
-            return;
-          }
-
-          //JS ES6 syntax to assign the fully qualified name of the topic to the specific variable.
-          t_can_engine_speed = result.driver_data.find(element => element.endsWith(tbn_can_engine_speed));
-          t_can_speed = result.driver_data.find(element => element.endsWith(tbn_can_speed));
-          t_acc_engaged = result.driver_data.find(element => element.endsWith(tbn_acc_engaged));
-
-          //console.log(t_can_engine_speed + ';' + t_can_speed + ';' + t_acc_engaged );
-      });
-
-
-
-      //comms drivers
-      driverList = [];
-      driverList.push(tbn_inbound_binary_msg);
-      driverList.push(tbn_outbound_binary_msg);
-
-      request = new ROSLIB.ServiceRequest({
-            capabilities: driverList
-      });
-
-      serviceClient.callService(request, function (result) {
-
-          if (result.driver_data.length == 0)
-          {
-            console.log('getDriversWithCapabilities() returned no COMMS drivers: ' + result.driver_data.length);
-            return;
-          }
-
-          //JS ES6 syntax to assign the fully qualified name of the topic to the specific variable.
-          t_inbound_binary_msg = result.driver_data.find(element => element.endsWith(tbn_inbound_binary_msg));
-          t_outbound_binary_msg = result.driver_data.find(element => element.endsWith(tbn_outbound_binary_msg));
-
-          //console.log(t_inbound_binary_msg + ';' + t_outbound_binary_msg );
-      });
-
-}
-*/
 
 /*
     Show the system name and version on the footer.
@@ -1902,7 +1753,6 @@ function mapOtherVehicles() {
         setOtherVehicleMarkers(message.core_data.id, message.core_data.latitude.toFixed(6), message.core_data.longitude.toFixed(6));
     });
 }
-
 
 /*
     Update the signal icon on the status bar based on the binary incoming and outgoing messages.
@@ -1991,7 +1841,7 @@ function showCommStatus() {
 }
 
 /*
- Changes the string into Camel Case.
+    Changes the string into Camel Case.
 */
 function toCamelCase(str) {
     // Lower cases the string
@@ -2010,12 +1860,130 @@ function toCamelCase(str) {
     //.replace( / /g, '' );
 }
 
+/*
+    Show light bar status
+*/
+function showLightBarStatus (){
+
+    var listenerLightBarStatus = new ROSLIB.Topic({
+        ros: ros,
+        name: t_light_bar_status,
+        messageType: 'cav_msgs/LightBarStatus'
+    });
+
+    //Issue #606 - removed the dependency on UI state on robot_status. Only show on Status tab.
+    listenerLightBarStatus.subscribe(function (message) {
+        insertNewTableRow('tblFirstB', 'LightBar:left_arrow: ', message.left_arrow);
+        insertNewTableRow('tblFirstB', 'LightBar:right_arrow: ', message.right_arrow);
+
+        insertNewTableRow('tblFirstB', 'LightBar:green_solid: ', message.green_solid);
+        insertNewTableRow('tblFirstB', 'LightBar:green_flash: ', message.green_flash);
+
+        insertNewTableRow('tblFirstB', 'LightBar:flash: ', message.flash);
+        insertNewTableRow('tblFirstB', 'LightBar:takedown: ', message.takedown); //Not used, green and yellow flashing.
+
+        if (!SVG.supported) {
+            console.log('SVG not supported. Some images will not be displayed.');
+            return;
+        }
+
+        var objLightBarStatus = document.getElementById("objLightBarStatus");
+        var svgDocLightBar = objLightBarStatus.getSVGDocument();
+        var svgLayerLightBar = svgDocLightBar.getElementById("svgLayerLightBar");
+        var e_group = svgLayerLightBar.getElementById("e_group");
+
+        //var rgrd_center = svgLayerLightBar.getElementById("rgrd-center");
+        var eShapes = e_group.getElementsByTagName('path'); // get child nodes
+
+        //Initialize
+        eShapes[0].style.fill = "url(#rgrd-edge)";
+        eShapes[1].style.fill = "url(#rgrd-middle)";
+        eShapes[2].style.fill = "url(#rgrd-middle)";
+        eShapes[3].style.fill = "url(#rgrd-center)";
+        eShapes[4].style.fill = "url(#rgrd-center)";
+        eShapes[5].style.fill = "url(#rgrd-middle)";
+        eShapes[6].style.fill = "url(#rgrd-middle)";
+        eShapes[7].style.fill = "url(#rgrd-edge)";
+
+        //#1 Left Arrow - The yellow lights blink alternating towards left.
+        if (message.left_arrow == 1)
+        {
+            eShapes[0].style.fill = "url(#rgrd-gold-blink-8a)";
+            eShapes[1].style.fill = "url(#rgrd-gold-blink-7a)";
+            eShapes[2].style.fill = "url(#rgrd-gold-blink-6a)";
+            eShapes[3].style.fill = "url(#rgrd-gold-blink-5a)";
+            eShapes[4].style.fill = "url(#rgrd-gold-blink-4a)";
+            eShapes[5].style.fill = "url(#rgrd-gold-blink-3a)";
+            eShapes[6].style.fill = "url(#rgrd-gold-blink-2a)";
+            eShapes[7].style.fill = "url(#rgrd-gold-blink-1a)";
+        }
+
+        //#2 Right Arrow - The yellow lights blink alternating towards right.
+        if (message.right_arrow == 1)
+        {
+            eShapes[0].style.fill = "url(#rgrd-gold-blink-1a)";
+            eShapes[1].style.fill = "url(#rgrd-gold-blink-2a)";
+            eShapes[2].style.fill = "url(#rgrd-gold-blink-3a)";
+            eShapes[3].style.fill = "url(#rgrd-gold-blink-4a)";
+            eShapes[4].style.fill = "url(#rgrd-gold-blink-5a)";
+            eShapes[5].style.fill = "url(#rgrd-gold-blink-6a)";
+            eShapes[6].style.fill = "url(#rgrd-gold-blink-7a)";
+            eShapes[7].style.fill = "url(#rgrd-gold-blink-8a)";
+        }
+
+        //#3 For Flashing Yellow
+        if (message.flash == 1)
+        {
+            eShapes[0].style.fill = "url(#rgrd-edge-gold-blink)";
+            eShapes[1].style.fill = "url(#rgrd-middle-gold-blink)";
+            eShapes[2].style.fill = "url(#rgrd-middle-gold-blink-alt)";
+            eShapes[3].style.fill = "url(#rgrd-center-gold-blink)";
+            eShapes[4].style.fill = "url(#rgrd-center-gold-blink-alt)";
+            eShapes[5].style.fill = "url(#rgrd-middle-gold-blink)";
+            eShapes[6].style.fill = "url(#rgrd-middle-gold-blink-alt)";
+            eShapes[7].style.fill = "url(#rgrd-edge-gold-blink-alt)";
+        }
+
+        //#4
+        //For Green Solid, only the 2 middle light bars are solid.
+        if (message.green_solid == 1)
+        {
+                //Engaged -- blink
+                eShapes[3].style.fill = "url(#rgrd-center-green)";
+                eShapes[4].style.fill = "url(#rgrd-center-green)";
+        }
+
+        //#5
+        //For Green Flash, only the 2 middle light bars are flashing green and alternating.
+        if (message.green_flash == 1)
+        {
+                eShapes[3].style.fill = "url(#rgrd-center-green-blink)";
+                eShapes[4].style.fill = "url(#rgrd-center-green-blink-alt)";
+        }
+
+        //#6 Evaluate this last.
+        //For Green Solid, only the 2 middle light bars are solid.
+        if (message.takedown == 1)
+        {
+            eShapes[0].style.fill = "url(#rgrd-edge-gold-blink)";
+            eShapes[1].style.fill = "url(#rgrd-middle-green-blink)";
+            eShapes[2].style.fill = "url(#rgrd-middle-gold-blink-alt)";
+            eShapes[3].style.fill = "url(#rgrd-center-green-blink)";
+            eShapes[4].style.fill = "url(#rgrd-center-green-blink-alt)";
+            eShapes[5].style.fill = "url(#rgrd-middle-gold-blink)";
+            eShapes[6].style.fill = "url(#rgrd-middle-green-blink-alt)";
+            eShapes[7].style.fill = "url(#rgrd-edge-gold-blink-alt)";
+        }
+
+    });
+}
+
+/*
+    Start registering to services and topics to show the status and logs in the UI.
+*/
 function showStatusandLogs() {
     getParams();
     getVehicleInfo();
-
-    //getDriversWithCapabilities(); //10/16/18 MF: Duplicating the logic to each function so doesn't have to wait for all services at once.
-
     showSystemVersion();
     showNavSatFix();
     showSpeedAccelInfo();
@@ -2028,6 +1996,7 @@ function showStatusandLogs() {
     showUIInstructions();
     mapOtherVehicles();
     showCommStatus();
+    showLightBarStatus();
 }
 
 /*
@@ -2043,8 +2012,8 @@ function startEngagedTimer() {
 }
 
 /*
-  Loop function to
-   for System Ready status from interface manager.
+    Loop function to
+    for System Ready status from interface manager.
 */
 function waitForSystemReady() {
 
@@ -2068,75 +2037,6 @@ function waitForSystemReady() {
         }
     }, 3000)//  ..  setTimeout()
 }
-
-/*
-Ensures all driver topics needed are populated from getDriversWithCapablities
-//Issue#1015 MF: NOT used but will keep for now in case need to revert.
-*
-function isDriverTopicsAllAvailable()
-{
-    if  ( t_robot_status == null || t_robot_status == '' ||
-          t_cmd_speed == null || t_cmd_speed == '' ||
-          t_lateral_control_driver == null || t_lateral_control_driver == '' ||
-          t_can_engine_speed == null || t_can_engine_speed == '' ||
-          t_can_speed == null || t_can_speed == '' ||
-          t_acc_engaged == null || t_acc_engaged == '' ||
-          t_inbound_binary_msg == null || t_inbound_binary_msg == '' ||
-          t_outbound_binary_msg == null || t_outbound_binary_msg == ''
-         )
-            return false;
-     else
-     {
-
-            console.log( 't_robot_status : ' + t_robot_status);
-            console.log( 't_cmd_speed: ' + t_cmd_speed);
-            console.log( 't_lateral_control_driver: ' + t_lateral_control_driver);
-            console.log( 't_can_engine_speed: ' + t_can_engine_speed);
-            console.log( 't_can_speed: ' + t_can_speed);
-            console.log( 't_acc_engaged: ' + t_acc_engaged);
-            console.log( 't_inbound_binary_msg: ' + t_inbound_binary_msg);
-            console.log( 't_outbound_binary_msg: ' + t_outbound_binary_msg);
-
-            return true;
-     }
-}
-*/
-/*
-    Wait to get all the service responses from interface manager.
-    //Issue#1015 MF: NOT USED, but keeping for now.
-*
-function waitForGetDriversWithCapabilities() {
-
-    setTimeout(function () {   //  call a 5s setTimeout when the loop is called
-
-        getDriversWithCapabilities(); //  subscribe if hasn't been done yet.
-
-        //If over max tries
-        if (getDriversWithCap_counter >= getDriversWithCap_max_trial)
-        {
-            //console.log('***waitForGetDriversWithCapabilities 1 ***: ' + getDriversWithCap_counter);
-            divCapabilitiesMessage.innerHTML = 'Sorry, did not receive driver topics, please refresh your browser to try again.';
-            return;
-        }
-
-        //  if the counter < max, call the loop function
-        if ( isDriverTopicsAllAvailable() == false )
-        {
-            //console.log('***waitForGetDriversWithCapabilities 2 ***: ' + getDriversWithCap_counter);
-            getDriversWithCap_counter++;  //  increment the counter when waiting
-            divCapabilitiesMessage.innerHTML = 'Awaiting driver topics ...';
-            waitForGetDriversWithCapabilities();
-        }
-        else //isDriverTopicsAllAvailable() == true
-        {
-
-            //console.log('***waitForGetDriversWithCapabilities 3 ***: ' + getDriversWithCap_counter);
-            evaluateNextStep(); //call to evaluate next step after system is ready.
-        }
-
-    }, 3000)//  ..  setTimeout()
-}
-*/
 
 /*
     Evaluate next step AFTER connecting
@@ -2181,7 +2081,7 @@ function evaluateNextStep() {
 }//evaluateNextStep
 
 /*
- Onload function that gets called when first loading the page and on page refresh.
+    Onload function that gets called when first loading the page and on page refresh.
 */
 window.onload = function () {
 

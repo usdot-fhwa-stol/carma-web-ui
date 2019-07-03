@@ -1074,6 +1074,12 @@ function checkRobotEnabled() {
 */
 function showDiagnostics() {
 
+    var listenerACCEngaged = new ROSLIB.Topic({	
+        ros: ros,	
+        name: t_acc_engaged,	
+        messageType: 'std_msgs/Bool'	
+    });
+
     listenerACCEngaged.subscribe(function (message) {
         insertNewTableRow('tblFirstB', 'ACC Engaged', message.data);
     });

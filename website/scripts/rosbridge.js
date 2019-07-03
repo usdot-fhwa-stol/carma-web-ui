@@ -62,8 +62,8 @@ var tbn_outbound_binary_msg = 'comms/outbound_binary_msg';
 //From Interface manager - will hold the topic fully qualified name
 var t_nav_sat_fix = '';
 
-var t_robot_status = '';
-var t_cmd_speed = '';
+var t_robot_status = 'controller/robotic_status';
+var t_cmd_speed = 'controller/vehicle_cmd';
 var t_lateral_control_driver = '';
 var t_light_bar_status = 'control/light_bar_status'; //02/2019: added to display lightbar on UI
 
@@ -1057,42 +1057,16 @@ function printParam(itemName, index) {
 */
 function checkRobotEnabled() {
 
-    var driverList = [];
-
-    //controller
-    driverList.push(tbn_robot_status);
-
-    // Create a Service Request
-    var request = new ROSLIB.ServiceRequest({
-    capabilities: driverList
-    });
-
-    // Call the service and get back the results in the callback.
-    serviceClientForGetDriversWithCap.callService(request, function (result) {
-
-        if (result.driver_data.length == 0)
-        {
-            console.log('getDriversWithCapabilities() returned no CONTROLLER driver for robot_status: ' + result.driver_data.length);
-            return;
-        }
-
-        //JS ES6 syntax to assign the fully qualified name of the topic to the specific variable.
-        t_robot_status = result.driver_data.find(element => element.endsWith(tbn_robot_status));
-
-        //console.log('t_robot_status:' + t_robot_status);
-
-        var listenerRobotStatus = new ROSLIB.Topic({
+    var listenerRobotStatus = new ROSLIB.Topic({
             ros: ros,
             name: t_robot_status,
             messageType: 'cav_msgs/RobotEnabled'
-        });
+     });
 
-        //Issue #606 - removed the dependency on UI state on robot_status. Only show on Status tab.
-        listenerRobotStatus.subscribe(function (message) {
+     listenerRobotStatus.subscribe(function (message) {
             insertNewTableRow('tblFirstB', 'Robot Active', message.robot_active);
             insertNewTableRow('tblFirstB', 'Robot Enabled', message.robot_enabled);
-        });
-    });
+     });
 }
 
 /*
@@ -1551,37 +1525,13 @@ function showNavSatFix() {
 */
 function showSpeedAccelInfo() {
 
-    var driverList = [];
-
-    //controller
-    driverList.push(tbn_cmd_speed);
-
-    // Create a Service Request
-    var request = new ROSLIB.ServiceRequest({
-    capabilities: driverList
-    });
-
-    // Call the service and get back the results in the callback.
-    serviceClientForGetDriversWithCap.callService(request, function (result) {
-
-        if (result.driver_data.length == 0)
-        {
-            console.log('getDriversWithCapabilities() returned no CONTROLLER driver for cmd_speed: ' + result.driver_data.length);
-            return;
-        }
-
-        //JS ES6 syntax to assign the fully qualified name of the topic to the specific variable.
-        t_cmd_speed = result.driver_data.find(element => element.endsWith(tbn_cmd_speed));
-        //console.log('t_cmd_speed:' + t_cmd_speed);
-
-        //Get Speed Accell Info
-        var listenerSpeedAccel = new ROSLIB.Topic({
+    var listenerSpeedAccel = new ROSLIB.Topic({
             ros: ros,
             name: t_cmd_speed,
             messageType: 'cav_msgs/SpeedAccel'
-        });
+    });
 
-        listenerSpeedAccel.subscribe(function (message) {
+    listenerSpeedAccel.subscribe(function (message) {
 
             var cmd_speed_mph = Math.round(message.speed * METER_TO_MPH);
 
@@ -1589,9 +1539,7 @@ function showSpeedAccelInfo() {
             insertNewTableRow('tblFirstB', 'Cmd Speed (MPH)', cmd_speed_mph);
             insertNewTableRow('tblFirstB', 'Max Accel', message.max_accel.toFixed(2));
 
-        });
     });
-
 }
 
 /*

@@ -1291,6 +1291,11 @@ function showUIInstructions() {
 */
 function checkRouteInfo() {
 
+    //Display the lateset route name and timer.
+    var divRouteInfo = document.getElementById('divRouteInfo');
+    if (divRouteInfo != null || divRouteInfo != 'undefined')
+        divRouteInfo.innerHTML = selectedRoute.name + ' : ' + engaged_timer;
+	
     //Get Route Event
     var listenerRouteEvent = new ROSLIB.Topic({
         ros: ros,
@@ -1341,10 +1346,6 @@ function checkRouteInfo() {
             insertNewTableRow('tblSecondA', 'Current Segment Req Lane', message.current_segment.waypoint.required_lane_index);
         }
 
-        //Display the lateset route name and timer.
-        var divRouteInfo = document.getElementById('divRouteInfo');
-        if (divRouteInfo != null || divRouteInfo != 'undefined')
-            divRouteInfo.innerHTML = selectedRoute.name + ' : ' + engaged_timer;
     });
 }
 

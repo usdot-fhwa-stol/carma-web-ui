@@ -28,7 +28,7 @@ jobs:
     # Pull docker image from docker hub
     # XTERM used for better catkin_make output
     docker:
-      - image: usdotfhwastol/carma-base:3.1.0
+      - image: usdotfhwastol/carma-base:3.2.0
         user: carma
         environment:
           TERM: xterm # use xterm to get full display output from build
@@ -50,7 +50,7 @@ jobs:
           name: Pull CARMAMsgs
           command: |
             source ${INIT_ENV}
-            git clone -b develop --depth 1 git@github.com:usdot-fhwa-stol/CARMAMsgs.git src/CARMAMsgs
+            git clone -b CARMASystem_3.1.0 --depth 1 git@github.com:usdot-fhwa-stol/CARMAMsgs.git src/CARMAMsgs
       - run:
           name: Build Driver
           command: |

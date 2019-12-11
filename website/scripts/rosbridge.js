@@ -83,7 +83,6 @@ var getDriversWithCap_max_trial = 10;
 var s_get_available_routes = 'get_available_routes';
 var s_set_active_route = 'set_active_route';
 var s_start_active_route = 'start_active_route';
-var s_get_system_version = 'get_system_version';
 var s_get_registered_plugins = 'plugins/get_registered_plugins';
 var s_activate_plugins = 'plugins/activate_plugin';
 var s_set_guidance_active = 'set_guidance_active';
@@ -1546,30 +1545,6 @@ function showVehicleInfo(itemName, index) {
 }
 
 /*
-    Show the system name and version on the footer.
-*/
-function showSystemVersion() {
-
-    // Calling service
-    var serviceClient = new ROSLIB.Service({
-        ros: ros,
-        name: s_get_system_version,
-        serviceType: 'cav_srvs/GetSystemVersion'
-    });
-
-    // Then we create a Service Request.
-    var request = new ROSLIB.ServiceRequest({
-    });
-
-    // Call the service and get back the results in the callback.
-    serviceClient.callService(request, function (result) {
-
-        var elemSystemVersion = document.getElementsByClassName('systemversion');
-        elemSystemVersion[0].innerHTML = result.system_name + ' ' + result.revision;
-    });
-}
-
-/*
     Subscribe to topic and add each vehicle as a marker on the map.
     If already exist, update the marker with latest long and lat.
 */
@@ -1797,7 +1772,6 @@ function showLightBarStatus (){
 function showStatusandLogs() {
     getParams();
     getVehicleInfo();
-    showSystemVersion();
     showNavSatFix();
     showSpeedAccelInfo();
     showCANSpeeds();
@@ -1894,6 +1868,32 @@ function evaluateNextStep() {
 }//evaluateNextStep
 
 /*
+    Get the CARMA version using the PHP script calling the docker container inspect to get the carma-config image version used.
+*/
+function getCARMAVersion() 
+{
+	var request = new XMLHttpRequest();
+	var url = "scripts/carmaVersion.php";
+	request.open("POST", url, true);
+	request.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+	 
+	request.onreadystatechange = function() {
+		if(request.readyState == 4 && request.status == 200) {
+		showCARMAVersion(request.responseText);
+		}
+	}
+	request.send();
+}
+
+/*
+    Show the CARMA version under the footer tag.
+*/
+function showCARMAVersion(response) {
+	var elemSystemVersion = document.getElementsByClassName('systemversion');
+	elemSystemVersion[0].innerHTML = response;
+}
+
+/*
     Onload function that gets called when first loading the page and on page refresh.
 */
 window.onload = function () {
@@ -1911,6 +1911,9 @@ window.onload = function () {
         // Adding Copyright based on current year
         var elemCopyright = document.getElementsByClassName('copyright');
         elemCopyright[0].innerHTML = '&copy LEIDOS ' + new Date().getFullYear();
+
+        // Adding CARMA Version based on the carma-config docker container version
+        getCARMAVersion();
 
         //Refresh requires connection to ROS.
         connectToROS();

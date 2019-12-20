@@ -29,6 +29,28 @@ add-apt-repository \
         $(lsb_release -cs) \
         stable"
 
+# Ensure docker group id is 999. CARMA UI is dependent on having the group id be the same between the image and vehicle PC.
+
+GROUPID="999"
+GROUPNAME="docker"
+RESULTS=$(grep  -i $GROUPNAME /etc/group)
+echo "Results: $RESULTS"
+
+if [[ -z $RESULTS ]]; then
+    	echo "User $GROUPNAME does not exists in /etc/group, creating docker group $GROUPID"
+   	sudo addgroup --gid $GROUPID $GROUPNAME
+    	grep  -i $GROUPID /etc/group
+else
+	echo "User $GROUPNAME exists in /etc/group."
+
+	if [[ $RESULTS == "docker:x:999" ]]; then
+	    echo "Docker group id is correct."
+	else
+	    echo "** ERROR: CARMA requires the docker group id 999 in the host PC. Please update the Host PC to correct this before trying again. ***"
+	    exit
+	fi
+fi
+
 # Install docker and docker-compose
 apt-get update
 apt-get -y install docker-ce 

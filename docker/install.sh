@@ -30,23 +30,16 @@ add-apt-repository \
         stable"
 
 # Ensure docker group id is 999. CARMA UI is dependent on having the group id be the same between the image and vehicle PC.
-
-GROUPID="999"
-GROUPNAME="docker"
-RESULTS=$(grep  -i $GROUPNAME /etc/group)
-echo "Results: $RESULTS"
-
-if [[ -z $RESULTS ]]; then
-    	echo "User $GROUPNAME does not exists in /etc/group, creating docker group $GROUPID"
-   	sudo addgroup --gid $GROUPID $GROUPNAME
-    	grep  -i $GROUPID /etc/group
+if [[ -z $(grep  -i "docker" /etc/group) ]]; then
+    	echo "User docker does not exists in /etc/group, creating docker group id of 999"
+   	    addgroup --gid 999 docker
 else
-	echo "User $GROUPNAME exists in /etc/group."
+	echo "User docker already exists in /etc/group."
 
-	if [[ $RESULTS == "docker:x:999" ]]; then
-	    echo "Docker group id is correct."
+	if [[ $(grep  -i "docker" /etc/group) == *"docker:x:999"* ]]; then
+	    echo "Docker group id is correct"
 	else
-	    echo "** ERROR: CARMA requires the docker group id 999 in the host PC. Please update the Host PC to correct this before trying again. ***"
+	    echo "ERROR: CARMA requires the docker group id 999 in the host PC. Please update the Host PC to correct this before trying again."
 	    exit
 	fi
 fi

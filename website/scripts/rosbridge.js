@@ -420,11 +420,9 @@ function setRoute(id) {
         serviceType: 'cav_srvs/SetActiveRoute'
     });
 
-    //TODO: Remove this when Route Manager has updated the RouteID to not have spaces. For now have to do this.
-    var selectedRouteid = id.toString().replace('rb', '').replace(/_/g, ' ');
+    var selectedRouteid = id.toString().replace('rb', '');
 
-    // Then we create a Service Request.
-    // replace rb with empty string and underscore with space to go back to original ID from topic.
+    // Create a Service Request.
     var request = new ROSLIB.ServiceRequest({
         routeID: selectedRouteid
     });

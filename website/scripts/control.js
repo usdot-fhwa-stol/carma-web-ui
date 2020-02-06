@@ -107,14 +107,11 @@ function createRadioElement(container, radioId, radioTitle, itemCount, groupName
     newInput.type = 'radio';
     newInput.name = groupName;
 
-    //TODO: Remove this when RouteID has been changed to have no spaces.
-    //Currently, RouteID and RouteName are same and have spaces, but ID should not have any spaces. For now, updating to have underscore
-    var revisedId = radioId.toString().replace(/ /g, '_');
-    newInput.id = 'rb' + revisedId;
+    newInput.id = 'rb' + radioId.toString();
     newInput.onclick = function () { setRoute(newInput.id.toString()) };
 
     var newLabel = document.createElement('label');
-    newLabel.id = 'lbl' + revisedId;
+    newLabel.id = 'lbl' + radioId.toString();
     newLabel.htmlFor = newInput.id.toString();
     newLabel.innerHTML = radioTitle;
 

@@ -398,18 +398,18 @@ function showRouteOptions() {
         divRoutes.style.display = 'block'; //Show the route section
 
         for (i = 0; i < myRoutes.length; i++) {
-            createRadioElement(divRoutes, myRoutes[i].routeID, myRoutes[i].routeName, myRoutes.length, 'groupRoutes', myRoutes[i].valid);
+            createRadioElement(divRoutes, myRoutes[i].routeID, myRoutes[i].routeName, myRoutes.length, 'groupRoutes');
         }
 
         if (myRoutes.length == 0) {
-            divCapabilitiesMessage.innerHTML = 'Sorry, there are no available routes, and cannot proceed without one. <br/> Please contact your System Admin.';
+            divCapabilitiesMessage.innerHTML = 'Sorry, there are no available routes. <br/> Please contact your System Admin.';
         }
 
     });
 }
 
 /*
-    Set the route once based on user selection.
+    Set the active route based on user selection.
 */
 function setRoute(id) {
 
@@ -433,70 +433,34 @@ function setRoute(id) {
     var ErrorStatus = {
         NO_ERROR: { value: 0, text: 'NO_ERROR' },
         NO_ROUTE: { value: 1, text: 'NO_ROUTE' },
+        ALREADY_FOLLOWING_ROUTE: { value: 2, text: 'ALREADY_FOLLOWING_ROUTE' },
+        ROUTE_FILE_ERROR: { value: 3, text: 'ROUTE_FILE_ERROR' },
+        ROUTING_FAILURE: { value: 4, text: 'ROUTING_FAILURE' },
+        TRANSFORM_ERROR: { value: 5, text: 'TRANSFORM_ERROR' },
     };
 
     // Call the service and get back the results in the callback.
     setActiveRouteClient.callService(request, function (result) {
-        if (result.errorStatus == ErrorStatus.NO_ROUTE.value) {
-            divCapabilitiesMessage.innerHTML = 'Setting the active route failed (' + ErrorStatus.NO_ROUTE.text + '). <br/> Please try again.';
-            insertNewTableRow('tblSecondA', 'Error Code', result.ErrorStatus.NO_ROUTE.text);
 
-            //Allow user to select it again.
-            rbRoute.checked = false;
-        }
-        else { //Call succeeded
-
-            //After activating the route, start_active_route.
-            //TODO: Discuss if start_active_route can be automatically determined and done by Route Manager in next iteration?
-            //      Route selection is done first and set only once.
-            //      Once selected, it wouldn't be activated until at least 1 Plugin is selected (based on Route).
-            //      Only when a route is selected and at least one plugin is selected, could Guidance be Engaged.
-            startActiveRoute(id);
-
-            //Subscribe to active route to map the segments
-            showActiveRoute();
-        }
-    });
-}
-
-/*
-    Start Active Route
-*/
-function startActiveRoute(id) {
-
-    var ErrorStatus = {
-        NO_ERROR: { value: 0, text: 'NO_ERROR' },
-        NO_ACTIVE_ROUTE: { value: 1, text: 'NO_ACTIVE_ROUTE' },
-        INVALID_STARTING_LOCATION: { value: 2, text: 'INVALID_STARTING_LOCATION' },
-        ALREADY_FOLLOWING_ROUTE: { value: 3, text: 'ALREADY_FOLLOWING_ROUTE' },
-    };
-
-    // Calling setActiveRoute service
-    var startActiveRouteClient = new ROSLIB.Service({
-        ros: ros,
-        name: s_start_active_route,
-        serviceType: 'cav_srvs/StartActiveRoute'
-    });
-
-    // Then we create a Service Request.
-    var request = new ROSLIB.ServiceRequest({
-    });
-
-    // Call the service and get back the results in the callback.
-    startActiveRouteClient.callService(request, function (result) {
-
-        var errorDescription = '';
+       var errorDescription = '';
 
         switch (result.errorStatus) {
             case ErrorStatus.NO_ERROR.value:
+                break;
+            case ErrorStatus.NO_ROUTE.value:
+                errorDescription = ErrorStatus.NO_ROUTE.text;
+                break;
             case ErrorStatus.ALREADY_FOLLOWING_ROUTE.value:
                 showSubCapabilitiesView(id);
                 break;
-            case ErrorStatus.NO_ACTIVE_ROUTE.value:
-                errorDescription = ErrorStatus.ALREADY_FOLLOWING_ROUTE.text;
-                break;
-            case ErrorStatus.INVALID_STARTING_LOCATION.value:
-                errorDescription = ErrorStatus.INVALID_STARTING_LOCATION.text;
+            case ErrorStatus.ROUTE_FILE_ERROR.value:
+                 errorDescription = ErrorStatus.ROUTE_FILE_ERROR.text;
+                 break;
+            case ErrorStatus.ROUTING_FAILURE.value:
+                 errorDescription = ErrorStatus.ROUTING_FAILURE.text;
+                 break;
+            case ErrorStatus.TRANSFORM_ERROR.value:
+                errorDescription = ErrorStatus.TRANSFORM_ERROR.text;
                 break;
             default: //unexpected value or error
                 errorDescription = result.errorStatus; //print the number;
@@ -504,12 +468,15 @@ function startActiveRoute(id) {
         }
 
         if (errorDescription != '') {
-            divCapabilitiesMessage.innerHTML = 'Starting the active the route failed (' + errorDescription + '). <br/> Please try again or contact your System Administrator.';
-            insertNewTableRow('tblSecondA', 'Error Code', errorDescription);
+            divCapabilitiesMessage.innerHTML = 'Setting the route failed (' + errorDescription + '). <br/> Please try again or contact your System Administrator.';
 
             //Allow user to select the route again
             var rbRoute = document.getElementById(id.toString());
             rbRoute.checked = false;
+        }
+        else { //Call succeeded
+            //Subscribe to active route to map the segments
+            showActiveRoute();
         }
     });
 }
@@ -1300,6 +1267,7 @@ function checkRouteInfo() {
         messageType: 'cav_msgs/RouteEvent'
     });
 
+    //TODO: update with latest code
     listenerRouteEvent.subscribe(function (message) {
         insertNewTableRow('tblSecondA', 'Route Event', message.event);
 
@@ -1311,9 +1279,9 @@ function checkRouteInfo() {
             showModal(false, 'ROUTE COMPLETED. <br/> <br/> PLEASE TAKE MANUAL CONTROL OF THE VEHICLE.', true);
         }
 
-        if (message.event == 4)//LEFT_ROUTE=4
+        if (message.event == 4)//ROUTE_DEPARTED=4
         {
-            showModal(true, 'You have LEFT THE ROUTE. <br/> <br/> PLEASE TAKE MANUAL CONTROL OF THE VEHICLE.', true);
+            showModal(true, 'ROUTE DEPARTED. <br/> <br/> PLEASE TAKE MANUAL CONTROL OF THE VEHICLE.', true);
         }
     });
 
@@ -1330,8 +1298,8 @@ function checkRouteInfo() {
         insertNewTableRow('tblSecondA', 'Route State', message.state);
         insertNewTableRow('tblSecondA', 'Cross Track / Down Track', message.cross_track.toFixed(2) + ' / ' + message.down_track.toFixed(2));
 
-        insertNewTableRow('tblSecondA', 'Current Segment ID', message.current_segment.waypoint.waypoint_id);
-        insertNewTableRow('tblSecondA', 'Current Segment Max Speed', message.current_segment.waypoint.speed_limit);
+        insertNewTableRow('tblSecondA', 'LaneLet ID', message.lanelet_id);
+        insertNewTableRow('tblSecondA', 'Current LaneLet Downtrack', message.lanelet_downtrack);
 
         if (message.lane_index != null && message.lane_index != 'undefined') {
             insertNewTableRow('tblSecondA', 'Lane Index', message.lane_index);
@@ -1359,6 +1327,8 @@ function showActiveRoute() {
         messageType: 'cav_msgs/Route'
     });
 
+    //TODO: No longer applicable in terms of the segments. Will hvae to retire the map or need to get the coordinates somehow.
+
     listenerRoute.subscribe(function (message) {
 
         //if route hasn't been selected.
@@ -1379,7 +1349,7 @@ function showActiveRoute() {
     });
 }
 
-/*
+/* TODO: Retire?
     Loop through each available plugin
 */
 function mapEachRouteSegment(segment) {

@@ -101,7 +101,7 @@ document.getElementById('defaultOpen').click();
 /*
 * Adds a new radio button onto the container.
 */
-function createRadioElement(container, radioId, radioTitle, itemCount, groupName) {
+function createRadioElement(container, radioId, radioTitle, itemCount, groupName, isValid) {
 
     var newInput = document.createElement('input');
     newInput.type = 'radio';
@@ -114,6 +114,13 @@ function createRadioElement(container, radioId, radioTitle, itemCount, groupName
     newLabel.id = 'lbl' + radioId.toString();
     newLabel.htmlFor = newInput.id.toString();
     newLabel.innerHTML = radioTitle;
+
+    //If this field is false then the UI should mark the button and make it unselectable.
+    if (isValid == false)
+    {
+         newInput.disabled = true;
+         newLabel.innerHTML += '&nbsp; <i class="fa fa-ban" style="color:#b32400";></i>';
+    }
 
     // Add the new elements to the container
     container.appendChild(newInput);
@@ -597,7 +604,7 @@ function closeModal(action) {
             // This needs to be outside a funtion to work.
             document.getElementById('defaultOpen').click();
 
-            //Update buttons state back to Gray
+            //Update CAV buttons state back to Gray
             setCAVButtonState('DISABLED');
 
             //Evaluate next step

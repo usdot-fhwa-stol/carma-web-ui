@@ -105,7 +105,7 @@ function pinSymbol(color) {
 
 
 /*
-    Maps other AV vehicles on the map.
+    Maps other CAV vehicles on the map.
 */
 function setOtherVehicleMarkers(id, latitude, longitude) {
 

@@ -97,7 +97,7 @@ CarmaJS.WidgetFramework.TrafficSignal = (function () {
 
             listenerSFVelocity = new ROSLIB.Topic({
                 ros: ros,
-                name: t_ekf_twist,
+                name: t_sensor_fusion_filtered_velocity,
                 messageType: 'geometry_msgs/TwistStamped'
             });
 

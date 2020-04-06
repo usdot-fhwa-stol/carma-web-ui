@@ -1748,7 +1748,7 @@ function showStatusandLogs() {
     showDiagnostics();
     showDriverStatus();
     //showControllingPlugins(); //TODO: Decide if this needs to be re-implemented by guidance and UI.
-    checkLateralControlDriver();
+    //checkLateralControlDriver(); // TODO: Determine if this is still needed for Level 1 automation on trucks?
     showUIInstructions();
     //mapOtherVehicles(); //TODO: Re-implement Later
     showCommStatus();
@@ -1869,13 +1869,17 @@ function showCARMAVersion(response) {
 */
 function publishCARMAVersion(response) {
 
-	var listenerCARMASystemVersion = new ROSLIB.Topic({
+	var topicCARMASystemVersion = new ROSLIB.Topic({
 	    ros: ros,
 	    name: t_carma_system_version,
 	    messageType: 'std_msgs/String'
 	});
 
-	listenerCARMASystemVersion.publish(response);
+    var msg = new ROSLIB.Message({
+        data: response
+    });
+
+	topicCARMASystemVersion.publish(msg);
 }
 
 /*

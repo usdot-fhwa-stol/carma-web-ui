@@ -23,6 +23,8 @@
 var ip = CarmaJS.Config.getIP();
 
 // Topics
+var t_carma_system_version = "/carma_system_version";
+
 var t_system_alert = 'system_alert';
 var t_available_plugins = 'plugins/available_plugins';
 var t_controlling_plugins = 'plugins/controlling_plugins';
@@ -1878,6 +1880,7 @@ function getCARMAVersion()
 	request.onreadystatechange = function() {
 		if(request.readyState == 4 && request.status == 200) {
 		showCARMAVersion(request.responseText);
+		publishCARMAVersion(request.responseText);
 		}
 	}
 	request.send();
@@ -1889,6 +1892,25 @@ function getCARMAVersion()
 function showCARMAVersion(response) {
 	var elemSystemVersion = document.getElementsByClassName('systemversion');
 	elemSystemVersion[0].innerHTML = response;
+}
+
+/*
+    Publish the CARMA version.
+    Initially designed for CARMA Messenger truck inspection plugin needing the CARMAPlatform version.
+*/
+function publishCARMAVersion(response) {
+
+	var topicCARMASystemVersion = new ROSLIB.Topic({
+	    ros: ros,
+	    name: t_carma_system_version,
+	    messageType: 'std_msgs/String'
+	});
+
+    var msg = new ROSLIB.Message({
+        data: response
+    });
+
+	topicCARMASystemVersion.publish(msg);
 }
 
 /*

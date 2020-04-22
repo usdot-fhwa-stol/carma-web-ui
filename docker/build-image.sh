@@ -39,9 +39,9 @@ while [[ $# -gt 0 ]]; do
             PUSH=true
             shift
             ;;
-        -t|--test)
-            USERNAME=usdotfhwastoltest
-            COMPONENT_VERSION_STRING=test
+        -d|--develop)
+            USERNAME=usdotfhwastoldev
+            COMPONENT_VERSION_STRING=develop
             shift
             ;;
     esac

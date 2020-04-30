@@ -50,7 +50,7 @@ if git ls-remote -q | grep $RELEASE_BRANCH; then
     echo "Updating Dockerfile to point to system release version."
     sed -i "s|:CARMASystem_[0-9]*\.[0-9]*\.[0-9]*|:$SYSTEM_RELEASE|g; s|:carma-system-[0-9]*\.[0-9]*\.[0-9]*|:$SYSTEM_RELEASE|g; s|:[0-9]*\.[0-9]*\.[0-9]*|:$SYSTEM_RELEASE|g" Dockerfile
 
-    git add .
+    git add Dockerfile
 
     git commit -m "Updated dependencies for $SYSTEM_RELEASE"
 

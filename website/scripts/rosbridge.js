@@ -251,7 +251,7 @@ function connectToROS() {
     try {
         // If there is an error on the backend, an 'error' emit will be emitted.
         ros.on('error', function (error) {
-            document.getElementById('divLog').innerHTML += '<br/> ROS Connection Error.';
+            addToLogView ('ROS Connection Error.');
             divCapabilitiesMessage.innerHTML = 'Sorry, unable to connect to ROS server, please refresh your page to try again or contact your System Admin.';
             console.log(error);
 
@@ -264,7 +264,7 @@ function connectToROS() {
 
         // Find out exactly when we made a connection.
         ros.on('connection', function () {
-            document.getElementById('divLog').innerHTML += '<br/> ROS Connection Made.';
+            addToLogView ('ROS Connection Made.');
             document.getElementById('connecting').style.display = 'none';
             document.getElementById('error').style.display = 'none';
             document.getElementById('closed').style.display = 'none';
@@ -275,16 +275,17 @@ function connectToROS() {
         });
 
         ros.on('close', function () {
-
-            document.getElementById('divLog').innerHTML += '<br/> ROS Connection Closed.';
+            addToLogView ('ROS Connection Closed.');
             document.getElementById('connecting').style.display = 'none';
             document.getElementById('connected').style.display = 'none';
             document.getElementById('closed').style.display = 'inline';
+
 
             //Show modal popup for when ROS connection has been abruptly closed.
             var messageTypeFullDescription = 'ROS Connection Closed.';
             messageTypeFullDescription += '<br/><br/>PLEASE TAKE MANUAL CONTROL OF THE VEHICLE.';
             showModal(true, messageTypeFullDescription, false);
+
 
         });
 
@@ -316,41 +317,66 @@ function checkSystemAlerts() {
         var messageTypeFullDescription = 'NA';
 
         switch (message.type) {
-            case 1:
-                messageTypeFullDescription = 'System received a CAUTION message. ' + message.description;
+            case 1: //CAUTION
+                addToLogView ('CAUTION: ' + message.description);
+
+                MsgPop.open({
+                Type:			"caution",
+                Content:		message.description,
+                AutoClose:		false,
+                ClickAnyClose:	true,
+                ShowIcon:		true,
+                HideCloseBtn:	false});
+
                 break;
-            case 2:
-                messageTypeFullDescription = 'System received a WARNING message. ' + message.description;
+            case 2: //WARNING
+                addToLogView ('WARNING: ' + message.description);
+
+                MsgPop.open({
+                Type:			"warning",
+                Content:		message.description,
+                AutoClose:		false,
+                ClickAnyClose:	true,
+                ShowIcon:		true,
+                HideCloseBtn:	false});
                 break;
-            case 3:
+            case 3: //FATAL
                 //Show modal popup for Fatal alerts.
                 messageTypeFullDescription = 'System received a FATAL message. Please wait for system to shut down. <br/><br/>' + message.description;
                 messageTypeFullDescription += '<br/><br/>PLEASE TAKE MANUAL CONTROL OF THE VEHICLE.';
                 listenerSystemAlert.unsubscribe();
                 showModal(true, messageTypeFullDescription, false);
                 break;
-            case 4:
+            case 4://NOT_READY
                 isSystemAlert.ready = false;
                 messageTypeFullDescription = 'System is not ready, please wait and try again. ' + message.description;
                 break;
-            case 5:
+            case 5://DRIVERS_READY
                 isSystemAlert.ready = true;
                 messageTypeFullDescription = 'System is ready. ' + message.description;
                 break;
-            case 6: // SHUTDOWN
+            case 6: //SHUTDOWN
                 isSystemAlert.ready = false;
                 listenerSystemAlert.unsubscribe();
                 break;
             default:
                 messageTypeFullDescription = 'System alert type is unknown. Assuming system it not yet ready.  ' + message.description;
         }
+    });
+}
 
+/*
+
+*/
+function addToLogView (logMessage)
+{
+        //Truncate the log when MAX_LOG_LINES has been reached.
         if (cnt_log_lines < MAX_LOG_LINES) {
-            document.getElementById('divLog').innerHTML += '<br/> ' + messageTypeFullDescription;
+            document.getElementById('divLog').innerHTML += '<br/> ' + logMessage;
             cnt_log_lines++;
         }
         else {
-            document.getElementById('divLog').innerHTML = messageTypeFullDescription;
+            document.getElementById('divLog').innerHTML = logMessage;
             cnt_log_lines = 0;
         }
 
@@ -360,9 +386,8 @@ function checkSystemAlerts() {
         var containerHeight = container.clientHeight;
         var contentHeight = container.scrollHeight;
         container.scrollTop = contentHeight - containerHeight;
-    });
-}
 
+}
 /*
     Show user the available route options.
 */

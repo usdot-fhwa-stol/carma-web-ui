@@ -1,7 +1,13 @@
 /*!
  *  MsgPop by Anthony J. Laurene - 10/1/2014
  *  License - (JS: MIT License, CSS: MIT License)
+ *  Change History:
+ *  - Added HH:mm:ss:ms to the MsgPop text
+ *  - Added sortOrder to show the latest at the top of the list, instead of bottom
+ *  - Disabled the mobile check since we will want to show the same on any device.
+ *  - Future enhancement: Load More Messages should hide the older messages instead of the new ones.
  */
+
 var MsgPop = initMsgPop();
 
 function initMsgPop()
@@ -10,9 +16,12 @@ function initMsgPop()
 
 	//Public properties
 	MsgPop.effectSpeed = 250;
-	MsgPop.limit = 4;
-	MsgPop.displaySmall = false;
-	MsgPop.position = "top-right";
+	MsgPop.limit = 5;
+	MsgPop.displaySmall = true;
+	MsgPop.position = "bottom-right";
+	//Desc - Descending means insert new item at the top of list
+	//Asc - Ascending means insert new item at the bottom of the list.
+    MsgPop.sortOrder = "Desc";
 
 	//Protected properties
 	var msgPopCount = 0;
@@ -22,33 +31,36 @@ function initMsgPop()
 	var closeAllBtnCreated = false;
 	var loadMoreBtnCreated = false;
 
+	/* Disabling this feature, to have same display as on tablet.
 	//Browser check
 	var deviceAgent = navigator.userAgent.toLowerCase();
 	var notMobile = (deviceAgent.match(/(iphone|ipod|ipad)/) || deviceAgent.match(/(android)/)) ? false : true;
+    */
 
 	//Protected methods
 	var	createContainer = function(){
 		if(containerCreated == false){
 			containerCreated = true;
-			if(MsgPop.displaySmall && notMobile){
+			//if(MsgPop.displaySmall && notMobile){
 				container = $('<div id="msgPopContainer" class="msgPop-'+MsgPop.position+' msgPopContainerSmall msgPopContainerOverflow"></div>');
-			}
-			else{
-				container = $('<div id="msgPopContainer" class="msgPop-top-right"></div>');
-			}
+			//}
+			//else{
+			//	container = $('<div id="msgPopContainer" class="msgPop-top-right"></div>');
+			//}
 
-			$("body").append(container);
+            $("body").append(container);
+
 		}
 
 		container = $("#msgPopContainer");
 		container.stop(true,true).clearQueue().removeAttr("style");
 
-		if(MsgPop.displaySmall && notMobile){
+		//if(MsgPop.displaySmall && notMobile){
 			container.removeAttr('class').attr('class','msgPopContainerSmall msgPopContainerOverflow msgPop-'+MsgPop.position);
-		}
-		else{
-			container.removeAttr('class').attr('class','msgPop-top-right');
-		}
+		//}
+		//else{
+		//	container.removeAttr('class').attr('class','msgPop-top-right');
+		//}
 
 		return container;
 	}
@@ -138,6 +150,10 @@ function initMsgPop()
 				obj.Icon = (obj.Icon == null) ? '<i class="fa fa-info-circle"></i>' : obj.Icon;
 		}
 
+        //Get current time
+        var dt = new Date();
+        var time = dt.getHours().toString().padStart(2,'0')  + ":" + dt.getMinutes().toString().padStart(2,'0')  + ":" + dt.getSeconds().toString().padStart(2,'0') + ":" +  dt.getMilliseconds().toString().padStart(3,'0')  ;
+
 		//Create message content
 		var msgDivContent = '<div class="outerMsgPopTbl"><div class="innerMsgPopTbl"><div class="msgPopTable">';
 		msgDivContent += '<div class="msgPopTable-cell msgPopSpacer">&nbsp;</div>';
@@ -145,7 +161,7 @@ function initMsgPop()
 		if (obj.ShowIcon) {
 			msgDivContent += '<div class="msgPopTable-cell" id="msgPopIconCell">' + obj.Icon + '</div>';
 		}
-		msgDivContent += '<div class="msgPopTable-cell">' + obj.Content + '</div>';
+		msgDivContent += '<div class="msgPopTable-cell">' + time + " | " + obj.Content + '</div>';
 		msgDivContent += '</div></div>';
 		msgDivContent += '<div class="msgPopTable-cell msgPop-align-right msgPopSpacer msgPopCloseCell" id="'+obj.MsgID+'CloseBtn">';
 		if(obj.HideCloseBtn == false)
@@ -165,11 +181,20 @@ function initMsgPop()
 		loadMoreBtn = createLoadMore(container);
 		closeAllBtn = createCloseAll(container);
 
-		//Attach Message
-		loadMoreBtn.before(msg);
+		//Attach the message
+		if (msgPopActionID <= 1 || MsgPop.sortOrder == "Asc")
+		    //Attach Message before load more button.
+		    //Or Ascending order, meaning insert at the bottom of the list.
+		    loadMoreBtn.before(msg);
+        else
+        {
+          //Descending order, or insert new item at the top of the list.
+          container.prepend(msg);
+        }
 
 		if(showMsg)
 		{
+		    //If still under the Msg limit, show the message right away.
 			//Call Before Open
 			obj.BeforeOpen();
 
@@ -193,6 +218,7 @@ function initMsgPop()
 			}
 		}
 		else{
+		    //Show the loadmore button
 			loadMoreBtn.stop(true,true).clearQueue().slideDown(MsgPop.effectSpeed);
 		}
 
@@ -260,6 +286,7 @@ function initMsgPop()
 			UserSettings.limit = MsgPop.limit;
 			UserSettings.displaySmall = MsgPop.displaySmall;
 			UserSettings.position = MsgPop.position;
+			UserSettings.sortOrder = MsgPop.sortOrder;
 
 			initMsgPop();
 
@@ -267,6 +294,7 @@ function initMsgPop()
 			MsgPop.limit = UserSettings.limit;
 			MsgPop.displaySmall = UserSettings.displaySmall;
 			MsgPop.position = UserSettings.position;
+			MsgPop.sortOrder = UserSettings.sortOrder;
 
 			msgPopContainer.stop(true,true).clearQueue().remove();
 		}

@@ -300,6 +300,30 @@ function connectToROS() {
 }
 
 /*
+    Add the information to Log View.
+*/
+function addToLogView (logMessage)
+{
+        //Truncate the log when MAX_LOG_LINES has been reached.
+        if (cnt_log_lines < MAX_LOG_LINES) {
+            document.getElementById('divLog').innerHTML += '<br/> ' + logMessage;
+            cnt_log_lines++;
+        }
+        else {
+            document.getElementById('divLog').innerHTML = logMessage;
+            cnt_log_lines = 0;
+        }
+
+        //Show the rest of the system alert messages in the log.
+        //Make sure message list is scrolled to the bottom
+        var container = document.getElementById('divLog');
+        var containerHeight = container.clientHeight;
+        var contentHeight = container.scrollHeight;
+        container.scrollTop = contentHeight - containerHeight;
+
+}
+
+/*
     Check System Alerts from Interface Manager
 */
 function checkSystemAlerts() {
@@ -323,7 +347,8 @@ function checkSystemAlerts() {
                 MsgPop.open({
                 Type:			"caution",
                 Content:		message.description,
-                AutoClose:		false,
+                AutoClose:		true,
+                CloseTimer:		30000,
                 ClickAnyClose:	true,
                 ShowIcon:		true,
                 HideCloseBtn:	false});
@@ -335,11 +360,13 @@ function checkSystemAlerts() {
                 MsgPop.open({
                 Type:			"warning",
                 Content:		message.description,
-                AutoClose:		false,
+                AutoClose:		true,
+                CloseTimer:		30000,
                 ClickAnyClose:	true,
                 ShowIcon:		true,
                 HideCloseBtn:	false});
                 break;
+
             case 3: //FATAL
                 //Show modal popup for Fatal alerts.
                 messageTypeFullDescription = 'System received a FATAL message. Please wait for system to shut down. <br/><br/>' + message.description;
@@ -365,29 +392,6 @@ function checkSystemAlerts() {
     });
 }
 
-/*
-
-*/
-function addToLogView (logMessage)
-{
-        //Truncate the log when MAX_LOG_LINES has been reached.
-        if (cnt_log_lines < MAX_LOG_LINES) {
-            document.getElementById('divLog').innerHTML += '<br/> ' + logMessage;
-            cnt_log_lines++;
-        }
-        else {
-            document.getElementById('divLog').innerHTML = logMessage;
-            cnt_log_lines = 0;
-        }
-
-        //Show the rest of the system alert messages in the log.
-        //Make sure message list is scrolled to the bottom
-        var container = document.getElementById('divLog');
-        var containerHeight = container.clientHeight;
-        var contentHeight = container.scrollHeight;
-        container.scrollTop = contentHeight - containerHeight;
-
-}
 /*
     Show user the available route options.
 */
@@ -428,7 +432,7 @@ function showRouteOptions() {
             createRadioElement(divRoutes, myRoutes[i].routeID, myRoutes[i].routeName, myRoutes.length, 'groupRoutes', myRoutes[i].valid);
         }
 
-        if (myRoutes.length == 0) {
+        if (myRoutes == null || myRoutes.length == 0) {
             divCapabilitiesMessage.innerHTML = 'Sorry, there are no available routes, and cannot proceed without one. <br/> Please contact your System Admin.';
         }
 
@@ -1830,7 +1834,10 @@ function startEngagedTimer() {
 function waitForSystemReady() {
 
     setTimeout(function () {   //  call a 5s setTimeout when the loop is called
-        checkSystemAlerts();   //  check here
+
+        if (listenerSystemAlert == null) //only listen once
+            checkSystemAlerts();   //  check here
+
         ready_counter++;       //  increment the counter
 
         //  if the counter < 4, call the loop function
@@ -1857,7 +1864,8 @@ function waitForSystemReady() {
 */
 function evaluateNextStep() {
 
-    if (isSystemAlert.ready == false) {
+    //if system not ready and listernerSystemAlert is not initialized
+    if (isSystemAlert.ready == false || listenerSystemAlert == null) {
         waitForSystemReady();
         return;
     }

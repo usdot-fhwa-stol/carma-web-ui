@@ -14,4 +14,4 @@
 #  License for the specific language governing permissions and limitations under
 #  the License.
 
-docker-compose -f /opt/carma/vehicle/docker-compose.yml -p carma down
+docker-compose -f /opt/carma/vehicle/config/docker-compose.yml -p carma down

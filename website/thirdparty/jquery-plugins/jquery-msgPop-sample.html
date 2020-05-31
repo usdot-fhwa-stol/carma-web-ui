@@ -1,5 +1,6 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN">
 <html lang="en" style="height:100%;">
+<!-- Modified: Reversed and TimeStamped -->
 
 <head>
     <meta charset="utf-8"/>
@@ -10,20 +11,19 @@
     <script language="javascript" type="text/javascript" src="js/jquery.msgPop.js"></script>
     -->
 
-    <link rel="stylesheet" type="text/css" href="styles/styles.css" />
-    <link rel="stylesheet" href="thirdparty/font-awesome-4.7.0/css/font-awesome.min.css" />
-    <link rel="stylesheet" href="thirdparty/font-awesome-4.7.0/css/font-awesome-animation.min.css"/>
+    <link rel="stylesheet" type="text/css" href="../../styles/styles.css" />
+    <link rel="stylesheet" href="../font-awesome-4.7.0/css/font-awesome.min.css" />
+    <link rel="stylesheet" href="../font-awesome-4.7.0/css/font-awesome-animation.min.css"/>
 
-    <link rel="stylesheet" href="thirdparty/jqwidgets/styles/jqx.base.css"/>
-    <link rel = "stylesheet" href = "thirdparty/jquery-ui-1.12.1/jquery-ui.min.css"/>
+    <link rel="stylesheet" href="../jqwidgets/styles/jqx.base.css"/>
+    <link rel = "stylesheet" href = "../jquery-ui-1.12.1/jquery-ui.min.css"/>
 
-    <script src = "thirdparty/jquery/jquery-1.12.4.min.js"></script>
-    <script src = "thirdparty/jquery-ui-1.12.1/jquery-ui.min.js"></script>
+    <script src = "../jquery/jquery-1.12.4.min.js"></script>
+    <script src = "../jquery-ui-1.12.1/jquery-ui.min.js"></script>
 
 
-    <link rel = "stylesheet" href = "thirdparty/jquery-plugins/jquery.msgPop.css"/>
-    <script src = "thirdparty/jquery-plugins/jquery.msgPop.js"></script>
-    <script src = "thirdparty/jquery-plugins/jquery.msgPop.Test.js"></script>
+    <link rel = "stylesheet" href = "jquery.msgPop.css"/>
+    <script src = "jquery.msgPop.Test.js"></script>
 
 </head>
 
@@ -34,8 +34,9 @@
 	var time = 10;
 
 	MsgPop.displaySmall = true;
-	MsgPop.position = "top-right";
+	MsgPop.position = "bottom-right";
 
+	/*
 	$(document).ready(function(){
 		var test = MsgPop.open({
 		Type:			"success",
@@ -43,25 +44,26 @@
 
 		MsgPop.live();
 	});
+    */
 
 	function showMessages(){
-		MsgPop.closeAll({ClearEvents:	true});
-		MsgPop.displaySmall = true;
+		//MsgPop.closeAll({ClearEvents:	true});
+		//MsgPop.displaySmall = true;
 
 		MsgPop.open({
 		Type:			"success",
-		Content:		"This has been a success!",
+		Content:		"1) This has been a success!",
 		AutoClose:		false});
 
 		MsgPop.open({
 		Type:			"error",
-		Content:		"Fail! You have to click the close button.",
+		Content:		"2) Fail! You have to click the close button.",
 		AutoClose:		false,
 		ClickAnyClose:	false});
 
 		MsgPop.open({
 		Type:			"message",
-		Content:		'This message was created using msgPop! It will close in <span id="time">10</span> seconds!',
+		Content:		'3) This message was created using msgPop! It will close in <span id="time">10</span> seconds!',
 		AutoClose:		true,
 		BeforeOpen:		function(){
 							time = 10;
@@ -83,7 +85,7 @@
 
 		MsgPop.open({
 		Type:			"caution",
-		Content:		"This is a caution. Click anywhere to close me!",
+		Content:		"4) This is a caution. Click anywhere to close me!",
 		AutoClose:		false,
 		ClickAnyClose:	true,
 		ShowIcon:		true,
@@ -91,7 +93,7 @@
 
 		MsgPop.open({
 		Type:			"warning",
-		Content:		"This is a warning. Click anywhere to close me!",
+		Content:		"5) This is a warning. Click anywhere to close me!",
 		AutoClose:		false,
 		ClickAnyClose:	true,
 		ShowIcon:		true,
@@ -99,12 +101,12 @@
 
 		MsgPop.open({
 		Type:			"success",
-		Content:		"I was hiding...If you close me you will see an example of my hooks.",
+		Content:		"6) I was hiding...If you close me you will see an example of my hooks.",
 		AutoClose:		false});
 
 		MsgPop.open({
 		Type:			"error",
-		Content:		"This message will self destruct in 5 seconds!",
+		Content:		"7) This message will self destruct in 5 seconds!",
 		AutoClose:		true,
 		CloseTimer:		5000,
 		ClickAnyClose:	false,
@@ -113,13 +115,28 @@
 
 		MsgPop.open({
 		Type:			"message",
-		Content:		"I have given this message a unique dom ID",
+		Content:		"8) I have given this message a unique dom ID",
 		AutoClose:		false,
 		MsgID:			"info",
 		ClickAnyClose:	true});
 	}
 
 
+	function showMessages2(){
+		//MsgPop.closeAll({ClearEvents:	true});
+		//MsgPop.displaySmall = true;
+
+		MsgPop.open({
+		Type:			"warning",
+		Content:		"9) This has Message 2A",
+		AutoClose:		false});
+
+		MsgPop.open({
+		Type:			"caution",
+		Content:		"10) This is Message 2B.",
+		AutoClose:		false,
+		ClickAnyClose:	false});
+    }
 </script>
 
 <body>
@@ -134,6 +151,7 @@
 
 
         <button type="button" onclick="showMessages()">Run Demo</button>
+        <button type="button" onclick="showMessages2()">Run Demo 2</button>
     </div>
 </div>
 </body>

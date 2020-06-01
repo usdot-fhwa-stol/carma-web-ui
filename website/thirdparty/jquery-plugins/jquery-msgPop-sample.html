@@ -23,7 +23,7 @@
 
 
     <link rel = "stylesheet" href = "jquery.msgPop.css"/>
-    <script src = "jquery.msgPop.Test.js"></script>
+    <script src = "jquery.msgPop.js"></script>
 
 </head>
 
@@ -45,6 +45,27 @@
 		MsgPop.live();
 	});
     */
+
+
+    /*
+        Play sound for specific alerts or notifications.
+    */
+    function playSound(audioId, repeat) {
+        var audioAlert1 = document.getElementById(audioId);
+        audioAlert1.currentTime = 0;
+        audioAlert1.play();
+
+        if (repeat == false)
+            return;
+
+        //Repeat the sounds 5x max or until OK/logout page shows.
+        setTimeout(function () {
+            sound_counter++;
+            if (sound_counter < sound_counter_max) {
+                playSound(audioId, true);
+            }
+        }, 3000)
+    }
 
 	function showMessages(){
 		//MsgPop.closeAll({ClearEvents:	true});
@@ -154,5 +175,10 @@
         <button type="button" onclick="showMessages2()">Run Demo 2</button>
     </div>
 </div>
+<!-- Used by showModalNoAck sounds E.g. Lane Change -->
+<audio id="audioAlert4" preload="auto">
+    <source src="../../sound/arp.mp3" type="audio/mpeg">
+    Your browser does not support the audio element.
+</audio>
 </body>
 </html>

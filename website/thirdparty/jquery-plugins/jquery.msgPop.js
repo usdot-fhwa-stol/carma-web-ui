@@ -5,7 +5,8 @@
  *  - Added HH:mm:ss:ms to the MsgPop text
  *  - Added sortOrder to show the latest at the top of the list, instead of bottom
  *  - Disabled the mobile check since we will want to show the same on any device.
- *  - Future enhancement: Load More Messages should hide the older messages instead of the new ones.
+ *  - Updated text for "Load More Messages" to "Load New Messages".
+ *  - Future enhancement: Load New Messages should hide the older messages instead of the new ones.
  */
 
 var MsgPop = initMsgPop();
@@ -70,7 +71,7 @@ function initMsgPop()
 			loadMoreBtnCreated = true;
 
 			var msgMoreBtn = '<div id="msgDivMore" class="msgPopLoadMore">';
-			msgMoreBtn += '<span onclick="javascript:MsgPop.showMoreMessages();">=== Load More Messages ===</span>';
+			msgMoreBtn += '<span onclick="javascript:MsgPop.showMoreMessages();">=== Load New Messages ===</span>';
 			msgMoreBtn += '</div>';
 
 			container.append(msgMoreBtn);

@@ -15,16 +15,16 @@
   //  the License.
 
   //Check if remotelaunch parameter is selected. 
-  if (!isset($_GET['remotelaunch'])){
-    // Switch to main.html
-    header("Location: ../main.html");
-    exit;
-  }
+  // if (!isset($_GET['remotelaunch'])){
+  //   // Switch to main.html
+  //   header("Location: ../main.html");
+  //   exit;
+  // }
 
   // Launch Platform
-  shell_exec("/var/www/html/scripts/launch.bash");
+   shell_exec("/var/www/html/scripts/docker_launch.bash");
 
-  sleep(10); // Need delay before trying to use rosbridge. TODO move to rosbridge.js
+  // sleep(10); // Need delay before trying to use rosbridge. TODO move to rosbridge.js
   // Switch to main.html
-  header("Location: ../main.html");
+  //header("Location: ../main.html");
 ?>

@@ -1,0 +1,58 @@
+
+  /***Clock timer***/
+  #clockdiv{
+    color: #fff;
+    display: inline-block;
+    font-weight: 100;
+    line-height: normal;
+    text-align: center;
+    font-size: 150%;
+    border-left: 1px solid #C7C8D9;
+    border-bottom: 1px solid #C7C8D9;
+    border-right: 1px solid #C7C8D9;
+    width: 250px;
+    border-bottom-left-radius: 10px;
+    border-bottom-right-radius: 10px;
+
+    background-color: #2C343D;
+    padding-bottom: 5px;
+}
+
+#clockdiv > div{
+    opacity: 80%;    
+    background: transparent;
+    border-radius: 3px;
+    display: inline-block;
+    border-radius: 10px;
+    margin-left: 0px;
+}
+.hours,.minutes,.seconds{
+    color: #41C8FF;
+}
+
+#clockdiv div > span{
+    padding: 2px 5px;
+    margin: 0px;
+    border-radius: 3px;
+    border: 2px solid  #C7C8D9;
+    display: inline-block;
+    width: 70px;
+}
+
+.smalltext{
+    font-size: 10pt;
+    font-weight: bold;
+    display: block;
+    color:white;
+}
+.elapse-time-label{
+    color: white;
+    font-size: 16pt;
+    border-top: 1px solid #C7C8D9;
+    border-left: 1px solid #C7C8D9;
+    border-right: 1px solid #C7C8D9;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+    background-color: #2C343D;
+    padding-left: 15px;
+}

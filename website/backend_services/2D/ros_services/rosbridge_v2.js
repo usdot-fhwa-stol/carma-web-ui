@@ -22,7 +22,7 @@ function connectToROS(isCARMAStarted)
         {
             console.log('connection success!!!');  
             if(!isCARMAStarted)
-                window.location.href = "../main.html";
+                window.location.href = "/main.html";
         });
 
         g_ros.on('close', function () 

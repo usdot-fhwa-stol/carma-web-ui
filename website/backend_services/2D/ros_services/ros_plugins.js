@@ -72,7 +72,7 @@ function subscribeToGuidanceActivatedPlugins ()
         var plugins = result.plugins;
         if(plugins != null && plugins.length > 0){
                 plugins.forEach(pluginItem=>{
-                //display route list info in html <div id='activePlugins-panel'>
+                //display active plugins info in html <div id='activePlugins-panel'>
                 //Ony show avaiable/activated plugins in the change plugin panel
                     if(pluginItem.available)
                 {

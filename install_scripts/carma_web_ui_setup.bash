@@ -27,12 +27,11 @@ sudo chgrp -R $GRP_ID /opt/carma/
 sudo chmod 775 -R /opt/carma/
 sudo chmod 775 /opt/carma/Desktop /opt/carma/Pictures
 
-
-curl -o /opt/carma/Desktop/CARMA_WEB_UI.desktop -L https://raw.githubusercontent.com/usdot-fhwa-stol/carma-web-ui/integration/ui_redesign_basic_trave/install_scripts/Desktop/CARMA_WEB_UI.desktop 
+curl -o /opt/carma/Desktop/CARMA_WEB_UI.desktop -L https://raw.githubusercontent.com/usdot-fhwa-stol/carma-web-ui/integration/ui_redesign_basic_travel/install_scripts/Desktop/CARMA_WEB_UI.desktop 
 chmod 775 /opt/carma/Desktop/CARMA_WEB_UI.desktop
 
 
-curl -o /opt/carma/Pictures/CARMA_icon_color.png  https://raw.githubusercontent.com/usdot-fhwa-stol/carma-web-ui/integration/ui_redesign_basic_trave/install_scripts/Pictures/CARMA_icon_color.png 
+curl -o /opt/carma/Pictures/CARMA_icon_color.png  https://raw.githubusercontent.com/usdot-fhwa-stol/carma-web-ui/integration/ui_redesign_basic_travel/install_scripts/Pictures/CARMA_icon_color.png 
 chmod 775 /opt/carma/Pictures/CARMA_icon_color.png
 
 cp /opt/carma/Desktop/CARMA_WEB_UI.desktop ~/Desktop/

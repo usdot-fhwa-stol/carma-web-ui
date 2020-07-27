@@ -8,7 +8,7 @@
     <meta name="theme-color" content="#ffffff">
 
     <!--START: Thirdparty-->
-    <link rel="stylesheet" type="text/css" href="thirdparty/fontawesome-free-5.13.1-web/css/all.css" />
+    <link rel="stylesheet" type="text/css" href="thirdparty/fontawesome-free-5.14.0-web/css/all.min.css" />
     <link rel="stylesheet" type="text/css" href="thirdparty/bootstrap-4.5.0-dist/css/bootstrap.min.css" />
     <link rel="stylesheet" type="text/css" href="thirdparty/bootstrap-switch-button-1.1.0/css/bootstrap-switch-button.min.css">
     <link rel="stylesheet" href="thirdparty/jqwidgets/styles/jqx.base.css" type="text/css" />
@@ -85,14 +85,14 @@
                         <div class="modal-content">
                             <div class="modal-header">
                                 <h4 class="modal-title" id="exampleModalLongTitle"  style="text-align: left;">
-                                    <strong>Platform Options</strong>
+                                    <strong>Options</strong>
                                 </h4>
                                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                     <span aria-hidden="true">&times;</span>
                                 </button>
                             </div>
                             <div class="modal-body" style="text-align: left;"> 
-                                <p>"Debug Mode" provides the option to allow users to view CARMA platform's internal state.</p>    
+                                <p>"Debug Mode" provides the option to launch the backend services when clicking the "Start" button.</p>    
                                 <p>"Record ROSbag" option enables or disables logging when the platform backend services are running.</p>                                                             
                             </div>
                             <div class="modal-footer">
@@ -105,7 +105,7 @@
                     <!-- Carma Options Card -->        
                     <div class="card" id="Carma-option-card" >
                         <div class="card-header" style="text-align: left;padding-bottom: 0px;">
-                            Platform Options 
+                            Options 
                             <span style="float: right; color: limegreen; font-size: 160%; margin:0px" id="Carma-option-description" title="Click me for more information" data-toggle="modal" data-target="#CarmaOptionsModal">
                                 <i class="fas fa-info-circle"></i>
                             </span>
@@ -114,7 +114,7 @@
                             <div style="margin: 5px auto;">
                                 <input type="checkbox" data-toggle="switchbutton" data-onstyle="success" data-size="lg" 
                                     onchange="document.getElementById('rosBagEnabler').disabled = !this.checked;" 
-                                    id="cbDebugMd" name="debugMd" checked="checked" />
+                                    id="cbDebugMd" name="cbDebugMd" checked="checked" />
                                 <label for="cbdebugMd"  class="card-text">Debug Mode</label>
                             </div>     
                             <div style="margin: 5px auto;">

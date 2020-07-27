@@ -62,6 +62,6 @@ function createDisengageConfirmModal(confirmTitle,confirmBody)
 }
 
 $(document).ready(function(){
-    $('#ModalsArea').append(createDisengageConfirmModal('<i class="fas fa-exclamation-triangle"></i>WARNING','Are you sure you want to EISENGAGE and take manual control?'));
+    $('#ModalsArea').append(createDisengageConfirmModal('<i class="fas fa-exclamation-triangle"></i>WARNING','Are you sure you want to take manual control?'));
 });
 

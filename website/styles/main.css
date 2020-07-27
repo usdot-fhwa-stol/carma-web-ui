@@ -248,17 +248,17 @@ hr{
     width: fit-content;
 }
 #CARMA_icon_png{
-    height: 130px;
-    width: 130px;
+    height: 150px;
+    width: 150px;
     position: absolute;
-    bottom: 0px;
-    left: 10px;
+    bottom: 10px;
+    left: 20px;
     border-radius: 50%;
 }
 #Guidace-btn{
     margin: auto;
     cursor: pointer;
-    margin-left: 5px;
+    margin-left: 20px;
 }
 .warning-messages{
     font-size: 16pt;

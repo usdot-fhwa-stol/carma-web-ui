@@ -15,7 +15,7 @@
   //  the License.
 
   // Launch Platform
-  if (isset($_POST['cbDebugMd']) && trim($_POST['cbDebugMd']) == "true")
+  if (isset($_POST['cbDebugMd']) && trim($_POST['cbDebugMd']) == "false")
   {
     shell_exec("/var/www/html/scripts/launch.bash");
   }

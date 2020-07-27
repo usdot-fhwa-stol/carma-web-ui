@@ -44,7 +44,7 @@ CarmaJS.Config = (function () {
         var ip = '127.0.0.1'; //'192.168.88.10'; 192.168.32.146;192.168.205.128;
         var refresh_interval = 30; //30 seconds 
         var ros_connect_wait = 10000; //10 miliseconds to wait for platform to launch and ros to connect.
-        var ros_connect_retry = 18; //# of times to wait. Total 3 minutes
+        var ros_connect_retry = 12; //# of times to wait. Total 2 minutes
 
         //Private methods
         //Creating functions to prevent access by reference to private variables

@@ -12,14 +12,14 @@ $(document).ready(function ()
     $('form').submit(function(event)
     {
         console.log('submit form');
-        console.log($('input[name=launchplatform]').prop('checked'));
+        console.log($('input[name=cbDebugMd]').prop('checked'));
         console.log($('input[name=rosbagrecorder]').prop('checked'));
         event.preventDefault();
         $.ajax({
             type:'POST',
             url:'scripts/launchPlatform.php',
             data: {
-                'launchplatform':$('input[name=launchplatform]').prop('checked'),
+                'cbDebugMd':$('input[name=cbDebugMd]').prop('checked'),
                 'rosbagrecorder':$('input[name=rosbagrecorder]').prop('checked')
             },
             dataType:'json'

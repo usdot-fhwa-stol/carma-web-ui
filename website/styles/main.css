@@ -247,7 +247,7 @@ hr{
     float: left;
     width: fit-content;
 }
-#CARMA_icon_png{
+#CARMA_guidance_icon_png{
     height: 150px;
     width: 150px;
     position: absolute;
@@ -264,13 +264,14 @@ hr{
     font-size: 16pt;
     color: orange;
 }
-#allPlugins-panel .card .card-header .btn-info,#platoon-info-panel .card .card-header .btn-info,#speed-advisory-info-panel .card .card-header .btn-info{
+#right-panel .card .card-header .btn-info
+{
     background-color:#1a1a1a ;
     float: left;
     padding: 0pt 12pt;
     font-size: 25pt;
     color:rgb(167, 223, 57);
-    border: 0;
+    border: 0.1px solid rgb(167, 223, 57);
     border-radius: 15px;
     font-weight: bolder;
 }

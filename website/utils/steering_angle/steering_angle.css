@@ -1,0 +1,26 @@
+
+.steering-wheel-wrapper{
+    position: absolute;
+}
+.steering-wheel-label{
+    color: white; 
+    font-size: 10pt;
+    text-align: center;
+    font-weight: bolder;
+}
+.steering-wheel-span{
+    color: white; 
+    position: absolute;
+    z-index: 2;
+    top:37px;
+    left:30px;
+    font-weight: bold;
+    font-size: 90%;
+}
+.steering-wheel-img{
+    width: 105px; 
+    height: 105px;
+}
+#steering-wheel{
+    width: 100px;
+}

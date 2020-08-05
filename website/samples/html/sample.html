@@ -1,0 +1,24 @@
+<div class="progressAcc"></div>
+<script src="thirdparty/circle-progress/dist/circle-progress.js"></script>
+<script>
+    new CircleProgress('.progressAcc', {
+        max: 100,
+        value: 80,
+        textFormat: 'percent',
+    });
+</script>
+<style>
+    .progressAcc .circle-progress-value {
+	stroke-width: 10px;
+	stroke: hsl(194, 88%, 53%);
+	stroke-dasharray: 10 1;
+}
+.progressAcc .circle-progress-circle {
+	stroke-width: 10px;
+	stroke: #eee;
+}
+.progressAcc .circle-progress-text {
+	font-weight: bold;
+	fill: hsl(180, 80%, 47%);
+}
+</style>

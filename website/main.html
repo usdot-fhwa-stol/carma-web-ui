@@ -12,20 +12,21 @@
         <link rel="stylesheet" type="text/css" href="styles/main.css">
 
         <!-- widgets styles from utils-->
-        <link rel="stylesheet" type="text/css" href="widgets_utils/brake/brake.css">
-        <link rel="stylesheet" type="text/css" href="widgets_utils/cmd_speed/cmd_speed.css">
-        <link rel="stylesheet" type="text/css" href="widgets_utils/current_speed/current_speed.css">
-        <link rel="stylesheet" type="text/css" href="widgets_utils/speed_limit/speed_limit.css">
-        <link rel="stylesheet" type="text/css" href="widgets_utils/steering_angle/steering_angle.css">
-        <link rel="stylesheet" type="text/css" href="widgets_utils/traffic_signal/traffic_signal.css">
-        <link rel="stylesheet" type="text/css" href="widgets_utils/modals/disengage_confirmation/disengage_confirmation.css">
-        <link rel="stylesheet" type="text/css" href="widgets_utils/modals/left_route/left_route.css">
-        <link rel="stylesheet" type="text/css" href="widgets_utils/elapsed_time/elapsed_time.css">
-        <link rel="stylesheet" type="text/css" href="widgets_utils/accelarator/accelarator.css">
-        <link rel="stylesheet" type="text/css" href="widgets_utils/route_selection_radio/route_selection_radio.css">
-        <link rel="stylesheet" type="text/css" href="widgets_utils/change_plugins_switch/change_plugins_switch.css">
-        <link rel="stylesheet" type="text/css" href="widgets_utils/active_plugin/active_plugins.css">
-
+        <link rel="stylesheet" type="text/css" href="utils/brake/brake.css">
+        <link rel="stylesheet" type="text/css" href="utils/cmd_speed/cmd_speed.css">
+        <link rel="stylesheet" type="text/css" href="utils/current_speed/current_speed.css">
+        <link rel="stylesheet" type="text/css" href="utils/speed_limit/speed_limit.css">
+        <link rel="stylesheet" type="text/css" href="utils/steering_angle/steering_angle.css">
+        <link rel="stylesheet" type="text/css" href="utils/traffic_signal/traffic_signal.css">
+        <link rel="stylesheet" type="text/css" href="utils/modals/disengage_confirmation/disengage_confirmation.css">
+        <link rel="stylesheet" type="text/css" href="utils/modals/left_route/left_route.css">
+        <link rel="stylesheet" type="text/css" href="utils/elapsed_time/elapsed_time.css">
+        <link rel="stylesheet" type="text/css" href="utils/accelarator/accelarator.css">
+        <link rel="stylesheet" type="text/css" href="utils/route_selection_radio/route_selection_radio.css">
+        <link rel="stylesheet" type="text/css" href="utils/change_plugins_switch/change_plugins_switch.css">
+        <link rel="stylesheet" type="text/css" href="utils/active_plugin/active_plugins.css">
+        <link rel="stylesheet" type="text/css" href="utils/wifi/wifi.css">
+        <link rel="stylesheet" type="text/css" href="utils/cellular/cellular.css">
         <!-- thirdparty js -->
         <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r99/three.js"></script> -->
         <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r99/three.module.min.js" type="module"></script> -->
@@ -47,37 +48,38 @@
         <script src="thirdparty/apollo/point_cloud.js" ></script> -->
 
         <!---Global variables and Config -->
-        <script src="scripts/global_variables.js"></script>
-        <script src="scripts/carma.config.js"></script>
+        <script src="scripts/app/global_variables.js"></script>
+        <script src="scripts/app/carma.config.js"></script>
 
         <!--layout and panel js-->
-        <script src="scripts/main_menu_top.js"></script>
-        <script src="scripts/main_menu_bottom.js"></script>
+        <script src="scripts/app/main_menu_top.js"></script>
+        <script src="scripts/app/main_menu_bottom.js"></script>
 
         <!--wigets JS from utils-->
-        <script src="widgets_utils/current_speed/current_speed.js"></script>
-        <script src="widgets_utils/accelarator/accelarator.js"></script>  
-        <script src="widgets_utils/speed_limit/speed_limit.js"></script>
-        <script src="widgets_utils/cmd_speed/cmd_speed.js"></script>
-        <script src="widgets_utils/brake/brake.js"></script>
-        <script src="widgets_utils/modals/disengage_confirmation/disengage_confirmation.js"></script>
-        <script src="widgets_utils/elapsed_time/elapsed_time.js"></script>
-        <script src="widgets_utils/traffic_signal/traffic_signal.js"></script>
-        <script src="widgets_utils/steering_angle/steering_angle.js"></script>
-        <script src="widgets_utils/route_selection_radio/route_selection_radio.js"></script>
-        <script src="widgets_utils/change_plugins_switch/change_plugins_switch.js"></script>
-        <script src="widgets_utils/active_plugin/active_plugins.js"></script>
-
+        <script src="utils/current_speed/current_speed.js"></script>
+        <script src="utils/accelarator/accelarator.js"></script>  
+        <script src="utils/speed_limit/speed_limit.js"></script>
+        <script src="utils/cmd_speed/cmd_speed.js"></script>
+        <script src="utils/brake/brake.js"></script>
+        <script src="utils/modals/disengage_confirmation/disengage_confirmation.js"></script>
+        <script src="utils/elapsed_time/elapsed_time.js"></script>
+        <script src="utils/traffic_signal/traffic_signal.js"></script>
+        <script src="utils/steering_angle/steering_angle.js"></script>
+        <script src="utils/route_selection_radio/route_selection_radio.js"></script>
+        <script src="utils/change_plugins_switch/change_plugins_switch.js"></script>
+        <script src="utils/active_plugin/active_plugins.js"></script>
+        <script src="utils/wifi/wifi.js"></script>
+        <script src="utils/cellular/cellular.js"></script>
         <!--3D stored js libraries -->
         <!-- <script src="scripts/3D/backend_ros_services/shared_variables.js"></script> -->
         <!-- <script src="scripts/3D/utils/*"></script> -->   
 
         <!--backend services (2D) -->
-        <script src="backend_services/2D/ros_services/rosbridge_v2.js"></script>
-        <script src="backend_services/2D/ros_services/ros_guidance.js"></script>
-        <script src="backend_services/2D/ros_services/ros_route.js"></script>
-        <script src="backend_services/2D/ros_services/ros_plugins.js"></script>
-        <script src="scripts/connectToROSServicesOnLoad.js"></script>
+        <script src="scripts/ros/rosbridge_v2.js"></script>
+        <script src="scripts/ros/ros_guidance.js"></script>
+        <script src="scripts/ros/ros_route.js"></script>
+        <script src="scripts/ros/ros_plugins.js"></script>
+        <script src="scripts/app/connectToROSServicesOnLoad.js"></script>
 	</head>
 	<body >  
         <!--Top Navigation-->
@@ -100,22 +102,30 @@
                   </li>              
                 </ul>
                 <!--Status panel-->
-                <div id="gps-drivers-signals-panel" style="color: rgb(136, 135, 135);">
-                  <label id="GPS-status" title="GPS Status">
-                    <i class="fas fa-map-marker-alt"></i>
-                  </label>
-                  <label id="localization-status" title="Localization Status">
+                <div id="gps-drivers-signals-panel" style="color: grey;">
+                  <div id="GPS-status" 
+                         title="GPS Status"
+                         style="width: 20px;height: 40px;position:relative;display: inline-block;">
+                    <i class="fas fa-map-pin"></i>
+                  </div>
+                  <div id="localization-status" 
+                         title="Localization Status"  
+                         style="width: 45px;height: 40px;position:relative;display: inline-block;">
                     <i class="fas fa-map-marked-alt"></i>
-                  </label>
-                  <label id="wifi-status" title="WIFI Status">
-                    <i class="fas fa-wifi"></i>
-                  </label>
-                  <label id="cellular-status" title="Cellular Status">
-                    <i class="fas fa-signal"></i>
-                  </label>
-                  <label id="OBU-status" title="OBU Status">
-                    <i class="fas fa-compress-arrows-alt"></i>
-                  </label>
+                  </div>
+                  <div  id="wifi-status" 
+                        title="WIFI Status" 
+                        style="width: 45px;height: 40px;position:relative;display: inline-block;"></div>
+                  <div id="cellular-status" 
+                       title="Cellular Status" 
+                       style="width: 45px;height: 40px;position:relative; display: inline-block;"></div>
+                  <div id="OBU-status" 
+                       title="OBU Status" 
+                       style="width: 45px;height: 40px;position:relative;display: inline-block;">
+                       <object type="image/svg+xml" 
+                               data="images/DSRC/DSRC_downup.svg" 
+                               style="position: absolute;width: 45px; height: 50px;"></object>
+                  </div>
                 </div><!--Status panel END-->                
               </div><!--navbar END-->
         </nav><!--Top Navigation END-->
@@ -209,11 +219,43 @@
                   </div>
                 </div>
           </div> 
+           <!--Platoon Info-->
+          <div id="platoon-info-panel" class="bg-black border-gray" style="display: none;">
+            <div class="card text-white bg-black mb-3" style="width: 100%;">
+                <div class="card-header card-custom-header" style="text-align: center;padding-left: 0px;">
+                  <button type="button" class="btn btn-info" id="platoonInfoCloseBtn">X</button>
+                  <div>
+                    Platoon
+                  </div> 
+                </div>
+                <div class="card-body" >
+                  <p class="card-text">Some quick example ntent.<br><br><br><br><br><br><br></p>
+                </div>
+              </div>
+          </div>  
+          
+          <!--Speed advisory Info-->
+          <div id="speed-advisory-info-panel" class="bg-black border-gray" style="display: none;">
+            <div class="card text-white bg-black mb-3" style="width: 100%;">
+                <div class="card-header card-custom-header" style="text-align: center;padding-left: 0px;">
+                  <button type="button" class="btn btn-info" id="speedAdvisoryInfoInfoCloseBtn">X</button>
+                  <div>
+                    Speed Advisory
+                  </div> 
+                </div>
+                <div class="card-body" >
+                  <p class="card-text">Some quick example ntent.<br><br><br><br><br><br><br></p>
+                </div>
+              </div>
+          </div>
 
           <!--maps-->
           <div id="maps-panel" class="bg-black border-gray" style="display: none;">
               <div class="card text-white bg-black mb-3" style="width: 100%;">
-                  <div class="card-header card-custom-header" >Maps</div>
+                  <div class="card-header card-custom-header" style="text-align: center;padding-left: 0px;" >
+                    <button type="button" class="btn btn-info" id="MapsInfoInfoCloseBtn">X</button>
+                    Maps
+                  </div>
                   <div class="card-body" >
                     <p class="card-text">Some quick example ntent.<br><br><br><br><br><br><br></p>
                   </div>
@@ -223,7 +265,10 @@
           <!--Status-->  
           <div id="status-panel" class="bg-black border-gray" style="display: none;">
               <div class="card text-white bg-black mb-3" style="width: 100%;">
-                  <div class="card-header card-custom-header" >Status</div>
+                  <div class="card-header card-custom-header" style="text-align: center;padding-left: 0px;" >
+                    <button type="button" class="btn btn-info" id="SystemStatusInfoInfoCloseBtn">X</button>
+                    Status
+                  </div>
                   <div class="card-body" >
                     <p class="card-text">Some quick example ntent.<br><br><br><br><br><br><br></p>
                   </div>
@@ -233,7 +278,10 @@
           <!--Logs-->
           <div id="logs-panel" class="bg-black border-gray" style="display: none;">
               <div class="card text-white bg-black mb-3" style="width: 100%;">
-                  <div class="card-header card-custom-header" >Logs</div>
+                  <div class="card-header card-custom-header" style="text-align: center;padding-left: 0px;" >
+                    <button type="button" class="btn btn-info" id="SystemLogsInfoInfoCloseBtn">X</button>
+                    Logs
+                  </div>
                   <div class="card-body" >
                     <p class="card-text">Some quick example ntent.<br><br><br><br><br><br><br></p>
                   </div>
@@ -243,49 +291,22 @@
           <!--Active plugins-->         
           <div id="activePlugins-panel" class="bg-black border-gray" style="display: none;">
               <div class="card text-white bg-black mb-3" style="width: 100%;">
-                  <div class="card-header card-custom-header">Active Plugins</div>
+                  <div class="card-header card-custom-header" style="text-align: center;padding-left: 0px;">
+                    <button type="button" class="btn btn-info" id="ActivePluginInfoInfoCloseBtn">X</button>
+                    Active Plugins
+                  </div>
                   <div class="card-body" id="active-plugins-content">
                     <span id='no-active-plugins'>No Active Plugins</span> 
                   </div>
                 </div>
-          </div> 
-
-        <!--Platoon Info-->
-        <div id="platoon-info-panel" class="bg-black border-gray" style="display: none;">
-          <div class="card text-white bg-black mb-3" style="width: 100%;">
-              <div class="card-header card-custom-header" style="text-align: center;padding-left: 0px;">
-                <button type="button" class="btn btn-info" id="platoonInfoCloseBtn">X</button>
-                <div>
-                  Platoon
-                </div> 
-              </div>
-              <div class="card-body" >
-                <p class="card-text">Some quick example ntent.<br><br><br><br><br><br><br></p>
-              </div>
-            </div>
-        </div>  
-        
-        <!--Speed advisory Info-->
-        <div id="speed-advisory-info-panel" class="bg-black border-gray" style="display: none;">
-          <div class="card text-white bg-black mb-3" style="width: 100%;">
-              <div class="card-header card-custom-header" style="text-align: center;padding-left: 0px;">
-                <button type="button" class="btn btn-info" id="speedAdvisoryInfoInfoCloseBtn">X</button>
-                <div>
-                  Speed Advisory
-                </div> 
-              </div>
-              <div class="card-body" >
-                <p class="card-text">Some quick example ntent.<br><br><br><br><br><br><br></p>
-              </div>
-            </div>
-        </div>
+          </div>        
       </div><!--Right panel END-->
 
       <!-- Bottom Menu -->
       <div id="bottom-nav" >           
           <div id="bottom-nav-left">
               <div id="Guidace-btn" class="left"> 
-                  <img src="images/basic_travel/Xtra_Art/Big-greenREV.png" id="CARMA_icon_png">   
+                  <img src="images/Xtra_Art/Big-greenREV.png" id="CARMA_guidance_icon_png">   
               </div>
           </div>
           <div id="bottom-nav-right">
@@ -339,6 +360,6 @@
       </script>
 
       <!-- 3D ROS Connection: TODO-->
-      <!-- <script src="scripts/3D/ros_services/*.js"></script> -->
+      <!-- <script src="scripts/ros/*.js"></script> -->
 	</body>
 </html>

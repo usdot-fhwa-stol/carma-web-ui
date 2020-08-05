@@ -41,7 +41,7 @@ function subscribeToGuidanceRegisteredPlugins ()
                             break;
                         case  CONTROL:
                             $('#change-plugins-no-controlling-plugins').html('');
-                            $('#controlling-plugins-section').append(createChangePluginSwitch(false,pluginItem.name, CONTRO_LABEL+'-plugins',pluginItem.activated));
+                            $('#controlling-plugins-section').append(createChangePluginSwitch(false,pluginItem.name, CONTROL_LABEL+'-plugins',pluginItem.activated));
                             break;
                     }
                 }

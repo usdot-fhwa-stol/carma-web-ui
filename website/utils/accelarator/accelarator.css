@@ -1,0 +1,20 @@
+.progressAcc .circle-progress-value {
+		stroke-width: 10px;
+		stroke: rgb(167, 223, 57);
+		stroke-dasharray: 10 1;
+	}
+.progressAcc .circle-progress-circle {
+	stroke-width: 10px;
+	stroke: rgb(78, 76, 76);
+}
+.progressAcc .circle-progress-text {
+	font-weight: bold;
+	fill: rgb(255, 255, 255);
+	font-size: 90%;
+}
+.progressAccTitle{
+	color: white;
+	font-size: 10pt;
+	text-align: center; 
+	font-weight: bolder;
+}

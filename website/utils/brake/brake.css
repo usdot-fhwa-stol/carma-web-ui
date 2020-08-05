@@ -1,0 +1,22 @@
+
+.progressBrake .circle-progress-value {
+    stroke-width: 10px;
+    stroke: hsl(12, 96%, 48%);
+    stroke-dasharray: 10 1;
+  	
+}
+.progressBrake .circle-progress-circle {
+  stroke-width: 10px;
+  stroke: rgb(78, 76, 76);
+}
+.progressBrake .circle-progress-text {
+  font-weight: bold;
+  fill: hsl(0, 0%, 99%);
+  font-size: 90%;
+}
+.progressBrakeTitle{
+	color: white;
+	font-size: 10pt;
+	text-align: center; 
+	font-weight: bolder;
+}

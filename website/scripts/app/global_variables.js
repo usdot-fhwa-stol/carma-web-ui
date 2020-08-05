@@ -2,9 +2,12 @@ const GREEN_COLOR = 'rgb(167, 223, 57)';
 const PURPLE_COLOR = 'rgb(153, 0, 153)';
 const BLUE_COLOR = 'rgb(0, 255, 255)';
 const RED_COLOR = 'rgb(255, 51, 51)';
-const SIGNAL_RED ='red';
+const SIGNAL_RED = 'red';
 const SIGNAL_GREEN = 'green';
 const SIGNAL_YELLOW = 'yellow';
+const SIGNAL_FLASHING_GREEN = 'flash_green';
+const SIGNAL_FLASHING_YELLOW = 'flash_yellow';
+const SIGNAL_FLASHING_RED = 'flash_red';
 const UNKNOWN = 0;
 const UNKNOWN_LABEL = 'unknow';
 const STRATEGIC = 1;
@@ -37,12 +40,21 @@ const M_GUIDANCE_PLUGINLIST ='cav_srvs/PluginList';
 const P_REQUIRED_PLUGINS = '/guidance/health_monitor/required_plugins';
 
 //CAV_Messages
-const STARTUP = 1
-const DRIVERS_READY = 2
-const ACTIVE = 3
-const ENGAGED = 4
-const INACTIVE = 5
-const SHUTDOWN = 0
+const STARTUP = 1;
+const DRIVERS_READY = 2;
+const ACTIVE = 3;
+const ENGAGED = 4;
+const INACTIVE = 5;
+const SHUTDOWN = 0;
+
+//Signal State
+const SIGNAL_UNLIT_STATE=0;
+const SIGNAL_GREEN_STATE=1;
+const SIGNAL_YELLOW_STATE=2;
+const SIGNAL_RED_STATE=3;
+const SIGNAL_FLASHING_GREEN_STATE=4;
+const SIGNAL_FLASHING_YELLOW_STATE=5;
+const SIGNAL_FLASHING_RED_STATE=6;
 
 //ROS
 var g_ros = new ROSLIB.Ros();
@@ -50,3 +62,5 @@ var g_ros = new ROSLIB.Ros();
 //
 var g_retry_counter=0;
 var g_required_plugins = '';
+var g_acceleratorCircle = null;
+var g_brakeCircle = null;

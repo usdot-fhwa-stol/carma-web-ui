@@ -1,11 +1,5 @@
 /**
- * <div class="signal-bars cellular-sizing-box good zero-bar" >
-                      <div class="first-bar bar"></div>
-                      <div class="second-bar bar"></div>
-                      <div class="third-bar bar"></div>
-                      <div class="fourth-bar bar"></div>
-                      <div class="fifth-bar bar"></div>
-                    </div>
+ * cellular bars
  */
 
 function createCellularIcon(numberOfBars){
@@ -38,5 +32,5 @@ function createCellularIcon(numberOfBars){
 
 //call create function
 $(document).ready(function(){
-    $('#cellular-status').append(createCellularIcon('two'));
+    $('#cellular-status').append(createCellularIcon('zero'));
 });

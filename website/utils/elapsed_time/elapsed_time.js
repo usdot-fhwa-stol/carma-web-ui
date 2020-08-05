@@ -54,6 +54,13 @@ function createElapsedTime(hours,minutes,seconds)
     divElapsedTime.appendChild(clockdiv);
     return divElapsedTime;
 }
+
+function updateElapsedTime(hours,minutes,seconds){
+    document.getElementById('hours').innerHTML=hours;
+    document.getElementById('minutes').innerHTML=minutes;
+    document.getElementById('seconds').innerHTML=seconds;
+}
+//initialization: call create widget function
 $(document).ready(function(){
-    $('.elapse-time-col').append(createElapsedTime('00','23','30'))
+    $('.elapse-time-col').append(createElapsedTime('00','00','00'))
 });

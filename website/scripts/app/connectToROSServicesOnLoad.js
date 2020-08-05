@@ -2,26 +2,62 @@ $(document).ready(function(){
     console.log('window is loaded');
     if (typeof (Storage) !== 'undefined') 
     {
-        //rosbridge connection
+        /*
+        **************************************
+        * rosbridge connection 
+        * ************************************
+        */
         connectToROS();
 
         /*
-        * set inital paramsters that are used by the topics and services
+        **************************************
+        * set inital paramsters that are used 
+        * by the topics and services
+        * ************************************
         */
         getRequiredPluginParam();
 
         /****
+         * ***********************************
          * subscribe to the services and topics
-         */
-        
-        //route
-        subscribeToGuidanceAvailaleRoutes ();
+         * ***********************************
+         */        
+        //SECTION: Route Area
+        subscribeToGuidanceAvailaleRoutes ();        
 
-        //plugins
+        /***
+         * SECTION: Status icons 
+         */
+        //GPS or PinPoint status
+        subscribeToDriverDiscovery();
+        //OBU status
+        subscribeToInboundBinary();
+        subscribeToOutboundBinary();
+
+        /**
+         * SECTION: Display Area
+         * **/
+        //Current Vehicle Speed
+        subscribeToLocalizationEKFTwist();        
+        //Vechile Command
+        //Steering angle; applied speed; brake; accelerator
+        subscribeToVehicleCMD();        
+        //Route - Speed Limit
+        subscribeToGuidanceRouteState();
+        //Traffic Signal 
+        TrafficSignalInfoList();
+
+        /***
+         * SECTION: Right Panel Info
+         * */
+        //Active plugins & Change plugins
         subscribeToGuidanceRegisteredPlugins ();
         subscribeToGuidanceActivePlugins();
 
-        //guidance
+        /***
+         * SECTION: Bottom Menu 
+         * */
+        //guidance button
         subscribeToGuidanceState();
     } 
     else 

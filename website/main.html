@@ -79,6 +79,11 @@
         <script src="scripts/ros/ros_guidance.js"></script>
         <script src="scripts/ros/ros_route.js"></script>
         <script src="scripts/ros/ros_plugins.js"></script>
+        <script src="scripts/ros/ros_drivers_state.js"></script>
+        <script src="scripts/ros/ros_comms_inbound_outbound_binary.js"></script>
+        <script src="scripts/ros/ros_vehicle_current.js"></script>  
+        <script src="scripts/ros/ros_vehicle_cmd.js"></script>
+        <script src="scripts/ros/ros_traffic_signal.js"></script>
         <script src="scripts/app/connectToROSServicesOnLoad.js"></script>
 	</head>
 	<body >  
@@ -120,9 +125,8 @@
                        title="Cellular Status" 
                        style="width: 45px;height: 40px;position:relative; display: inline-block;"></div>
                   <div id="OBU-status" 
-                       title="OBU Status" 
                        style="width: 45px;height: 40px;position:relative;display: inline-block;">
-                       <object type="image/svg+xml" 
+                       <object id="OBU-status-svg" type="image/svg+xml" 
                                data="images/DSRC/DSRC_downup.svg" 
                                style="position: absolute;width: 45px; height: 50px;"></object>
                   </div>
@@ -137,9 +141,9 @@
         <div class="container-fluid">
             <div class="row">
               <div class="elapse-time-col widget-col-margin"></div>
-              <div class="traffic-signal-col widget-col-margin" ></div> 
-              <div class=" command-speed-col widget-col-margin"></div>                
-              <div class=" current-speed-col widget-col-margin"></div>                  
+              <div class="traffic-signal-col widget-col-margin" style="min-width:50px" ></div> 
+              <div class=" command-speed-col widget-col-margin" ></div>                
+              <div class=" current-speed-col widget-col-margin" ></div>                  
               <div class="speed-limit-col widget-col-margin"></div>                
             </div><!--END: row-->
 

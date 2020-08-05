@@ -22,7 +22,7 @@ function createCmdSpeedCircle(cmdSpeedTxt){
     spanText.classList.add('speed-text');
     spanText.style.verticalAlign='-30%';
     spanText.innerText = cmdSpeedTxt;
-    spanText.id='command-speed'
+    spanText.id='command-speed-id'
 
     let divUnit= document.createElement('div');
     divUnit.classList.add('speed-unit');
@@ -35,7 +35,10 @@ function createCmdSpeedCircle(cmdSpeedTxt){
     return divPanel;
 }
 
-//call create function
+function updateCmdSpeedCircle(cmdSpeedTxt){
+    document.getElementById('command-speed-id').innerText = cmdSpeedTxt;
+}
+//initialization: call create function
 $(document).ready(function(){
-    $('.command-speed-col').append(createCmdSpeedCircle('45'));
+    $('.command-speed-col').append(createCmdSpeedCircle('0'));
 });

@@ -35,7 +35,11 @@ function createCurrentSpeedCircle(currentSpeedTxt){
     return divPanel;
 }
 
-//call create function
+function updateCurrentSpeed(currentSpeedTxt){
+    document.getElementById('current-speed').innerHTML = currentSpeedTxt;
+}
+
+//initialize: call create function
 $(document).ready(function(){
     $('.current-speed-col').append(createCurrentSpeedCircle('0'));
 });

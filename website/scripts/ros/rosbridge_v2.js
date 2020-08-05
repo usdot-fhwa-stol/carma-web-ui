@@ -22,7 +22,6 @@ function connectToROS()
             console.log('connection success!!!');
             let urlPathname = window.location.pathname;
             let currentPageName = urlPathname.split('/')[urlPathname.split('/').length-1];
-            console.log(currentPageName);
             if(currentPageName != "main.html")
                 window.location.href = "/main.html";
         });
@@ -44,8 +43,8 @@ function connectToROS()
 
 /**
  * This is called before calling ros services 
- * and after the connectToROS(param) function is called 
- * because connectToROS(param) function initalize the ROS connection.
+ * and after the connectToROS() function is called 
+ * because connectToROS() function initalize the ROS connection.
  */ 
 function IsROSBridgeConnected() 
 {

@@ -16,7 +16,7 @@ function subscribeToGuidanceRegisteredPlugins ()
     {
         //Check ROSBridge connection before subscribe a topic
         IsROSBridgeConnected();
-        console.log('registered plugins are: ' + result.plugins);
+        // console.log('registered plugins are: ' + result.plugins);
         var plugins = result.plugins;
         if(plugins != null && plugins.length > 0){            
                 plugins.forEach(pluginItem=>{
@@ -34,15 +34,15 @@ function subscribeToGuidanceRegisteredPlugins ()
                             break;
                         case  STRATEGIC:
                             $('#change-plugins-no-strategic-plugins').html('');
-                            $('#strategic-plugins-section').append(createChangePluginSwitch(isPluginRequired,pluginItem.name, STRATEGIC_LABEL+'-plugins',pluginItem.activated));
+                            $('#strategic-plugins-section').append(createChangePluginSwitch(isPluginRequired,pluginItem.name, pluginItem.type,pluginItem.versionId,pluginItem.activated));
                             break;
                         case  TACTICAL:
                             $('#change-plugins-no-tactical-plugins').html('');
-                            $('#tactical-plugins-section').append(createChangePluginSwitch(isPluginRequired,pluginItem.name, TACTICAL_LABEL+'-plugins',pluginItem.activated));
+                            $('#tactical-plugins-section').append(createChangePluginSwitch(isPluginRequired,pluginItem.name, pluginItem.type,pluginItem.versionId,pluginItem.activated));
                             break;
                         case  CONTROL:
                             $('#change-plugins-no-controlling-plugins').html('');
-                            $('#controlling-plugins-section').append(createChangePluginSwitch(isPluginRequired,pluginItem.name, CONTROL_LABEL+'-plugins',pluginItem.activated));
+                            $('#controlling-plugins-section').append(createChangePluginSwitch(isPluginRequired,pluginItem.name, pluginItem.type,pluginItem.versionId,pluginItem.activated));
                             break;
                     }
                 }
@@ -91,7 +91,7 @@ function subscribeToGuidanceActivePlugins ()
                 if(pluginItem.available && pluginItem.activated)
                 {
                     $('#no-active-plugins').html('');
-                    $('#active-plugins-content').append(createActivePlugin(pluginItem.name,true,true));
+                    $('#active-plugins-content').append(createActivePlugin(pluginItem.name,pluginItem.type,pluginItem.versionId,true,true));
                 } 
             });
         }
@@ -111,5 +111,117 @@ function getRequiredPluginParam()
     requiredPluginsParam.get((value)=>{
         g_required_plugins = value +"";
         g_required_plugins = g_required_plugins.replace(/\s/g,'').toLowerCase();
+    });
+}
+
+
+
+/*
+  Activate the plugin based on user selection.
+  Run below terminal command:
+  rosservice call /guidance/plugins/activate_plugin "header:
+  seq: 0
+  stamp:
+    secs: 0
+    nsecs: 0
+  frame_id: ''
+pluginName: 'MPC'
+pluginVersion: ''
+activated: true" 
+*/
+function activatePlugin(pluginName,pluginType,pluginVersionId,changeToNewStatus,isRequired) {
+    console.log(changeToNewStatus);
+
+    //If the plugin is required to be on all times, it cannot be deactivated by the user, so need to notify users with a specific message.
+    //Regardless, the call to activate plugin will fail.
+    if (isRequired) {
+        //divCapabilitiesMessage.innerHTML = 'Sorry, this capability is required. It cannot be deactivated.';
+        //Need to set it back to original value.
+        //cbCapabilities.checked = !newStatus;
+        //Change the checked status back
+        updateChangePluginSwitch(pluginName, pluginType,pluginVersionId,!changeToNewStatus);
+        return;
+    }
+
+    // If guidance is engaged, at least 1 plugin must be selected.
+    /**
+    if (isGuidance.engaged == true) {
+        var divSubCapabilities = document.getElementById('divSubCapabilities');
+        var cntCapabilitiesSelected = getCheckboxesSelected(divSubCapabilities).length;
+
+        if (cntCapabilitiesSelected == 0) {
+            divCapabilitiesMessage.innerHTML = 'Sorry, CAV Guidance is engaged and there must be at least one active capability.'
+                + '<br/>You can choose to dis-engage to deactivate all capablities.';
+
+            //Need to set it back to original value.
+            cbCapabilities.checked = !newStatus;
+            return;
+        }
+    } */
+
+    // Calling service
+    var service = new ROSLIB.Service({
+        ros: g_ros,
+        name: '/guidance/plugins/activate_plugin',
+        serviceType: 'cav_srvs/PluginActivation'
+    });
+
+    // Get name and version.
+    // var splitValue = id.replace('cb', '').split('&');
+    // var name = splitValue[0].replace(/\_/g, ' ');
+    // var version = splitValue[1].replace(/\_/g, '.');
+
+    // Setup the request.
+    var request = new ROSLIB.ServiceRequest({
+        header: {
+            seq: 0
+            , stamp: Date.now()
+            , frame_id: ''
+        },
+        pluginName: pluginName,
+        pluginVersion: pluginVersionId,
+        activated: changeToNewStatus
+    });
+
+    // If it did NOT get into the callService below, need to set it back.
+    updateChangePluginSwitch(pluginName, pluginType,pluginVersionId,!changeToNewStatus);
+
+    // Call the service and get back the results in the callback.
+    service.callService(request, function (result) {
+
+        if (result.newState != changeToNewStatus) //Failed
+        {
+            //divCapabilitiesMessage.innerHTML = 'Activating the capability failed, please try again.';
+            alert('Activating the capability failed, please try again.');
+        }
+        else {
+            //var divSubCapabilities = document.getElementById('divSubCapabilities');
+            //divSubCapabilities.style.display = 'block';
+            //divCapabilitiesMessage.innerHTML = 'Please select one or more capabilities to activate.';
+            updateChangePluginSwitch(pluginName, pluginType,pluginVersionId,changeToNewStatus);
+
+            //update the list of active plugins
+            updateActivePlugin(pluginName,pluginType,pluginVersionId,changeToNewStatus);
+        }
+
+        //Set to new state set by the PluginManager.
+        // cbCapabilities.checked = result.newState;
+
+        // if (cbCapabilities.checked == false) {
+        //     lblCapabilities.style.backgroundColor = 'gray';
+        // }
+        // else if (cbCapabilities.checked == true) {
+        //     lblCapabilities.style.backgroundColor = 'cornflowerblue';
+        // }
+
+        //Call the widget fw to activate for selection.
+        // var cbTitle = name + ' ' + version;
+        //var cbId = id.substring(2,id.length);
+
+        //Populate list for Widget Options.
+       // CarmaJS.WidgetFramework.activatePlugin(cbId, cbTitle, cbCapabilities.checked);
+
+        //Enable the CAV Guidance button if plugins are selected
+        //enableGuidance();
     });
 }

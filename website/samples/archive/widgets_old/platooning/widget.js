@@ -57,7 +57,7 @@ CarmaJS.WidgetFramework.Platooning = (function () {
 
             listenerPlatooningInfo = new ROSLIB.Topic({
                 ros: ros,
-                name: t_platooning_info,
+                name: 'platooning_info',
                 messageType: 'cav_msgs/PlatooningInfo'
             });
 

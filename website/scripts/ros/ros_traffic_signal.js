@@ -8,7 +8,6 @@ function TrafficSignalInfoList(){
         name: '/traffic_signal_info',
         messageType: 'cav_msgs/TrafficSignalInfoList'
     });
-    console.log('TrafficSignalInfoList');
 
     let signalState = null;
     let isTimeerSet = false;

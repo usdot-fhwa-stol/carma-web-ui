@@ -22,13 +22,13 @@
     display: block !important;
     border: 0px !important;
 }
-.btnCancel{
+.btnConfirmCancel{
     float: left;
     display: block;
     padding: 10px  15px;
     font-weight: bolder;
 }
-.btnProceed{
+.btnConfirmProceed{
     float: right;
     padding: 10px  10px;
     font-weight: bolder;

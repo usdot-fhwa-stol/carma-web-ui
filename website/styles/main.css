@@ -183,7 +183,7 @@ hr{
     font-size: 90%;
     width: fit-content;
 }
-.bottom-nav-item,.bottom-nav-item-advanced,.bottom-nav-item-statistics
+.bottom-nav-item,.bottom-nav-item-advanced,.bottom-nav-item-logout,.bottom-nav-item-statistics
 {
     padding: 0px 15px;
     margin: auto 2px;                    
@@ -193,9 +193,9 @@ hr{
     cursor: pointer;   
     font-size: 85%;
 }
-.bottom-nav-item-advanced{
+/* .bottom-nav-item-advanced{
     margin-right: 25px;
-}
+} */
 .padding-5{
     padding:5px;
 }
@@ -231,7 +231,7 @@ hr{
     box-shadow: 1px 1px 5px 1px  rgb(167, 223, 57);
     cursor: pointer;
 }
-.bottom-nav-item:hover,.bottom-nav-item-advanced:hover,.bottom-nav-item-statistics:hover{
+.bottom-nav-item:hover,.bottom-nav-item-advanced:hover,.bottom-nav-item-logout:hover,.bottom-nav-item-statistics:hover{
     border-color:  rgb(167, 223, 57);                   
     border: 2px solid rgb(167, 223, 57);  
     color:  rgb(167, 223, 57);
@@ -271,7 +271,7 @@ hr{
     padding: 0pt 12pt;
     font-size: 25pt;
     color:rgb(167, 223, 57);
-    border: 0.1px solid rgb(167, 223, 57);
+    border: 0px solid rgb(167, 223, 57);
     border-radius: 15px;
     font-weight: bolder;
 }

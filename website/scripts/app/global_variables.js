@@ -59,8 +59,15 @@ const SIGNAL_FLASHING_RED_STATE=6;
 //ROS
 var g_ros = new ROSLIB.Ros();
 
-//
+//global page variables
 var g_retry_counter=0;
 var g_required_plugins = '';
 var g_acceleratorCircle = null;
 var g_brakeCircle = null;
+var g_timer = null; //elapsed timer
+
+//session variables
+var session_isGuidance = null;
+var session_selectedRoute = null;
+// m/s to MPH
+const METER_TO_MPH = 2.23694;

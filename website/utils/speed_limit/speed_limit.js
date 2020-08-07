@@ -2,7 +2,6 @@
  * Created HTML elements 
  */
 function updateSpeedLimit(speedLimitTxt){
-    console.log('update speed limit');
     if( document.getElementById('speed-limit') != null)
     {
         document.getElementById('speed-limit').innerHTML = speedLimitTxt;

@@ -97,67 +97,73 @@ $(document).ready(function(){
                speedAdvisoryPanel.css('display','block');
           }
      });
+     //show logout modal
+     $("#logout-btn").click(function(){
+          $('#disengageModal').modal({backdrop: 'static', keyboard: false});
+     });
 
      //close panel X btns 
      $('#changePluginsCloseBtn').click(function(){
           $("#allPlugins-panel").css('display','none');
      });
+
      $('#platoonInfoCloseBtn').click(function(){
           $("#platoon-info-panel").css('display','none');
      });
+
      $('#speedAdvisoryInfoInfoCloseBtn').click(function(){
           $("#speed-advisory-info-panel").css('display','none');
      });
+
      $('#SystemStatusInfoInfoCloseBtn').click(function(){
           $("#status-panel").css('display','none');
           $("#status-btn").toggleClass('active');
      });
+
      $('#SystemLogsInfoInfoCloseBtn').click(function(){
           $("#logs-panel").css('display','none');
           $("#logs-btn").toggleClass('active');
      });
+
      $('#ActivePluginInfoInfoCloseBtn').click(function(){
           $("#activePlugins-panel").css('display','none');
           $("#activePlugins-btn").toggleClass('active');
      });
+
      $('#MapsInfoInfoCloseBtn').click(function(){
           $("#maps-panel").css('display','none');
           $("#maps-btn").toggleClass('active');
      });
-  
+     
+     function toggleLoading()
+     {
+          //open loading
+          $('#guidance-loading-status').html('loading...');
+
+          //close loading after 0.5 sec
+          setTimeout(function(){
+               $('#guidance-loading-status').html('');
+          },500);               
+     }
+
      //Click guidance button to enable automation
-     $('#Guidace-btn').click(function(){
-          let guidanceStatus = $('#guidance-status');
-          console.log(guidanceStatus.val());
-          $('#disengageModal').modal('show'); 
-          if(g_is_guidance_automated) //already automated guidance
-          {                 
-               g_is_guidance_automated = false; //chang to manual
-               console.log("change to manual");
-               guidanceStatus.html('').append('Manual'); 
-               guidance_click_count = 0;
-              /**
-               $('#Guidace-btn').css({                         
-                    'color': BLUE_COLOR,
-                    'border': '2px solid ' + BLUE_COLOR
-               }); 
-               $('#Guidace-btn:hover').css('box-shadow',' 1px 1px 5px 1px ' + BLUE_COLOR); 
-               $('#Guidace-btn:active').css('box-shadow',' 1px 1px 5px 1px ' + BLUE_COLOR);  
-                */                 
+     $('#CARMA_guidance_icon_png').click(function()
+     {
+          
+          //console.log(session_isGuidance + session_isGuidance.active)
+          if(session_isGuidance!= null && session_isGuidance.engaged == true) //already automated guidance-engaged
+          {
+               toggleLoading();
+               $('#disengageModal').modal({backdrop: 'static', keyboard: false});    //change to restart modal           
           }
-          else{
-               //change to automated
-               g_is_guidance_automated = true;
-               console.log("change to automated");
-               /**
-               guidanceStatus.html('').append('Automated'); 
-                    $('#Guidace-btn').css({                         
-                         'color': GREEN_COLOR,
-                         'border': '2px solid ' + GREEN_COLOR
-                    });
-                    $('#Guidace-btn:hover').css('box-shadow',' 1px 1px 5px 1px ' + GREEN_COLOR); 
-                    $('#Guidace-btn:active').css('box-shadow',' 1px 1px 5px 1px ' + GREEN_COLOR);  
-                     */              
+          else if(session_isGuidance != null && session_isGuidance.active == false) //guidance is currently not active
+          {
+               toggleLoading();
+               activateGuidanceListner();
+          }
+          else
+          {   
+               //TODO       
           }
      });
     

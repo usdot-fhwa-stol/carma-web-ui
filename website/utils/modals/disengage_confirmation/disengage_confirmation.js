@@ -32,22 +32,28 @@ function createDisengageConfirmModal(confirmTitle,confirmBody)
     divFooter.classList.add('modal-footer');
 
     let btnCancel = document.createElement('button');
-    btnCancel.classList.add('btn','btn-danger','btnCancel');
+    btnCancel.classList.add('btn','btn-danger','btnConfirmCancel');
     btnCancel.type = 'button';
     btnCancel.innerHTML = 'CANCEL';
     btnCancel.addEventListener('click',function(){
         $('#disengageModal').modal('hide');
+        $("#logout-btn").removeClass('active');
     });
 
     let btnProceed = document.createElement('button');
-    btnProceed.classList.add('btn','btn-primary','btnProceed');
+    btnProceed.classList.add('btn','btn-primary','btnConfirmProceed');
     btnProceed.type = 'button';
     btnProceed.innerHTML = 'PROCEED';
     btnProceed.addEventListener('click', function(){
         $("#jqxLoader").jqxLoader({width: 150, height: 100, imagePosition: 'center', isModal: true});
         $('#jqxLoader').jqxLoader('open'); 
+        //Clear sesion variables
         sessionStorage.clear();
-        window.location.assign('../../../scripts/killPlatform.php');
+        clearInterval(g_timer); //stops the execution
+        g_timer = null; //reset elapsed timer
+        
+        //kill backend ROS services
+        window.location.assign('../../../scripts/killPlatform.php');        
     });
 
     divHeader.appendChild(spanTitle);

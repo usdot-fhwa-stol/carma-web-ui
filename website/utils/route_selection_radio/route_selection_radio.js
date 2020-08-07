@@ -15,6 +15,12 @@ function  createRouteSelectionRadio(routeId, RouteName) {
     routeRadio.type='radio';
     routeRadio.name = 'route_radio';
     routeRadio.id = 'route_radio_' + routeId;
+    routeRadio.value = routeId;
+    routeRadio.onclick = function()
+    {
+        //Defined in connectToROSServicesOnLoad.js
+        setRouteEventLisenter(routeId);
+    };
 
     let spanCheckMark = document.createElement('span');
     spanCheckMark.classList.add('checkmark');
@@ -24,7 +30,6 @@ function  createRouteSelectionRadio(routeId, RouteName) {
     labelContainer.appendChild(spanCheckMark);
     return labelContainer;
 }
-
 //call create function
 // $(document).ready(function(){
 //     $('#route-list-content').append(createRouteSelectionRadio('tfhrc_test_route','C-HUB'));

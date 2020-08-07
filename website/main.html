@@ -19,6 +19,7 @@
         <link rel="stylesheet" type="text/css" href="utils/steering_angle/steering_angle.css">
         <link rel="stylesheet" type="text/css" href="utils/traffic_signal/traffic_signal.css">
         <link rel="stylesheet" type="text/css" href="utils/modals/disengage_confirmation/disengage_confirmation.css">
+        <link rel="stylesheet" type="text/css" href="utils/modals/system_alert/system_alert.css">
         <link rel="stylesheet" type="text/css" href="utils/modals/left_route/left_route.css">
         <link rel="stylesheet" type="text/css" href="utils/elapsed_time/elapsed_time.css">
         <link rel="stylesheet" type="text/css" href="utils/accelarator/accelarator.css">
@@ -62,6 +63,7 @@
         <script src="utils/cmd_speed/cmd_speed.js"></script>
         <script src="utils/brake/brake.js"></script>
         <script src="utils/modals/disengage_confirmation/disengage_confirmation.js"></script>
+        <script src="utils/modals/system_alert/system_alert.js"></script>
         <script src="utils/elapsed_time/elapsed_time.js"></script>
         <script src="utils/traffic_signal/traffic_signal.js"></script>
         <script src="utils/steering_angle/steering_angle.js"></script>
@@ -310,11 +312,18 @@
       <div id="bottom-nav" >           
           <div id="bottom-nav-left">
               <div id="Guidace-btn" class="left"> 
-                  <img src="images/Xtra_Art/Big-greenREV.png" id="CARMA_guidance_icon_png">   
+                  <img src="images/Xtra_Art/Big-grayREV.svg" id="CARMA_guidance_icon_png"  >   
               </div>
+              <div id = "guidance-loading-status" style="font-size: 14pt;position: absolute; top: 0px; left: 170px; color:rgb(188, 250, 63)"></div>
           </div>
           <div id="bottom-nav-right">
               <div class="btn-group dropup right">
+                <div id="logout-btn"  class=" bottom-nav-item-logout bottom-nav-item logout " >
+                  <i class="fas fa-sign-in-alt"></i><br>
+                  Logout
+                </div>
+              </div>
+              <div class="btn-group dropup right">                      
                   <div id="advanced-btn"  class=" bottom-nav-item-advanced advanced " data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                       <i class="fas fa-ellipsis-h"></i><br>
                       Advance

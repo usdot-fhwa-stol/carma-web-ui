@@ -2,7 +2,7 @@
  * create switch button with label to 
  * display change plugin switch
  */
-function createChangePluginSwitch(isRequired, pluginName,pluginType,isActivated){
+function createChangePluginSwitch(isRequired, pluginName,pluginType,pluginVersionId,isActivated){
     let p = document.createElement('p');
     p.classList.add('card-text',pluginType);
 
@@ -12,8 +12,18 @@ function createChangePluginSwitch(isRequired, pluginName,pluginType,isActivated)
     let checkboxInput = document.createElement('input');
     checkboxInput.setAttribute("type", "checkbox");
     checkboxInput.value = pluginName;
+    checkboxInput.id = 'change-plugin-'+pluginName + pluginType+ pluginVersionId;
+    checkboxInput.checked = isActivated;
+    //onchange event change the OPPOSITE of current check status
+    checkboxInput.onchange = function(){
+        //If the plugin is required to be on all times, it cannot be deactivated by the user, so need to notify users with a specific message.
+        //Regardless, the call to activate plugin will fail.
+        if(isRequired) 
+            alert('Sorry, this capability is required. It cannot be deactivated.');
+        //console.log(checkboxInput.checked);
+        activatePluginLisenter(pluginName,pluginType,pluginVersionId,checkboxInput.checked,isRequired);
+    };
 
-    if(isActivated) checkboxInput.checked = true;
 
     let sliderSpan = document.createElement('span');
     sliderSpan.classList.add('slider','round');
@@ -37,6 +47,12 @@ function createChangePluginSwitch(isRequired, pluginName,pluginType,isActivated)
     if(isRequired) p.appendChild(requiredSpan);
     p.appendChild(pluginNameSpan);
     return p;
+}
+
+//update change plugin checked/un-checked
+function updateChangePluginSwitch(pluginName, pluginType,pluginVersionId,newStatus)
+{
+    document.getElementById('change-plugin-'+pluginName + pluginType+ pluginVersionId).checked = newStatus;
 }
 
 //call function

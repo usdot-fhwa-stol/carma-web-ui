@@ -1,0 +1,38 @@
+
+.system-alert-confirm-modal .modal-content{
+    background-color: black;
+    border: 2px solid red ;
+    color:red ;
+}
+.system-alert-confirm-modal .modal-header{
+    border-bottom: 0px !important;
+}
+
+.system-alert-custom-title{
+    color:red ;
+    font-size: 120%;
+}
+.system-alert-custom-body{
+    display: block;
+    border-top: 2px solid red ;
+    color:red ;
+    text-align: center;
+}
+.system-alert-confirm-modal .modal-footer{
+    display: block !important;
+    border: 0px !important;
+}
+/**
+.btnCancel{
+    float: left;
+    display: block;
+    padding: 10px  15px;
+    font-weight: bolder;
+}**/
+.btnProceed{
+    float: none;
+    margin: auto;
+    display: block;
+    padding: 10px  10px;
+    font-weight: bolder;
+}

@@ -1,38 +1,51 @@
 
 .system-alert-confirm-modal .modal-content{
-    background-color: black;
-    border: 2px solid red ;
-    color:red ;
+    background-color: #2e2d2d;
+    border: 2px solid white ;
+    color:white ;
+    border-radius: 10px;
 }
 .system-alert-confirm-modal .modal-header{
     border-bottom: 0px !important;
 }
 
 .system-alert-custom-title{
-    color:red ;
+    color:white ;
     font-size: 120%;
 }
 .system-alert-custom-body{
     display: block;
-    border-top: 2px solid red ;
-    color:red ;
+    border-top: 2px solid white ;
+    color:white ;
     text-align: center;
 }
 .system-alert-confirm-modal .modal-footer{
     display: block !important;
     border: 0px !important;
 }
-/**
-.btnCancel{
+.btnRestart
+{
+    float: right;
+    display: block;
+    padding: 10px  15px;
+    font-weight: bolder;
+}
+.btnLogout
+{
     float: left;
     display: block;
     padding: 10px  15px;
     font-weight: bolder;
-}**/
-.btnProceed{
+}
+
+.btnRestartCenter{
     float: none;
     margin: auto;
-    display: block;
-    padding: 10px  10px;
-    font-weight: bolder;
+    display: block ;
+}
+.btnLogoutCenter
+{
+    float: none ;
+    margin: auto ;
+    display: block ;
 }

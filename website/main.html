@@ -6,7 +6,8 @@
         <!-- thirdparty css -->
         <link rel="stylesheet" type="text/css" href="thirdparty/bootstrap-4.5.0-dist/css/bootstrap.min.css" />
         <link rel="stylesheet" type="text/css" href="thirdparty/fontawesome-free-5.14.0-web/css/all.min.css"> 
-        <link rel="stylesheet" href="thirdparty/jqwidgets/styles/jqx.base.css" type="text/css" />   
+        <link rel="stylesheet" href="thirdparty/jqwidgets/styles/jqx.base.css" type="text/css" />
+        <link rel = "stylesheet" href = "thirdparty/jquery-plugins/jquery.msgPop.css"/> 
 
         <!--layout and panel css-->
         <link rel="stylesheet" type="text/css" href="styles/main.css">
@@ -20,7 +21,6 @@
         <link rel="stylesheet" type="text/css" href="utils/traffic_signal/traffic_signal.css">
         <link rel="stylesheet" type="text/css" href="utils/modals/disengage_confirmation/disengage_confirmation.css">
         <link rel="stylesheet" type="text/css" href="utils/modals/system_alert/system_alert.css">
-        <link rel="stylesheet" type="text/css" href="utils/modals/left_route/left_route.css">
         <link rel="stylesheet" type="text/css" href="utils/elapsed_time/elapsed_time.css">
         <link rel="stylesheet" type="text/css" href="utils/accelarator/accelarator.css">
         <link rel="stylesheet" type="text/css" href="utils/route_selection_radio/route_selection_radio.css">
@@ -44,6 +44,7 @@
         <script src="thirdparty/bootstrap-4.5.0-dist/js/bootstrap.min.js"></script> 
         <script src="thirdparty/fontawesome-free-5.14.0-web/js/all.min.js"></script>
         <script src="thirdparty/circle-progress/dist/circle-progress.js"></script>
+        <script src = "thirdparty/jquery-plugins/jquery.msgPop.js"></script>
         <!-- <script src="thirdparty/CustomLoaderLocal.js" ></script>
         <script src="thirdparty/OrbitControls.js" ></script>
         <script src="thirdparty/apollo/point_cloud.js" ></script> -->
@@ -55,6 +56,7 @@
         <!--layout and panel js-->
         <script src="scripts/app/main_menu_top.js"></script>
         <script src="scripts/app/main_menu_bottom.js"></script>
+        <script src="scripts/app/sounds_control.js"></script>
 
         <!--wigets JS from utils-->
         <script src="utils/current_speed/current_speed.js"></script>
@@ -78,6 +80,8 @@
 
         <!--backend services (2D) -->
         <script src="scripts/ros/rosbridge_v2.js"></script>
+        <script src="scripts/ros/ros_system_alert.js"></script>
+        <script src="scripts/ros/ros_system_status.js"></script>
         <script src="scripts/ros/ros_guidance.js"></script>
         <script src="scripts/ros/ros_route.js"></script>
         <script src="scripts/ros/ros_plugins.js"></script>
@@ -85,7 +89,7 @@
         <script src="scripts/ros/ros_comms_inbound_outbound_binary.js"></script>
         <script src="scripts/ros/ros_vehicle_current.js"></script>  
         <script src="scripts/ros/ros_vehicle_cmd.js"></script>
-        <script src="scripts/ros/ros_traffic_signal.js"></script>
+        <script src="scripts/ros/ros_traffic_signal.js"></script>        
         <script src="scripts/app/connectToROSServicesOnLoad.js"></script>
 	</head>
 	<body >  
@@ -110,6 +114,12 @@
                 </ul>
                 <!--Status panel-->
                 <div id="gps-drivers-signals-panel" style="color: grey;">
+                  <div id="sound-status"  
+                      title="Sound Status"
+                      style="width: 45px;height: 40px;position:relative;display: inline-block;">
+                    <i class="fas fa-volume-mute"></i>
+                    <i class="fas fa-volume-up" style="display: none;"></i>
+                  </div>
                   <div id="GPS-status" 
                          title="GPS Status"
                          style="width: 20px;height: 40px;position:relative;display: inline-block;">
@@ -235,7 +245,7 @@
                   </div> 
                 </div>
                 <div class="card-body" >
-                  <p class="card-text">Some quick example ntent.<br><br><br><br><br><br><br></p>
+                  <p class="card-text">Future Implementation<br><br><br><br><br><br><br></p>
                 </div>
               </div>
           </div>  
@@ -250,7 +260,7 @@
                   </div> 
                 </div>
                 <div class="card-body" >
-                  <p class="card-text">Some quick example ntent.<br><br><br><br><br><br><br></p>
+                  <p class="card-text">Future Implementation<br><br><br><br><br><br><br></p>
                 </div>
               </div>
           </div>
@@ -263,7 +273,7 @@
                     Maps
                   </div>
                   <div class="card-body" >
-                    <p class="card-text">Some quick example ntent.<br><br><br><br><br><br><br></p>
+                    <p class="card-text">Future Implementation<br><br><br><br><br><br><br></p>
                   </div>
                 </div>
           </div>
@@ -276,7 +286,71 @@
                     Status
                   </div>
                   <div class="card-body" >
-                    <p class="card-text">Some quick example ntent.<br><br><br><br><br><br><br></p>
+                    <div class="table-responsive-sm" >
+                      <table id="important_vehicle_info" class="table table-striped table-dark card-text" style = "table-layout: fixed;font-size: 85%;border:0px;border-radius: 10px; ">
+                        <caption style=" caption-side:top;color:white">Important Vehicle Info</caption>
+                        <thead>
+                          <tr >
+                            <th scope="col">Title</th>
+                            <th>Value</th>
+                          </tr>
+                        </thead>
+                        <tbody id="important_vehicle_info_body">                           
+                          <tr id="important_vehicle_info_no_data">
+                            <th scope="row" style="color:rgb(239, 189, 39)">N/A</th>
+                            <td style="color:rgb(239, 189, 39)">N/A</td>
+                          </tr>
+                        </tbody>
+                      </table>
+
+                      <table id="guidance_info" class="table table-striped table-dark card-text" style = "table-layout: fixed;font-size: 85%;border:0px;border-radius: 10px; ">
+                        <caption style=" caption-side:top;color:white">Related Guidance Info</caption>
+                        <thead>
+                          <tr>
+                            <th scope="col" >Title</th>
+                            <th>Value</th>
+                          </tr>
+                        </thead>
+                        <tbody id="guidance_info_body">   
+                          <tr id="guidance_info_no_data">
+                            <th scope="row" style="color:rgb(239, 189, 39)">N/A</th>
+                            <td style="color:rgb(239, 189, 39)">N/A</td>
+                          </tr>
+                      </tbody>
+                      </table>
+
+                      <table id="route_info" class="table table-striped table-dark card-text" style = "table-layout: fixed;font-size: 85%;border:0px;border-radius: 10px; ">
+                        <caption style=" caption-side:top;color:white">Route Info</caption>
+                        <thead>
+                          <tr >
+                            <th scope="col">Title</th>
+                            <th>Value</th>
+                          </tr>
+                        </thead>
+                        <tbody id="route_info_body"> 
+                          <tr id="route_info_no_data">
+                            <th scope="row" style="color:rgb(239, 189, 39)">N/A</th>
+                            <td style="color:rgb(239, 189, 39)">N/A</td>
+                          </tr>
+                      </tbody>
+                      </table>
+
+                      <table id="host_vehicle_info" class="table table-striped table-dark card-text" style = "table-layout: fixed;font-size: 80%;border:0px;border-radius: 10px; ">
+                        <caption style=" caption-side:top;color:white">Host Vehicle Info</caption>
+                        <thead>
+                          <tr>
+                            <th scope="col">Title</th>
+                            <th scope="col">Value</th>
+                          </tr>
+                        </thead>
+                        <tbody id="host_vehicle_info_body"> 
+                          <tr id="host_vehicle_info_no_data">
+                            <th scope="row" style="color:rgb(239, 189, 39)">N/A</th>
+                            <td style="color:rgb(239, 189, 39)">N/A</td>
+                          </tr>
+                      </tbody>
+                      </table>
+                    </div>
                   </div>
                 </div>
           </div>  
@@ -288,9 +362,12 @@
                     <button type="button" class="btn btn-info" id="SystemLogsInfoInfoCloseBtn">X</button>
                     Logs
                   </div>
-                  <div class="card-body" >
-                    <p class="card-text">Some quick example ntent.<br><br><br><br><br><br><br></p>
-                  </div>
+                  <div class="card-body"  >
+                    <div class="log-content" style="overflow-y: scroll;">
+                      <p class="card-text" id="logs-panel-text-ros-connection"></p>
+                      <textarea rows="20" cols="1" style="width: 100%;overflow: hidden;font-size: 80%; background-color: inherit; color:white" id="logs-panel-text-system-alert"></textarea>
+                    </div>
+                   </div>
                 </div>
           </div>  
 
@@ -319,7 +396,7 @@
           <div id="bottom-nav-right">
               <div class="btn-group dropup right">
                 <div id="logout-btn"  class=" bottom-nav-item-logout bottom-nav-item logout " >
-                  <i class="fas fa-sign-in-alt"></i><br>
+                  <i class="fas fa-sign-out-alt "></i><br>
                   Logout
                 </div>
               </div>
@@ -374,5 +451,15 @@
 
       <!-- 3D ROS Connection: TODO-->
       <!-- <script src="scripts/ros/*.js"></script> -->
+      <audio id="audioAlert4" preload="auto" muted>
+        <source src="sound/arp.mp3" type="audio/mpeg">
+        Your browser does not support the audio element.
+      </audio>
+      <!-- Used by MsgPopUp sound for warning and caution -->
+      <audio id="audioAlert5" preload="auto" muted>
+        <source src="sound/toneb.mp3" type="audio/mpeg">
+        Your browser does not support the audio element.
+      </audio>
+       <!-- Used by showModalNoAck sounds E.g. Lane Change -->
 	</body>
 </html>

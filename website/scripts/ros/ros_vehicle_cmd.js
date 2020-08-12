@@ -23,27 +23,43 @@ function subscribeToVehicleCMD()
         if(message!=null && message.ctrl_cmd !=null)
         {
             //Steering wheel
-            if(message.ctrl_cmd.steering_angle != null){
+            if(message.ctrl_cmd.steering_angle != null)
+            {
                 let rad = message.ctrl_cmd.steering_angle;
-                let rotateDegree = rad * (180 / Math.PI);
-                let degreePercent = (rotateDegree/360) * 100;
+                let rotateDegree = rad % 360; //-35 to +35
+                // console.log('rotateDegree'+rotateDegree);
+                let degreePercent = Math.floor(((rotateDegree/360) * 100));
                 updateSteeringWheel(degreePercent +'%',rotateDegree);
             }            
             //Brake
-            if(message.brake_cmd.brake != null && g_brakeCircle != null){
-                let max = 100;
+            if(message.brake_cmd.brake != null && g_brakeCircle != null)
+            {
+                let max, brakeLimit = '';
+                //set brake  limit to the host vehicle deceleration(brake) limit if exist in session, otherwise default to 6
+                if(message.brake_cmd.brake>0)
+                    brakeLimit = session_hostVehicle.brakeLimit;
+                
+                    max =  brakeLimit != null && brakeLimit.length > 0? brakeLimit: 6;
                 let value = message.brake_cmd.brake;
                 updateBrake(g_brakeCircle,max,value);
             }
             //Accelerator
-            if(message.ctrl_cmd.linear_acceleration != null && g_acceleratorCircle != null){
-                let max = 100;
+            if(message.ctrl_cmd.linear_acceleration != null  && g_acceleratorCircle != null)
+            {
+                let max, accelerationLimit = '';
+                //set acceleration limit to the host vehicle acceleration limit if exist in session, otherwise default to 3
+                if(message.ctrl_cmd.linear_acceleration > 0)
+                   accelerationLimit = session_hostVehicle.accelerationLimit;
+
+                max =  accelerationLimit != null && accelerationLimit.length > 0? accelerationLimit : 3;
                 let value = message.ctrl_cmd.linear_acceleration;
                 updateAccerator(g_acceleratorCircle,max,value);
             }
             //Applied/Command Speed
-            if(message.ctrl_cmd.linear_velocity != null){
-                let cmdSpeed = message.ctrl_cmd.linear_velocity ;
+            if(message.ctrl_cmd.linear_velocity != null)
+            {
+                //convert meter/sec to MPH
+                let cmdSpeed =  Math.floor(message.ctrl_cmd.linear_velocity * METER_TO_MPH) ; 
                 updateCmdSpeedCircle(cmdSpeed);
             }
         }

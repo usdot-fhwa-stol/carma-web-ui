@@ -24,10 +24,20 @@ function subscribeToGuidanceAvailaleRoutes ()
             $('#route-list-content-no-route-available').html('');
             availableRoutes.forEach(route=>{
                 // console.log('route name is: ' + route.route_name);
-                // console.log('route Id is: ' + route.route_id);
-
+                // console.log('route Id is: ' + route.route_id);                
                 //display route list info in html <div id='route-list-content'>
                 $('#route-list-content').append(createRouteSelectionRadio(route.route_id,route.route_name));
+                //check whether the route is already selected in session
+                if(session_selectedRoute != null && session_selectedRoute.id != null 
+                    && session_selectedRoute.id.length > 0 && session_selectedRoute.id == route.id)
+                {
+                    let selectedRouteRadio = document.getElementById('route_radio_'+session_selectedRoute.id);
+                    if(selectedRouteRadio != null && selectedRouteRadio != 'undefined')
+                    {
+                        selectedRouteRadio.checked = true;
+                        session_selectedRoute.name = route.route_name;
+                    }
+                }
             });
         }
         
@@ -60,15 +70,15 @@ function subscribeToGuidanceRouteState()
         IsROSBridgeConnected();
         if(message!=null && message.speed_limit != null)
         {
-            if( document.getElementById('speed-limit') != null)
-            {
-                let speed_limit_converted = Math.floor(message.speed_limit * METER_TO_MPH);
+            let speed_limit_converted = Math.floor(Math.abs(message.speed_limit * METER_TO_MPH));
+            if( document.getElementById('speed-limit') != null)            {
+                
                 updateSpeedLimit(speed_limit_converted);
             }
             else
             {
                 //Create speed limit if not exist in html
-                $('.speed-limit-col').append(updateSpeedLimit('2'));
+                $('.speed-limit-col').append(updateSpeedLimit(speed_limit_converted));
             }
         }
         
@@ -89,7 +99,7 @@ function setRoute(id)
     });
 
     var selectedRouteid = id.toString();
-    console.log(selectedRouteid);
+    //console.log(selectedRouteid);
     // Create a Service Request.
     var request = new ROSLIB.ServiceRequest({
         routeID: selectedRouteid
@@ -102,38 +112,38 @@ function setRoute(id)
         NO_ERROR: { value: 0, text: 'NO_ERROR' },
         NO_ROUTE: { value: 1, text: 'NO_ROUTE' },
     };
-
-    // Call the service and get back the results in the callback.
-    service.callService(request, function (result) 
-    {
-        if (result.errorStatus == ErrorStatus.NO_ROUTE.value) 
+    try{
+        // Call the service and get back the results in the callback.
+        service.callService(request, function (result) 
         {
-            console.log('Setting the active route failed (' + ErrorStatus.NO_ROUTE.text + '). <br/> Please try again.');
-            //insertNewTableRow('tblSecondA', 'Error Code', result.ErrorStatus.NO_ROUTE.text);
-
-            //Allow user to select it again.
-            rbRoute.checked = false;
-        }
-        else { //Call succeeded
-            console.log('call set active route success!');
-            //After activating the route, start_active_route.
-            //TODO: Discuss if start_active_route can be automatically determined and done by Route Manager in next iteration?
-            //      Route selection is done first and set only once.
-            //      Once selected, it wouldn't be activated until at least 1 Plugin is selected (based on Route).
-            //      Only when a route is selected and at least one plugin is selected, could Guidance be Engaged.
-            //startActiveRoute(id);
-
-            //Subscribe to active route to map the segments
-            //DANDU : TODO
-          //  showActiveRoute();
-        }
-    });
-}
-
-//TODO
-function abortRoute(selectedRouteName)
-{
-
+            console.log(result);
+            if (result.errorStatus == ErrorStatus.NO_ROUTE.value) 
+            {
+                console.log('Setting the active route failed (' + ErrorStatus.NO_ROUTE.text + '). <br/> Please try again.');
+                //insertNewTableRow('tblSecondA', 'Error Code', result.ErrorStatus.NO_ROUTE.text);
+                //Allow user to select it again.
+                rbRoute.checked = false;
+            }
+            else { //Call succeeded
+                console.log('call set active route success!');
+                //load the selected/active route to session
+                session_selectedRoute.id = selectedRouteid;
+                //After activating the route, start_active_route.
+                //TODO: Discuss if start_active_route can be automatically determined and done by Route Manager in next iteration?
+                //      Route selection is done first and set only once.
+                //      Once selected, it wouldn't be activated until at least 1 Plugin is selected (based on Route).
+                //      Only when a route is selected and at least one plugin is selected, could Guidance be Engaged.
+                //startActiveRoute(id);
+                //Subscribe to active route to map the segments
+                //DANDU : TODO
+                //showActiveRoute();
+            }
+        });
+    }
+    catch(ex)
+    {
+        rbRoute.checked = false;
+    }
 }
 /*
 TODO:

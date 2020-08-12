@@ -1,4 +1,4 @@
-function createSystemAlertModal(systemAlertTitle,systemAlertBody)
+function createSystemAlertModal(systemAlertTitle,systemAlertBody,showRestartBtn, showLogoutBtn)
 {
     let divModal = document.createElement('div');
     divModal.classList.add('modal','fade','system-alert-confirm-modal');
@@ -39,26 +39,60 @@ function createSystemAlertModal(systemAlertTitle,systemAlertBody)
         $('#systemAlertModal').modal('hide');
     });
      */
+    let btnLogout;
+    if(showLogoutBtn)
+    {
+        btnLogout = document.createElement('button');
+        btnLogout.classList.add('btn','btn-danger','btn-lg');
+        btnLogout.type = 'button';
+        btnLogout.innerHTML = 'LOGOUT';
+        btnLogout.addEventListener('click', function(){
+            $("#jqxLoader").jqxLoader({width: 150, height: 100, imagePosition: 'center', isModal: true});
+            $('#jqxLoader').jqxLoader('open'); 
+            //Clear sesion variables
+            sessionStorage.clear();
+            clearInterval(g_timer); //stops the execution
+            g_timer = null; //reset elapsed timer
+            window.location.assign('../../../scripts/killPlatform.php');
+        });      
+        //if show either restart or logout button
+        if(!showRestartBtn)
+            btnLogout.classList.add('btnLogoutCenter');
+        else
+            btnLogout.classList.add('btnLogout');
 
-    let btnProceed = document.createElement('button');
-    btnProceed.classList.add('btn','btn-primary','btnProceed');
-    btnProceed.type = 'button';
-    btnProceed.innerHTML = 'LOGOUT';
-    btnProceed.addEventListener('click', function(){
-        $("#jqxLoader").jqxLoader({width: 150, height: 100, imagePosition: 'center', isModal: true});
-        $('#jqxLoader').jqxLoader('open'); 
-        //Clear sesion variables
-        sessionStorage.clear();
-        clearInterval(g_timer); //stops the execution
-        g_timer = null; //reset elapsed timer
-        window.location.assign('../../../scripts/killPlatform.php');
-    });
+        divFooter.appendChild(btnLogout);
+    }   
 
+    let btnRestart ;
+    if(showRestartBtn)
+    {
+        btnRestart = document.createElement('button');
+        btnRestart.classList.add('btn','btn-primary','btn-lg','btnRestart');
+        btnRestart.type = 'button';
+        btnRestart.innerHTML = 'RESTART';
+        btnRestart.addEventListener('click', function(){
+            $("#jqxLoader").jqxLoader({width: 150, height: 100, imagePosition: 'center', isModal: true});
+            $('#jqxLoader').jqxLoader('open'); 
+            //Clear sesion variables
+            sessionStorage.clear();
+            clearInterval(g_timer); //stops the execution
+            g_timer = null; //reset elapsed timer         
+            activateGuidanceListner(false); //de-activate guidance and change guidance state to DRIVER'S READY
+            window.location.assign('../../../main.html');            
+          });
+        //if show either restart or logout button
+        if(!showLogoutBtn)
+            btnRestart.classList.add('btnRestartCenter');
+        else
+            btnRestart.classList.add('btnRestart');
+
+        divFooter.appendChild(btnRestart);
+    }   
+    
     divHeader.appendChild(spanTitle);
     divContent.appendChild(divHeader);
-    divContent.appendChild(divBody);    
-    //divFooter.appendChild(btnCancel);
-    divFooter.appendChild(btnProceed);
+    divContent.appendChild(divBody);  
     divContent.appendChild(divFooter);
     divDialog.appendChild(divContent);
     divModal.appendChild(divDialog);

@@ -1,21 +1,22 @@
 
 .disengage-confirm-modal .modal-content{
-    background-color: black;
-    border: 2px solid rgb(240, 149, 4) ;
-    color:rgb(240, 149, 4) ;
+    background-color: #2e2d2d;
+    border: 2px solid white ;
+    color:white ;
+    border-radius: 10px;
 }
 .disengage-confirm-modal .modal-header{
     border-bottom: 0px !important;
 }
 
 .disengage-custom-title{
-    color:rgb(240, 149, 4) ;
+    color:white ;
     font-size: 120%;
 }
 .disengage-custom-body{
     display: block;
-    border-top: 2px solid rgb(240, 149, 4) ;
-    color:rgb(240, 149, 4) ;
+    border-top: 2px solid white ;
+    color:white ;
     text-align: center;
 }
 .disengage-confirm-modal .modal-footer{

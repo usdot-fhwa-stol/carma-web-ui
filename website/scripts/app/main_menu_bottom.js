@@ -99,7 +99,13 @@ $(document).ready(function(){
      });
      //show logout modal
      $("#logout-btn").click(function(){
-          $('#disengageModal').modal({backdrop: 'static', keyboard: false});
+          //clear this ModalArea before create new modal
+          $('#ModalsArea').html('');
+          $('#ModalsArea').append(
+               createDisengageConfirmModal(
+                    '<span style="color:rgb(240, 149, 4)"><i class="fas fa-exclamation-triangle"></i></span>WARNING',
+                    'Are you sure to take <strong>MANUAL</strong> control?'));
+          $('#disengageModal').modal({backdrop: 'static', keyboard: false}); 
      });
 
      //close panel X btns 

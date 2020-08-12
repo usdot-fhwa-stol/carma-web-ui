@@ -50,7 +50,7 @@ function subscribeToGuidanceState ()
                 //     startDateTime.remove();
                 session_isGuidance.active = true;
                 btnCAVGuidance.src = "../../images/Xtra_Art/Big-greenREV.svg"; //'Guidance is now ACTIVE.'
-                btnCAVGuidance.style.boxShadow  = "0px 0px 10px 0px white";
+                btnCAVGuidance.style.boxShadow  = "0px 0px 10px 0px white";                          
                 break;
             case ENGAGED: 
                 session_isGuidance.engaged = true;                
@@ -73,13 +73,19 @@ function subscribeToGuidanceState ()
                 break;
             case SHUTDOWN:                
                 //Show modal popup for Shutdown alerts from Guidance, which is equivalent to Fatal since it cannot restart with this state.
-                if(listener != null && listener != 'undefined') listener.unsubscribe();
-                $('#ModalsArea').append(createSystemAlertModal(
-                                            '<i class="fas fa-exclamation-triangle"></i>SYSTEM ALERT',
-                                            'System received a Guidance SHUTDOWN.' + 
-                                            '<br/><br/>PLEASE TAKE MANUAL CONTROL OF THE VEHICLE?'
-                                            ));              
-                $('#systemAlertModal').modal({backdrop: 'static', keyboard: false}); 
+                if(listener != null && listener != 'undefined') 
+                    listener.unsubscribe();                     
+                //If this modal does not exist, create one 
+                if( $('#systemAlertModal').length < 1 ) 
+                { 
+                    $('#ModalsArea').append(createSystemAlertModal(
+                        '<span style="color:red"><i class="fas fa-bug"></i></span>SYSTEM ALERT',
+                        'System received a guidance shutdown.' + 
+                        '<br/><br/>Please take <strong>MANUAL</strong> control of the vehicle?',
+                        false,true
+                        ));              
+                }
+                $('#systemAlertModal').modal({backdrop: 'static', keyboard: false});     
                 break;
             default:
                 //'System alert type is unknown. Assuming system it not yet ready.  ' + message.description;
@@ -94,13 +100,11 @@ function subscribeToGuidanceState ()
     1) Setting active=true is not the same as engaging. Guidance has to issue engage status based on other criteria.
     2) Setting active=false is the same as disengaging.
 */
-function activateGuidance() 
+function activateGuidance(newStatus = true) 
 {
      //audio-fix needs to be on an actual button click event on the tablet.
      //loadAudioElements();
 
-    ////Sets the new status OPPOSITE to the current value.
-    var newStatus = true;
     console.log('new guidance'+ newStatus);
     //Call the service to engage guidance.
     var setGuidanceClient = new ROSLIB.Service({
@@ -120,6 +124,7 @@ function activateGuidance()
         if (Boolean(result.guidance_status) != newStatus) //NOT SUCCESSFUL.
         {
             console.log('Guidance failed to set the value, please try again.');
+            alert('Guidance failed to set the value, please try again.');
             return;
         }
 

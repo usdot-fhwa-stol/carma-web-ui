@@ -13,10 +13,10 @@ $(document).ready(function(){
         connectToROS();
 
         /************************************
-         * Check System Ready:TODO
+         * Check System Ready:ros_system_alert.js
          ************************************
          */
-       // evaluateNextStep();
+        evaluateNextStep();
         
         /*
         **************************************
@@ -36,9 +36,8 @@ $(document).ready(function(){
 
         /***
          * SECTION: Display Status icons 
-         */
-        //GPS or PinPoint status
-        subscribeToDriverDiscovery();
+         */        
+        subscribeToDriverDiscovery();//GPS or PinPoint status
         //OBU status
         subscribeToInboundBinary();
         subscribeToOutboundBinary();
@@ -46,22 +45,17 @@ $(document).ready(function(){
         /**
          * SECTION: Display Area
          * **/
-        //Current Vehicle Speed
-        subscribeToLocalizationEKFTwist();        
-        //Vechile Command
-        //Steering angle; applied speed; brake; accelerator
-        subscribeToVehicleCMD();        
-        //Route - Speed Limit
-        subscribeToGuidanceRouteState();
-        //Traffic Signal 
-        TrafficSignalInfoList();
+        subscribeToLocalizationEKFTwist(); //Current Vehicle Speed
+        subscribeToVehicleCMD(); ////Vechile Command; Steering angle; applied speed; brake; accelerator     
+        subscribeToGuidanceRouteState(); //Route - Speed Limit        
+        TrafficSignalInfoList(); //Traffic Signal 
 
         /***
          * SECTION: Right Panel Info
-         * */
-        //Active plugins & Change plugins
-        subscribeToGuidanceRegisteredPlugins ();
-        subscribeToGuidanceActivePlugins();
+         * */         
+        subscribeToGuidanceRegisteredPlugins ();//Change plugins
+        subscribeToGuidanceActivePlugins();//Active plugins
+        showStatusandLogs(); //status panel
 
         /***
          * SECTION: Bottom Menu 
@@ -75,6 +69,7 @@ $(document).ready(function(){
                                            'Please contact your system administrator.';
     }
 });
+
 
 /**
  * ****************** 
@@ -135,20 +130,129 @@ function initializeSessionVariables()
             {
                 selectedRouteName = '';
             }
-            console.log('get selectedRouteName FINAL: ' + selectedRouteName);
+            // console.log('get selectedRouteName: ' + selectedRouteName);
             return selectedRouteName;
         },
         set name(newValue) 
         {
             sessionStorage.setItem('selectedRouteName', newValue);
-            console.log('set selectedRouteName: ' + newValue);
+            // console.log('set selectedRouteName: ' + newValue);
+        },
+        get id() 
+        {
+            let selectedRouteId = sessionStorage.getItem('selectedRouteId');
+            if (selectedRouteId == 'undefined' || selectedRouteId == null || selectedRouteId.length == 0) 
+            {
+                selectedRouteId = '';
+            }
+            // console.log('get selectedRouteId : ' + selectedRouteId);
+            return selectedRouteId;
+        },
+        set id(newValue) 
+        {
+            sessionStorage.setItem('selectedRouteId', newValue);
+            // console.log('set selectedRouteId: ' + newValue);
         },
         remove() 
         {
+            sessionStorage.removeItem('selectedRouteId');
             sessionStorage.removeItem('selectedRouteName');
         }
     };
 
+    //system alert variable
+    session_isSystemAlert = {
+        get ready() {
+            var isSystemAlert = sessionStorage.getItem('isSystemAlert');
+            var value = false;
+
+            //Issue with Boolean returning opposite value, therefore doing manual check.
+            if (isSystemAlert != 'undefined' && isSystemAlert != null && isSystemAlert != '') {
+                if (isSystemAlert == 'true')
+                    value = true;
+            }
+            //console.log('get active - isSystemAlert: ' + isSystemAlert + ' ; value: ' + value + ' ; Boolean:' + Boolean(isSystemAlert));
+            return value;
+        },
+        set ready(newValue) {
+            sessionStorage.setItem('isSystemAlert', newValue);
+            //console.log('set active: ' + newValue + ' ; Boolean:' + Boolean(newValue));
+        },
+        remove() {
+            sessionStorage.removeItem('isSystemAlert');
+        }
+    };
+
+     //currently host vehicle session variables
+     session_hostVehicle = 
+     {
+         get make() 
+         {
+             let vehicleMake = sessionStorage.getItem('vehicleMake');
+             if (vehicleMake == 'undefined' || vehicleMake == null || vehicleMake.length == 0) 
+             {
+                vehicleMake = '';
+             }
+            //  console.log('get vehicleMake FINAL: ' + vehicleMake);
+             return vehicleMake;
+         },
+         set make(newValue) 
+         {
+             sessionStorage.setItem('vehicleMake', newValue);
+            //  console.log('set vehicleMake: ' + newValue);
+         },
+         get model() 
+         {
+             let vehicleModel = sessionStorage.getItem('vehicleModel');
+             if (vehicleModel == 'undefined' || vehicleModel == null || vehicleModel.length == 0) 
+             {
+                vehicleModel = '';
+             }
+            //  console.log('get vehicleModel FINAL: ' + vehicleModel);
+             return vehicleModel;
+         },
+         set model(newValue) 
+         {
+             sessionStorage.setItem('vehicleModel', newValue);
+            //  console.log('set vehicleModel: ' + newValue);
+         },
+         get accelerationLimit() 
+         {
+             let vehicleAccelerationLimit = sessionStorage.getItem('vehicleAccelerationLimit');
+             if (vehicleAccelerationLimit == 'undefined' || vehicleAccelerationLimit == null || vehicleAccelerationLimit.length == 0) 
+             {
+                vehicleAccelerationLimit = '';
+             }
+             return vehicleAccelerationLimit;
+         },
+         set accelerationLimit(newValue) 
+         {
+             sessionStorage.setItem('vehicleAccelerationLimit', newValue);
+            //  console.log('set vehicleAccelerationLimit: ' + newValue);
+         },
+         get brakeLimit() 
+         {
+             let vehicleDecelerationLimit = sessionStorage.getItem('vehicleDecelerationLimit');
+             if (vehicleDecelerationLimit == 'undefined' || vehicleDecelerationLimit == null || vehicleDecelerationLimit.length == 0) 
+             {
+                vehicleDecelerationLimit = '';
+             }
+            //  console.log('get vehicleDecelerationLimit(brake) FINAL: ' + vehicleDecelerationLimit);
+             return vehicleDecelerationLimit;
+         },
+         set brakeLimit(newValue) 
+         {
+             sessionStorage.setItem('vehicleDecelerationLimit', newValue);
+            //  console.log('set vehicleDecelerationLimit(brake): ' + newValue);
+         },
+         remove() 
+         {
+             sessionStorage.removeItem('vehicleMake');
+             sessionStorage.removeItem('vehicleModel');
+             sessionStorage.removeItem('vehicleAccelerationLimit');
+             sessionStorage.removeItem('vehicleDecelerationLimit');
+         }
+     };
 }
 
 /***
@@ -166,7 +270,6 @@ function setRouteEventLisenter(routeId)
     //After the current active route is aborted, call setRoute(routeId) to set a new route. 
     //It is defined in ros_route.js
     setRoute(routeId);
-    session_selectedRoute.name = routeId;
 }
 
 function activatePluginLisenter(pluginName,pluginType,pluginVersionId,changeToNewStatus,isRequired)
@@ -176,8 +279,8 @@ function activatePluginLisenter(pluginName,pluginType,pluginVersionId,changeToNe
     activatePlugin(pluginName,pluginType,pluginVersionId,changeToNewStatus,isRequired);
 }
 
-function activateGuidanceListner()
+function activateGuidanceListner(newStatus = true)
 {
     //It is defined in ros_guidance.js
-    activateGuidance();
+    activateGuidance(newStatus);
 }

@@ -16,7 +16,10 @@ function subscribeToLocalizationEKFTwist()
         
         if(message!=null && message.twist !=null && message.twist.linear != null)
         {
-            updateCurrentSpeed(message.twist.linear.x);            
+           
+            let current_speed = Math.floor(Math.abs(message.twist.linear.x * METER_TO_MPH));
+            // console.log(current_speed);
+            updateCurrentSpeed(current_speed);            
         }
     });
 }

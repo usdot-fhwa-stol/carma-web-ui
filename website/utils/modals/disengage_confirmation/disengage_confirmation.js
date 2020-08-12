@@ -32,18 +32,21 @@ function createDisengageConfirmModal(confirmTitle,confirmBody)
     divFooter.classList.add('modal-footer');
 
     let btnCancel = document.createElement('button');
-    btnCancel.classList.add('btn','btn-danger','btnConfirmCancel');
+    btnCancel.classList.add('btn','btn-secondary','btn-lg','btnConfirmCancel');
     btnCancel.type = 'button';
     btnCancel.innerHTML = 'CANCEL';
     btnCancel.addEventListener('click',function(){
-        $('#disengageModal').modal('hide');
+        $('#disengageModal').modal('hide');       
         $("#logout-btn").removeClass('active');
+        $('#disengageModal').on('hidden.bs.modal', function () {
+            $('#disengageModal').remove();
+        });
     });
 
     let btnProceed = document.createElement('button');
-    btnProceed.classList.add('btn','btn-primary','btnConfirmProceed');
+    btnProceed.classList.add('btn','btn-primary','btn-lg','btnConfirmProceed');
     btnProceed.type = 'button';
-    btnProceed.innerHTML = 'PROCEED';
+    btnProceed.innerHTML = 'LOGOUT';
     btnProceed.addEventListener('click', function(){
         $("#jqxLoader").jqxLoader({width: 150, height: 100, imagePosition: 'center', isModal: true});
         $('#jqxLoader').jqxLoader('open'); 
@@ -67,7 +70,7 @@ function createDisengageConfirmModal(confirmTitle,confirmBody)
     return divModal;
 }
 
-$(document).ready(function(){
-    $('#ModalsArea').append(createDisengageConfirmModal('<i class="fas fa-exclamation-triangle"></i>WARNING','Are you sure you want to take manual control?'));
-});
+// $(document).ready(function(){
+//     $('#ModalsArea').append(createDisengageConfirmModal('<i class="fas fa-exclamation-triangle"></i>WARNING','Are you sure you want to take manual control?'));
+// });
 

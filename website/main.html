@@ -45,9 +45,10 @@
         <script src="thirdparty/fontawesome-free-5.14.0-web/js/all.min.js"></script>
         <script src="thirdparty/circle-progress/dist/circle-progress.js"></script>
         <script src = "thirdparty/jquery-plugins/jquery.msgPop.js"></script>
-        <!-- <script src="thirdparty/CustomLoaderLocal.js" ></script>
-        <script src="thirdparty/OrbitControls.js" ></script>
-        <script src="thirdparty/apollo/point_cloud.js" ></script> -->
+         <script src="thirdparty/three/CustomLoaderLocal.js" ></script>
+        <script src="thirdparty/three/MTLLoader.js" ></script>
+        <script src="thirdparty/three/OBJLoader.js" ></script>
+        <script src="thirdparty/three/OrbitControls.js" ></script>
 
         <!---Global variables and Config -->
         <script src="scripts/app/global_variables.js"></script>
@@ -178,9 +179,14 @@
 
         <!--Route Selection list-->
         <div id ="route-list-area" style="display: block;">
-            <div id="route-list-panel" style="color:white;background-color: #494747; width: 30vw;height: 90%; padding: 20px 20px 20px 35px;margin:20px;border-radius: 10px; overflow-y: scroll;">               
+            <div id="route-list-panel" style="color:white;background-color: #494747; width: 40vw;height: 90%; padding: 20px 20px 20px 35px;margin:20px;border-radius: 10px; overflow-y: scroll;">               
                 <div class="container-title" style="color: rgb(188, 250, 63);width: 100%; display: block;font-weight: bolder;padding: 5px;margin-bottom: 10px;">
                   Select a Route
+                  <span id = "clearRoutes" 
+                        style="text-decoration: underline;float: right;font-size: 80%;color: white;font-weight: normal;cursor: pointer;"
+                        onclick="uncheckAllRoutesListener()">                        
+                        Clear
+                  </span>
                 </div>
                 <div class="container-content " id='route-list-content'>
                   <span id='route-list-content-no-route-available'>No Route Available</span> 
@@ -206,9 +212,11 @@
                   <div class="card-body" >
                     <p class="card-text warning-messages">
                         <i class="fas fa-exclamation-triangle"></i>
-                        <span>Please proceed with caution. Any changes to these plugins will change vehicle behavior.</span>                       
+                        <span>Please proceed with caution. Any changes to these plugins will change vehicle behavior.<small style="color: red;">(* = required)</small></span>                       
                     </p>
-
+                    <span id="pluginErrorMsgs" style="color: red; font-size: 80%;display: none;">
+                      <small><i class="fas fa-exclamation-triangle"></i><span id="pluginErrorMsgsText">the capability failed, please try again.</span> </small>
+                    </span>  
                     <hr>
                     <p class="card-text plugin-type">
                       <span>Strategic Plugins</span>                       
@@ -231,7 +239,7 @@
                     </p>                      
                     <div id = "controlling-plugins-section">
                       <span id='change-plugins-no-controlling-plugins'>No Controlling Plugins</span>
-                    </div>                        
+                    </div> 
                   </div>
                 </div>
           </div> 
@@ -443,14 +451,306 @@
             </div>
           </div>        
       </div>
-
-      <!-- 3D init/renders: TODO-->
+      <!-- 3D init/renders-->
       <script> 
-          //3D scripts placeholder          
+          //3D scripts placeholder                     
+            
+            //
+            var scene = new THREE.Scene();
+            var camera = new THREE.PerspectiveCamera( 50, 0.5*window.innerWidth / window.innerHeight, 0.1, 1000 );
+            scene.background = new THREE.Color( 0x2A2828 );
+            var renderer = new THREE.WebGLRenderer();
+            renderer.setSize( window.innerWidth, window.innerHeight );
+            document.getElementById('main-canvas').appendChild( renderer.domElement );
+            window.addEventListener('resize',()=>{
+                renderer.setSize( window.innerWidth, window.innerHeight );
+            }); 
+            var controls = new THREE.OrbitControls( camera, renderer.domElement );
+            //
+            var light = new THREE.AmbientLight( 0xFFFFFF ); // soft white light
+            scene.add( light );
+            camera.position.set( -15, 35, 0);
+            controls.update();     
+            
+            var plane = new THREE.Plane()
+                            .setFromNormalAndCoplanarPoint
+                            (
+                                    new THREE.Vector3(0, 0, 1), 
+                                    new THREE.Vector3(0, 0, 1)
+                            );
+            var raycaster = new THREE.Raycaster();
+            var corner = new THREE.Vector2();
+            var cornerPoint = new THREE.Vector3();
+            corner.set(-1, -1); 
+            raycaster.setFromCamera(corner, camera);
+            raycaster.ray.intersectPlane(plane, cornerPoint);
+            
+           // instantiate a loader for car 1 obj
+
+            const mtlLoader = new THREE.MTLLoader();   
+            var loadedcar_cur =null;  
+            var loadedcar2 =null;  
+            var loadedcar_front=null; 
+            mtlLoader.load('images/models/car_blue.mtl', materials => {
+                materials.preload();  
+                //car1 --current                              
+                const objLoader = new THREE.OBJLoader();    
+                objLoader.setMaterials(materials);
+                objLoader.load('images/models/car.obj', loaded => {
+                    loaded.scale.set(2,1,1);//change car shape
+                    //set car position
+                    loaded.position.x=-6;
+                    loaded.position.y=0;
+                    loaded.position.z=0;
+                    loadedcar_cur = loaded;
+                    scene.add( loaded );
+                }); 
+            });
+
+            //car3 - front
+            mtlLoader.load('images/models/car_black.mtl', materials => {
+                materials.preload();  
+                //car1 --current                              
+                const objLoader = new THREE.OBJLoader();    
+                objLoader.setMaterials(materials);
+                objLoader.load('images/models/car.obj', loaded => {
+                  loaded.scale.set(2,1,1);//change car shape
+                    // loaded.position.copy(cornerPoint).add(new THREE.Vector3(0, 15, 0)); 
+                    loaded.position.x=-8;
+                    loaded.position.y=0;
+                    loaded.position.z=0;
+                    loadedcar_front = loaded;
+                  //  scene.add( loaded );
+                });
+            });
+           
+            mtlLoader.load('images/models/car_red.mtl', materials => {
+                materials.preload();  
+                //car1 --current                              
+                const objLoader = new THREE.OBJLoader();    
+                objLoader.setMaterials(materials);
+                 //car2 -right
+                 objLoader.load('images/models/car.obj', loaded => {
+                  loaded.scale.set(2,1,1);//change car shape
+                    // loaded.position.copy(cornerPoint).add(new THREE.Vector3(0, 15, 0)); 
+                    loaded.position.x=8;
+                    loaded.position.y=0;
+                    loaded.position.z=0;
+                    loadedcar2 = loaded;
+                  //  scene.add( loaded );
+                });
+            });
+
+            //Add Gray floow
+            geometry = new THREE.PlaneBufferGeometry(1000,1000);
+            material = new THREE.MeshStandardMaterial({
+                color: 0x2f2f2f,
+                roughness: 1.0,
+                metalness:0.0
+            });
+            var floor = new THREE.Mesh( geometry,material )
+            // floor.rotation.x = -Math.PI / 2;
+            floor.position.y = 0;
+           // scene.add( floor );
+
+            //add Grid floor
+            var grid = new THREE.GridHelper(50,30,0xcccccc,0x00ccff);
+            //scene.add( grid );
+
+            //Add Play Area
+            // create the road surface plane Area for car 1,2,3
+            var planeArea = new THREE.Mesh(
+                new THREE.PlaneGeometry(
+                    1000,
+                    9.15,
+                    1,
+                    1),
+                    new THREE.MeshLambertMaterial(
+                    {
+                        color: 0x2A2828,
+                        emissive:0x2A2828,
+                        emissiveIntensity: .2,
+                        side: THREE.DoubleSide
+                    })
+            );
+            planeArea.rotation.x = -Math.PI/2;
+            planeArea.position.y = 0.01;
+            planeArea.position.z = 0;
+            scene.add(planeArea);
+
+            // create the plane lanes' material	
+            var planeMaterial =
+            new THREE.MeshLambertMaterial(
+            {
+                color: 0x1c1c1c,
+                emissive:0x1c1c1c,
+                emissiveIntensity: .2,
+                side: THREE.DoubleSide
+            });
+
+            // create the road surface 
+            var plane_lane1 = new THREE.Mesh(
+                new THREE.PlaneGeometry(
+                    1000,
+                    3,
+                    1,
+                    1),
+                planeMaterial
+            );
+            plane_lane1.rotation.x = -Math.PI/2;
+            plane_lane1.position.y = 0.02;
+            plane_lane1.position.z = -3.05;
+            scene.add(plane_lane1);
+
+            var plane_lane2 = new THREE.Mesh(
+                new THREE.PlaneGeometry(
+                    1000,
+                    3,
+                    1,
+                    1),
+                planeMaterial
+            );
+            plane_lane2.rotation.x = -Math.PI/2;
+            plane_lane2.position.y = 0.02;
+            scene.add(plane_lane2);
+
+            // create the road surface plane1 lane1 for car 1
+            var plane_lane3 = new THREE.Mesh(
+                new THREE.PlaneGeometry(
+                    1000,
+                    3,
+                    1,
+                    1),
+                planeMaterial
+            );
+            plane_lane3.rotation.x = -Math.PI/2;
+            plane_lane3.position.y = 0.02;
+            plane_lane3.position.z = 3.05;
+            scene.add(plane_lane3);
+            
+      
+           //key events
+           document.addEventListener("keydown",onDocumentKeyDown, false);
+           var xSpeed = 0.1; //+ move forward
+           var zSpeed = 0.1; //+ move right; - move left
+           var quaternion = new THREE.Quaternion();
+           var axisNormalised = new THREE.Vector3(0, 1, 0).normalize();
+           var  angle ;
+           function onDocumentKeyDown(event)
+           {
+                console.log("key pressed" + event.which);
+               var keyCode = event.which;
+               //up
+               if(keyCode == 38)
+               {
+                    loadedcar_cur.position.x +=xSpeed;
+                    console.log("speed up " + xSpeed);
+               }
+               //left
+               else if(keyCode == 37)
+               {
+                //    loadedcar_cur.position.z -=zSpeed;
+               
+                angle = 10 * Math.PI / 180;
+                quaternion.setFromAxisAngle(axisNormalised, angle);
+                loadedcar_cur.quaternion.copy(quaternion);
+                loadedcar_cur.__dirtyRotation = true;
+                   console.log("change left lane " + zSpeed);
+               }
+                //right
+                else if(keyCode == 39)
+               {
+                   loadedcar_cur.position.z +=zSpeed;
+                   console.log("change right lane " + zSpeed);
+               }   
+           }
+            // var axesHelper = new THREE.AxesHelper( 5 );
+            // axesHelper.position.y = 2;
+            // scene.add( axesHelper );     
+
+
+            var startQuaternion = new THREE.Quaternion().set( 0, 0, 0, 1 ).normalize();
+            var endQuaternion = new THREE.Quaternion().set( 1, 0, 0, 1 ).normalize();
+            var t = 1;
+            //rotate camera
+            var startQuaternion_c = new THREE.Quaternion().set( 0,0, 0, 1 ).normalize();
+            var endQuaternion_c = new THREE.Quaternion().set( 0, 1, 0, 0 ).normalize();
+            var t_c = 0.1; // constant angular momentum
+
+
+            function animate() 
+            {
+                requestAnimationFrame( animate );
+               // loadedcar.rotation.x += 0.01;
+                //loadedcar.rotation.y += 0.01;
+                if(loadedcar_cur!=null){
+                    //move cars
+                   // loadedcar_cur.position.x +=0.01;
+                    //  loadedcar2.position.x +=0.02;
+                    //  loadedcar_front.position.x +=0.01;                   
+                        
+                    //move camera
+                    camera.position.x =loadedcar_cur.position.x-15;
+                    camera.position.z =loadedcar_cur.position.z;
+                    camera.position.y =loadedcar_cur.position.y+35;
+                    camera.lookAt(loadedcar_cur.position);
+                    // controls.update();                    
+                    //move point positions
+                    //var positions = [];
+                     //   positions.push(loadedcar_cur.position.x + xSpeed*100, 1, 0 ) ;
+                
+                    //rotate car
+                    // Update a loadedcar_cur's rotation in the loop
+                    // t = ( t + 0.01 ) % 4; // constant angular momentum
+                    // t =  2.5;
+                    // THREE.Quaternion.slerp( startQuaternion, endQuaternion, loadedcar_cur.quaternion, t );
+                    // THREE.Quaternion.slerp( startQuaternion, endQuaternion, loadedcar_front.quaternion, t );
+                    // THREE.Quaternion.slerp( startQuaternion, endQuaternion, loadedcar2.quaternion, t );
+                  
+                //rotate camera with quaternion
+                //THREE.Quaternion.slerp( startQuaternion, endQuaternion, camera.quaternion, t);
+
+                }
+                render();                
+            }
+            function render(){
+                //rotate camera
+                // var timer = Date.now()  * 0.001;
+                // camera.position.x = Math.cos( timer ) * 10;
+                // camera.position.z = Math.sin( timer ) * 10;
+                // camera.lookAt( scene.position);
+
+                //rotate around quaternion
+                // camera.position.applyQuaternion( new THREE.Quaternion().setFromAxisAngle(
+                //     new THREE.Vector3(20,0,0),
+                //     Math.PI / 1000 
+                // ));
+                 camera.lookAt( scene.position );
+                //roate scene
+               // scene.rotation.x = -90 * Math.PI/ 180;
+                renderer.render( scene, camera );
+            }
+            animate();
       </script>
 
       <!-- 3D ROS Connection: TODO-->
       <!-- <script src="scripts/ros/*.js"></script> -->
+      <!-- Used by showModal() warning sound. E.g. FATAL, DISENGAGE, SHUTDOWN, LEFTROUTE-->
+      <audio id="audioAlert1" preload="auto">
+          <source src="sound/not-kiddin.mp3" type="audio/mpeg">
+          Your browser does not support the audio element.
+      </audio>
+      <!-- Used by showModal() success sound. E.g. ROUTE COMPLETED -->
+      <audio id="audioAlert2" preload="auto">
+          <source src="sound/sunny.mp3" type="audio/mpeg">
+          Your browser does not support the audio element.
+      </audio>
+      <!-- Used by INACTIVE guidance -->
+      <audio id="audioAlert3" preload="auto">
+          <source src="sound/hurry.mp3" type="audio/mpeg">
+          Your browser does not support the audio element.
+      </audio>
+       <!-- Used by showModalNoAck sounds E.g. Lane Change -->
       <audio id="audioAlert4" preload="auto" muted>
         <source src="sound/arp.mp3" type="audio/mpeg">
         Your browser does not support the audio element.

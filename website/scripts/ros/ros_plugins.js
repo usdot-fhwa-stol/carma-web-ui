@@ -134,7 +134,10 @@ function activatePlugin(pluginName,pluginType,pluginVersionId,changeToNewStatus,
 
     //If the plugin is required to be on all times, it cannot be deactivated by the user, so need to notify users with a specific message.
     //Regardless, the call to activate plugin will fail.
-    if (isRequired) {
+    if (isRequired) 
+    {
+        //If the plugin is required to be on all times, it cannot be deactivated by the user, so need to notify users with a specific message.
+        //Regardless, the call to activate plugin will fail.
         //divCapabilitiesMessage.innerHTML = 'Sorry, this capability is required. It cannot be deactivated.';
         //Need to set it back to original value.
         //cbCapabilities.checked = !newStatus;
@@ -170,7 +173,6 @@ function activatePlugin(pluginName,pluginType,pluginVersionId,changeToNewStatus,
     // var splitValue = id.replace('cb', '').split('&');
     // var name = splitValue[0].replace(/\_/g, ' ');
     // var version = splitValue[1].replace(/\_/g, '.');
-
     // Setup the request.
     var request = new ROSLIB.ServiceRequest({
         header: {
@@ -192,7 +194,10 @@ function activatePlugin(pluginName,pluginType,pluginVersionId,changeToNewStatus,
         if (result.newState != changeToNewStatus) //Failed
         {
             //divCapabilitiesMessage.innerHTML = 'Activating the capability failed, please try again.';
-            alert('Activating the capability failed, please try again.');
+            $('#pluginErrorMsgs').css('display','');
+            setTimeout(()=>{
+                $('#pluginErrorMsgs').css('display','none');
+            }, 2000);
         }
         else {
             //var divSubCapabilities = document.getElementById('divSubCapabilities');

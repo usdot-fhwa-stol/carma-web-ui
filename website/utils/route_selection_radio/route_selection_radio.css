@@ -1,5 +1,6 @@
 /* The container */
-.container {
+.container 
+{
     display: block;
     position: relative;
     padding-left: 35px;
@@ -16,22 +17,33 @@
     border-top: 1px solid rgb(80, 79, 79);
     margin-bottom: 0px;
   }
-  .container:hover{
+  .container:hover
+  {
     background-color: rgb(58, 56, 56);
   }
   /* Hide the browser's default radio button */
-  .container input {
+  .container input 
+  {
     position: absolute;
     opacity: 0;
     cursor: pointer;
   }
-  .container .title{
+  .container .title
+  {
     position: relative;
     top:0px;
     left: 24px;
     font-size: 100%;
   }
-  
+  .container .route_error_msg
+  {
+    position: relative;
+    color: red;
+    font-size: 70%;
+    display: block;
+    padding: 5px;
+    display: none;
+  }
   /* Create a custom radio button */
   .checkmark {
     position: absolute;

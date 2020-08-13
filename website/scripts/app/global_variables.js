@@ -93,7 +93,7 @@ var t_acc_engaged = 'can/acc_engaged';
 var t_route_state = 'route_state';
 var t_route_event = 'route_event';
 var g_sound_counter = 0;
-var sound_counter_max = 3; //max # of times the sounds will be repeated.
+var g_sound_counter_max = 3; //max # of times the sounds will be repeated.
 
 //session variables
 var session_isGuidance = null;

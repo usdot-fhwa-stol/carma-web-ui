@@ -16,8 +16,8 @@ function playSound(audioId, repeat) {
 
         //Repeat the sounds 5x max or until OK/logout page shows.
         setTimeout(function () {
-            sound_counter++;
-            if (sound_counter < sound_counter_max) {
+            g_sound_counter++;
+            if (g_sound_counter < g_sound_counter_max) {
                 playSound(audioId, true);
             }
         }, 3000)

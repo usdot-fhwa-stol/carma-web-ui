@@ -104,7 +104,7 @@ $(document).ready(function(){
           $('#ModalsArea').append(
                createDisengageConfirmModal(
                     '<span style="color:rgb(240, 149, 4)"><i class="fas fa-exclamation-triangle"></i></span>WARNING',
-                    'Are you sure to take <strong>MANUAL</strong> control?'));
+                    'Are you sure to take <strong>MANUAL</strong> control?',true,false));
           $('#disengageModal').modal({backdrop: 'static', keyboard: false}); 
      });
 
@@ -160,7 +160,13 @@ $(document).ready(function(){
           if(session_isGuidance!= null && session_isGuidance.engaged == true) //already automated guidance-engaged
           {
                toggleLoading();
-               $('#disengageModal').modal({backdrop: 'static', keyboard: false});    //change to restart modal           
+              //clear this ModalArea before create new modal
+               $('#ModalsArea').html('');
+               $('#ModalsArea').append(
+                    createDisengageConfirmModal(
+                         '<span style="color:rgb(240, 149, 4)"><i class="fas fa-exclamation-triangle"></i></span>WARNING',
+                         'Are you sure to take <strong>MANUAL</strong> control?', false,true));
+               $('#disengageModal').modal({backdrop: 'static', keyboard: false});          
           }
           else if(session_isGuidance != null && session_isGuidance.active == false) //guidance is currently not active
           {
@@ -169,7 +175,7 @@ $(document).ready(function(){
           }
           else
           {   
-               //TODO       
+               //
           }
      });
     

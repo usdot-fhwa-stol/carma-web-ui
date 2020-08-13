@@ -25,7 +25,14 @@ function  createRouteSelectionRadio(routeId, RouteName) {
     let spanCheckMark = document.createElement('span');
     spanCheckMark.classList.add('checkmark');
 
+    let spanRouteErrorMsg = document.createElement('span');
+    spanRouteErrorMsg.innerHTML = 'Route generation failed';
+    spanRouteErrorMsg.id='error_msg_'+routeId;
+    spanRouteErrorMsg.setAttribute('name','route_error_msg')
+    spanRouteErrorMsg.classList.add('route_error_msg');
+
     labelContainer.appendChild(spanRouteName);
+    labelContainer.appendChild(spanRouteErrorMsg);
     labelContainer.appendChild(routeRadio);
     labelContainer.appendChild(spanCheckMark);
     return labelContainer;

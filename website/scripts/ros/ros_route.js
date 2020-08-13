@@ -112,7 +112,8 @@ function setRoute(id)
         NO_ERROR: { value: 0, text: 'NO_ERROR' },
         NO_ROUTE: { value: 1, text: 'NO_ROUTE' },
     };
-    try{
+    try
+    {
         // Call the service and get back the results in the callback.
         service.callService(request, function (result) 
         {
@@ -144,6 +145,24 @@ function setRoute(id)
     {
         rbRoute.checked = false;
     }
+
+    console.log('result2');
+    //Get Route Event
+    var listenerRouteEvent = new ROSLIB.Topic({
+        ros: g_ros,
+        name: t_route_event,
+        messageType: 'cav_msgs/RouteEvent'
+    });
+    listenerRouteEvent.subscribe(function (message) {
+        console.log(message.event);
+        if(message.event == 6)//ROUTE_GEN_FAIL
+        {
+            let errorMsgByRouteId = document.getElementById('error_msg_'+selectedRouteid);
+            if(errorMsgByRouteId!= null && errorMsgByRouteId != 'undefined')
+                errorMsgByRouteId.style.display='block'; //show error mesage fo route generation failed
+        }
+    });
+
 }
 /*
 TODO:

@@ -62,14 +62,23 @@ function subscribeToGuidanceState ()
                     console.log('*** setInterval & countUpTimer was called.');
                     g_timer = setInterval(countUpTimer, 1000);
                 }
-                btnCAVGuidance.src = "../../images/Xtra_Art/Big-blueREV.svg"; //'Guidance is now ENGAGED.'
+                btnCAVGuidance.src = "../../images/Xtra_Art/Big-blueREV.svg"; //'Guidance is now ENGAGED.' 
+                //hide route area
+                $('#clearRoutes').css('display','none'); //remove Clear from route selection
+                $("#route-list-area").css('display','none');   //hide route selection area 
+                $(".nav-link.route").removeClass('active'); //remove navigation route active style        
+                //Show display area:  widgets area and 3D canvas 
+                $('.nav-link.display').addClass('active'); //change navigation to display
+                $("#widgets-panel").css('display','block'); //show navigation to display
+                $("#main-canvas").css('display','block'); //show navigation to display   
                 break;
             case INACTIVE:
                  //clear/reset engage elapsed time in session
                  if(startDateTime != null)
                      startDateTime.remove();
                 //Set based on whatever guidance_state says, regardless if UI has not been engaged yet.
-                btnCAVGuidance.src = "../../images/Xtra_Art/Big-redREV.png"; //'CAV Guidance is INACTIVE. <br/> To re-engage, double tap the ACC switch downward on the steering wheel.';
+                btnCAVGuidance.src = "../../images/Xtra_Art/Big-redREV.svg"; //'CAV Guidance is INACTIVE. <br/> To re-engage, double tap the ACC switch downward on the steering wheel.';
+                playSound('audioAlert3', true);
                 break;
             case SHUTDOWN:                
                 //Show modal popup for Shutdown alerts from Guidance, which is equivalent to Fatal since it cannot restart with this state.
@@ -132,40 +141,21 @@ function activateGuidance(newStatus = true)
         if (newStatus == false)
         {
             //setCAVButtonState('DISENGAGED');
-            //TODO: This disengage means DRIVERS_READY state
+            //This disengage means DRIVERS_READY state
             session_isGuidance.active = false;
             session_isGuidance.engaged = false;
             return;
         }
 
-        //Open to DriveView tab after activating and show the widget options.
-        //checkAvailability will call setCAVButtonState
-        if (newStatus == true){
-            console.log('new guidance final'+ newStatus);
+        if (newStatus == true)
+        {
             // openTab(event, 'divDriverView');
             // CarmaJS.WidgetFramework.loadWidgets(); //Just loads the widget
             // checkAvailability(); //Start checking availability (or re-subscribe) if Guidance has been engaged.
-            //checkRobotEnabled(); //Start checking if Robot is active
             session_isGuidance.active = true;
             session_isGuidance.engaged = false;
             return;
         }
     });
 }
-/*
-    TODO (Topic not available): Check for Robot State
-    If no longer active, show the Guidance as Yellow. If active, show Guidance as green.
-*/
-function checkRobotEnabled() {
 
-    var listenerRobotStatus = new ROSLIB.Topic({
-            ros: g_ros,
-            name: 'controller/robotic_status',
-            messageType: 'cav_msgs/RobotEnabled'
-     });
-
-     listenerRobotStatus.subscribe(function (message) {
-            insertNewTableRow('tblFirstB', 'Robot Active', message.robot_active);
-            insertNewTableRow('tblFirstB', 'Robot Enabled', message.robot_enabled);
-     });
-}

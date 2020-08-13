@@ -108,15 +108,12 @@ function countUpTimer()
         let now = new Date().getTime();
         // Find the elapsed time
         let elapsedTime = now - startDateTime.value;
-
-        //engaged_timer = '00h 00m 00s';
         if (elapsedTime < 0)
         {
             console.log('elapsedTime is negative');
             return;
         }
         // Time calculations for days, hours, minutes and seconds
-        // var days = Math.floor(elapsedTime / (1000 * 60 * 60 * 24));
         let hours = Math.floor((elapsedTime % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
         let minutes = Math.floor((elapsedTime % (1000 * 60 * 60)) / (1000 * 60));
         let seconds = Math.floor((elapsedTime % (1000 * 60)) / 1000);

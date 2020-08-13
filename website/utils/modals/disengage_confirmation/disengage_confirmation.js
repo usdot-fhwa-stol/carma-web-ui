@@ -1,4 +1,4 @@
-function createDisengageConfirmModal(confirmTitle,confirmBody)
+function createDisengageConfirmModal(confirmTitle,confirmBody,isLogout, isRestart)
 {
     let divModal = document.createElement('div');
     divModal.classList.add('modal','fade','disengage-confirm-modal');
@@ -46,18 +46,49 @@ function createDisengageConfirmModal(confirmTitle,confirmBody)
     let btnProceed = document.createElement('button');
     btnProceed.classList.add('btn','btn-primary','btn-lg','btnConfirmProceed');
     btnProceed.type = 'button';
-    btnProceed.innerHTML = 'LOGOUT';
-    btnProceed.addEventListener('click', function(){
-        $("#jqxLoader").jqxLoader({width: 150, height: 100, imagePosition: 'center', isModal: true});
-        $('#jqxLoader').jqxLoader('open'); 
-        //Clear sesion variables
-        sessionStorage.clear();
-        clearInterval(g_timer); //stops the execution
-        g_timer = null; //reset elapsed timer
-        
-        //kill backend ROS services
-        window.location.assign('../../../scripts/killPlatform.php');        
-    });
+    if(isLogout)
+    {
+        btnProceed.innerHTML = 'LOGOUT';
+        btnProceed.addEventListener('click', function(){
+            $("#jqxLoader").jqxLoader({width: 150, height: 100, imagePosition: 'center', isModal: true});
+            $('#jqxLoader').jqxLoader('open'); 
+            //Clear sesion variables
+            sessionStorage.clear();
+            clearInterval(g_timer); //stops the execution
+            g_timer = null; //reset elapsed timer
+            
+            //pause any sounds.
+            document.getElementById('audioAlert1').pause();
+            document.getElementById('audioAlert2').pause();
+            document.getElementById('audioAlert3').pause();
+            document.getElementById('audioAlert4').pause();
+            
+            //kill backend ROS services
+            window.location.assign('../../../scripts/killPlatform.php');        
+        });
+    }
+    else if(isRestart)
+    {
+        btnProceed.innerHTML = 'RESTART';
+        btnProceed.addEventListener('click', function(){
+            $("#jqxLoader").jqxLoader({width: 150, height: 100, imagePosition: 'center', isModal: true});
+            $('#jqxLoader').jqxLoader('open'); 
+            //Clear sesion variables
+            sessionStorage.clear();
+            clearInterval(g_timer); //stops the execution
+            g_timer = null; //reset elapsed timer                     
+            activateGuidanceListner(false); //de-activate guidance and change guidance state to DRIVER'S READY
+
+            //pause any sounds.
+            document.getElementById('audioAlert1').pause();
+            document.getElementById('audioAlert2').pause();
+            document.getElementById('audioAlert3').pause();
+            document.getElementById('audioAlert4').pause();
+
+            window.location.assign('../../../main.html');
+        });   
+    }
+   
 
     divHeader.appendChild(spanTitle);
     divContent.appendChild(divHeader);

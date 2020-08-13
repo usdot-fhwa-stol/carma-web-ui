@@ -18,6 +18,7 @@ function showStatusandLogs()
     checkRouteInfo();
    // showCommStatus(); // Update the signal icon on the status bar based on the binary incoming and outgoing messages.
     //showLightBarStatus(); 
+    checkRobotEnabled();
 }
 
 /*
@@ -514,8 +515,8 @@ function mapOtherVehicles()
     Route state are only set and can be shown after Route has been selected.
 */
 
-function checkRouteInfo() {
-    console.log('check orute');
+function checkRouteInfo() 
+{
     //Display the lateset route name and timer.
     // var divRouteInfo = document.getElementById('divRouteInfo');
     // if (divRouteInfo != null || divRouteInfo != 'undefined')
@@ -562,6 +563,7 @@ function checkRouteInfo() {
                     ));              
             }
            $('#systemAlertModal').modal({backdrop: 'static', keyboard: false}); 
+           playSound('audioAlert2', true);
         }
 
         if (message.event == 4)//LEFT_ROUTE=4
@@ -577,6 +579,7 @@ function checkRouteInfo() {
                      ));              
              }
             $('#systemAlertModal').modal({backdrop: 'static', keyboard: false}); 
+            playSound('audioAlert1', true);
             //showModal(true, 'You have LEFT THE ROUTE. <br/> <br/> PLEASE TAKE MANUAL CONTROL OF THE VEHICLE.', true);
         }
     });
@@ -647,4 +650,42 @@ function checkRouteInfo() {
         }
 
     });
+}
+
+
+/*
+   (Topic not available): Check for Robot State
+    If no longer active, show the Guidance as Yellow. If active, show Guidance as green.
+*/
+function checkRobotEnabled() {
+
+    var listenerRobotStatus = new ROSLIB.Topic({
+            ros: g_ros,
+            name: 'controller/robotic_status',
+            messageType: 'cav_msgs/RobotEnabled'
+     });
+     isRobotStatusDisplayed = false;
+     listenerRobotStatus.subscribe(function (message) {
+            // insertNewTableRow('tblFirstB', 'Robot Active', message.robot_active);
+            // insertNewTableRow('tblFirstB', 'Robot Enabled', message.robot_enabled);
+            if($('#important_vehicle_info_no_data').length >0)
+            {
+                $('#important_vehicle_info_no_data').remove();
+            } 
+            if(!isRobotStatusDisplayed)
+            {
+                $('#guidance_info_body').append('<tr><th scope="col">Robot Active</th>'+
+                '<td id="StatusRobotActiveId">'+ message.robot_active +'</td></tr>');
+
+                $('#guidance_info_body').append('<tr><th scope="col">Robot Enabled</th>'+
+                '<td id="StatusRobotEnabledId">'+ message.robot_enabled +'</td></tr>');
+
+                isRobotStatusDisplayed = true;
+            }           
+            else
+            {
+                $('#StatusRobotActiveId').text(message.robot_active);
+                $('#StatusRobotEnabledId').text(message.robot_enabled);
+            } 
+     });
 }

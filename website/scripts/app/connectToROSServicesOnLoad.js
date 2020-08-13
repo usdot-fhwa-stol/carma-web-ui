@@ -18,14 +18,6 @@ $(document).ready(function(){
          */
         evaluateNextStep();
         
-        /*
-        **************************************
-        * set inital paramsters that are used 
-        * by the topics and services
-        * ************************************
-        */
-        getRequiredPluginParam();
-
         /****
          * ***********************************
          * subscribe to the services and topics
@@ -34,6 +26,13 @@ $(document).ready(function(){
         //SECTION: Route Area
         subscribeToGuidanceAvailaleRoutes ();        
 
+        /*
+        **************************************
+        * set inital paramsters that are used 
+        * by the topics and services
+        * ************************************
+        */
+       getRequiredPluginParam();
         /***
          * SECTION: Display Status icons 
          */        
@@ -53,9 +52,9 @@ $(document).ready(function(){
         /***
          * SECTION: Right Panel Info
          * */         
-        subscribeToGuidanceRegisteredPlugins ();//Change plugins
-        subscribeToGuidanceActivePlugins();//Active plugins
-        showStatusandLogs(); //status panel
+        subscribeToGuidanceRegisteredPlugins ();//Change plugins panel
+        subscribeToGuidanceActivePlugins();//Active plugins panel
+        showStatusandLogs(); //system status panel
 
         /***
          * SECTION: Bottom Menu 
@@ -283,4 +282,19 @@ function activateGuidanceListner(newStatus = true)
 {
     //It is defined in ros_guidance.js
     activateGuidance(newStatus);
+}
+
+function uncheckAllRoutesListener()
+{
+    let route_radios = document.getElementsByName('route_radio');
+    if(route_radios != null && route_radios.length > 0)
+    {
+        route_radios.forEach((radioElemenet)=>{
+            radioElemenet.checked = false;
+        });
+    }
+    let route_error_msgs = document.getElementsByName('route_error_msg');
+    route_error_msgs.forEach((elemenet)=>{
+        elemenet.style.display ='none';
+    });
 }

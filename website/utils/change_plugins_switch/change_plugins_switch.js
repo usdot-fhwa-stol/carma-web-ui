@@ -16,10 +16,6 @@ function createChangePluginSwitch(isRequired, pluginName,pluginType,pluginVersio
     checkboxInput.checked = isActivated;
     //onchange event change the OPPOSITE of current check status
     checkboxInput.onchange = function(){
-        //If the plugin is required to be on all times, it cannot be deactivated by the user, so need to notify users with a specific message.
-        //Regardless, the call to activate plugin will fail.
-        if(isRequired) 
-            alert('Sorry, this capability is required. It cannot be deactivated.');
         //console.log(checkboxInput.checked);
         activatePluginLisenter(pluginName,pluginType,pluginVersionId,checkboxInput.checked,isRequired);
     };

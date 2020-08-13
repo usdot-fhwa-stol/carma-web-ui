@@ -53,6 +53,13 @@ function createSystemAlertModal(systemAlertTitle,systemAlertBody,showRestartBtn,
             sessionStorage.clear();
             clearInterval(g_timer); //stops the execution
             g_timer = null; //reset elapsed timer
+
+            //pause any sounds.
+            document.getElementById('audioAlert1').pause();
+            document.getElementById('audioAlert2').pause();
+            document.getElementById('audioAlert3').pause();
+            document.getElementById('audioAlert4').pause();
+            
             window.location.assign('../../../scripts/killPlatform.php');
         });      
         //if show either restart or logout button
@@ -79,6 +86,13 @@ function createSystemAlertModal(systemAlertTitle,systemAlertBody,showRestartBtn,
             clearInterval(g_timer); //stops the execution
             g_timer = null; //reset elapsed timer         
             activateGuidanceListner(false); //de-activate guidance and change guidance state to DRIVER'S READY
+
+            //pause any sounds.
+            document.getElementById('audioAlert1').pause();
+            document.getElementById('audioAlert2').pause();
+            document.getElementById('audioAlert3').pause();
+            document.getElementById('audioAlert4').pause();
+
             window.location.assign('../../../main.html');            
           });
         //if show either restart or logout button

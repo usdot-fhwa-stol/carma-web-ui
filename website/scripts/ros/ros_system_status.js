@@ -163,21 +163,63 @@ function showNavSatFix()
         name: t_nav_sat_fix, //not published
         messageType: 'sensor_msgs/NavSatFix'
     });
-
     listenerNavSatFix.subscribe(function (message) 
     {
         // console.log(message);
         if (message.latitude == null || message.longitude == null)
             return;
-
         // insertNewTableRow('tblFirstA', 'NavSatStatus', message.status.status);
         // insertNewTableRow('tblFirstA', 'Latitude', message.latitude.toFixed(6));
         // insertNewTableRow('tblFirstA', 'Longitude', message.longitude.toFixed(6));
         // insertNewTableRow('tblFirstA', 'Altitude', message.altitude.toFixed(6));
 
-        if (hostmarker != null) {
-            moveMarkerWithTimeout(hostmarker, message.latitude, message.longitude, 0);
+        // if (hostmarker != null) {
+        //     moveMarkerWithTimeout(hostmarker, message.latitude, message.longitude, 0);
+        // }
+        if($('#important_vehicle_info_no_data').length >0)
+        {
+            $('#important_vehicle_info_no_data').remove();
+        } 
+
+        if($('#StatusNavSatFixStatusId').length < 1)
+        {
+            $('#important_vehicle_info_body').append('<tr><th scope="col">NavSatStatus</th>'+
+            '<td id="StatusNavSatFixStatusId">'+message.status.status+'</td></tr>');
         }
+        else
+        {
+            $('#StatusNavSatFixStatusId').text(message.status.status);
+        }
+
+        if( $('#StatusNavSatFixLatitudeId').length < 1)
+        {
+            $('#important_vehicle_info_body').append('<tr><th scope="col">Latitude</th>'+
+            '<td id="StatusNavSatFixLatitudeId">'+message.latitude.toFixed(6) +'</td></tr>');
+        }
+        else
+        {
+            $('#StatusNavSatFixLatitudeId').text(message.latitude.toFixed(6));
+        }
+
+        if( $('#StatusNavSatFixLongitudeId').length < 1)
+        {
+            $('#important_vehicle_info_body').append('<tr><th scope="col">Longitude</th>'+
+            '<td id="StatusNavSatFixLongitudeId">'+message.longitude.toFixed(6) +'</td></tr>');
+        }
+        else
+        {
+            $('#StatusNavSatFixLongitudeId').text(message.longitude.toFixed(6));
+        }
+
+        if( $('#StatusNavSatFixAltitudeId').length < 1)
+        {
+            $('#important_vehicle_info_body').append('<tr><th scope="col">Altitude</th>'+
+            '<td id="StatusNavSatFixAltitudeId">'+message.altitude.toFixed(6) +'</td></tr>');
+        }
+        else
+        {
+            $('#StatusNavSatFixAltitudeId').text(message.altitude.toFixed(6));
+        }   
     });
 }
 
@@ -364,24 +406,38 @@ function showCANSpeeds()
     The Sensor Fusion velocity can be used to derive the actual speed.
 */
 function showActualSpeed(){
-
+    
     var listenerSFVelocity = new ROSLIB.Topic({
         ros: g_ros,
-        name: t_sensor_fusion_filtered_velocity, //not published
-        messageType: 'geometry_msgs/TwistStamped'
-    });
+        name: t_sensor_fusion_filtered_velocity, 
+        messageType: 'geometry_msgs/TwistWithCovarianceStamped' 
+    });//'geometry_msgs/TwistStamped'
     let isActualSpeedDisplayed= false;
     listenerSFVelocity.subscribe(function (message) {
-
         //If nothing on the Twist, skip
-        if (message.twist == null || message.twist.linear == null || message.twist.linear.x == null) {
+        if (message.twist == null || message.twist.twist.linear == null || message.twist.twist.linear.x == null) {
             return;
         }
-        // console.log(message);
-
-        var actualSpeedMPH = Math.round(message.twist.linear.x * METER_TO_MPH);
+        var actualSpeedMPH = Math.round(message.twist.twist.linear.x * METER_TO_MPH);
         // insertNewTableRow('tblFirstB', 'SF Velocity (m/s)', message.twist.linear.x);
         // insertNewTableRow('tblFirstB', 'SF Velocity (MPH)', actualSpeedMPH);
+        if($('#guidance_info_no_data').length >0)
+        {
+            $('#guidance_info_no_data').remove();
+        } 
+        if(!isActualSpeedDisplayed)
+        {
+            $('#guidance_info_body').append('<tr><th scope="col" >SF Velocity (m/s)</th>'+
+            '<td id="StatusVelocityRawId">'+message.twist.twist.linear.x+'</td></tr>');
+
+            $('#guidance_info_body').append('<tr><th scope="col">SF Velocity (MPH)</th>'+
+            '<td id="StatusVelocityRawMPHId">'+actualSpeedMPH+'</td></tr>');
+            isActualSpeedDisplayed = true;
+        }
+        else{
+            $('#StatusVelocityRawId').text(message.twist.twist.linear.x);
+            $('#StatusVelocityRawMPHId').text(actualSpeedMPH);
+        }
     });
 }
 

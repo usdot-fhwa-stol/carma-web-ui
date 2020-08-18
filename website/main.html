@@ -47,6 +47,7 @@
         <script src="thirdparty/three/MTLLoader.js" ></script>
         <script src="thirdparty/three/OBJLoader.js" ></script>
         <script src="thirdparty/three/OrbitControls.js" ></script>
+        <script src="thirdparty/three/GeometryUtils.js" type="module"></script>
 
         <!---Global variables and Config -->
         <script src="scripts/app/global_variables.js"></script>
@@ -131,10 +132,10 @@
                   </div>
                   <div  id="wifi-status" 
                         title="WIFI Status" 
-                        style="width: 45px;height: 40px;position:relative;display: inline-block;"></div>
+                        style="width: 45px;height: 40px;position:relative;display: inline-block;display: none;"></div>
                   <div id="cellular-status" 
                        title="Cellular Status" 
-                       style="width: 45px;height: 40px;position:relative; display: inline-block;"></div>
+                       style="width: 45px;height: 40px;position:relative; display: inline-block;display: none;"></div>
                   <div id="OBU-status" 
                        style="width: 45px;height: 40px;position:relative;display: inline-block;">
                        <object id="OBU-status-svg" type="image/svg+xml" 
@@ -210,7 +211,7 @@
                   <div class="card-body" >
                     <p class="card-text warning-messages">
                         <i class="fas fa-exclamation-triangle"></i>
-                        <span>Please proceed with caution. Any changes to these plugins will change vehicle behavior.<small style="color: red;">(* = required)</small></span>                       
+                        <span>Please proceed with caution. Any changes to these plugins will change vehicle behavior.<small style="color: red;display:block">(* Plugin is required)</small></span>                       
                     </p>
                     <span id="pluginErrorMsgs" style="color: red; font-size: 80%;display: none;">
                       <small><i class="fas fa-exclamation-triangle"></i><span id="pluginErrorMsgsText">the capability failed, please try again.</span> </small>
@@ -411,9 +412,9 @@
                       <i class="fas fa-ellipsis-h"></i><br>
                       Advance
                   </div>
-                  <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuButton">
-                      <a class="dropdown-item padding-10 border-bottom" id="allPlugins-btn" type="button">Change Plugins</a>
-                      <a class="dropdown-item padding-10 " type="button">Change Theme</a>
+                  <div class="dropdown-menu dropdown-menu-right padding-5" aria-labelledby="dropdownMenuButton">
+                      <a class="dropdown-item padding-10 border-bottom " id="allPlugins-btn" type="button">Change Plugins</a>
+                      <a class="dropdown-item padding-10  " type="button">Change Theme</a>
                   </div>
               </div>
 
@@ -422,9 +423,9 @@
                   <i class="fas fa-chart-line"></i><br>
                     Statistics
                 </div>
-                <div class="dropdown-menu dropdown-menu-right">
-                    <a class="dropdown-item padding-10 border-bottom" id="platoon-info-btn" type="button">Platoon Info</a>
-                    <a class="dropdown-item padding-10" id="speed-advisory-info-btn" type="button">Speed Advisory Info</a>
+                <div class="dropdown-menu dropdown-menu-right padding-5">
+                    <a class="dropdown-item padding-10 border-bottom " id="platoon-info-btn" type="button">Platoon Info</a>
+                    <a class="dropdown-item padding-10 " id="speed-advisory-info-btn" type="button">Speed Advisory Info</a>
                 </div>
             </div>
 
@@ -450,9 +451,9 @@
           </div>        
       </div>
       <!-- 3D init/renders-->
-      <script> 
+      <script type="module"> 
           //3D scripts placeholder                     
-            
+          import {GeometryUtils} from './thirdparty/three/GeometryUtils.js';
             //
             var scene = new THREE.Scene();
             var camera = new THREE.PerspectiveCamera( 50, 0.5*window.innerWidth / window.innerHeight, 0.1, 1000 );
@@ -464,10 +465,9 @@
                 renderer.setSize( window.innerWidth, window.innerHeight );
             }); 
             var controls = new THREE.OrbitControls( camera, renderer.domElement );
-            //
             var light = new THREE.AmbientLight( 0xFFFFFF ); // soft white light
             scene.add( light );
-            camera.position.set( -15, 35, 0);
+            camera.position.set( -35, 25, 0);
             controls.update();     
             
             var plane = new THREE.Plane()
@@ -495,7 +495,7 @@
                 const objLoader = new THREE.OBJLoader();    
                 objLoader.setMaterials(materials);
                 objLoader.load('images/models/car.obj', loaded => {
-                    loaded.scale.set(2,1,1);//change car shape
+                    loaded.scale.set(2.5,2,1);//change car shape
                     //set car position
                     loaded.position.x=-6;
                     loaded.position.y=0;
@@ -540,8 +540,8 @@
             });
 
             //Add Gray floow
-            geometry = new THREE.PlaneBufferGeometry(1000,1000);
-            material = new THREE.MeshStandardMaterial({
+            var geometry = new THREE.PlaneBufferGeometry(1000,1000);
+            var material = new THREE.MeshStandardMaterial({
                 color: 0x2f2f2f,
                 roughness: 1.0,
                 metalness:0.0
@@ -556,16 +556,16 @@
             //scene.add( grid );
 
             //Add Play Area
-            // create the road surface plane Area for car 1,2,3
+            // create the road surface plane Area for car 1,2,3           
             var planeArea = new THREE.Mesh(
                 new THREE.PlaneGeometry(
                     1000,
-                    9.15,
+                    18.15,
                     1,
                     1),
                     new THREE.MeshLambertMaterial(
                     {
-                        color: 0x2A2828,
+                        color: 0xffffff,
                         emissive:0x2A2828,
                         emissiveIntensity: .2,
                         side: THREE.DoubleSide
@@ -575,6 +575,29 @@
             planeArea.position.y = 0.01;
             planeArea.position.z = 0;
             scene.add(planeArea);
+
+            var dashlineMaterial = new THREE.LineDashedMaterial( {
+              color: 0xffffff,
+              linewidth: 1,
+              scale: 1,
+              dashSize: 5,
+              gapSize: 10,
+            } );
+            var points = [];
+            points.push( new THREE.Vector3( -1000, 0, 3 ) );
+            points.push( new THREE.Vector3( 1000, 1, 3) );
+            var geometry = new THREE.BufferGeometry().setFromPoints( points );
+            var dashLineRight = new THREE.Line( geometry, dashlineMaterial );
+            dashLineRight.computeLineDistances();
+            scene.add( dashLineRight );
+
+            var points = [];
+            points.push( new THREE.Vector3( -1000, 0.06, -3 ) );
+            points.push( new THREE.Vector3( 1000, 0.06, -3) );
+            var geometry = new THREE.BufferGeometry().setFromPoints( points );
+            var dashLineLeft = new THREE.Line( geometry, dashlineMaterial );
+            dashLineLeft.computeLineDistances();
+            scene.add( dashLineLeft );
 
             // create the plane lanes' material	
             var planeMaterial =
@@ -590,40 +613,40 @@
             var plane_lane1 = new THREE.Mesh(
                 new THREE.PlaneGeometry(
                     1000,
-                    3,
+                    6,
                     1,
                     1),
                 planeMaterial
             );
             plane_lane1.rotation.x = -Math.PI/2;
-            plane_lane1.position.y = 0.02;
-            plane_lane1.position.z = -3.05;
+            plane_lane1.position.y = 0.03;
+            plane_lane1.position.z = -6;
             scene.add(plane_lane1);
 
             var plane_lane2 = new THREE.Mesh(
                 new THREE.PlaneGeometry(
                     1000,
-                    3,
+                    6,
                     1,
                     1),
                 planeMaterial
             );
             plane_lane2.rotation.x = -Math.PI/2;
-            plane_lane2.position.y = 0.02;
+            plane_lane2.position.y = 0.03;
             scene.add(plane_lane2);
 
             // create the road surface plane1 lane1 for car 1
             var plane_lane3 = new THREE.Mesh(
                 new THREE.PlaneGeometry(
                     1000,
-                    3,
+                    6,
                     1,
                     1),
                 planeMaterial
             );
             plane_lane3.rotation.x = -Math.PI/2;
-            plane_lane3.position.y = 0.02;
-            plane_lane3.position.z = 3.05;
+            plane_lane3.position.y = 0.03;
+            plane_lane3.position.z = 6;
             scene.add(plane_lane3);
             
       
@@ -678,54 +701,43 @@
 
             function animate() 
             {
-                requestAnimationFrame( animate );
-               // loadedcar.rotation.x += 0.01;
-                //loadedcar.rotation.y += 0.01;
-                if(loadedcar_cur!=null){
-                    //move cars
-                   // loadedcar_cur.position.x +=0.01;
-                    //  loadedcar2.position.x +=0.02;
-                    //  loadedcar_front.position.x +=0.01;                   
-                        
-                    //move camera
-                    camera.position.x =loadedcar_cur.position.x-15;
-                    camera.position.z =loadedcar_cur.position.z;
-                    camera.position.y =loadedcar_cur.position.y+35;
-                    camera.lookAt(loadedcar_cur.position);
-                    // controls.update();                    
-                    //move point positions
-                    //var positions = [];
-                     //   positions.push(loadedcar_cur.position.x + xSpeed*100, 1, 0 ) ;
-                
-                    //rotate car
-                    // Update a loadedcar_cur's rotation in the loop
-                    // t = ( t + 0.01 ) % 4; // constant angular momentum
-                    // t =  2.5;
-                    // THREE.Quaternion.slerp( startQuaternion, endQuaternion, loadedcar_cur.quaternion, t );
-                    // THREE.Quaternion.slerp( startQuaternion, endQuaternion, loadedcar_front.quaternion, t );
-                    // THREE.Quaternion.slerp( startQuaternion, endQuaternion, loadedcar2.quaternion, t );
-                  
-                //rotate camera with quaternion
-                //THREE.Quaternion.slerp( startQuaternion, endQuaternion, camera.quaternion, t);
-
-                }
+                requestAnimationFrame( animate );              
                 render();                
             }
-            function render(){
-                //rotate camera
-                // var timer = Date.now()  * 0.001;
-                // camera.position.x = Math.cos( timer ) * 10;
-                // camera.position.z = Math.sin( timer ) * 10;
-                // camera.lookAt( scene.position);
 
-                //rotate around quaternion
-                // camera.position.applyQuaternion( new THREE.Quaternion().setFromAxisAngle(
-                //     new THREE.Vector3(20,0,0),
-                //     Math.PI / 1000 
-                // ));
-                 camera.lookAt( scene.position );
-                //roate scene
-               // scene.rotation.x = -90 * Math.PI/ 180;
+            function render()
+            {
+              //rotate camera
+              // var timer = Date.now()  * 0.001;
+              // camera.position.x = Math.cos( timer ) * 10;
+              // camera.position.z = Math.sin( timer ) * 10;
+              // camera.lookAt( scene.position);
+
+              //rotate around quaternion
+              // camera.position.applyQuaternion( new THREE.Quaternion().setFromAxisAngle(
+              //     new THREE.Vector3(20,0,0),
+              //     Math.PI / 1000 
+              // ));
+                // loadedcar.rotation.x += 0.01;
+              //loadedcar.rotation.y += 0.01;
+              
+              if(loadedcar_cur!=null){
+                  //move cars
+                  //loadedcar_cur.position.x +=0.3;
+                  //  loadedcar2.position.x +=0.02;
+                  //  loadedcar_front.position.x +=0.01;                   
+                      
+                  //move camera
+                  camera.position.x =loadedcar_cur.position.x-35;
+                  camera.position.z =loadedcar_cur.position.z;
+                  camera.position.y =loadedcar_cur.position.y+25;
+                  camera.lookAt(loadedcar_cur.position);  
+
+              }
+
+              // camera.lookAt( scene.position );
+              //roate scene
+              // scene.rotation.x = -90 * Math.PI/ 180;
                 renderer.render( scene, camera );
             }
             animate();

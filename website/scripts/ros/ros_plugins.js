@@ -3,7 +3,7 @@
  */
 function subscribeToGuidanceRegisteredPlugins ()
 {
-
+    
     var listener = new ROSLIB.Service({
         ros: g_ros,
         name: S_GUIDANCE_REGISTERED_PLUGINS,
@@ -72,6 +72,7 @@ function subscribeToGuidanceRegisteredPlugins ()
 
 function subscribeToGuidanceActivePlugins ()
 {  
+
     var listener = new ROSLIB.Service({
         ros: g_ros,
         name: S_GUIDANCE_ACTIVE_PLUGINS,
@@ -130,9 +131,8 @@ pluginName: 'MPC'
 pluginVersion: ''
 activated: true" 
 */
-function activatePlugin(pluginName,pluginType,pluginVersionId,changeToNewStatus,isRequired) {
-    console.log(changeToNewStatus);
-
+function activatePlugin(pluginName,pluginType,pluginVersionId,changeToNewStatus,isRequired) 
+{
     //If the plugin is required to be on all times, it cannot be deactivated by the user, so need to notify users with a specific message.
     //Regardless, the call to activate plugin will fail.
     if (isRequired) 
@@ -190,8 +190,10 @@ function activatePlugin(pluginName,pluginType,pluginVersionId,changeToNewStatus,
     updateChangePluginSwitch(pluginName, pluginType,pluginVersionId,!changeToNewStatus);
 
     // Call the service and get back the results in the callback.
-    service.callService(request, function (result) {
-
+    service.callService(request, function (result) 
+    {
+        //Check ROSBridge connection before subscribe a topic
+        IsROSBridgeConnected();
         if (result.newState != changeToNewStatus) //Failed
         {
             //divCapabilitiesMessage.innerHTML = 'Activating the capability failed, please try again.';

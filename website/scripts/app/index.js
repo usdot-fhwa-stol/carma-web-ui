@@ -11,9 +11,6 @@ $(document).ready(function ()
     //call backend launch scripts to launch CARMA Platform at the background
     $('form').submit(function(event)
     {
-        console.log('submit form');
-        console.log($('input[name=cbDebugMd]').prop('checked'));
-        console.log($('input[name=rosbagrecorder]').prop('checked'));
         event.preventDefault();
         $.ajax({
             type:'POST',

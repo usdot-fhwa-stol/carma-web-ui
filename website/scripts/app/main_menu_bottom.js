@@ -66,9 +66,13 @@ $(document).ready(function(){
           console.log(displayAllPlugins);
           if(displayAllPlugins != "none"){
                allPluginsPanel.css('display','none');
+               this.style.backgroundColor='black';
+               this.style.color='white';
           }
           else{
                allPluginsPanel.css('display','block');
+               this.style.backgroundColor='rgb(167, 223, 57)';
+               this.style.color='black';
           }
      });
 
@@ -76,12 +80,15 @@ $(document).ready(function(){
     $("#platoon-info-btn").click(function(){
           var platoonPanel = $("#platoon-info-panel");
           var displayPlatoonPanel = platoonPanel.css('display');
-          console.log(displayPlatoonPanel);
           if(displayPlatoonPanel != "none"){
                platoonPanel.css('display','none');
+               this.style.backgroundColor='black';
+               this.style.color='white';
           }
           else{
                platoonPanel.css('display','block');
+               this.style.backgroundColor='rgb(167, 223, 57)';
+               this.style.color='black';
           }
      });
 
@@ -92,9 +99,13 @@ $(document).ready(function(){
           console.log(displaySpeedAdvisoryPanel);
           if(displaySpeedAdvisoryPanel != "none"){
                speedAdvisoryPanel.css('display','none');
+               this.style.backgroundColor='black';
+               this.style.color='white';
           }
           else{
                speedAdvisoryPanel.css('display','block');
+               this.style.backgroundColor='rgb(167, 223, 57)';
+               this.style.color='black';
           }
      });
      //show logout modal
@@ -103,7 +114,7 @@ $(document).ready(function(){
           $('#ModalsArea').html('');
           $('#ModalsArea').append(
                createDisengageConfirmModal(
-                    '<span style="color:rgb(240, 149, 4)"><i class="fas fa-exclamation-triangle"></i></span>WARNING',
+                    '<span style="color:rgb(240, 149, 4)"><i class="fas fa-exclamation-triangle"></i></span>&nbsp;&nbsp;WARNING',
                     'Are you sure to take <strong>MANUAL</strong> control?',true,false));
           $('#disengageModal').modal({backdrop: 'static', keyboard: false}); 
      });
@@ -111,14 +122,20 @@ $(document).ready(function(){
      //close panel X btns 
      $('#changePluginsCloseBtn').click(function(){
           $("#allPlugins-panel").css('display','none');
+          $("#allPlugins-btn").css('background-color','black');
+          $("#allPlugins-btn").css('color','white');
      });
 
      $('#platoonInfoCloseBtn').click(function(){
           $("#platoon-info-panel").css('display','none');
+          $("#platoon-info-btn").css('background-color','black');
+          $("#platoon-info-btn").css('color','white');
      });
 
      $('#speedAdvisoryInfoInfoCloseBtn').click(function(){
           $("#speed-advisory-info-panel").css('display','none');
+          $("#speed-advisory-info-btn").css('background-color','black');
+          $("#speed-advisory-info-btn").css('color','white');
      });
 
      $('#SystemStatusInfoInfoCloseBtn').click(function(){
@@ -164,7 +181,7 @@ $(document).ready(function(){
                $('#ModalsArea').html('');
                $('#ModalsArea').append(
                     createDisengageConfirmModal(
-                         '<span style="color:rgb(240, 149, 4)"><i class="fas fa-exclamation-triangle"></i></span>WARNING',
+                         '<span style="color:rgb(240, 149, 4)"><i class="fas fa-exclamation-triangle"></i></span>&nbsp;&nbsp;WARNING',
                          'Are you sure to take <strong>MANUAL</strong> control?', false,true));
                $('#disengageModal').modal({backdrop: 'static', keyboard: false});          
           }

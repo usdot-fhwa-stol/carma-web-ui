@@ -8,29 +8,43 @@ function connectToROS()
 {
     try
     {
-        // ROS related
         var ip = CarmaJS.Config.getIP();
         // If there is an error on the backend, an 'error' emit will be emitted.
         g_ros.on('error', function (error) 
         {
-            //TODO: Not Connected ROS bridge. Show alert to restart or disengage users
             $('#logs-panel-text-ros-connection').html('<span style="color:red">ROS Connection Error.</span>');
+            //Show Modal Popup
+            if( $('#systemAlertModal').length < 1 && (typeof createSystemAlertModal === "function")) 
+             { 
+                 $('#ModalsArea').append(createSystemAlertModal(
+                     '<span style="color:red"><i class="fas fa-exclamation-triangle"></i></span>&nbsp;&nbsp;SYSTEM ALERT', 
+                     "ROS Connection ERROR",
+                     false,true
+                     ));              
+             }
+             $('#systemAlertModal').modal({backdrop: 'static', keyboard: false}); 
         });       
-        // Find out exactly when we made a connection.
         g_ros.on('connection', function () 
-        {
-            
+        {            
             $('#logs-panel-text-ros-connection').html('<span style="color:rgb(188, 250, 63)">ROS Connection Made.');
             let urlPathname = window.location.pathname;
             let currentPageName = urlPathname.split('/')[urlPathname.split('/').length-1];
             if(currentPageName != "main.html")
                 window.location.href = "/main.html";
         });
-
         g_ros.on('close', function () 
         {
             $('#logs-panel-text-ros-connection').html('<span style="color:red">ROS Connection Close.</span>');
-            //TODO: Not Connected ROS bridge. Show alert to restart or disengage users
+            //Show Modal Popup
+            if( $('#systemAlertModal').length < 1 && (typeof createSystemAlertModal === "function")) 
+             { 
+                 $('#ModalsArea').append(createSystemAlertModal(
+                     '<span style="color:red"><i class="fas fa-exclamation-triangle"></i></span>&nbsp;&nbsp;SYSTEM ALERT', 
+                     "ROS Connection CLOSED",
+                     false,true
+                     ));              
+             }
+             $('#systemAlertModal').modal({backdrop: 'static', keyboard: false}); 
         });
 
         // Create a connection to the rosbridge WebSocket server.
@@ -53,8 +67,18 @@ function IsROSBridgeConnected()
     {
         g_ros.on('error', function (error) 
         {
-            // $('#disengageModal').modal('show');
-            //TODO: Not Connected ROS bridge. Show alert to restart or disengage users
+            
+            //Not Connected ROS bridge. Show alert to restart or disengage users
+             //If this modal does not exist, create one 
+             if( $('#systemAlertModal').length < 1 && (typeof createSystemAlertModal === "function")) 
+             { 
+                 $('#ModalsArea').append(createSystemAlertModal(
+                     '<span style="color:red"><i class="fas fa-exclamation-triangle"></i></span>&nbsp;&nbsp;SYSTEM ALERT', 
+                     "ROS Connection ERROR",
+                     false,true
+                     ));              
+             }
+             $('#systemAlertModal').modal({backdrop: 'static', keyboard: false}); 
             console.log(error);
         });
 
@@ -66,8 +90,17 @@ function IsROSBridgeConnected()
 
         g_ros.on('close', function () 
         {
-            // $('#disengageModal').modal('show');
-            //TODO: Not Connected ROS bridge. Show alert to restart or disengage users
+            
+            //Not Connected ROS bridge. Show alert to restart or disengage users
+            if( $('#systemAlertModal').length < 1 && (typeof createSystemAlertModal === "function")) 
+             { 
+                 $('#ModalsArea').append(createSystemAlertModal(
+                     '<span style="color:red"><i class="fas fa-exclamation-triangle"></i></span>&nbsp;&nbsp;SYSTEM ALERT', 
+                     "ROS Connection CLOSED",
+                     false,true
+                     ));              
+             }
+             $('#systemAlertModal').modal({backdrop: 'static', keyboard: false}); 
             console.log('close'); 
         });        
     }

@@ -193,6 +193,8 @@ function startActiveRoute(id)
     // Call the service and get back the results in the callback.
     service.callService(request, function (result) 
     {
+        //Check ROSBridge connection before subscribe a topic
+        IsROSBridgeConnected();
         var errorDescription = '';
 
         switch (result.errorStatus) 

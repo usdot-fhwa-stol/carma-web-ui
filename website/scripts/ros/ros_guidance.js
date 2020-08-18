@@ -88,9 +88,9 @@ function subscribeToGuidanceState ()
                 if( $('#systemAlertModal').length < 1 ) 
                 { 
                     $('#ModalsArea').append(createSystemAlertModal(
-                        '<span style="color:red"><i class="fas fa-bug"></i></span>SYSTEM ALERT',
-                        'System received a guidance shutdown.' + 
-                        '<br/><br/>Please take <strong>MANUAL</strong> control of the vehicle?',
+                        '<span style="color:red"><i class="fas fa-exclamation-triangle"></i></span>&nbsp;&nbsp;SYSTEM ALERT',
+                        'PLEASE TAKE <strong>MANUAL</strong> CONTROL OF THR VEHICLE.' + 
+                        '<br/><br/>System received a guidance SHUTDOWN.',
                         false,true
                         ));              
                 }
@@ -111,8 +111,8 @@ function subscribeToGuidanceState ()
 */
 function activateGuidance(newStatus = true) 
 {
-     //audio-fix needs to be on an actual button click event on the tablet.
-     //loadAudioElements();
+    //Check ROSBridge connection before subscribe a topic
+    IsROSBridgeConnected();
 
     console.log('new guidance'+ newStatus);
     //Call the service to engage guidance.
@@ -128,8 +128,10 @@ function activateGuidance(newStatus = true)
     });
 
     // Call the service and get back the results in the callback.
-    setGuidanceClient.callService(request, function (result) {
-
+    setGuidanceClient.callService(request, function (result) 
+    {
+        //Check ROSBridge connection before subscribe a topic
+        IsROSBridgeConnected();
         if (Boolean(result.guidance_status) != newStatus) //NOT SUCCESSFUL.
         {
             console.log('Guidance failed to set the value, please try again.');

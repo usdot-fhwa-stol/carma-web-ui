@@ -11,7 +11,10 @@ function TrafficSignalInfoList(){
 
     let signalState = null;
     let isTimeerSet = false;
-    listener.subscribe(function (message) {
+    listener.subscribe(function (message) 
+    {
+         //Check ROSBridge connection before subscribe a topic
+         IsROSBridgeConnected();
         message.traffic_signal_info_list.forEach(element => {
             /**
              * 
@@ -55,6 +58,7 @@ function TrafficSignalInfoList(){
                     isTimeerSet=true;
                     setTimeout(function(){
                         $('.traffic-signal-col').html('');
+                        $('.traffic-signal-col').append(updateTrafficSignal('',''));
                         isTimeerSet=false;
                         signalState = null;
                     }, 5000);

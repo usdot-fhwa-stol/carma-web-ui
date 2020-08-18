@@ -256,6 +256,25 @@ hr{
 .padding-10{
     padding:10px;
 }
+.margin-left-right-10
+{
+    margin: 0px 10px 0px 10px;
+}
+.dropdown-menu{
+    background-color: black;
+    border: 1px solid rgb(167, 223, 57);
+    color: white;
+}
+.dropdown-item{
+    background-color: black;
+    color: white;
+    border-radius: 2px;
+}
+.dropdown-item:hover{
+    background-color: rgb(167, 223, 57) !important;
+    color: black !important;
+    border-radius: 2px;
+}
 .border-left{            
     border-left: 2px solid #424040;  
 }

@@ -82,6 +82,6 @@ function updateTrafficSignal(signalType, signalCountDown)
     signalContainerDiv.appendChild(signalCircleGreen);
     return signalContainerDiv;
 }
-// $(document).ready(function(){
-//     $('.traffic-signal-col').append(updateTrafficSignal('flash_yellow','1'));
-// });
+$(document).ready(function(){
+    $('.traffic-signal-col').append(updateTrafficSignal('',''));
+});

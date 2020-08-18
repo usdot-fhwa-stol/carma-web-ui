@@ -413,7 +413,10 @@ function showActualSpeed(){
         messageType: 'geometry_msgs/TwistWithCovarianceStamped' 
     });//'geometry_msgs/TwistStamped'
     let isActualSpeedDisplayed= false;
-    listenerSFVelocity.subscribe(function (message) {
+    listenerSFVelocity.subscribe(function (message) 
+    {
+         //Check ROSBridge connection before subscribe a topic
+         IsROSBridgeConnected();
         //If nothing on the Twist, skip
         if (message.twist == null || message.twist.twist.linear == null || message.twist.twist.linear.x == null) {
             return;
@@ -451,7 +454,10 @@ function showControllingPlugins() {
         messageType: 'cav_msgs/ActiveManeuvers'
     });
 
-    listenerControllingPlugins.subscribe(function (message) {
+    listenerControllingPlugins.subscribe(function (message) 
+    {
+         //Check ROSBridge connection before subscribe a topic
+         IsROSBridgeConnected();
         // insertNewTableRow('tblFirstB', 'Lon Plugin', message.longitudinal_plugin);
         // insertNewTableRow('tblFirstB', 'Lon Manuever', message.longitudinal_maneuver);
         // insertNewTableRow('tblFirstB', 'Lon Start Dist', message.longitudinal_start_dist.toFixed(6));
@@ -522,6 +528,8 @@ function mapOtherVehicles()
     let isBSMDisplayed = false;
     listenerClient.subscribe(function (message) 
     {
+         //Check ROSBridge connection before subscribe a topic
+         IsROSBridgeConnected();
        // console.log(message);
         // insertNewTableRow('tblSecondB', 'BSM Temp ID - ' + message.core_data.id + ': ', message.core_data.id);
         // insertNewTableRow('tblSecondB', 'BSM Latitude - ' + message.core_data.id + ': ', message.core_data.latitude.toFixed(6));
@@ -585,7 +593,10 @@ function checkRouteInfo()
         messageType: 'cav_msgs/RouteEvent'
     });
     let isRouteEventDisplayed = false;
-    listenerRouteEvent.subscribe(function (message) {
+    listenerRouteEvent.subscribe(function (message) 
+    {
+         //Check ROSBridge connection before subscribe a topic
+         IsROSBridgeConnected();
         //insertNewTableRow('tblSecondA', 'Route Event', message.event);
         if($('#route_info_no_data').length >0)
         {
@@ -613,7 +624,7 @@ function checkRouteInfo()
             if( $('#systemAlertModal').length < 1 ) 
             { 
                 $('#ModalsArea').append(createSystemAlertModal(
-                    '<span style="color:red"><i class="fas fa-bug"></i></span>SYSTEM ALERT', 
+                    '<span style="color:red"><i class="fas fa-exclamation-triangle"></i></span>&nbsp;&nbsp;', 
                     messageTypeFullDescription,
                     true,true
                     ));              
@@ -629,7 +640,7 @@ function checkRouteInfo()
              if( $('#systemAlertModal').length < 1 ) 
              { 
                  $('#ModalsArea').append(createSystemAlertModal(
-                     '<span style="color:red"><i class="fas fa-bug"></i></span>SYSTEM ALERT', 
+                     '<span style="color:red"><i class="fas fa-exclamation-triangle"></i></span>&nbsp;&nbsp;', 
                      messageTypeFullDescription,
                      true,true
                      ));              
@@ -648,7 +659,10 @@ function checkRouteInfo()
     });
 
     let isRouteStateDisplayed = false;
-    listenerRouteState.subscribe(function (message) {
+    listenerRouteState.subscribe(function (message) 
+    {
+         //Check ROSBridge connection before subscribe a topic
+         IsROSBridgeConnected();
         // insertNewTableRow('tblSecondA', 'Route ID', message.routeID);
         // insertNewTableRow('tblSecondA', 'Route State', message.state);
         // insertNewTableRow('tblSecondA', 'Cross Track / Down Track', message.cross_track.toFixed(2) + ' / ' + message.down_track.toFixed(2));
@@ -721,7 +735,10 @@ function checkRobotEnabled() {
             messageType: 'cav_msgs/RobotEnabled'
      });
      isRobotStatusDisplayed = false;
-     listenerRobotStatus.subscribe(function (message) {
+     listenerRobotStatus.subscribe(function (message) 
+     {
+            //Check ROSBridge connection before subscribe a topic
+            IsROSBridgeConnected();
             // insertNewTableRow('tblFirstB', 'Robot Active', message.robot_active);
             // insertNewTableRow('tblFirstB', 'Robot Enabled', message.robot_enabled);
             if($('#important_vehicle_info_no_data').length >0)

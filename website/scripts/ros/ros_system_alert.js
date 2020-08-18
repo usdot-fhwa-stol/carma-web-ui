@@ -17,10 +17,11 @@ function checkSystemAlerts() {
     });
 
     // Then we add a callback to be called every time a message is published on this topic.
-    listenerSystemAlert.subscribe(function (message) {
-
+    listenerSystemAlert.subscribe(function (message) 
+    {
+         //Check ROSBridge connection before subscribe a topic
+         IsROSBridgeConnected();
         var messageTypeFullDescription = 'NA';
-
         switch (message.type) 
         {
             case SYSTEM_ALERT_CAUTION:
@@ -52,14 +53,14 @@ function checkSystemAlerts() {
             case SYSTEM_ALERT_FATAL:
                 session_isSystemAlert.ready = false;
                 //Show modal popup for Fatal alerts.
-                messageTypeFullDescription = 'System received a FATAL message. Please wait for system to shut down. <br/><br/>' + message.description;
-                messageTypeFullDescription += '<br/><br/>PLEASE TAKE MANUAL CONTROL OF THE VEHICLE.';
+                messageTypeFullDescription = 'PLEASE TAKE <strong>MANUAL</strong> CONTROL OF THE VEHICLE.';
+                messageTypeFullDescription += '<br/><br/>System received a FATAL message. Please wait for system to shut down. <br/><br/>' + message.description;
                 listenerSystemAlert.unsubscribe();
                 //If this modal does not exist, create one 
                 if( $('#systemAlertModal').length < 1 ) 
                 { 
                     $('#ModalsArea').append(createSystemAlertModal(
-                        '<span style="color:red"><i class="fas fa-bug"></i></span>SYSTEM ALERT', 
+                        '<span style="color:red"><i class="fas fa-exclamation-triangle"></i></span>&nbsp;&nbsp;SYSTEM ALERT', 
                         messageTypeFullDescription,
                         false,true
                         ));              
@@ -82,14 +83,14 @@ function checkSystemAlerts() {
                 session_isSystemAlert.ready = false;
                 listenerSystemAlert.unsubscribe();
                 //Show modal popup for Fatal alerts.
-                messageTypeFullDescription = 'System received a SHUTDOWN message. Please wait for system to shut down. <br/><br/>' + message.description;
-                messageTypeFullDescription += '<br/><br/>PLEASE TAKE MANUAL CONTROL OF THE VEHICLE.';
+                messageTypeFullDescription = 'PLEASE TAKE <strong>MANUAL</strong> CONTROL OF THE VEHICLE.';
+                messageTypeFullDescription += '<br/><br/>System received a SHUTDOWN message. Please wait for system to shut down. <br/><br/>' + message.description;
                 listenerSystemAlert.unsubscribe();
                 //If this modal does not exist, create one 
                 if( $('#systemAlertModal').length < 1 ) 
                 { 
                     $('#ModalsArea').append(createSystemAlertModal(
-                        '<span style="color:red"><i class="fas fa-bug"></i></span>SYSTEM ALERT', 
+                        '<span style="color:red"><i class="fas fa-exclamation-triangle"></i></span>&nbsp;&nbsp;SYSTEM ALERT', 
                         messageTypeFullDescription,
                         false,true
                         ));              

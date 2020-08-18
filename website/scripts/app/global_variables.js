@@ -20,8 +20,6 @@ const WIFI = 'wifi';
 const BLUETOOTH = 'bluetooth';
 const CELLULAR = 'cellular';
 const NONE = 'none';
-var g_is_guidance_automated = false;
-var g_is_rosridge_connected = false;
 
 //ROS Topci names
 const T_GUIDANCE_STATE = '/guidance/state';
@@ -40,6 +38,9 @@ const M_GUIDANCE_PLUGINLIST ='cav_srvs/PluginList';
 //ROS param names
 const P_REQUIRED_PLUGINS = '/guidance/health_monitor/required_plugins';
 
+// m/s to MPH
+const METER_TO_MPH = 2.23694;
+
 //CAV_Messages
 const STARTUP = 1;
 const DRIVERS_READY = 2;
@@ -56,7 +57,6 @@ const SIGNAL_RED_STATE=3;
 const SIGNAL_FLASHING_GREEN_STATE=4;
 const SIGNAL_FLASHING_YELLOW_STATE=5;
 const SIGNAL_FLASHING_RED_STATE=6;
-const READY_MAX_TRIAL = 10;
 const MAX_LOG_LINES = 20;
 
 //system alert types
@@ -100,5 +100,4 @@ var session_isGuidance = null;
 var session_selectedRoute = null;
 var session_isSystemAlert = null;
 
-// m/s to MPH
-const METER_TO_MPH = 2.23694;
+

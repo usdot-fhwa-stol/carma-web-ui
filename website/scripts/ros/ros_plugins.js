@@ -112,6 +112,7 @@ function getRequiredPluginParam()
         g_required_plugins = value +"";
         g_required_plugins = g_required_plugins.replace(/\s/g,'').toLowerCase();
     });
+    
 }
 
 

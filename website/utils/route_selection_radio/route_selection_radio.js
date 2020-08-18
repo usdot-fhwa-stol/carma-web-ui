@@ -16,10 +16,10 @@ function  createRouteSelectionRadio(routeId, RouteName) {
     routeRadio.name = 'route_radio';
     routeRadio.id = 'route_radio_' + routeId;
     routeRadio.value = routeId;
-    routeRadio.onclick = function()
+    routeRadio.onclick = ()=>
     {
         //Defined in connectToROSServicesOnLoad.js
-        setRouteEventLisenter(routeId);
+       setRouteEventLisenter(routeId);
     };
 
     let spanCheckMark = document.createElement('span');

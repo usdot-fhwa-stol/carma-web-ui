@@ -1,69 +1,3 @@
-
-/*
-    Evaluate next step AFTER connecting
-    Scenario1 : Initial Load
-    Scenario 2: Refresh on particular STEP
-*/
-function evaluateNextStep() {
-
-    waitForSystemReady();
-
-    //Issue#1015 MF: Not used Commented out for now until further testing to make sure we don't need this again.
-    //if (isDriverTopicsAllAvailable() == false){
-    //    //console.log ('evaluateNextStep: calling waitForGetDriversWithCapabilities')
-    //    waitForGetDriversWithCapabilities();
-    //}
-
-    // if (selectedRoute.name == 'No Route Selected') {
-    //     showRouteOptions();
-    //     showStatusandLogs();
-    //     //enableGuidance(); Should not enable guidance as route has not been selected.
-
-    // }
-    // else {
-    //     //ELSE route has been selected and so show plugin page.
-
-    //     //Show Plugin
-    //     showSubCapabilitiesView2();
-
-    //     //Subscribe to active route to map the segments
-    //     showActiveRoute();
-
-    //     //Display the System Status and Logs.
-    //     showStatusandLogs();
-
-    //     //Enable the CAV Guidance button regardless plugins are selected
-    //     enableGuidance();
-    // }
-
-}//evaluateNextStep
-
-
-/*
-    Loop function to
-    for System Ready status from interface manager.
-*/
-function waitForSystemReady() {
-    checkSystemAlerts();   //  check here
-    g_ready_counter++;       //  increment the counter
-
-    //If system is now ready
-    if (session_isSystemAlert.ready == true) {
-        return true; //call to evaluate next step after system is ready.
-    }
-    //  if the counter < 4, call the loop function
-    if (g_ready_counter < READY_MAX_TRIAL && session_isSystemAlert.ready == false) {
-        waitForSystemReady();             //  ..  again which will trigger another
-        //divCapabilitiesMessage.innerHTML = 'Awaiting SYSTEM READY status ...';
-    }
-    else { //If over max tries
-        if (g_ready_counter >= READY_MAX_TRIAL)
-            console.log('Sorry, did not receive SYSTEM READY status, please refresh your browser to try again.');
-        //divCapabilitiesMessage.innerHTML = 'Sorry, did not receive SYSTEM READY status, please refresh your browser to try again.';
-        return false;
-    }
-}
-
 /*
     Check System Alerts from Interface Manager
     uint8   CAUTION = 1
@@ -90,6 +24,7 @@ function checkSystemAlerts() {
         switch (message.type) 
         {
             case SYSTEM_ALERT_CAUTION:
+                session_isSystemAlert.ready = false;
                 messageTypeFullDescription = 'System received a CAUTION message. ' + message.description;
                 MsgPop.open({
                     Type:			"caution",
@@ -102,6 +37,7 @@ function checkSystemAlerts() {
                 break;
 
             case SYSTEM_ALERT_WARNING:
+                session_isSystemAlert.ready = false;
                 messageTypeFullDescription = 'System received a WARNING message. ' + message.description;
                 MsgPop.open({
                     Type:			"warning",
@@ -114,6 +50,7 @@ function checkSystemAlerts() {
                 break;
 
             case SYSTEM_ALERT_FATAL:
+                session_isSystemAlert.ready = false;
                 //Show modal popup for Fatal alerts.
                 messageTypeFullDescription = 'System received a FATAL message. Please wait for system to shut down. <br/><br/>' + message.description;
                 messageTypeFullDescription += '<br/><br/>PLEASE TAKE MANUAL CONTROL OF THE VEHICLE.';
@@ -162,7 +99,9 @@ function checkSystemAlerts() {
                 break;
 
             default:
+                session_isSystemAlert.ready = false;
                 messageTypeFullDescription = 'System alert type is unknown. Assuming system it not yet ready.  ' + message.description;
+                break;
         }
         let currentTime = new Date().toLocaleTimeString("en-US", {timeZone: "America/New_York"});
         if (g_cnt_log_lines < MAX_LOG_LINES) 

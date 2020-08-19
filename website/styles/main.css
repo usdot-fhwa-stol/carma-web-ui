@@ -55,13 +55,24 @@ body
     margin-top: 5px;
 }
 .elapse-time-col{
-    width: 250px;
+    width: 270px;
 }
 .steel-angle-col{
     width: 120px;
 }
 .widget-col-margin{
     margin: 0px 5px;
+}
+.divCenter{
+    margin:0px auto;
+}
+.command-speed-col,.current-speed-col,.speed-limit-col{
+    float:left;
+}
+.divCenterWrapper{
+    padding-right:350px;
+    width: calc(100vw - 350px);
+    display:flex;
 }
 .steel-angle-col-1,.accelarator-col-1, .brake-col-1{
     background-color: #2C343D;

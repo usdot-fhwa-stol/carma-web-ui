@@ -154,9 +154,13 @@
             <div class="row">
               <div class="elapse-time-col widget-col-margin"></div>
               <div class="traffic-signal-col widget-col-margin" style="min-width:50px" ></div> 
-              <div class=" command-speed-col widget-col-margin" ></div>                
-              <div class=" current-speed-col widget-col-margin" ></div>                  
-              <div class="speed-limit-col widget-col-margin"></div>                
+              <div class="divCenterWrapper">
+                <div class="divCenter">
+                  <div class="command-speed-col widget-col-margin" ></div>                
+                  <div class="current-speed-col widget-col-margin" ></div>                  
+                  <div class="speed-limit-col widget-col-margin"></div>   
+              </div>
+              </div>                           
             </div><!--END: row-->
 
             <div class="row">                 
@@ -495,7 +499,7 @@
                 const objLoader = new THREE.OBJLoader();    
                 objLoader.setMaterials(materials);
                 objLoader.load('images/models/car.obj', loaded => {
-                    loaded.scale.set(2.5,2,1);//change car shape
+                    loaded.scale.set(3.5,2.5,1.3);//change car shape
                     //set car position
                     loaded.position.x=-6;
                     loaded.position.y=0;
@@ -560,7 +564,7 @@
             var planeArea = new THREE.Mesh(
                 new THREE.PlaneGeometry(
                     1000,
-                    18.15,
+                    15.55,
                     1,
                     1),
                     new THREE.MeshLambertMaterial(
@@ -578,22 +582,22 @@
 
             var dashlineMaterial = new THREE.LineDashedMaterial( {
               color: 0xffffff,
-              linewidth: 1,
+              linewidth: 2,
               scale: 1,
               dashSize: 5,
               gapSize: 10,
             } );
             var points = [];
-            points.push( new THREE.Vector3( -1000, 0, 3 ) );
-            points.push( new THREE.Vector3( 1000, 1, 3) );
+            points.push( new THREE.Vector3( -1000, 0, 2.5 ) );
+            points.push( new THREE.Vector3( 1000, 1, 2.5) );
             var geometry = new THREE.BufferGeometry().setFromPoints( points );
             var dashLineRight = new THREE.Line( geometry, dashlineMaterial );
             dashLineRight.computeLineDistances();
             scene.add( dashLineRight );
 
             var points = [];
-            points.push( new THREE.Vector3( -1000, 0.06, -3 ) );
-            points.push( new THREE.Vector3( 1000, 0.06, -3) );
+            points.push( new THREE.Vector3( -1000, 0.06, -2.5 ) );
+            points.push( new THREE.Vector3( 1000, 0.06, -2.5) );
             var geometry = new THREE.BufferGeometry().setFromPoints( points );
             var dashLineLeft = new THREE.Line( geometry, dashlineMaterial );
             dashLineLeft.computeLineDistances();
@@ -613,20 +617,20 @@
             var plane_lane1 = new THREE.Mesh(
                 new THREE.PlaneGeometry(
                     1000,
-                    6,
+                    5,
                     1,
                     1),
                 planeMaterial
             );
             plane_lane1.rotation.x = -Math.PI/2;
             plane_lane1.position.y = 0.03;
-            plane_lane1.position.z = -6;
+            plane_lane1.position.z = -5;
             scene.add(plane_lane1);
 
             var plane_lane2 = new THREE.Mesh(
                 new THREE.PlaneGeometry(
                     1000,
-                    6,
+                    5,
                     1,
                     1),
                 planeMaterial
@@ -639,14 +643,14 @@
             var plane_lane3 = new THREE.Mesh(
                 new THREE.PlaneGeometry(
                     1000,
-                    6,
+                    5,
                     1,
                     1),
                 planeMaterial
             );
             plane_lane3.rotation.x = -Math.PI/2;
             plane_lane3.position.y = 0.03;
-            plane_lane3.position.z = 6;
+            plane_lane3.position.z = 5;
             scene.add(plane_lane3);
             
       

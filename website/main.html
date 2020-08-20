@@ -499,9 +499,9 @@
                 const objLoader = new THREE.OBJLoader();    
                 objLoader.setMaterials(materials);
                 objLoader.load('images/models/car.obj', loaded => {
-                    loaded.scale.set(3.5,2.5,1.3);//change car shape
+                    loaded.scale.set(2.5,2,1);//change car shape
                     //set car position
-                    loaded.position.x=-6;
+                    loaded.position.x=-12;
                     loaded.position.y=0;
                     loaded.position.z=0;
                     loadedcar_cur = loaded;
@@ -516,7 +516,7 @@
                 const objLoader = new THREE.OBJLoader();    
                 objLoader.setMaterials(materials);
                 objLoader.load('images/models/car.obj', loaded => {
-                  loaded.scale.set(2,1,1);//change car shape
+                  loaded.scale.set(1,1,1);//change car shape
                     // loaded.position.copy(cornerPoint).add(new THREE.Vector3(0, 15, 0)); 
                     loaded.position.x=-8;
                     loaded.position.y=0;
@@ -533,7 +533,7 @@
                 objLoader.setMaterials(materials);
                  //car2 -right
                  objLoader.load('images/models/car.obj', loaded => {
-                  loaded.scale.set(2,1,1);//change car shape
+                  loaded.scale.set(1,1,1);//change car shape
                     // loaded.position.copy(cornerPoint).add(new THREE.Vector3(0, 15, 0)); 
                     loaded.position.x=8;
                     loaded.position.y=0;
@@ -732,10 +732,10 @@
                   //  loadedcar_front.position.x +=0.01;                   
                       
                   //move camera
-                  camera.position.x =loadedcar_cur.position.x-35;
-                  camera.position.z =loadedcar_cur.position.z;
-                  camera.position.y =loadedcar_cur.position.y+25;
-                  camera.lookAt(loadedcar_cur.position);  
+                  //camera.position.x =loadedcar_cur.position.x-35;
+                  //camera.position.z =loadedcar_cur.position.z;
+                  //camera.position.y =loadedcar_cur.position.y+25;
+                  //camera.lookAt(loadedcar_cur.position);  
 
               }
 

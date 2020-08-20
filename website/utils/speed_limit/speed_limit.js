@@ -30,3 +30,6 @@ function updateSpeedLimit(speedLimitTxt){
     }    
 }
 
+$(document).ready(()=>{
+    $('.speed-limit-col').append(updateSpeedLimit('0'));
+})

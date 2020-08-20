@@ -23,8 +23,8 @@
 ****/
 .speed-blue-Squaire{
     border-radius: 15%;
-    width: 80px;
-    height: 110px;
+    width: 100px;
+    height: 120px;
     background-color:rgb(239, 189, 39); 
     border: 1px solid #5a7590;
     color: black;
@@ -35,7 +35,7 @@
 
 }
 .speed-blue-Squaire .speed-text{
-    font-size: 150% !important;
+    font-size: 230% !important;
     line-height: 0.9;
 }
 .speed-blue-Squaire .speed-unit{

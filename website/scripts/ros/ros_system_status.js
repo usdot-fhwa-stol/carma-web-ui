@@ -619,12 +619,12 @@ function checkRouteInfo()
         if (message.event == 3) //ROUTE_COMPLETED=3
         {
             //showModal(false, 'ROUTE COMPLETED. <br/> <br/> PLEASE TAKE MANUAL CONTROL OF THE VEHICLE.', true);
-            messageTypeFullDescription = 'ROUTE COMPLETED. <br/> <br/> PLEASE TAKE <strong>MANUAL</strong> CONTROL OF THE VEHICLE.';
+            messageTypeFullDescription = 'PLEASE TAKE <strong>MANUAL</strong> CONTROL OF THE VEHICLE.<br/> <br/> ROUTE COMPLETED.  ';
             //If this modal does not exist, create one 
             if( $('#systemAlertModal').length < 1 ) 
             { 
                 $('#ModalsArea').append(createSystemAlertModal(
-                    '<span style="color:red"><i class="fas fa-exclamation-triangle"></i></span>&nbsp;&nbsp;', 
+                    '<span style="color:rgb(240, 149, 4)"><i class="fas fa-exclamation-triangle"></i></span>&nbsp;&nbsp;SYSTEM ALERT', 
                     messageTypeFullDescription,
                     true,true
                     ));              
@@ -635,12 +635,12 @@ function checkRouteInfo()
 
         if (message.event == 4)//LEFT_ROUTE=4
         { 
-            messageTypeFullDescription = 'You have LEFT THE ROUTE. <br/> <br/> PLEASE TAKE <strong>MANUAL</strong> CONTROL OF THE VEHICLE.';
+            messageTypeFullDescription = 'PLEASE TAKE <strong>MANUAL</strong> CONTROL OF THE VEHICLE.<br/> <br/>You have LEFT THE ROUTE.  ';
              //If this modal does not exist, create one 
              if( $('#systemAlertModal').length < 1 ) 
              { 
                  $('#ModalsArea').append(createSystemAlertModal(
-                     '<span style="color:red"><i class="fas fa-exclamation-triangle"></i></span>&nbsp;&nbsp;', 
+                     '<span style="color:red"><i class="fas fa-exclamation-triangle"></i></span>&nbsp;&nbsp;SYSTEM ALERT', 
                      messageTypeFullDescription,
                      true,true
                      ));              

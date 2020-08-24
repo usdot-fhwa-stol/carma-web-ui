@@ -18,7 +18,7 @@ function connectToROS()
              { 
                  $('#ModalsArea').append(createSystemAlertModal(
                      '<span style="color:red"><i class="fas fa-exclamation-triangle"></i></span>&nbsp;&nbsp;SYSTEM ALERT', 
-                     "ROS Connection ERROR",
+                     "PLEASE TAKE <strong>MANUAL</strong> CONTROL OF THE VEHICLE.<br/> <br/> ROS Connection ERROR",
                      false,true
                      ));              
              }
@@ -40,7 +40,7 @@ function connectToROS()
              { 
                  $('#ModalsArea').append(createSystemAlertModal(
                      '<span style="color:red"><i class="fas fa-exclamation-triangle"></i></span>&nbsp;&nbsp;SYSTEM ALERT', 
-                     "ROS Connection CLOSED",
+                     "PLEASE TAKE <strong>MANUAL</strong> CONTROL OF THE VEHICLE.<br/> <br/> ROS Connection CLOSED",
                      false,true
                      ));              
              }

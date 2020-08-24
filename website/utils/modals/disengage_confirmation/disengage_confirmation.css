@@ -1,0 +1,36 @@
+
+.disengage-confirm-modal .modal-content{
+    background-color: #2e2d2d;
+    border: 2px solid white ;
+    color:white ;
+    border-radius: 10px;
+}
+.disengage-confirm-modal .modal-header{
+    border-bottom: 0px !important;
+}
+
+.disengage-custom-title{
+    color:white ;
+    font-size: 120%;
+}
+.disengage-custom-body{
+    display: block;
+    border-top: 2px solid white ;
+    color:white ;
+    text-align: center;
+}
+.disengage-confirm-modal .modal-footer{
+    display: block !important;
+    border: 0px !important;
+}
+.btnConfirmCancel{
+    float: left;
+    display: block;
+    padding: 10px  15px;
+    font-weight: bolder;
+}
+.btnConfirmProceed{
+    float: right;
+    padding: 10px  10px;
+    font-weight: bolder;
+}

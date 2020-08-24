@@ -55,13 +55,24 @@ body
     margin-top: 5px;
 }
 .elapse-time-col{
-    width: 250px;
+    width: 270px;
 }
 .steel-angle-col{
     width: 120px;
 }
 .widget-col-margin{
     margin: 0px 5px;
+}
+.divCenter{
+    margin:0px auto;
+}
+.command-speed-col,.current-speed-col,.speed-limit-col{
+    float:left;
+}
+.divCenterWrapper{
+    padding-right:370px;
+    width: calc(100vw - 350px);
+    display:flex;
 }
 .steel-angle-col-1,.accelarator-col-1, .brake-col-1{
     background-color: #2C343D;
@@ -90,6 +101,7 @@ canvas
     /**width: calc(100vw - 600px) !important;
     margin-right: 600px;**/
     width:100vw !important;
+    padding-right: 20px;
 }
 #route-list-area{
     height: calc(100vh - 140px) !important;
@@ -99,7 +111,7 @@ canvas
 }
 #route-list-content-no-route-available{
     color:rgb(239, 189, 39) ;
-    font-size: 80%;
+    font-size: 85%;
 }
 a:hover, a:active, a.active
 {
@@ -120,7 +132,6 @@ a.custom-nav
     position: absolute;    
     overflow-y: auto;  
     z-index: 999;  
-    
     top:70px;
 }
 .bg-black
@@ -140,13 +151,68 @@ hr{
 #maps-panel,#platoon-info-panel,#status-panel,#logs-panel,#allPlugins-panel,#activePlugins-panel,#speed-advisory-info-panel{
     border-radius: 15px;
 }
-#right-panel .card  {
+#right-panel .card {
     border-radius: 15px;
 }
 #right-panel .card .card-header{
     border-top-left-radius: 15px;
     border-top-right-radius: 15px;
 }
+/* status panel */
+#status-panel{
+    overflow: hidden;
+    height: 60%;
+}
+#status-panel .card{
+    overflow: hidden;
+    height: 100%;
+}
+#status-panel .table-responsive-sm{
+    overflow-y: scroll;
+    overflow-x: hidden;
+    height: 100%;
+}
+#status-panel .table-responsive-sm::-webkit-scrollbar
+{
+    width: 5px;
+}
+#status-panel .table-responsive-sm::-webkit-scrollbar-thumb
+{
+    background-color: #fff;
+}
+#status-panel .table td, #status-panel .table th{
+    padding: 0.75em !important;
+}
+#status-panel .table-dark thead th{
+ border-top-color: black;
+}
+
+/**logs panel***/
+#logs-panel{
+    height: 60%;
+}
+#logs-panel p{
+    margin-top: 0px;
+    margin-bottom: 0px;
+}
+#logs-panel .card-body, #logs-panel .card{
+   padding-top: 0px;
+}
+#logs-panel .card{
+    height: 100%;
+ }
+ #logs-panel .log-content{
+    overflow-y: scroll;
+    overflow-x: hidden;
+    height: 100%;
+}
+ #logs-panel .log-content::-webkit-scrollbar{
+    width: 5px;
+ }
+ #logs-panel .log-content::-webkit-scrollbar-thumb{
+     background-color: white;
+ }
+
 .card-custom-header{
     color:  rgb(167, 223, 57)  !important;
     background-color: #1a1a1a  !important;
@@ -180,10 +246,10 @@ hr{
 .bottom-nav-item{
     text-align: center;   
     cursor: pointer;
-    font-size: 90%;
+    font-size: 85%;
     width: fit-content;
 }
-.bottom-nav-item,.bottom-nav-item-advanced,.bottom-nav-item-statistics
+.bottom-nav-item,.bottom-nav-item-advanced,.bottom-nav-item-logout,.bottom-nav-item-statistics
 {
     padding: 0px 15px;
     margin: auto 2px;                    
@@ -193,14 +259,33 @@ hr{
     cursor: pointer;   
     font-size: 85%;
 }
-.bottom-nav-item-advanced{
+/* .bottom-nav-item-advanced{
     margin-right: 25px;
-}
+} */
 .padding-5{
     padding:5px;
 }
 .padding-10{
     padding:10px;
+}
+.margin-left-right-10
+{
+    margin: 0px 10px 0px 10px;
+}
+.dropdown-menu{
+    background-color: black;
+    border: 1px solid rgb(167, 223, 57);
+    color: white;
+}
+.dropdown-item{
+    background-color: black;
+    color: white;
+    border-radius: 2px;
+}
+.dropdown-item:hover{
+    background-color: rgb(167, 223, 57) !important;
+    color: black !important;
+    border-radius: 2px;
 }
 .border-left{            
     border-left: 2px solid #424040;  
@@ -231,7 +316,7 @@ hr{
     box-shadow: 1px 1px 5px 1px  rgb(167, 223, 57);
     cursor: pointer;
 }
-.bottom-nav-item:hover,.bottom-nav-item-advanced:hover,.bottom-nav-item-statistics:hover{
+.bottom-nav-item:hover,.bottom-nav-item-advanced:hover,.bottom-nav-item-logout:hover,.bottom-nav-item-statistics:hover{
     border-color:  rgb(167, 223, 57);                   
     border: 2px solid rgb(167, 223, 57);  
     color:  rgb(167, 223, 57);
@@ -247,13 +332,14 @@ hr{
     float: left;
     width: fit-content;
 }
-#CARMA_icon_png{
+#CARMA_guidance_icon_png{
     height: 150px;
     width: 150px;
     position: absolute;
     bottom: 10px;
     left: 20px;
     border-radius: 50%;
+    z-index: 1000;
 }
 #Guidace-btn{
     margin: auto;
@@ -264,13 +350,14 @@ hr{
     font-size: 16pt;
     color: orange;
 }
-#allPlugins-panel .card .card-header .btn-info,#platoon-info-panel .card .card-header .btn-info,#speed-advisory-info-panel .card .card-header .btn-info{
+#right-panel .card .card-header .btn-info
+{
     background-color:#1a1a1a ;
     float: left;
     padding: 0pt 12pt;
     font-size: 25pt;
     color:rgb(167, 223, 57);
-    border: 0;
+    border: 0px solid rgb(167, 223, 57);
     border-radius: 15px;
     font-weight: bolder;
 }
@@ -280,10 +367,10 @@ hr{
     color:rgb(167, 223, 57);
 }
 #allPlugins-panel .plugin-type{
-    font-size: 90%;
+    font-size: 85%;
 }
 .card-text{
-    font-size: 90%;
+    font-size: 85%;
 }
 .text-red{
     color:red;

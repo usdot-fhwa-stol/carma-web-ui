@@ -31,6 +31,7 @@ function initMsgPop()
 	var containerCreated = false;
 	var closeAllBtnCreated = false;
 	var loadMoreBtnCreated = false;
+	var msgPopQueueSize = 10;
 
 	/* Disabling this feature, to have same display as on tablet.
 	//Browser check
@@ -50,19 +51,16 @@ function initMsgPop()
 			//}
 
             $("body").append(container);
-
 		}
 
 		container = $("#msgPopContainer");
 		container.stop(true,true).clearQueue().removeAttr("style");
-
 		//if(MsgPop.displaySmall && notMobile){
 			container.removeAttr('class').attr('class','msgPopContainerSmall msgPopContainerOverflow msgPop-'+MsgPop.position);
 		//}
 		//else{
 		//	container.removeAttr('class').attr('class','msgPop-top-right');
 		//}
-
 		return container;
 	}
 
@@ -117,6 +115,13 @@ function initMsgPop()
 		obj = $.extend(mergedObj = {}, defaultObject, obj);	//overwrites any missing values with defaults
 		obj = $.extend(mergedObj = {}, {MarkedForDelete:false}, obj);
 		MsgPop[obj.MsgID] = obj; //creates a property on msgPop object that stores the current object.
+		
+		//queue size maximum number of msgpop objects, and remove outdated objects from queue
+		if(MsgPop['msgPop' + (msgPopActionID-msgPopQueueSize)] !=null)
+		{
+			let id='msgPop' + (msgPopActionID-msgPopQueueSize);
+			MsgPop.close(id,false);
+		}
 
 		var showMsg = (msgPopCount <= MsgPop.limit) ? true : false;
 
@@ -156,7 +161,7 @@ function initMsgPop()
         var time = dt.getHours().toString().padStart(2,'0')  + ":" + dt.getMinutes().toString().padStart(2,'0')  + ":" + dt.getSeconds().toString().padStart(2,'0') + ":" +  dt.getMilliseconds().toString().padStart(3,'0')  ;
 
 		//Create message content
-		var msgDivContent = '<div class="outerMsgPopTbl"><div class="innerMsgPopTbl"><div class="msgPopTable">';
+		var msgDivContent = '<div class ="outerMsgPopTbl" id="outerMsgPopTbl_'+obj.MsgID+'"><div class="innerMsgPopTbl"><div class="msgPopTable">';
 		msgDivContent += '<div class="msgPopTable-cell msgPopSpacer">&nbsp;</div>';
 		msgDivContent += '<div class="msgPopTable-cell"><div class="msgPopTable-table">';
 		if (obj.ShowIcon) {
@@ -176,7 +181,7 @@ function initMsgPop()
 
         //Added sounds for MsgPop plugin
         //NOTE: Currently this MsgPop is only used for Warning and Caution, when starting to use other features, may need different sounds.
-        playSound('audioAlert4', false);
+	    playSound('audioAlert4', false);
 
 		//Create Load More & Close All Buttons
 		loadMoreBtn = createLoadMore(container);
@@ -189,10 +194,10 @@ function initMsgPop()
 		    loadMoreBtn.before(msg);
         else
         {
+			
           //Descending order, or insert new item at the top of the list.
-          container.prepend(msg);
+		  container.prepend(msg);
         }
-
 		if(showMsg)
 		{
 		    //If still under the Msg limit, show the message right away.
@@ -235,7 +240,6 @@ function initMsgPop()
 
 	MsgPop.close = function (msgID, isCloseAll) {
 		var obj = MsgPop[msgID];
-
 		if (typeof(obj) != "undefined" && obj.MarkedForDelete == false)
 		{
 			obj.MarkedForDelete = true;
@@ -243,7 +247,6 @@ function initMsgPop()
 
 			var isRegularClose = (isCloseAll) ? false : true;
 			var message = $("#"+msgID);
-
 			if(message.length != 0)
 			{
 				if (jQuery.isFunction(obj["BeforeClose"]))
@@ -260,9 +263,9 @@ function initMsgPop()
 				});
 
 				clearTimeout(obj.AutoCloseID);
-				delete obj;
+				delete obj;				
+				delete MsgPop[msgID];
 			}
-
 			msgPopCount -= 1;
 			MsgPop.cleanUp(isCloseAll);
 		}
@@ -279,7 +282,6 @@ function initMsgPop()
 				clearTimeout(MsgPop[property].AutoCloseID);
 			}
 		}
-
 		if(obj.ClearEvents)
 		{
 			UserSettings = {};
@@ -307,6 +309,7 @@ function initMsgPop()
 				MsgPop.close(id, true);
 			});
 		}
+		
 	}
 
 	MsgPop.destroy = function()

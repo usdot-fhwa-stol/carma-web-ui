@@ -5,8 +5,10 @@
 
 #msgPopContainer {
 	position:fixed;
-	z-index:9999;
+	z-index:999;
 	width:100%;
+	right: 20px !important;
+	bottom:80px;
   -webkit-transition:all .3s ease-in-out;
   -moz-transition:all .3s ease-in-out;
   -o-transition:all .3s ease-in-out;
@@ -23,9 +25,9 @@
 }
 
 #msgPopCloseAllBtn{
-	background-color:#000;
-	color:#fff;
-	border:1px solid #000;
+	background-color:#fff;
+	color:#000;
+	border:1px solid #fff;
 	border-bottom-left-radius:3px;
 	border-bottom-right-radius:3px;
 	padding:6px;
@@ -37,20 +39,20 @@
 }
 
 #msgPopCloseAllBtn:active{
-    color:#000;
+    color:#1a1a1a;
     background:#fff;
 }
 
 .msgPopLoadMore{
-	background-color: rgba(2,2,2,.9) !important;
-	background:#222; /*IE8 support*/
-    color: #fff;
+	background-color: white !important;
+	background:white; /*IE8 support*/
+    color: #000;
     cursor: pointer;
     text-align: center;
 }
 
 .msgPopLoadMore:active{
-    background-color:#000;
+    background-color:white;
 }
 
 .msgPopLoadMore span{
@@ -62,7 +64,7 @@
 .msgPopSuccess, .msgPopCaution, .msgPopWarning, .msgPopError, .msgPopMessage, .msgPopLoadMore{
 	display:none;
 	cursor: default;
-	box-shadow:0 0 5px rgba(0,0,0,.5);
+	box-shadow:0 0 5px #1a1a1a;
 }
 
 .msgPopSuccess:active{
@@ -184,7 +186,7 @@
 .msgPopContainerSmall .msgPopError,
 .msgPopContainerSmall .msgPopMessage,
 .msgPopContainerSmall .msgPopLoadMore{
-    box-shadow: 3px 3px 5px rgba(0,0,0,.3) !important;
+    box-shadow: 3px 3px 5px #1a1a1a !important;
 	margin:5px !important;
 	border-radius:5px !important;
 }
@@ -246,12 +248,12 @@
 
 	.msgPopSpacer{width:5%;}
 
-	.msgPopContainerSmall{width:380px !important;}
+	.msgPopContainerSmall{width:280px !important;}
 }
 
 @media all and (min-width: 1025px) and (max-width: 1280px) {
 
-	.msgPopContainerSmall{width:450px !important;}
+	.msgPopContainerSmall{width:300px !important;}
 
 	#msgPopContainer, #msgPopCloseAllBtn{font-size:14px;}
 
@@ -262,7 +264,7 @@
 
 @media all and (min-width: 1281px) and (max-width: 4000px) {
 
-	.msgPopContainerSmall{width:580px !important;}
+	.msgPopContainerSmall{width:350px !important;}
 
 	#msgPopContainer, #msgPopCloseAllBtn{font-size:16px;}
 

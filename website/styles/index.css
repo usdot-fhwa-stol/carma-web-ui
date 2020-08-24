@@ -166,13 +166,23 @@ body {
     color: black;
 }
 #CarmaOptionsModal{
-    font-size: 80%;
+    font-size: 90%;
 }
 .modal-content,.modal-header, .modal-footer{
-    color: black !important;   
+    color: white !important;   
+    border-radius:15px;
+    background-color: #2e2d2d;
+    border:0px;
 }
-.modal-header button,.modal-header button{
-    color: black;
+.modal-content hr{
+    border:1px solid white;
+    width: 100%;
+}
+.modal-content{
+    border: 1px solid white ;
+}
+.modal-header button,.modal-header button, .modal-content .close{
+    color: white;
 }
 
 footer {

@@ -1,0 +1,40 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 42.62 34.73">
+    <defs>
+        <style>
+        /**
+                .dsrc-cls-1
+                {
+                    fill:grey;
+                    stroke:#87b821;
+                    stroke-miterlimit:10;
+                    opacity:0.9;
+                }
+                 .bottom-line
+                {
+                    fill:grey;
+                    stroke:grey;
+                    stroke-miterlimit:10;
+                    opacity:0.9;
+                }
+                .dsrc-cls-2{
+                    fill:grey;
+                    stroke:#87b821;
+                    stroke-miterlimit:10;
+                    opacity:0.9;
+                }
+                .dsrc-cls-1{stroke-width:0.36px;}
+                .dsrc-cls-2{stroke-width:0.42px;}
+                **/
+    </style>
+    </defs>
+    <g id="Layer_2" data-name="Layer 2" >
+        <title>OBU Status</title>
+        <g id="Layer_2-2" data-name="Layer 2">
+            <polygon class="dsrc-cls-1" id="dsrc-cls-1-down-1" fill="grey" stroke="grey" points="21.21 19.39 10.73 29.86 0.26 19.39 4.56 15.08 10.75 21.27 16.92 15.1 21.21 19.39"/>
+            <polygon class="dsrc-cls-1" id="dsrc-cls-1-down-2" fill="grey" stroke="grey" points="16.92 0.27 10.75 6.45 4.56 0.26 0.26 4.56 10.73 15.04 21.21 4.56 16.92 0.27"/>
+            <polygon class="dsrc-cls-2" id="dsrc-cls-1-up-1"  fill="grey" stroke="grey" points="21.41 10.73 31.89 0.26 42.36 10.73 38.06 15.04 31.87 8.85 25.69 15.02 21.41 10.73"/>
+            <polygon class="dsrc-cls-2" id="dsrc-cls-1-up-2" fill="grey" stroke="grey" points="25.69 29.85 31.87 23.67 38.06 29.86 42.36 25.56 31.89 15.08 21.41 25.56 25.69 29.85"/>
+            <rect class="bottom-line" id = "bottom-line" fill="grey" stroke="grey" x="0.26" y="31.95" width="42" height="2.56"/>
+        </g>
+    </g>
+</svg>

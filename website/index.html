@@ -28,14 +28,14 @@
     <!--END: custom css-->
 
      <!---Global variables and Config -->
-     <script src="scripts/global_variables.js"></script>
-     <script src="scripts/carma.config.js"></script>
+     <script src="scripts/app/global_variables.js"></script>
+     <script src="scripts/app/carma.config.js"></script>
 
     <!--Backend services-->
-    <script src="backend_services/2D/ros_services/rosbridge_v2.js"></script>
+    <script src="scripts/ros/rosbridge_v2.js"></script>
 
     <!--Front end scripts invoke backend services-->
-    <script src="scripts/index.js"></script>
+    <script src="scripts/app/index.js"></script>
 
 </head>
 
@@ -51,7 +51,7 @@
         <div class="CarmaTitleFrame">
             <div class="CarmaTitleRec">     
             <div class="Carma-logo-div">
-                <img class="logo" src="images/basic_travel/CARMA_Platform.png" />
+                <img class="logo" src="images/CARMA_Platform.png" />
             </div>
             </div>
         </div>
@@ -71,7 +71,7 @@
                 <form id="start-Carma-form" >
                     <!-- Start Carma Button-->     
                     <div class="form-group" >
-                        <input type="image"  id="btnStart" src="images/basic_travel/Xtra_Art/START.png" title="Click to start CARMA"/>
+                        <input type="image"  id="btnStart" src="images/Xtra_Art/START.png" title="Click to start CARMA"/>
                        <div style="width: fit-content;margin: 10px auto;">
                         <div id="Carma-connection-fail-alert"  role="alert" style="display: none;color:red" >
                             <strong>Sorry, unable to connect to ROS. Please try again.</strong>
@@ -91,12 +91,13 @@
                                     <span aria-hidden="true">&times;</span>
                                 </button>
                             </div>
+                            <hr>
                             <div class="modal-body" style="text-align: left;"> 
                                 <p>"Debug Mode" provides the option to not launch the backend services when clicking the "Start" button.</p>    
                                 <p>"Record ROSbag" option enables or disables logging when the platform backend services are running.</p>                                                             
                             </div>
                             <div class="modal-footer">
-                            <button type="button" class="btn btn-success" data-dismiss="modal">Close</button>
+                            <button type="button" class="btn btn-success btn-lg" data-dismiss="modal">CLOSE</button>
                             </div>
                         </div>
                         </div>

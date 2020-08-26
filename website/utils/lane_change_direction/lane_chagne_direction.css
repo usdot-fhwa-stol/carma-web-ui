@@ -1,0 +1,17 @@
+
+.lane-change-wrapper{
+    position: relative;
+    float: left;
+    padding: 5px;
+}
+.lane-change-label{
+    color: white; 
+    font-size: 80%;
+    font-weight: bolder;
+    float: right;
+    padding: 20px 5px;
+}
+.lane-change-img{
+    width: 150px; 
+    padding: 10px 5px;
+}

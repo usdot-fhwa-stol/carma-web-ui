@@ -30,15 +30,7 @@ function createSystemAlertModal(systemAlertTitle,systemAlertBody,showRestartBtn,
 
     let divFooter =document.createElement('div');
     divFooter.classList.add('modal-footer');
-    /**
-    let btnCancel = document.createElement('button');
-    btnCancel.classList.add('btn','btn-danger','btnCancel');
-    btnCancel.type = 'button';
-    btnCancel.innerHTML = 'CANCEL';
-    btnCancel.addEventListener('click',function(){
-        $('#systemAlertModal').modal('hide');
-    });
-     */
+
     let btnLogout;
     if(showLogoutBtn)
     {

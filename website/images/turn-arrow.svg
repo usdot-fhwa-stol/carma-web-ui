@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 73.63 21.02">
+<defs>
+<style>.cls-gray{fill:#7b838c;}.cls-white{fill:#fff;}.cls-blue{fill:#41c8ff;}</style>
+</defs>
+<g id="Layer_2" data-name="Layer 2"><g id="Layer_4" data-name="Layer 4">
+<polygon class="cls-gray" id="left-arrow"  points="10.17 20.76 0 10.59 10.33 0.26 12.23 2.17 3.81 10.59 12.08 18.85 10.17 20.76"/>
+<rect class="cls-white" x="21.52" y="8.44" width="4.04" height="4.04"/>
+<rect class="cls-white" x="12.44" y="8.44" width="4.04" height="4.04"/>
+<rect class="cls-white" x="39.69" y="8.44" width="4.04" height="4.04"/>
+<rect class="cls-white" x="30.61" y="8.44" width="4.04" height="4.04"/>
+<polygon class="cls-blue" points="63.2 21.02 73.63 10.59 63.04 0 61.08 1.96 69.72 10.59 61.25 19.07 63.2 21.02"/>
+<rect class="cls-white" x="57.8" y="8.44" width="4.15" height="4.15" transform="translate(119.75 21.02) rotate(180)"/>
+<rect class="cls-white" id="right-arrow" x="48.72" y="8.44" width="4.15" height="4.15" transform="translate(101.58 21.02) rotate(180)"/>
+</g>
+</g>
+</svg>

@@ -18,6 +18,8 @@
         <link rel="stylesheet" type="text/css" href="utils/current_speed/current_speed.css">
         <link rel="stylesheet" type="text/css" href="utils/speed_limit/speed_limit.css">
         <link rel="stylesheet" type="text/css" href="utils/steering_angle/steering_angle.css">
+        <link rel="stylesheet" type="text/css" href="utils/lightbar/lightbar.css">
+        <link rel="stylesheet" type="text/css" href="utils/lane_change_direction/lane_chagne_direction.css">
         <link rel="stylesheet" type="text/css" href="utils/traffic_signal/traffic_signal.css">
         <link rel="stylesheet" type="text/css" href="utils/modals/disengage_confirmation/disengage_confirmation.css">
         <link rel="stylesheet" type="text/css" href="utils/modals/system_alert/system_alert.css">
@@ -70,14 +72,14 @@
         <script src="utils/elapsed_time/elapsed_time.js"></script>
         <script src="utils/traffic_signal/traffic_signal.js"></script>
         <script src="utils/steering_angle/steering_angle.js"></script>
+        <script src="utils/lightbar/lightbar.js"></script>
+        <script src="utils/lane_change_direction/lane_chagne_direction.js"></script>
         <script src="utils/route_selection_radio/route_selection_radio.js"></script>
         <script src="utils/change_plugins_switch/change_plugins_switch.js"></script>
         <script src="utils/active_plugin/active_plugins.js"></script>
         <script src="utils/wifi/wifi.js"></script>
         <script src="utils/cellular/cellular.js"></script>
-        <!--3D stored js libraries -->
-        <!-- <script src="scripts/3D/backend_ros_services/shared_variables.js"></script> -->
-        <!-- <script src="scripts/3D/utils/*"></script> -->   
+        <!--3D stored js libraries --> 
 
         <!--backend services (2D) -->
         <script src="scripts/ros/rosbridge_v2.js"></script>
@@ -175,6 +177,18 @@
                   <div class="progressBrake"></div>
                 </div>
                 <div class="steel-angle-col-1 "></div>
+              </div>   <!--END: group-->
+            </div><!--END: row-->
+            
+            <div class="row">                 
+              <div id="light_bar_group">    
+                <div class="light-bar-col-1 "></div>
+              </div>   <!--END: group-->
+            </div><!--END: row-->
+
+            <div class="row">                 
+              <div id="lane_change_group">    
+                <div class="lane-change-col-1"></div>
               </div>   <!--END: group-->
             </div><!--END: row-->
 
@@ -752,6 +766,7 @@
 
       <!-- 3D ROS Connection: TODO-->
       <!-- <script src="scripts/ros/*.js"></script> -->
+      
       <!-- Used by showModal() warning sound. E.g. FATAL, DISENGAGE, SHUTDOWN, LEFTROUTE-->
       <audio id="audioAlert1" preload="auto">
           <source src="sound/not-kiddin.mp3" type="audio/mpeg">

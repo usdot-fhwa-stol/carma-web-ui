@@ -82,6 +82,7 @@ body
     border-top-right-radius: 15px;
     border-bottom-right-radius: 15px;
 }
+
 .accelarator-col-1 {
     border-top-left-radius: 15px;
     border-bottom-left-radius: 15px;
@@ -92,6 +93,19 @@ body
     border: 1px solid #C7C8D9;
     border-radius: 10px;
     background-color: #2C343D;
+}
+#light_bar_group{
+    width: 340px;
+    display:flex;
+    padding: 5px 0px;
+}
+#lane_change_group{
+    width: 340px;
+    display:flex;
+    border: 1px solid #C7C8D9;
+    border-radius: 10px;
+    background-color: #2C343D;
+    margin:10px 0px 0px 0px;
 }
 canvas 
 { 

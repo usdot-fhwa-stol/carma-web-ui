@@ -1,6 +1,11 @@
 /**
  * Subscribe to /hardware_interface/driver_discovery
  * Show driver status for PintPoint
+ * # enumeration values for status:
+    uint8  OFF=0
+    uint8  OPERATIONAL=1
+    uint8  DEGRADED=2
+    uint8  FAULT=3
  */
 function subscribeToDriverDiscovery(){
     let listener = new ROSLIB.Topic({
@@ -23,16 +28,16 @@ function subscribeToDriverDiscovery(){
         if(message.name == '/hardware_interface/mock_gnss'){
             switch (message.status) 
             {
-                case GPS_STATUS_OFF: //OFF
+                case GPS_DRIVER_STATUS_OFF: //OFF
                     GPSStatus.style.color = '';//grey
                     break;
-                case GPS_STATUS_OPERATIONAL: //OPERATIONAL
+                case GPS_DRIVER_STATUS_OPERATIONAL: //OPERATIONAL
                     GPSStatus.style.color = '#87b821'; //Green
                     break;
-                case GPS_STATUS_DEGRADED: //DEGRADED
+                case GPS_DRIVER_STATUS_DEGRADED: //DEGRADED
                     GPSStatus.style.color = '#ff6600'; //Orange
                     break;
-                case GPS_STATUS_FAULT: //FAULT
+                case GPS_DRIVER_STATUS_FAULT: //FAULT
                     GPSStatus.style.color = '#b32400'; //Red
                     break;
                 default:

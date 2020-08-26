@@ -118,8 +118,8 @@ function activateGuidance(newStatus = true)
     //Call the service to engage guidance.
     var setGuidanceClient = new ROSLIB.Service({
         ros:g_ros,
-        name: '/guidance/set_guidance_active',
-        serviceType: 'cav_srvs/SetGuidanceActive'
+        name: S_GUIDANCE_ACTIVATED,
+        serviceType: M_GUIDANCE_ACTIVATE
     });
 
     //Setup the request.

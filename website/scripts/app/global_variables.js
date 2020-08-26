@@ -1,3 +1,4 @@
+//gobal constant variables
 const GREEN_COLOR = 'rgb(167, 223, 57)';
 const PURPLE_COLOR = 'rgb(153, 0, 153)';
 const BLUE_COLOR = 'rgb(0, 255, 255)';
@@ -24,16 +25,64 @@ const NONE = 'none';
 //ROS Topci names
 const T_GUIDANCE_STATE = '/guidance/state';
 const T_SYSTEM_ALERT = '/system_alert';
+const T_COMMS_INBOUND_BINARY_MSG = '/hardware_interface/comms/inbound_binary_msg';
+const T_COMMS_OUTBOUND_BINARY_MSG='/hardware_interface/comms/outbound_binary_msg';
+const T_DRIVER_DISCOVERY = '/hardware_interface/driver_discovery';
+const T_ROUTE_STATE = '/guidance/route_state';
+const T_ROUTE_EVENT = 'route_event';
+const T_ROUTE = 'route';
+const T_ABBR_ROUTE_STATE = 'route_state'; 
+const T_ROBOTIC_STATUS = 'controller/robotic_status';
+const T_INCOMING_BSM = '/message/incoming_bsm';
+const T_NAV_SAT_FIX = '/hardware_interface/gnss/fix_raw';//'nav_sat_fix';
+const T_CMD_SPEED = 'controller/vehicle_cmd';
+const T_ACC_ENGAGED = 'can/acc_engaged';
+const T_DIAGNOSTICS  = '/diagnostics';
+const T_CAN_ENGINE_SPEED  = 'can/engine_speed';
+const T_CAN_SPEED = 'can/speed';
+const T_SENSOR_FUSION_FILTERED_VELOCITY = '/hardware_interface/gnss/vel_raw';//velocity'; TODO: Need verification //hardware_interface/vehicle/twist
+const T_CONTROLLING_PLUGINS = 'plugins/controlling_plugins';
+const T_LATERAL_CONTROL_DRIVER = '';
+const T_TRAFFIC_SIGNAL_INFO = '/traffic_signal_info';
+const T_VEHICLE_CMD = '/hardware_interface/vehicle_cmd';
+const T_EKF_TWIST = '/localization/ekf_twist';
 
 //ROS Services names
 const S_GUIDANCE_AVAILABLE_ROUTES = '/guidance/get_available_routes';
-const S_GUIDANCE_REGISTERED_PLUGINS='/guidance/plugins/get_registered_plugins';
-const S_GUIDANCE_ACTIVE_PLUGINS='/guidance/plugins/get_active_plugins';
+const S_GUIDANCE_REGISTERED_PLUGINS = '/guidance/plugins/get_registered_plugins';
+const S_GUIDANCE_ACTIVE_PLUGINS = '/guidance/plugins/get_active_plugins';
+const S_GUIDANCE_ACTIVATED = '/guidance/set_guidance_active';
+const S_ACTIVATE_PLUGINS = '/guidance/plugins/activate_plugin';
+const S_ACTIVATE_ROUTE = '/guidance/set_active_route';
+const S_START_ACTIVE_ROUTE = 'start_active_route';
 
 //ROS msgs names
 const M_GUIDANCE_STATE = 'cav_msgs/GuidanceState';
 const M_GUIDANCE_AVAILABLE_ROUTES = 'cav_srvs/GetAvailableRoutes';
-const M_GUIDANCE_PLUGINLIST ='cav_srvs/PluginList';
+const M_GUIDANCE_PLUGINLIST = 'cav_srvs/PluginList';
+const M_CAV_BYTEARRAY = 'cav_msgs/ByteArray';
+const M_DRIVER_STATUS = 'cav_msgs/DriverStatus';
+const M_GUIDANCE_ACTIVATE = 'cav_srvs/SetGuidanceActive';
+const M_PLUGIN_ACTIVATION = 'cav_srvs/PluginActivation';
+const M_ROUTE_STATE = 'cav_msgs/RouteState';
+const M_ACTIVE_ROUTE = 'cav_srvs/SetActiveRoute';
+const M_ROUTE_EVENT = 'cav_msgs/RouteEvent';
+const M_START_ACTIVE_ROUTE = 'cav_srvs/StartActiveRoute';
+const M_ROUTE = 'cav_msgs/Route';
+const M_SYSTEM_ALERT = 'cav_msgs/SystemAlert';
+const M_ROBOT_ENABLED = 'cav_msgs/RobotEnabled';
+const M_BSM = 'cav_msgs/BSM';
+const M_NAV_SAT_FIX = 'sensor_msgs/NavSatFix';
+const M_SPEED_ACCL = 'cav_msgs/SpeedAccel';
+const M_BOOL = 'std_msgs/Bool';
+const M_DIAGNOSTIC_ARRAY = 'diagnostic_msgs/DiagnosticArray';
+const M_FLOAT64 = 'std_msgs/Float64';
+const M_TWIST__COVARIANCE_STAMPED  = 'geometry_msgs/TwistWithCovarianceStamped';
+const M_ACTIVE_MANEUVERS = 'cav_msgs/ActiveManeuvers';
+const M_LATERAL_CONTROL = 'cav_msgs/LateralControl';
+const M_TRAFFIC_SIGNAL_INFO_LIST = 'cav_msgs/TrafficSignalInfoList';
+const M_VEHICLE_CMD = 'autoware_msgs/VehicleCmd';
+const M_TWIST_STAMPED = 'geometry_msgs/TwistStamped';
 
 //ROS param names
 const P_REQUIRED_PLUGINS = '/guidance/health_monitor/required_plugins';
@@ -41,7 +90,7 @@ const P_REQUIRED_PLUGINS = '/guidance/health_monitor/required_plugins';
 // m/s to MPH
 const METER_TO_MPH = 2.23694;
 
-//CAV_Messages
+//Guidance CAV_Messages
 const STARTUP = 1;
 const DRIVERS_READY = 2;
 const ACTIVE = 3;
@@ -67,6 +116,12 @@ const SYSTEM_ALERT_NOT_READY = 4;
 const SYSTEM_ALERT_DRIVERS_READY = 5;
 const SYSTEM_ALERT_SHUTDOWN = 6;
 
+//PinPoint GPS status
+const GPS_STATUS_OFF = 0;
+const GPS_STATUS_OPERATIONAL = 1;
+const GPS_STATUS_DEGRADED = 2;
+const GPS_STATUS_FAULT = 3;
+
 //ROS
 var g_ros = new ROSLIB.Ros();
 
@@ -78,20 +133,13 @@ var g_brakeCircle = null;
 var g_timer = null; //elapsed timer
 var g_cnt_log_lines = 0;
 var g_ready_counter = 0;
-var t_incoming_bsm = '/message/incoming_bsm';
-var t_controlling_plugins = 'plugins/controlling_plugins';
+
+
 var p_host_instructions = '/saxton_cav/ui/host_instructions';
-var t_nav_sat_fix = '/hardware_interface/gnss/fix_raw';//'nav_sat_fix';
-var t_diagnostics = '/diagnostics';
-var t_cmd_speed = 'controller/vehicle_cmd';
-var t_lateral_control_driver = '';
+
 var t_light_bar_status = 'control/light_bar_status'; //02/2019: added to display lightbar on UI
-var t_sensor_fusion_filtered_velocity = '/hardware_interface/gnss/vel_raw';//velocity'; TODO: Need verification //hardware_interface/vehicle/twist
-var t_can_engine_speed = 'can/engine_speed';
-var t_can_speed = 'can/speed';
-var t_acc_engaged = 'can/acc_engaged';
-var t_route_state = 'route_state';
-var t_route_event = 'route_event';
+
+
 var g_sound_counter = 0;
 var g_sound_counter_max = 3; //max # of times the sounds will be repeated.
 

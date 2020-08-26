@@ -12,8 +12,8 @@ function subscribeToVehicleCMD()
 {
     var listener = new ROSLIB.Topic({
         ros: g_ros,
-        name: '/hardware_interface/vehicle_cmd',
-        messageType: 'autoware_msgs/VehicleCmd'
+        name: T_VEHICLE_CMD,
+        messageType: M_VEHICLE_CMD
     });
     listener.subscribe(function(message)
     {

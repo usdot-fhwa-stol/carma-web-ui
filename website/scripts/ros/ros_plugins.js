@@ -166,8 +166,8 @@ function activatePlugin(pluginName,pluginType,pluginVersionId,changeToNewStatus,
     // Calling service
     var service = new ROSLIB.Service({
         ros: g_ros,
-        name: '/guidance/plugins/activate_plugin',
-        serviceType: 'cav_srvs/PluginActivation'
+        name: S_ACTIVATE_PLUGINS,
+        serviceType: M_PLUGIN_ACTIVATION
     });
 
     // Get name and version.

@@ -160,8 +160,8 @@ function showNavSatFix()
 {
     var listenerNavSatFix = new ROSLIB.Topic({
         ros: g_ros,
-        name: t_nav_sat_fix, //not published
-        messageType: 'sensor_msgs/NavSatFix'
+        name: T_NAV_SAT_FIX, //not published
+        messageType: M_NAV_SAT_FIX
     });
     listenerNavSatFix.subscribe(function (message) 
     {
@@ -232,8 +232,8 @@ function showSpeedAccelInfo()
     // console.log('showSpeedAccelInfo');
     var listenerSpeedAccel = new ROSLIB.Topic({
             ros: g_ros,
-            name: t_cmd_speed, //not published
-            messageType: 'cav_msgs/SpeedAccel'
+            name: T_CMD_SPEED, //not published
+            messageType: M_SPEED_ACCL
     });
 
     listenerSpeedAccel.subscribe(function (message) 
@@ -254,8 +254,8 @@ function showDiagnostics()
 {
     var listenerACCEngaged = new ROSLIB.Topic({	
         ros: g_ros,	
-        name: t_acc_engaged,	
-        messageType: 'std_msgs/Bool'	
+        name: T_ACC_ENGAGED,	
+        messageType: M_BOOL	
     });
     let isACCEngagedDisplayed = false;
     listenerACCEngaged.subscribe(function (message) {
@@ -278,8 +278,8 @@ function showDiagnostics()
 
     var listenerDiagnostics = new ROSLIB.Topic({
         ros: g_ros,
-        name: t_diagnostics, //not published
-        messageType: 'diagnostic_msgs/DiagnosticArray'
+        name: T_DIAGNOSTICS, //not published
+        messageType: M_DIAGNOSTIC_ARRAY
     });
     let isDiagnosticsDisplayed = false;
     listenerDiagnostics.subscribe(function (messageList) {
@@ -348,8 +348,8 @@ function showCANSpeeds()
 {
 	var listenerCANEngineSpeed = new ROSLIB.Topic({
 	    ros: g_ros,
-	    name: t_can_engine_speed, 
-	    messageType: 'std_msgs/Float64'
+	    name: T_CAN_ENGINE_SPEED, 
+	    messageType: M_FLOAT64
 	});
     let isCANEngineSpeedDisplayed= false;
 	listenerCANEngineSpeed.subscribe(function (message) {
@@ -372,8 +372,8 @@ function showCANSpeeds()
 
 	var listenerCANSpeed = new ROSLIB.Topic({
 	    ros: g_ros,
-	    name: t_can_speed,
-	    messageType: 'std_msgs/Float64'
+	    name: T_CAN_SPEED,
+	    messageType: M_FLOAT64
 	});
     let isCANSpeedDisplayed = false;
     listenerCANSpeed.subscribe(function (message) 
@@ -409,8 +409,8 @@ function showActualSpeed(){
     
     var listenerSFVelocity = new ROSLIB.Topic({
         ros: g_ros,
-        name: t_sensor_fusion_filtered_velocity, 
-        messageType: 'geometry_msgs/TwistWithCovarianceStamped' 
+        name: T_SENSOR_FUSION_FILTERED_VELOCITY, 
+        messageType: M_TWIST__COVARIANCE_STAMPED 
     });//'geometry_msgs/TwistStamped'
     let isActualSpeedDisplayed= false;
     listenerSFVelocity.subscribe(function (message) 
@@ -450,8 +450,8 @@ function showActualSpeed(){
 function showControllingPlugins() {
     var listenerControllingPlugins = new ROSLIB.Topic({
         ros: g_ros,
-        name: t_controlling_plugins, //not publish
-        messageType: 'cav_msgs/ActiveManeuvers'
+        name: T_CONTROLLING_PLUGINS, //not publish
+        messageType: M_ACTIVE_MANEUVERS
     });
 
     listenerControllingPlugins.subscribe(function (message) 
@@ -500,8 +500,8 @@ function checkLateralControlDriver()
     //Subscription
     var listenerLateralControl = new ROSLIB.Topic({
         ros: g_ros,
-        name: t_lateral_control_driver, //not publish
-        messageType: 'cav_msgs/LateralControl'
+        name: T_LATERAL_CONTROL_DRIVER, //not publish
+        messageType: M_LATERAL_CONTROL
     });
 
     listenerLateralControl.subscribe(function (message) {
@@ -522,8 +522,8 @@ function mapOtherVehicles()
     //Subscribe to Topic
     var listenerClient = new ROSLIB.Topic({
         ros: g_ros,
-        name: t_incoming_bsm,
-        messageType: 'cav_msgs/BSM'
+        name: T_INCOMING_BSM,
+        messageType: M_BSM
     });
     let isBSMDisplayed = false;
     listenerClient.subscribe(function (message) 
@@ -589,8 +589,8 @@ function checkRouteInfo()
     //Get Route Event
     var listenerRouteEvent = new ROSLIB.Topic({
         ros: g_ros,
-        name: t_route_event,
-        messageType: 'cav_msgs/RouteEvent'
+        name: T_ROUTE_EVENT,
+        messageType: M_ROUTE_EVENT
     });
     let isRouteEventDisplayed = false;
     listenerRouteEvent.subscribe(function (message) 
@@ -654,8 +654,8 @@ function checkRouteInfo()
     //Get Route State
     var listenerRouteState = new ROSLIB.Topic({
         ros: g_ros,
-        name: t_route_state,
-        messageType: 'cav_msgs/RouteState'
+        name: T_ABBR_ROUTE_STATE,
+        messageType: M_ROUTE_STATE
     });
 
     let isRouteStateDisplayed = false;
@@ -731,8 +731,8 @@ function checkRobotEnabled() {
 
     var listenerRobotStatus = new ROSLIB.Topic({
             ros: g_ros,
-            name: 'controller/robotic_status',
-            messageType: 'cav_msgs/RobotEnabled'
+            name: T_ROBOTIC_STATUS,
+            messageType: M_ROBOT_ENABLED
      });
      isRobotStatusDisplayed = false;
      listenerRobotStatus.subscribe(function (message) 

@@ -6,8 +6,8 @@ function subscribeToLocalizationEKFTwist()
 {
     var listener = new ROSLIB.Topic({
         ros: g_ros,
-        name: '/localization/ekf_twist',
-        messageType: 'geometry_msgs/TwistStamped'
+        name: T_EKF_TWIST,
+        messageType: M_TWIST_STAMPED
     });
     listener.subscribe(function(message)
     {

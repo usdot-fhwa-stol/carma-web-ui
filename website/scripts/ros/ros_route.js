@@ -61,8 +61,8 @@ function subscribeToGuidanceRouteState()
 {
     var listener = new ROSLIB.Topic({
         ros: g_ros,
-        name: '/guidance/route_state',
-        messageType: 'cav_msgs/RouteState'
+        name: T_ROUTE_STATE,
+        messageType: M_ROUTE_STATE
     });
     listener.subscribe(function(message)
     {
@@ -94,8 +94,8 @@ function setRoute(id)
     // Calling setActiveRoute service
     var service = new ROSLIB.Service({
         ros: g_ros,
-        name: '/guidance/set_active_route',
-        serviceType: 'cav_srvs/SetActiveRoute'
+        name: S_ACTIVATE_ROUTE,
+        serviceType: M_ACTIVE_ROUTE
     });
 
     var selectedRouteid = id.toString();
@@ -150,8 +150,8 @@ function setRoute(id)
     //Get Route Event
     var listenerRouteEvent = new ROSLIB.Topic({
         ros: g_ros,
-        name: t_route_event,
-        messageType: 'cav_msgs/RouteEvent'
+        name: T_ROUTE_EVENT,
+        messageType: M_ROUTE_EVENT
     });
     listenerRouteEvent.subscribe(function (message) {
         console.log(message.event);
@@ -182,8 +182,8 @@ function startActiveRoute(id)
     // Calling set_active_route service
     var service = new ROSLIB.Service({
         ros: g_ros,
-        name: 'start_active_route',
-        serviceType: 'cav_srvs/StartActiveRoute'
+        name: S_START_ACTIVE_ROUTE,
+        serviceType: M_START_ACTIVE_ROUTE
     });
 
     // Then we create a Service Request.
@@ -237,8 +237,8 @@ function showActiveRoute()
     //Get Route State
     var listener = new ROSLIB.Topic({
         ros: g_ros,
-        name: 'route',
-        messageType: 'cav_msgs/Route'
+        name: T_ROUTE,
+        messageType: M_ROUTE
     });
 
     listener.subscribe(function (message) 

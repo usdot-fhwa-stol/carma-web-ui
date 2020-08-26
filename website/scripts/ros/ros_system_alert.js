@@ -13,7 +13,7 @@ function checkSystemAlerts() {
     listenerSystemAlert = new ROSLIB.Topic({
         ros: g_ros,
         name: T_SYSTEM_ALERT,
-        messageType: 'cav_msgs/SystemAlert'
+        messageType: M_SYSTEM_ALERT
     });
 
     // Then we add a callback to be called every time a message is published on this topic.

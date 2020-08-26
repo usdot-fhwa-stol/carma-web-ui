@@ -5,8 +5,8 @@
 function subscribeToInboundBinary(){
     let listener = new ROSLIB.Topic({
         ros:g_ros,
-        name: '/hardware_interface/comms/inbound_binary_msg',
-        messageType: 'cav_msgs/ByteArray'
+        name: T_COMMS_INBOUND_BINARY_MSG,
+        messageType: M_CAV_BYTEARRAY
     });
     let isTimeerSet = false;
 
@@ -58,8 +58,8 @@ function subscribeToInboundBinary(){
 function subscribeToOutboundBinary(){
     let listener = new ROSLIB.Topic({
         ros:g_ros,
-        name: '/hardware_interface/comms/outbound_binary_msg',
-        messageType: 'cav_msgs/ByteArray'
+        name: T_COMMS_OUTBOUND_BINARY_MSG,
+        messageType: M_CAV_BYTEARRAY
     });
     let isTimeerSet = false;
 
@@ -91,12 +91,12 @@ function subscribeToOutboundBinary(){
         {
             isTimeerSet=true;
             setTimeout(function(){
-                OBUStatusUpArrow1.setAttribute('fill', 'grey'); //grey
-                OBUStatusUpArrow1.setAttribute('stroke', 'grey'); //grey
-                OBUStatusUpArrow2.setAttribute('fill', 'grey'); //grey
-                OBUStatusUpArrow2.setAttribute('stroke', 'grey'); //grey
-                BottomLine.setAttribute('fill', 'grey'); //grey
-                BottomLine.setAttribute('stroke', 'grey'); //grey
+                OBUStatusUpArrow1.setAttribute('fill', 'grey'); 
+                OBUStatusUpArrow1.setAttribute('stroke', 'grey'); 
+                OBUStatusUpArrow2.setAttribute('fill', 'grey'); 
+                OBUStatusUpArrow2.setAttribute('stroke', 'grey'); 
+                BottomLine.setAttribute('fill', 'grey'); 
+                BottomLine.setAttribute('stroke', 'grey'); 
                 isTimeerSet=false;
             }, 5000);
         }

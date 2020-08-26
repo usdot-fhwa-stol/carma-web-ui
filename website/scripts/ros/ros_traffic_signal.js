@@ -5,8 +5,8 @@ function TrafficSignalInfoList(){
 
     listener = new ROSLIB.Topic({
         ros: g_ros,
-        name: '/traffic_signal_info',
-        messageType: 'cav_msgs/TrafficSignalInfoList'
+        name: T_TRAFFIC_SIGNAL_INFO,
+        messageType: M_TRAFFIC_SIGNAL_INFO_LIST
     });
 
     let signalState = null;
@@ -50,6 +50,8 @@ function TrafficSignalInfoList(){
                         break;
                     default:
                         $('.traffic-signal-col').html('');
+                        $('.traffic-signal-col').append(updateTrafficSignal('',''));
+                        console.error("Traffic signal state is invalid");
                         break;
                 } 
                 //set back to black after 5 seconds.

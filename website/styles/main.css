@@ -97,7 +97,10 @@ body
 #light_bar_group{
     width: 340px;
     display:flex;
-    padding: 5px 0px;
+    padding: 10px 0px;
+}
+.light-bar-wrapper{
+    display:flex;
 }
 #lane_change_group{
     width: 340px;
@@ -105,7 +108,12 @@ body
     border: 1px solid #C7C8D9;
     border-radius: 10px;
     background-color: #2C343D;
-    margin:10px 0px 0px 0px;
+}
+.lane-change-col-1{
+    width: 100%;
+}
+.lane-change-id{
+    width: 90%;
 }
 canvas 
 { 

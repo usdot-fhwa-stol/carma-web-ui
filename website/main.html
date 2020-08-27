@@ -62,6 +62,7 @@
         <script src="scripts/app/sounds_control.js"></script>
 
         <!--wigets JS from utils-->
+        <script src="utils/lane_change_direction/lane_chagne_direction.js"></script>
         <script src="utils/current_speed/current_speed.js"></script>
         <script src="utils/accelarator/accelarator.js"></script>  
         <script src="utils/speed_limit/speed_limit.js"></script>
@@ -72,8 +73,6 @@
         <script src="utils/elapsed_time/elapsed_time.js"></script>
         <script src="utils/traffic_signal/traffic_signal.js"></script>
         <script src="utils/steering_angle/steering_angle.js"></script>
-        <script src="utils/lightbar/lightbar.js"></script>
-        <script src="utils/lane_change_direction/lane_chagne_direction.js"></script>
         <script src="utils/route_selection_radio/route_selection_radio.js"></script>
         <script src="utils/change_plugins_switch/change_plugins_switch.js"></script>
         <script src="utils/active_plugin/active_plugins.js"></script>
@@ -92,7 +91,9 @@
         <script src="scripts/ros/ros_comms_inbound_outbound_binary.js"></script>
         <script src="scripts/ros/ros_vehicle_current.js"></script>  
         <script src="scripts/ros/ros_vehicle_cmd.js"></script>
-        <script src="scripts/ros/ros_traffic_signal.js"></script>        
+        <script src="scripts/ros/ros_traffic_signal.js"></script>            
+        <script src="scripts/ros/ros_light_bar.js"></script>              
+        <script src="scripts/ros/ros_lane_change.js"></script>  
         <script src="scripts/app/subscribeROSServicesOnLoad.js"></script>
 	</head>
 	<body >  
@@ -182,13 +183,18 @@
             
             <div class="row">                 
               <div id="light_bar_group">    
-                <div class="light-bar-col-1 "></div>
+                <div class="light-bar-col-1 ">
+                  <div class="light-bar-label">LIGHT BAR INDICATOR</div>
+                  <object id="light-bar-img-id" class="light-bar-img" type="image/svg+xml" data='../../images/indicator_boxes.svg'></object>
+                </div>
               </div>   <!--END: group-->
             </div><!--END: row-->
 
             <div class="row">                 
               <div id="lane_change_group">    
-                <div class="lane-change-col-1"></div>
+                <div class="lane-change-col-1">
+                  <object id="lane-change-img-id" class="lane-change-img" type="image/svg+xml" data='../../images/turn-arrow.svg'></object>
+                </div>
               </div>   <!--END: group-->
             </div><!--END: row-->
 

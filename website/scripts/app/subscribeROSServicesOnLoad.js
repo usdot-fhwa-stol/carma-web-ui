@@ -88,6 +88,8 @@ $(document).ready(function(){
             subscribeToVehicleCMD(); //Vechile Command; Steering angle; applied speed; brake; accelerator     
             subscribeToGuidanceRouteState(); //Route - Speed Limit        
             TrafficSignalInfoList(); //Traffic Signal 
+            subscribeLightBarStatus(); //light bar
+            subscribeLaneChangeTopics(); //lane change
 
             /***
              * SECTION: Right Panel Info

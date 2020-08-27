@@ -46,6 +46,7 @@ const T_LATERAL_CONTROL_DRIVER = '';
 const T_TRAFFIC_SIGNAL_INFO = '/traffic_signal_info';
 const T_VEHICLE_CMD = '/hardware_interface/vehicle_cmd';
 const T_EKF_TWIST = '/localization/ekf_twist';
+const T_LIGHT_BAR_STATUS = '/hardware_interface/lightbar/light_bar_status';
 
 //ROS Services names
 const S_GUIDANCE_AVAILABLE_ROUTES = '/guidance/get_available_routes';
@@ -83,6 +84,7 @@ const M_LATERAL_CONTROL = 'cav_msgs/LateralControl';
 const M_TRAFFIC_SIGNAL_INFO_LIST = 'cav_msgs/TrafficSignalInfoList';
 const M_VEHICLE_CMD = 'autoware_msgs/VehicleCmd';
 const M_TWIST_STAMPED = 'geometry_msgs/TwistStamped';
+const M_LIGHT_BAR_STATUS = 'cav_msgs/LightBarStatus';
 
 //ROS param names
 const P_REQUIRED_PLUGINS = '/guidance/health_monitor/required_plugins';
@@ -121,6 +123,11 @@ const GPS_DRIVER_STATUS_OFF = 0;
 const GPS_DRIVER_STATUS_OPERATIONAL = 1;
 const GPS_DRIVER_STATUS_DEGRADED = 2;
 const GPS_DRIVER_STATUS_FAULT = 3;
+
+//LightBar status
+const LIGHT_BAR_ON = 1;
+const LIGHT_BAR_OFF = 0;
+
 
 //ROS
 var g_ros = new ROSLIB.Ros();

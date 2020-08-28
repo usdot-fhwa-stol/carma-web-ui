@@ -24,7 +24,6 @@ $(document).ready(function(){
     $("#status-btn").click(function(){
         var statusPanel = $("#status-panel");
        var displayStatus = statusPanel.css('display');
-       console.log(displayStatus);
        if(displayStatus != "none"){
             statusPanel.css('display','none');
        }

@@ -47,6 +47,7 @@ const T_TRAFFIC_SIGNAL_INFO = '/traffic_signal_info';
 const T_VEHICLE_CMD = '/hardware_interface/vehicle_cmd';
 const T_EKF_TWIST = '/localization/ekf_twist';
 const T_LIGHT_BAR_STATUS = '/hardware_interface/lightbar/light_bar_status';
+const T_CARMA_SYSTEM_VERSION = "/carma_system_version";
 
 //ROS Services names
 const S_GUIDANCE_AVAILABLE_ROUTES = '/guidance/get_available_routes';
@@ -140,6 +141,12 @@ var g_brakeCircle = null;
 var g_timer = null; //elapsed timer
 var g_cnt_log_lines = 0;
 var g_ready_counter = 0;
+
+//map 
+var map;
+var bounds;
+var markers=[];
+var hostmarker;
 
 
 var p_host_instructions = '/saxton_cav/ui/host_instructions';

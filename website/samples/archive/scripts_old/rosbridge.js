@@ -288,7 +288,7 @@ function connectToROS() {
 
     }
     catch (err) {
-        divCapabilitiesMessage.innerHTML = 'Unexpected Error. Sorry, unable to connect to ROS server, please refresh your page to try again or contact your System Admin.';
+        $('#divCapabilitiesContent').html('Unexpected Error. Sorry, unable to connect to ROS server, please refresh your page to try again or contact your System Admin.');
         console.log(err);
     }
 }

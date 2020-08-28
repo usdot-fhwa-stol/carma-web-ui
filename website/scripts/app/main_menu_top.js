@@ -7,8 +7,11 @@ $(document).ready(function(){
         $(this).addClass('active');
         $(".nav-link.display").removeClass('active');
 
-        //display route
+        //show route
         $("#route-list-area").css('display','block');
+        
+        //show divCapability
+        $("#divCapabilitiesArea").css('display','block');
 
         //hide widgets area and 3D canvas
         $("#widgets-panel").css('display','none');
@@ -25,6 +28,9 @@ $(document).ready(function(){
 
         //hide route
         $("#route-list-area").css('display','none');
+
+        //hide divCapability
+        $("#divCapabilitiesArea").css('display','none');
     });
 
     $('#sound-status').click(()=>{

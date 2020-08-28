@@ -1,0 +1,13 @@
+#platooning_info_wrapper{
+    font-size: 80%;
+}
+#platooning_info_wrapper p{
+    padding-left: 15px;
+}
+#platooning_info_wrapper .title{
+    padding-left: 0px !important;
+}
+#platooning_info_wrapper .underline{
+    text-underline-position: below;
+    text-decoration: underline;
+}

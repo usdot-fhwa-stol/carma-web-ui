@@ -47,7 +47,8 @@ $(document).ready(function(){
         
         $.when(deferROSConnection)
         .done((successMessage)=>{
-            console.log(successMessage);
+            $('#divCapabilitiesSystemAlert').html('Awaiting for system ready...');
+            $('#divCapabilitiesContent').css('display','inline-block');
             // Check System Ready:ros_system_alert.js
             let systemAlertInterval = setInterval(()=>{
                 checkSystemAlerts();
@@ -125,8 +126,9 @@ $(document).ready(function(){
     } 
     else 
     {
-        console.log('Sorry, cannot proceed unless your browser support HTML Web Storage Objects.' + 
+        $('#divCapabilitiesSystemAlert').html('Sorry, cannot proceed unless your browser support HTML Web Storage Objects.' + 
                                            'Please contact your system administrator.');
+        $('#divCapabilitiesContent').css('display','inline-block');
     }
 });
 
@@ -359,4 +361,6 @@ function uncheckAllRoutesListener()
     route_error_msgs.forEach((elemenet)=>{
         elemenet.style.display ='none';
     });
+    $('#divCapabilitiesRoute').html('Please select a route.');
+    $('#divCapabilitiesContent').css('display','inline-block');
 }

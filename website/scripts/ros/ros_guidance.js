@@ -27,12 +27,16 @@ function subscribeToGuidanceState ()
        //reset session_isGuidance.engaged/active to false  
        session_isGuidance.engaged = false;
        session_isGuidance.active = false;
-
+      
        switch (message.state) 
        {
+          
             case STARTUP: 
-                btnCAVGuidance.src = "../../images/Xtra_Art/Big-grayREV.svg"; //'Guidance is starting up.';
+                btnCAVGuidance.src = "../../images/Xtra_Art/Big-grayREV.svg"; 
                 btnCAVGuidance.style.boxShadow = null;
+
+                $('#divCapabilitiesGuidance').html('Guidance is starting up.');
+                $('#divCapabilitiesContent').css('display','inline-block');
                 //clear/reset engage elapsed time in session
                 if(startDateTime != null)
                     startDateTime.remove();
@@ -49,20 +53,25 @@ function subscribeToGuidanceState ()
                 //  if(startDateTime != null)
                 //     startDateTime.remove();
                 session_isGuidance.active = true;
-                btnCAVGuidance.src = "../../images/Xtra_Art/Big-greenREV.svg"; //'Guidance is now ACTIVE.'
-                btnCAVGuidance.style.boxShadow  = "0px 0px 10px 0px white";                          
+                btnCAVGuidance.src = "../../images/Xtra_Art/Big-greenREV.svg"; 
+                btnCAVGuidance.style.boxShadow  = "0px 0px 10px 0px white";              
+                
+                $('#divCapabilitiesGuidance').html('Guidance is now ACTIVE.');
+                $('#divCapabilitiesContent').css('display','inline-block');            
                 break;
             case ENGAGED: 
                 session_isGuidance.engaged = true;                
-                //start the timer when it first engages.              
-                // Start timer after engaging Guidance.
+                //start the timer when it first engages.    
                 btnCAVGuidance.style.boxShadow = "0px 0px 20px 0px white";
                 if (g_timer == null)
                 {
                     console.log('*** setInterval & countUpTimer was called.');
                     g_timer = setInterval(countUpTimer, 1000);
                 }
-                btnCAVGuidance.src = "../../images/Xtra_Art/Big-blueREV.svg"; //'Guidance is now ENGAGED.' 
+                btnCAVGuidance.src = "../../images/Xtra_Art/Big-blueREV.svg"; 
+
+                $('#divCapabilitiesGuidance').html('Guidance is now ENGAGED.' );
+                $('#divCapabilitiesContent').css('display','inline-block');
                 //hide route area
                 $('#clearRoutes').css('display','none'); //remove Clear from route selection
                 $("#route-list-area").css('display','none');   //hide route selection area 
@@ -77,8 +86,10 @@ function subscribeToGuidanceState ()
                  if(startDateTime != null)
                      startDateTime.remove();
                 //Set based on whatever guidance_state says, regardless if UI has not been engaged yet.
-                btnCAVGuidance.src = "../../images/Xtra_Art/Big-redREV.svg"; //'CAV Guidance is INACTIVE. <br/> To re-engage, double tap the ACC switch downward on the steering wheel.';
+                btnCAVGuidance.src = "../../images/Xtra_Art/Big-redREV.svg"; 
                 playSound('audioAlert3', true);
+                $('#divCapabilitiesGuidance').html('CAV Guidance is INACTIVE. <br/> To re-engage, double tap the ACC switch downward on the steering wheel.');
+                $('#divCapabilitiesContent').css('display','inline-block');
                 break;
             case SHUTDOWN:                
                 //Show modal popup for Shutdown alerts from Guidance, which is equivalent to Fatal since it cannot restart with this state.
@@ -97,7 +108,8 @@ function subscribeToGuidanceState ()
                 $('#systemAlertModal').modal({backdrop: 'static', keyboard: false});     
                 break;
             default:
-                //'System alert type is unknown. Assuming system it not yet ready.  ' + message.description;
+                $('#divCapabilitiesSystemAlert').html('System alert type is unknown. Assuming system it not yet ready.'); 
+                $('#divCapabilitiesContent').css('display','inline-block');
                 break;
         }
     });
@@ -134,8 +146,9 @@ function activateGuidance(newStatus = true)
         IsROSBridgeConnected();
         if (Boolean(result.guidance_status) != newStatus) //NOT SUCCESSFUL.
         {
-            console.log('Guidance failed to set the value, please try again.');
-            alert('Guidance failed to set the value, please try again.');
+            $('#divCapabilitiesContent').html('');
+            $('#divCapabilitiesContent').html('Guidance failed to set the value, please try again.');
+            $('#divCapabilitiesContent').css('display','inline-block');
             return;
         }
 

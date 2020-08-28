@@ -8,7 +8,8 @@ function subscribeToGuidanceAvailaleRoutes ()
         name: S_GUIDANCE_AVAILABLE_ROUTES,
         messageType: M_GUIDANCE_AVAILABLE_ROUTES
     });
-
+    $('#divCapabilitiesRoute').html('Awaiting the list of available routes...');
+    $('#divCapabilitiesContent').css('display','inline-block');
     // Create a Service Request with no arguments.
     var request = new ROSLIB.ServiceRequest({});
 
@@ -18,10 +19,19 @@ function subscribeToGuidanceAvailaleRoutes ()
     {
         //Check ROSBridge connection before subscribe a topic
         IsROSBridgeConnected();
-        //console.log('available routes are: ' + result.availableRoutes);
         var availableRoutes = result.availableRoutes;
         if(availableRoutes != null && availableRoutes.length > 0){
             $('#route-list-content-no-route-available').html('');
+            if(session_selectedRoute != null && session_selectedRoute.name != null 
+                && session_selectedRoute.name.length != 0 && session_selectedRoute.name !='undefined')
+            {
+                $('#divCapabilitiesRoute').html('Seleted route is ' + session_selectedRoute.name );               
+            }
+            else
+            {
+                $('#divCapabilitiesRoute').html('Please select a route.');
+            }
+           
             availableRoutes.forEach(route=>{
                 // console.log('route name is: ' + route.route_name);
                 // console.log('route Id is: ' + route.route_id);                
@@ -99,7 +109,7 @@ function setRoute(id)
     });
 
     var selectedRouteid = id.toString();
-    //console.log(selectedRouteid);
+
     // Create a Service Request.
     var request = new ROSLIB.ServiceRequest({
         routeID: selectedRouteid
@@ -111,33 +121,60 @@ function setRoute(id)
     var ErrorStatus = {
         NO_ERROR: { value: 0, text: 'NO_ERROR' },
         NO_ROUTE: { value: 1, text: 'NO_ROUTE' },
+        ALREADY_FOLLOWING_ROUTE: { value: 2, text: 'ALREADY_FOLLOWING_ROUTE' },
+        ROUTE_FILE_ERROR: { value: 3, text: 'ROUTE_FILE_ERROR' },
+        ROUTING_FAILURE: { value: 4, text: 'ROUTING_FAILURE' },
+        TRANSFORM_ERROR: { value: 5, text: 'TRANSFORM_ERROR' },
     };
     try
     {
         // Call the service and get back the results in the callback.
         service.callService(request, function (result) 
         {
-            console.log(result);
-            if (result.errorStatus == ErrorStatus.NO_ROUTE.value) 
-            {
-                console.log('Setting the active route failed (' + ErrorStatus.NO_ROUTE.text + '). <br/> Please try again.');
-                //insertNewTableRow('tblSecondA', 'Error Code', result.ErrorStatus.NO_ROUTE.text);
+            let errorDescription = '';
+            if (result.errorStatus != ErrorStatus.NO_ERROR.value) 
+            {             
+                switch (result.errorStatus) 
+                {
+                    case ErrorStatus.NO_ROUTE.value:
+                        errorDescription = ErrorStatus.NO_ROUTE.text;
+                        break;
+                    case ErrorStatus.ALREADY_FOLLOWING_ROUTE.value:
+                        errorDescription = ErrorStatus.ALREADY_FOLLOWING_ROUTE.text;
+                        break;
+                    case ErrorStatus.ROUTE_FILE_ERROR.value:
+                         errorDescription = ErrorStatus.ROUTE_FILE_ERROR.text;
+                         break;
+                    case ErrorStatus.ROUTING_FAILURE.value:
+                         errorDescription = ErrorStatus.ROUTING_FAILURE.text;
+                         break;
+                    case ErrorStatus.TRANSFORM_ERROR.value:
+                         errorDescription = ErrorStatus.TRANSFORM_ERROR.text;
+                        break;
+                    default: //unexpected value or error
+                        errorDescription = result.errorStatus; //print the number;
+                        break;
+                }
+
                 //Allow user to select it again.
                 rbRoute.checked = false;
             }
-            else { //Call succeeded
+            else 
+            { 
+                //Call succeeded
                 console.log('call set active route success!');
                 //load the selected/active route to session
                 session_selectedRoute.id = selectedRouteid;
-                //After activating the route, start_active_route.
-                //TODO: Discuss if start_active_route can be automatically determined and done by Route Manager in next iteration?
-                //      Route selection is done first and set only once.
-                //      Once selected, it wouldn't be activated until at least 1 Plugin is selected (based on Route).
-                //      Only when a route is selected and at least one plugin is selected, could Guidance be Engaged.
-                //startActiveRoute(id);
+                $('#divCapabilitiesRoute').html('Seleted route is ' + selectedRouteid );
+                $('#divCapabilitiesContent').css('display','inline-block');
+
                 //Subscribe to active route to map the segments
-                //DANDU : TODO
-                //showActiveRoute();
+                showActiveRoute();
+            }
+            if (errorDescription != '') 
+            {
+                $('#divCapabilitiesRoute').html('Setting the route failed (' + errorDescription + '). <br/> Please try again or contact your System Administrator.');
+                $('#divCapabilitiesContent').css('display','inline-block');
             }
         });
     }
@@ -146,15 +183,14 @@ function setRoute(id)
         rbRoute.checked = false;
     }
 
-    console.log('result2');
     //Get Route Event
     var listenerRouteEvent = new ROSLIB.Topic({
         ros: g_ros,
         name: T_ROUTE_EVENT,
         messageType: M_ROUTE_EVENT
     });
-    listenerRouteEvent.subscribe(function (message) {
-        console.log(message.event);
+    listenerRouteEvent.subscribe(function (message) 
+    {
         if(message.event == 6)//ROUTE_GEN_FAIL
         {
             let errorMsgByRouteId = document.getElementById('error_msg_'+selectedRouteid);
@@ -162,78 +198,14 @@ function setRoute(id)
                 errorMsgByRouteId.style.display='block'; //show error mesage fo route generation failed
         }
     });
-
-}
-/*
-TODO:
-    Start Active Route upon user selection
-*/
-function startActiveRoute(id) 
-{
-
-    var ErrorStatus = 
-    {
-        NO_ERROR: { value: 0, text: 'NO_ERROR' },
-        NO_ACTIVE_ROUTE: { value: 1, text: 'NO_ACTIVE_ROUTE' },
-        INVALID_STARTING_LOCATION: { value: 2, text: 'INVALID_STARTING_LOCATION' },
-        ALREADY_FOLLOWING_ROUTE: { value: 3, text: 'ALREADY_FOLLOWING_ROUTE' },
-    };
-
-    // Calling set_active_route service
-    var service = new ROSLIB.Service({
-        ros: g_ros,
-        name: S_START_ACTIVE_ROUTE,
-        serviceType: M_START_ACTIVE_ROUTE
-    });
-
-    // Then we create a Service Request.
-    var request = new ROSLIB.ServiceRequest({
-    });
-
-    // Call the service and get back the results in the callback.
-    service.callService(request, function (result) 
-    {
-        //Check ROSBridge connection before subscribe a topic
-        IsROSBridgeConnected();
-        var errorDescription = '';
-
-        switch (result.errorStatus) 
-        {
-            case ErrorStatus.NO_ERROR.value:
-            case ErrorStatus.ALREADY_FOLLOWING_ROUTE.value:
-                showSubCapabilitiesView(id);
-                break;
-            case ErrorStatus.NO_ACTIVE_ROUTE.value:
-                errorDescription = ErrorStatus.ALREADY_FOLLOWING_ROUTE.text;
-                break;
-            case ErrorStatus.INVALID_STARTING_LOCATION.value:
-                errorDescription = ErrorStatus.INVALID_STARTING_LOCATION.text;
-                break;
-            default: //unexpected value or error
-                errorDescription = result.errorStatus; //print the number;
-                break;
-        }
-
-        if (errorDescription != '') 
-        {
-            divCapabilitiesMessage.innerHTML = 'Starting the active the route failed (' + errorDescription + '). <br/> Please try again or contact your System Administrator.';
-            insertNewTableRow('tblSecondA', 'Error Code', errorDescription);
-
-            //Allow user to select the route again
-            var rbRoute = document.getElementById(id.toString());
-            rbRoute.checked = false;
-        }
-    });
 }
 
-
-/* DANDU: TODO
+/* 
     Watch out for route completed, and display the Route State in the System Status tab.
     Route state are only set and can be shown after Route has been selected.
 */
 function showActiveRoute() 
 {
-
     //Get Route State
     var listener = new ROSLIB.Topic({
         ros: g_ros,
@@ -244,21 +216,62 @@ function showActiveRoute()
     listener.subscribe(function (message) 
     {
         //if route hasn't been selected.
-        if (selectedRoute.name == 'No Route Selected')
+        if (session_selectedRoute.name == 'No Route Selected')
             return;
 
         //If nothing on the list, set all selected checkboxes back to blue (or active).
         if (message.segments == null || message.segments.length == 0) 
         {
-         //   divCapabilitiesMessage.innerHTML += 'There were no segments found the active route.';
+            $('#divCapabilitiesRoute').append('There were no segments found the active route.');
+            $('#divCapabilitiesContent').css('display','inline-block');
             return;
         }
 
         //Only map the segment one time.
-        //alert('routePlanCoordinates: ' + sessionStorage.getItem('routePlanCoordinates') );
+        console.log('routePlanCoordinates: ' + sessionStorage.getItem('routePlanCoordinates') );
         if (sessionStorage.getItem('routePlanCoordinates') == null) 
         {
-         //   message.segments.forEach(mapEachRouteSegment);
+           message.segments.forEach(mapEachRouteSegment);
         }
     });
+}
+
+// Will re-evaluate if this is still needed after more LaneLet info is published
+// Loop through each available plugin
+
+function mapEachRouteSegment(segment) 
+{
+    var segmentLat;
+    var segmentLon;
+    var position;
+    var routeCoordinates; //To map the entire route
+
+    console.log(segment.prev_waypoint.latitude);
+    console.log(segment.prev_waypoint.longitude);
+    console.log(segment.waypoint.longitude);
+    console.log(segment.waypoint.longitude);
+    
+    //1) To map the route
+    //create new list for the mapping of the route
+    if (sessionStorage.getItem('routePlanCoordinates') == null) 
+    {
+        segmentLat = segment.prev_waypoint.latitude;
+        segmentLon = segment.prev_waypoint.longitude;
+        position = new google.maps.LatLng(segmentLat, segmentLon);
+
+        routeCoordinates = [];
+        routeCoordinates.push(position);
+        sessionStorage.setItem('routePlanCoordinates', JSON.stringify(routeCoordinates));
+    }
+    else //add to existing list.
+    {
+        segmentLat = segment.waypoint.latitude;
+        segmentLon = segment.waypoint.longitude;
+        position = new google.maps.LatLng(segmentLat, segmentLon);
+
+        routeCoordinates = sessionStorage.getItem('routePlanCoordinates');
+        routeCoordinates = JSON.parse(routeCoordinates);
+        routeCoordinates.push(position);
+        sessionStorage.setItem('routePlanCoordinates', JSON.stringify(routeCoordinates));
+    }
 }

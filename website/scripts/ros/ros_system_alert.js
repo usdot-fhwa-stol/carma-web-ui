@@ -77,6 +77,7 @@ function checkSystemAlerts() {
             case SYSTEM_ALERT_DRIVERS_READY: 
                 session_isSystemAlert.ready = true;
                 messageTypeFullDescription = 'System ready. ' + message.description;
+                $('#divCapabilitiesSystemAlert').html('');
                 break;
 
             case SYSTEM_ALERT_SHUTDOWN: 

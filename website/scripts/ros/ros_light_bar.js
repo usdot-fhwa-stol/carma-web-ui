@@ -32,9 +32,9 @@ function subscribeLightBarStatus()
     let isYellow_6_On = false;//box-6
     let isYellow_7_On = false;//box-7
     let isYellow_8_On = false; //box-8
-    let deferLightBarSVGInit = $.Deferred();
-    //update direction
+    
     //load light bar svg DOM element
+    let deferLightBarSVGInit = $.Deferred();
     var loadLightBarObj = setInterval(()=>{
         let lightBarObj = document.getElementById('light-bar-img-id') ;
         if(lightBarObj!=null && lightBarObj.contentDocument != null)
@@ -57,28 +57,84 @@ function subscribeLightBarStatus()
         }
     }, 500);
      
+    let isLightBarDisplayed = false;
+    listener.subscribe(function(message)
+    {
+        let green_solid = message.green_solid;
+        let yellow_solid = message.yellow_solid;
+        let right_arrow = message.right_arrow;
+        let left_arrow = message.left_arrow;
+        let sides_solid = message.sides_solid;
+        let flash = message.flash;
+        let green_flash = message.green_flash;
+        let takedown = message.takedown;
+        green_solid=1;
+        //yellow_solid=1;
+        //green_flash=1;
+        sides_solid = 1;
+        //right_arrow = 1;
+        //left_arrow =1;
+        //flash=1;
+        //takedown=1; 
+        
+        // insertNewTableRow('tblFirstB', 'LightBar:left_arrow: ', message.left_arrow);
+        // insertNewTableRow('tblFirstB', 'LightBar:right_arrow: ', message.right_arrow);
+        // insertNewTableRow('tblFirstB', 'LightBar:green_solid: ', message.green_solid);
+        // insertNewTableRow('tblFirstB', 'LightBar:green_flash: ', message.green_flash);
+        // insertNewTableRow('tblFirstB', 'LightBar:flash: ', message.flash);
+        // insertNewTableRow('tblFirstB', 'LightBar:takedown: ', message.takedown); //Not used, green and yellow flashing.
+
+        //update system status panel
+        if($('#lightbar_info_no_data').length >0)
+        {
+            $('#lightbar_info_no_data').remove();
+        } 
+
+        if(!isLightBarDisplayed)
+        {
+            $('#lightbar_info_body').append('<tr><th scope="col"  colspan="2" >left_arrow: </th>'+
+            '<td id="LightbarleftArrowId" style="width:20%">'+left_arrow+'</td></tr>');
+
+            $('#lightbar_info_body').append('<tr><th scope="col"  colspan="2">right_arrow: </th>'+
+            '<td id="LightbarRightArrowId">'+right_arrow+'</td></tr>');
+
+            $('#lightbar_info_body').append('<tr><th scope="col" colspan="2">green_solid: </th>'+
+            '<td id="LightbarGreenSolidId">'+green_solid+'</td></tr>');
+
+            $('#lightbar_info_body').append('<tr><th scope="col"  colspan="2">green_flash: </th>'+
+            '<td id="LightbarGreenFlashId">'+green_flash+'</td></tr>');
+
+            $('#lightbar_info_body').append('<tr><th scope="col"  colspan="2">flash: </th>'+
+            '<td id="LightbarFlashId">'+flash+'</td></tr>');
+
+            $('#lightbar_info_body').append('<tr><th scope="col"  colspan="2">sides_solid: </th>'+
+            '<td id="LightbarSidesSolidId">'+sides_solid+'</td></tr>');
+
+            $('#lightbar_info_body').append('<tr><th scope="col"  colspan="2">yellow_solid: </th>'+
+            '<td id="LightbarYellowSolidId">'+yellow_solid+'</td></tr>');
+
+            $('#lightbar_info_body').append('<tr><th scope="col"  colspan="2">takedown: </th>'+
+            '<td id="LightbarTakedownId">'+takedown+'</td></tr>');
+            isLightBarDisplayed = true;
+        }
+        else
+        {
+            $('#LightbarleftArrowId').text(left_arrow);
+            $('#LightbarRightArrowId').text(right_arrow);
+            $('#LightbarGreenSolidId').text(green_solid);
+            $('#LightbarGreenFlashId').text(green_flash);
+            $('#LightbarFlashId').text(flash);
+            $('#LightbarSidesSolidId').text(sides_solid);
+            $('#LightbarYellowSolidId').text(yellow_solid);
+            $('#LightbarTakedownId').text(takedown);
+        }
+
     //Lane change svg DOM element READY
-     $.when(deferLightBarSVGInit) 
-     .done((successMessage)=>{
+    $.when(deferLightBarSVGInit) 
+    .done((successMessage)=>{
         console.log(successMessage);
         
-        listener.subscribe(function(message){
-            let green_solid = message.green_solid;
-            let yellow_solid = message.yellow_solid;
-            let right_arrow = message.right_arrow;
-            let left_arrow = message.left_arrow;
-            let sides_solid = message.sides_solid;
-            let flash = message.flash;
-            let green_flash = message.green_flash;
-            let takedown = message.takedown;
-            green_solid=1;
-            //yellow_solid=1;
-            //green_flash=1;
-            sides_solid = 1;
-            //right_arrow = 1;
-            //left_arrow =1;
-            //flash=1;
-            //takedown=1;            
+            //update light bar SVG
             if((green_solid == LIGHT_BAR_OFF && 
                 yellow_solid==LIGHT_BAR_OFF && 
                 right_arrow==LIGHT_BAR_OFF && 
@@ -93,7 +149,7 @@ function subscribeLightBarStatus()
                 }
                 if(lightbarSVG.getElementById('indicator-box-2')!=null)
                 {
-                   box_2.classList.add('cls-gray');
+                box_2.classList.add('cls-gray');
                 }            
                 if(box_3!=null)
                 {
@@ -121,7 +177,7 @@ function subscribeLightBarStatus()
                 }
             }
             //Green boxes
-           
+        
             
             if(green_solid == LIGHT_BAR_ON )
             {
@@ -168,8 +224,8 @@ function subscribeLightBarStatus()
                         box_1.classList.remove('cls-gray');
                         box_1.classList.add('cls-yellow');
                     
-                       box_2.classList.remove('cls-gray');
-                       box_2.classList.add('cls-yellow');
+                    box_2.classList.remove('cls-gray');
+                    box_2.classList.add('cls-yellow');
                     
                         box_3.classList.remove('cls-gray');
                         box_3.classList.add('cls-yellow');
@@ -188,7 +244,7 @@ function subscribeLightBarStatus()
                         box_1.classList.remove('cls-gray');
                         box_1.classList.add('cls-yellow');
                     
-                       box_2.classList.add('cls-gray');
+                        box_2.classList.add('cls-gray');
                     
                         box_3.classList.add('cls-gray');
                     
@@ -212,8 +268,8 @@ function subscribeLightBarStatus()
                             setTimeout(()=>{
                                 box_1.classList.remove('cls-yellow');
                                 box_1.classList.add('cls-gray');
-                               box_2.classList.remove('cls-gray');  
-                               box_2.classList.add('cls-yellow');
+                            box_2.classList.remove('cls-gray');  
+                            box_2.classList.add('cls-yellow');
                                 isYellow_1_On = false;
                                 isYellow_2_On = true;
                             }, 1000);
@@ -222,8 +278,8 @@ function subscribeLightBarStatus()
                         if(!isYellow_1_On && isYellow_2_On && !isYellow_3_On && !isYellow_6_On && !isYellow_7_On && !isYellow_8_On)
                         {
                             setTimeout(()=>{
-                               box_2.classList.remove('cls-yellow');
-                               box_2.classList.add('cls-gray');
+                            box_2.classList.remove('cls-yellow');
+                            box_2.classList.add('cls-gray');
                                 box_3.classList.remove('cls-gray');
                                 box_3.classList.add('cls-yellow');
                                 isYellow_2_On = false;
@@ -305,8 +361,8 @@ function subscribeLightBarStatus()
                                 box_6.classList.remove('cls-yellow');
                                 box_6.classList.add('cls-gray');
     
-                               box_2.classList.remove('cls-gray');
-                               box_2.classList.add('cls-yellow');
+                            box_2.classList.remove('cls-gray');
+                            box_2.classList.add('cls-yellow');
                                 box_7.classList.remove('cls-gray');
                                 box_7.classList.add('cls-yellow');
                                 isYellow_3_On = false;
@@ -319,8 +375,8 @@ function subscribeLightBarStatus()
                             if(!isYellow_1_On && isYellow_2_On && !isYellow_3_On && !isYellow_6_On && isYellow_7_On && !isYellow_8_On)
                             { 
                                 setTimeout(()=>{
-                               box_2.classList.remove('cls-yellow');
-                               box_2.classList.add('cls-gray');
+                            box_2.classList.remove('cls-yellow');
+                            box_2.classList.add('cls-gray');
                                 box_7.classList.remove('cls-yellow');
                                 box_7.classList.add('cls-gray');
     
@@ -384,8 +440,8 @@ function subscribeLightBarStatus()
                                     box_6.classList.remove('cls-yellow');
                                     box_6.classList.add('cls-gray');
         
-                                   box_2.classList.remove('cls-gray');
-                                   box_2.classList.add('cls-yellow');
+                                box_2.classList.remove('cls-gray');
+                                box_2.classList.add('cls-yellow');
                                     box_7.classList.remove('cls-gray');
                                     box_7.classList.add('cls-yellow');
                                     isYellow_3_On = false;
@@ -398,8 +454,8 @@ function subscribeLightBarStatus()
                             if(isYellow_1_On && isYellow_2_On && !isYellow_3_On && !isYellow_6_On && isYellow_7_On && isYellow_8_On)
                             { 
                                 setTimeout(()=>{
-                                   box_2.classList.remove('cls-yellow');
-                                   box_2.classList.add('cls-gray');
+                                box_2.classList.remove('cls-yellow');
+                                box_2.classList.add('cls-gray');
                                     box_7.classList.remove('cls-yellow');
                                     box_7.classList.add('cls-gray');
                                     isYellow_3_On = false;
@@ -411,6 +467,6 @@ function subscribeLightBarStatus()
                     }
             }        
         });
-     });    
+    });    
 }
     

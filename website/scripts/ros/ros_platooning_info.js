@@ -62,11 +62,9 @@ function subscribeToPlatoonInfo ()
           default:
                 platooning_state = 'N/A';
                 break;
-
         }
-
         updatePlatooningInfo(platooning_state, 
-                            message.host_platoon_position + ' out of 4 vehicles',
+                            message.host_platoon_position + ' out of 4 vehicles', 
                             message.desired_gap,
                             'N/A', //actual gap
                             message.leader_id, //leader_vehicle_id = leader_id
@@ -75,6 +73,4 @@ function subscribeToPlatoonInfo ()
                             );
       }
     });
-
-
   }

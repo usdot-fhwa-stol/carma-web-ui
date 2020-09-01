@@ -11,14 +11,11 @@ function showStatusandLogs()
     showCANSpeeds();
     showActualSpeed();
     showDiagnostics();
-    //showDriverStatus();
     showControllingPlugins();
     checkLateralControlDriver();
     //showUIInstructions();
     mapOtherVehicles(); 
     checkRouteInfo();
-   // showCommStatus(); // Update the signal icon on the status bar based on the binary incoming and outgoing messages.
-    //showLightBarStatus(); 
     checkRobotEnabled();
 }
 
@@ -266,7 +263,6 @@ function showSpeedAccelInfo()
         // insertNewTableRow('tblFirstB', 'Cmd Speed (m/s)', message.speed.toFixed(2));
         // insertNewTableRow('tblFirstB', 'Cmd Speed (MPH)', cmd_speed_mph);
         // insertNewTableRow('tblFirstB', 'Max Accel', message.max_accel.toFixed(2));
-
     });
 }
 /*
@@ -560,7 +556,7 @@ function mapOtherVehicles()
     {
          //Check ROSBridge connection before subscribe a topic
          IsROSBridgeConnected();
-       // console.log(message);
+        // console.log(message);
         // insertNewTableRow('tblSecondB', 'BSM Temp ID - ' + message.core_data.id + ': ', message.core_data.id);
         // insertNewTableRow('tblSecondB', 'BSM Latitude - ' + message.core_data.id + ': ', message.core_data.latitude.toFixed(6));
         // insertNewTableRow('tblSecondB', 'BSM Longitude - ' + message.core_data.id + ': ', message.core_data.longitude.toFixed(6));

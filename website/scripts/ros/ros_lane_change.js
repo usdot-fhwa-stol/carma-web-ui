@@ -60,7 +60,6 @@ function subscribeLaneChangeTopics()
     //Lane change svg DOM element READY
      $.when(deferLaneChangeSVGInit) 
      .done((successMessage)=>{
-        console.log(successMessage);
         //listener here
             listener.subscribe((message)=>{
                 let data = message.data.split(',');

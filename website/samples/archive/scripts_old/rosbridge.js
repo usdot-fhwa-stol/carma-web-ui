@@ -1269,7 +1269,6 @@ function showUIInstructions() {
             }
         }
     });
-
 }
 
 /*

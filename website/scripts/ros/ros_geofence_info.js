@@ -6,7 +6,6 @@ value: 45
 distance_to_next_geofence: [1]"
  * /environment/active_geofence topic with a message type cav_msgs::CheckActiveGeofence (edited) 
  */
-
 function subscribeToGeofenceInfo ()
 {
     let listener = new ROSLIB.Topic({

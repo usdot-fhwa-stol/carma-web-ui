@@ -17,19 +17,14 @@ function TrafficSignalInfoList(){
          IsROSBridgeConnected();
         message.traffic_signal_info_list.forEach(element => {
             /**
-             * 
-                UNLIT=0
-                GREEN=1
-                YELLOW=2
-                RED=3
-                FLASHING_GREEN=4
-                FLASHING_YELLOW=5
-                FLASHING_RED=6
+             *  UNLIT=0; GREEN=1; YELLOW=2; RED=3; FLASHING_GREEN=4; FLASHING_YELLOW=5; FLASHING_RED=6
             */
            //Prevent repeating the same state
-           if(signalState != element.state){
+           if(signalState != element.state)
+           {
                 signalState = element.state;
-                switch(signalState){
+                switch(signalState)
+                {
                     case SIGNAL_GREEN_STATE:
                         $('.traffic-signal-col').append(updateTrafficSignal('green',element.remaining_time));
                         break;

@@ -90,11 +90,9 @@ function subscribeToGuidanceRouteState()
                 //Create speed limit if not exist in html
                 $('.speed-limit-col').append(updateSpeedLimit(speed_limit_converted));
             }
-        }
-        
+        }        
     });
 }
-
 
 /*
     Set the route once based on user selection.

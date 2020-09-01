@@ -112,11 +112,8 @@ function getRequiredPluginParam()
     requiredPluginsParam.get((value)=>{
         g_required_plugins = value +"";
         g_required_plugins = g_required_plugins.replace(/\s/g,'').toLowerCase();
-    });
-    
+    });   
 }
-
-
 
 /*
   Activate the plugin based on user selection.
@@ -144,29 +141,10 @@ function activatePlugin(pluginName,pluginType,pluginVersionId,changeToNewStatus,
         setTimeout(()=>{
             $('#divCapabilitiesPlugin').html('');
         }, 5000);
-        //Need to set it back to original value.
-        //cbCapabilities.checked = !newStatus;
         //Change the checked status back
         updateChangePluginSwitch(pluginName, pluginType,pluginVersionId,!changeToNewStatus);
         return;
     }
-
-    // If guidance is engaged, at least 1 plugin must be selected.
-    /**
-    if (isGuidance.engaged == true) {
-        var divSubCapabilities = document.getElementById('divSubCapabilities');
-        var cntCapabilitiesSelected = getCheckboxesSelected(divSubCapabilities).length;
-
-        if (cntCapabilitiesSelected == 0) {
-            divCapabilitiesMessage.innerHTML = 'Sorry, CAV Guidance is engaged and there must be at least one active capability.'
-                + '<br/>You can choose to dis-engage to deactivate all capablities.';
-
-            //Need to set it back to original value.
-            cbCapabilities.checked = !newStatus;
-            return;
-        }
-    } */
-
     // Calling service
     var service = new ROSLIB.Service({
         ros: g_ros,
@@ -175,9 +153,6 @@ function activatePlugin(pluginName,pluginType,pluginVersionId,changeToNewStatus,
     });
 
     // Get name and version.
-    // var splitValue = id.replace('cb', '').split('&');
-    // var name = splitValue[0].replace(/\_/g, ' ');
-    // var version = splitValue[1].replace(/\_/g, '.');
     // Setup the request.
     var request = new ROSLIB.ServiceRequest({
         header: {

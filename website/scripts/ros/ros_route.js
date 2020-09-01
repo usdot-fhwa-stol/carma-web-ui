@@ -220,7 +220,7 @@ function showActiveRoute()
         //If nothing on the list, set all selected checkboxes back to blue (or active).
         if (message.segments == null || message.segments.length == 0) 
         {
-            $('#divCapabilitiesRoute').append('There were no segments found the active route.');
+            $('#divCapabilitiesRoute').append(' There were no segments found the active route. ');
             $('#divCapabilitiesContent').css('display','inline-block');
             return;
         }
@@ -255,21 +255,25 @@ function mapEachRouteSegment(segment)
     {
         segmentLat = segment.prev_waypoint.latitude;
         segmentLon = segment.prev_waypoint.longitude;
-        position = new google.maps.LatLng(segmentLat, segmentLon);
-
         routeCoordinates = [];
-        routeCoordinates.push(position);
+        if(map_content_window != null)
+        {
+            position = new map_content_window.google.maps.LatLng(segmentLat, segmentLon);
+            routeCoordinates.push(position);
+        }       
         sessionStorage.setItem('routePlanCoordinates', JSON.stringify(routeCoordinates));
     }
     else //add to existing list.
     {
         segmentLat = segment.waypoint.latitude;
-        segmentLon = segment.waypoint.longitude;
-        position = new google.maps.LatLng(segmentLat, segmentLon);
-
+        segmentLon = segment.waypoint.longitude;     
         routeCoordinates = sessionStorage.getItem('routePlanCoordinates');
         routeCoordinates = JSON.parse(routeCoordinates);
-        routeCoordinates.push(position);
+        if(map_content_window != null)
+        {
+            position = new map_content_window.google.maps.LatLng(segmentLat, segmentLon);
+            routeCoordinates.push(position);
+        }        
         sessionStorage.setItem('routePlanCoordinates', JSON.stringify(routeCoordinates));
     }
 }

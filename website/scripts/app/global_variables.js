@@ -176,6 +176,9 @@ var map;
 var bounds;
 var markers=[];
 var hostmarker;
+var map_frame = null;  //map iframe 
+var map_content_window = null; //map iframe content window
+var map_doc = null;
 
 
 var p_host_instructions = '/saxton_cav/ui/host_instructions';

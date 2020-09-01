@@ -13,7 +13,6 @@ function showStatusandLogs()
     showDiagnostics();
     showControllingPlugins();
     checkLateralControlDriver();
-    //showUIInstructions();
     mapOtherVehicles(); 
     checkRouteInfo();
     checkRobotEnabled();

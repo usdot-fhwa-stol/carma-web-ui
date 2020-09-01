@@ -17,9 +17,7 @@
 /***
  This file shall contain Map related functions.
 ****/
-var map_frame = null;  //map iframe 
-var map_content_window = null; //map iframe content window
-var map_doc = null;
+
 
 $(document).ready(()=>{
     initMap();

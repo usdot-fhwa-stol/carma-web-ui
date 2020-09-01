@@ -4,7 +4,8 @@
     NOTE: Currently UI instructions are handled at the carma level.
     TODO: Future this topic indicator to handle at carma and plugin level to allow plugin specific actions/icons. For now, will remain here.
 */
-function showUIInstructions() {
+function showUIInstructions() 
+{
 
     var UIInstructionsType = {
         INFO: { value: 0, text: 'INFO' }, //Notification of status or state change

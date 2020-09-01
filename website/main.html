@@ -36,7 +36,7 @@
         <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r99/three.js"></script> -->
         <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r99/three.module.min.js" type="module"></script> -->
         <!-- <script src="https://threejs.org/build/three.js" ></script> -->
-        <script src = "thirdparty/three/three.js" ></script>
+        <script src = "thirdparty/three/three.min.js" ></script>
         <script src = "thirdparty/jquery-3.5.1/jquery-3.5.1.min.js"></script>
         <script src = "thirdparty/popper/popper.min.js" ></script>
         <script src = "thirdparty/ros/eventemitter2.min.js"></script>
@@ -52,8 +52,7 @@
         <script src = "thirdparty/three/MTLLoader.js" ></script>
         <script src = "thirdparty/three/OBJLoader.js" ></script>
         <script src = "thirdparty/three/OrbitControls.js" ></script>
-        <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCMzV4biqVN0pf3l1lYVWQ4KSWLyoG6OV0&callback=initMap"></script>
-
+        
         <!---Global variables and Config -->
         <script src="scripts/app/global_variables.js"></script>
         <script src="scripts/app/carma.config.js"></script>
@@ -100,6 +99,7 @@
         <script src="scripts/ros/ros_light_bar.js"></script>              
         <script src="scripts/ros/ros_lane_change.js"></script>                    
         <script src="scripts/ros/ros_platooning_info.js"></script>  
+         <script src="scripts/ros/ros_geofence_info.js"></script>
         <script src="scripts/app/subscribeROSServicesOnLoad.js"></script>
 	</head>
 	<body >  
@@ -190,7 +190,6 @@
             <div class="row">                 
               <div id="light_bar_group">    
                 <div class="light-bar-col-1 ">
-                  <div class="light-bar-label">LIGHT BAR INDICATOR</div>
                   <object id="light-bar-img-id" class="light-bar-img" type="image/svg+xml" data='../../images/indicator_boxes.svg'></object>
                 </div>
               </div>   <!--END: group-->
@@ -199,7 +198,9 @@
             <div class="row">                 
               <div id="lane_change_group">    
                 <div class="lane-change-col-1">
-                  <object id="lane-change-img-id" class="lane-change-img" type="image/svg+xml" data='../../images/turn-arrow.svg'></object>
+                  <div class="lane-change-wrapper">
+                    <object id="lane-change-img-id" class="lane-change-img" type="image/svg+xml" data='../../images/turn-arrow.svg'></object>
+                  </div>                  
                 </div>
               </div>   <!--END: group-->
             </div><!--END: row-->
@@ -316,8 +317,8 @@
                     <button type="button" class="btn btn-info" id="MapsInfoInfoCloseBtn">X</button>
                     Maps
                   </div>
-                  <div class="card-body" >
-                    <div id="map" class="map-content"></div>
+                  <div class="card-body" >   
+                    <div id="load-map"></div>              
                   </div>
                 </div>
           </div>
@@ -444,7 +445,10 @@
                   <div class="card-body"  >
                     <div class="log-content" style="overflow-y: scroll;">
                       <p class="card-text" id="logs-panel-text-ros-connection"></p>
-                      <textarea rows="20" cols="1" style="width: 100%;overflow: hidden;font-size: 80%; background-color: inherit; color:white" id="logs-panel-text-system-alert"></textarea>
+                      <textarea rows="20" cols="1"
+                       style="width: 100%;overflow: hidden;font-size: 80%; background-color: inherit; color:white"
+                       maxlength="200"
+                       id="logs-panel-text-system-alert"></textarea>
                     </div>
                    </div>
                 </div>
@@ -491,13 +495,13 @@
               </div>
 
               <div class="btn-group dropup right">
-                <div id="statistics-btn"  class=" bottom-nav-item-statistics" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <div id="statistics-btn"  class=" bottom-nav-item-statistics"  data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                   <i class="fas fa-chart-line"></i><br>
                     Statistics
                 </div>
-                <div class="dropdown-menu dropdown-menu-right padding-5">
-                    <a class="dropdown-item padding-10 border-bottom " id="platoon-info-btn" type="button">Platoon Info</a>
-                    <a class="dropdown-item padding-10 " id="speed-advisory-info-btn" type="button">Speed Advisory Info</a>
+                <div id="statistics-dropdown" class="dropdown-menu dropdown-menu-right padding-5" style="display: none;">
+                    <a class="dropdown-item padding-10 border-bottom " id="platoon-info-btn" type="button" style="display: none;">Platoon Info</a>
+                    <a class="dropdown-item padding-10 " id="geofence-info-btn" type="button" style="display: none;">Speed Advisory Info</a>
                 </div>
             </div>
 

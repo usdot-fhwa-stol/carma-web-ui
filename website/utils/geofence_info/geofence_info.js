@@ -15,9 +15,9 @@ function createGeofenceInfo(speed_limit)
     return divPlatoonWrapper;
 }
 
-function updatePlatooningInfo(speed_limit)
+function updateGeofenceInfo(speed_limit)
 {
-   document.getElementById('geofence_speed_limit_id').innerHTML = speed_limit;
+   document.getElementById('geofence_speed_limit_id').innerHTML = "SPEED LIMIT: " + speed_limit;
 }
 
 $(document).ready(function(){

@@ -12,10 +12,12 @@ $(document).ready(function(){
         var mapsPanel = $("#maps-panel");
        var displayMaps = mapsPanel.css('display');
        
-       if(displayMaps != "none"){
+       if(displayMaps != "none")
+       {
             mapsPanel.css('display','none');           
        }
-       else{
+       else
+       {
             mapsPanel.css('display','block');
        }
     });
@@ -24,10 +26,12 @@ $(document).ready(function(){
     $("#status-btn").click(function(){
         var statusPanel = $("#status-panel");
        var displayStatus = statusPanel.css('display');
-       if(displayStatus != "none"){
+       if(displayStatus != "none")
+       {
             statusPanel.css('display','none');
        }
-       else{
+       else
+       {
             statusPanel.css('display','block');
        }
     });
@@ -37,7 +41,8 @@ $(document).ready(function(){
         var logsPanel = $("#logs-panel");
        var displayLogs = logsPanel.css('display');
        console.log(displayLogs);
-       if(displayLogs != "none"){
+       if(displayLogs != "none")
+       {
             logsPanel.css('display','none');
        }
        else{
@@ -50,10 +55,12 @@ $(document).ready(function(){
        var activePluginsPanel = $("#activePlugins-panel");
        var displayActivePlugins = activePluginsPanel.css('display');
        console.log(displayActivePlugins);
-       if(displayActivePlugins != "none"){
+       if(displayActivePlugins != "none")
+       {
             activePluginsPanel.css('display','none');
        }
-       else{
+       else
+       {
             activePluginsPanel.css('display','block');
        }
     });
@@ -63,17 +70,20 @@ $(document).ready(function(){
           var allPluginsPanel = $("#allPlugins-panel");
           var displayAllPlugins = allPluginsPanel.css('display');
           console.log(displayAllPlugins);
-          if(displayAllPlugins != "none"){
+          if(displayAllPlugins != "none")
+          {
                allPluginsPanel.css('display','none');
                this.style.backgroundColor='black';
                this.style.color='white';
           }
-          else{
+          else
+          {
                allPluginsPanel.css('display','block');
                this.style.backgroundColor='rgb(167, 223, 57)';
                this.style.color='black';
           }
      });
+
 
      //display platoon info panel
     $("#platoon-info-btn").click(function(){
@@ -92,7 +102,7 @@ $(document).ready(function(){
      });
 
      //display speed advisory info panel
-    $("#speed-advisory-info-btn").click(function(){
+    $("#geofence-info-btn").click(function(){
           var speedAdvisoryPanel = $("#speed-advisory-info-panel");
           var displaySpeedAdvisoryPanel = speedAdvisoryPanel.css('display');
           console.log(displaySpeedAdvisoryPanel);
@@ -133,8 +143,8 @@ $(document).ready(function(){
 
      $('#speedAdvisoryInfoInfoCloseBtn').click(function(){
           $("#speed-advisory-info-panel").css('display','none');
-          $("#speed-advisory-info-btn").css('background-color','black');
-          $("#speed-advisory-info-btn").css('color','white');
+          $("#geofence-info-btn").css('background-color','black');
+          $("#geofence-info-btn").css('color','white');
      });
 
      $('#SystemStatusInfoInfoCloseBtn').click(function(){
@@ -142,21 +152,33 @@ $(document).ready(function(){
           $("#status-btn").toggleClass('active');
      });
 
-     $('#SystemLogsInfoInfoCloseBtn').click(function(){
+     $('#SystemLogsInfoInfoCloseBtn').click(function()
+     {
           $("#logs-panel").css('display','none');
           $("#logs-btn").toggleClass('active');
      });
 
-     $('#ActivePluginInfoInfoCloseBtn').click(function(){
+     $('#ActivePluginInfoInfoCloseBtn').click(function()
+     {
           $("#activePlugins-panel").css('display','none');
           $("#activePlugins-btn").toggleClass('active');
      });
 
-     $('#MapsInfoInfoCloseBtn').click(function(){
+     $('#MapsInfoInfoCloseBtn').click(function()
+     {
           $("#maps-panel").css('display','none');
           $("#maps-btn").toggleClass('active');
      });
      
+     //Hide stastics dropdown every 10 seconds
+     setInterval(()=>{
+          $("#geofence-info-btn").css('display','none');
+          $("#statistics-dropdown").css('display','none');
+          $("#statistics-dropdown").removeClass("show");
+          $("#statistics-btn").attr("aria-expanded","false");
+          $("#platoon-info-btn").css('display','none');
+     },10000);
+
      function toggleLoading()
      {
           //open loading

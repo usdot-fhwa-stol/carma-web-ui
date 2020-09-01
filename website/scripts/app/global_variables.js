@@ -48,6 +48,10 @@ const T_VEHICLE_CMD = '/hardware_interface/vehicle_cmd';
 const T_EKF_TWIST = '/localization/ekf_twist';
 const T_LIGHT_BAR_STATUS = '/hardware_interface/lightbar/light_bar_status';
 const T_CARMA_SYSTEM_VERSION = "/carma_system_version";
+const T_GEOFENCE_INFO = "/environment/active_geofence";
+const T_LANE_CHANGE = '/lane_change';
+const T_PLATOON_INFO = '/platooning_info';
+const T_LOCALIZATION_STATUS = '/localization/localization_status';
 
 //ROS Services names
 const S_GUIDANCE_AVAILABLE_ROUTES = '/guidance/get_available_routes';
@@ -86,6 +90,10 @@ const M_TRAFFIC_SIGNAL_INFO_LIST = 'cav_msgs/TrafficSignalInfoList';
 const M_VEHICLE_CMD = 'autoware_msgs/VehicleCmd';
 const M_TWIST_STAMPED = 'geometry_msgs/TwistStamped';
 const M_LIGHT_BAR_STATUS = 'cav_msgs/LightBarStatus';
+const M_GEOFENCE_INFO_MSG = 'cav_msgs/CheckActiveGeofence';
+const M_LANE_CHANGE = 'std_msgs/String';
+const M_PLATOON_INFO = 'cav_msgs/PlatooningInfo';
+const M_LOCALIZATION_REPORT = 'cav_msgs/LocalizationStatusReport';
 
 //ROS param names
 const P_REQUIRED_PLUGINS = '/guidance/health_monitor/required_plugins';
@@ -109,7 +117,7 @@ const SIGNAL_RED_STATE=3;
 const SIGNAL_FLASHING_GREEN_STATE=4;
 const SIGNAL_FLASHING_YELLOW_STATE=5;
 const SIGNAL_FLASHING_RED_STATE=6;
-const MAX_LOG_LINES = 20;
+const MAX_LOG_LINES = 10;
 
 //system alert types
 const SYSTEM_ALERT_CAUTION = 1;
@@ -129,6 +137,28 @@ const GPS_DRIVER_STATUS_FAULT = 3;
 const LIGHT_BAR_ON = 1;
 const LIGHT_BAR_OFF = 0;
 
+//Localization Status
+const LOCALIZATION_STATUS_UNINITIALIZED = 0; 
+const LOCALIZATION_STATUS_INITIALIZING = 1; 
+const LOCALIZATION_STATUS_OPERATIONAL = 2;
+const LOCALIZATION_STATUS_DEGRADED = 3; 
+const LOCALIZATION_STATUS_DEGRADED_NO_LIDAR_FIX = 4; 
+const LOCALIZATION_STATUS_AWAIT_MANUAL_INITIALIZATION = 5;
+
+//Platooning info
+const  PLATOONING_STATE_DISABLED = 0;
+const  PLATOONING_STATE_SEARCHING = 1;
+const  PLATOONING_STATE_CONNECTING_TO_NEW_FOLLOWER = 2;
+const  PLATOONING_STATE_CONNECTING_TO_NEW_LEADER = 3;
+const  PLATOONING_STATE_LEADING = 4;
+const  PLATOONING_STATE_FOLLOWING = 5;
+
+const  PLATOONING_STATE_DISABLED_LABEL = 'DISABLED';
+const  PLATOONING_STATE_SEARCHING_LABEL = 'SEARCHING';
+const  PLATOONING_STATE_CONNECTING_TO_NEW_FOLLOWER_LABEL = 'CONNECTING TO NEW FOLLOWER';
+const  PLATOONING_STATE_CONNECTING_TO_NEW_LEADER_LABEL = 'CONNECTING TO NEW LEADER';
+const  PLATOONING_STATE_LEADING_LABEL = 'LEADING';
+const  PLATOONING_STATE_FOLLOWING_LABEL = 'FOLLOWING';
 
 //ROS
 var g_ros = new ROSLIB.Ros();
@@ -139,7 +169,6 @@ var g_required_plugins = '';
 var g_acceleratorCircle = null;
 var g_brakeCircle = null;
 var g_timer = null; //elapsed timer
-var g_cnt_log_lines = 0;
 var g_ready_counter = 0;
 
 //map 

@@ -81,6 +81,7 @@ $(document).ready(function(){
             subscribeToDriverDiscovery();//GPS or PinPoint status        
             subscribeToInboundBinary(); //OBU status
             subscribeToOutboundBinary(); //OBU status
+            subscribeToLocalizationStatusReport(); //Localization Status
 
             /**
              * SECTION: Display Area
@@ -113,7 +114,8 @@ $(document).ready(function(){
 
             subscribeToGuidanceActivePlugins();//Active plugins panel
             showStatusandLogs(); //system status panel
-
+            subscribeToGeofenceInfo(); //show geofence info
+            subscribeToPlatoonInfo(); //show platoon info
             /***
              * SECTION: Bottom Menu 
              * */

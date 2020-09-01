@@ -41,7 +41,7 @@
      const objLoader = new THREE.OBJLoader();    
      objLoader.setMaterials(materials);
      objLoader.load('images/models/car.obj', loaded => {
-         loaded.scale.set(2.5,2,1);//change car shape
+         loaded.scale.set(2.2,2,1);//change car shape
          //set car position
          loaded.position.x=-12;
          loaded.position.y=0;

@@ -45,7 +45,7 @@ function createPlatooningInfo(platooning_state,host_vehicle_position,desired_gap
     p_leader_div.appendChild(p_leader_vehicle_id);
 
     let p_platoon_id = document.createElement('p');
-    p_platoon_id.innerHTML = "POSITION: " + platoon_id;
+    p_platoon_id.innerHTML = "PLATOON ID: " + platoon_id;
     p_platoon_id.id = 'platooning_id';
     p_leader_div.appendChild(p_platoon_id);
 
@@ -61,13 +61,13 @@ function createPlatooningInfo(platooning_state,host_vehicle_position,desired_gap
 
 function updatePlatooningInfo(platooning_state,host_vehicle_position,desired_gap,actual_gap,leader_vehicle_id,platoon_id,platoon_applied_speed)
 {
-   document.getElementById('platooning_host_state_id').innerHTML = platooning_state;
-   document.getElementById('platooning_host_position_id').innerHTML = host_vehicle_position;
-   document.getElementById('platooning_desired_gap_id').innerHTML = desired_gap;
-   document.getElementById('platooning_actual_gap_id').innerHTML = actual_gap;
-   document.getElementById('platooning_leader_vehicle_id').innerHTML = leader_vehicle_id;
-   document.getElementById('platooning_applied_speed_id').innerHTML = platoon_applied_speed;
-   document.getElementById('platooning_id').innerHTML = platoon_id;
+   document.getElementById('platooning_host_state_id').innerHTML ="PLATOON STATE: " + platooning_state;
+   document.getElementById('platooning_host_position_id').innerHTML = "POSITION: " + host_vehicle_position;
+   document.getElementById('platooning_desired_gap_id').innerHTML ="DESIRED GAP FROM LEADER: " + desired_gap;
+   document.getElementById('platooning_actual_gap_id').innerHTML = "ACTUAL GAP FROM LEADER: " + actual_gap;
+   document.getElementById('platooning_leader_vehicle_id').innerHTML ="VEHICLE ID: " +  leader_vehicle_id;
+   document.getElementById('platooning_applied_speed_id').innerHTML ="PLATOON APPLIED SPEED: " +  platoon_applied_speed;
+   document.getElementById('platooning_id').innerHTML =  "PLATOON ID: " + platoon_id;
 }
 
 $(document).ready(function(){

@@ -72,17 +72,6 @@ function getVehicleInfo()
 */
 function showVehicleInfo(itemName, index) 
 {
-    // if (itemName.startsWith('/saxton_cav/vehicle') == true && itemName.indexOf('database_path') < 0) {
-    //     //Sample call to get param.
-    //     var myParam = new ROSLIB.Param({
-    //         ros: g_ros,
-    //         name: itemName
-    //     });
-    //     // console.log(myParam);
-    //     myParam.get(function (myValue) {
-    //         //insertNewTableRow('tblSecondB', toCamelCase(itemName), myValue);
-    //     });
-    // }
     let isHostVehicleInfoDisplayed = false;
     if (itemName.startsWith('/vehicle') == true && itemName.indexOf('database_path') < 0) {
         //Sample call to get param.
@@ -90,7 +79,6 @@ function showVehicleInfo(itemName, index)
             ros: g_ros,
             name: itemName
         });
-        // console.log(myParam);
         myParam.get(function (myValue) {        
             //insertNewTableRow('tblSecondB', toCamelCase(itemName), myValue);
             if(!isHostVehicleInfoDisplayed)
@@ -238,8 +226,6 @@ function showNavSatFix()
                 let avgPosition = AvgHostMarkerGeoPositions( vector_positions, buffer_size );
                 count_position= 0;
                 vector_positions = [];
-               // console.log('move marker');
-                //console.log(avgPosition.avgLatitude, avgPosition.avglongitude);
                 moveMarkerWithTimeout(hostmarker, avgPosition.avgLatitude.toString(), avgPosition.avglongitude.toString(), 0);
            }           
         }
@@ -273,12 +259,13 @@ function showSpeedAccelInfo()
 
     listenerSpeedAccel.subscribe(function (message) 
     {
-
-            var cmd_speed_mph = Math.round(message.speed * METER_TO_MPH);
-             console.log(message);
-            // insertNewTableRow('tblFirstB', 'Cmd Speed (m/s)', message.speed.toFixed(2));
-            // insertNewTableRow('tblFirstB', 'Cmd Speed (MPH)', cmd_speed_mph);
-            // insertNewTableRow('tblFirstB', 'Max Accel', message.max_accel.toFixed(2));
+        //Check ROSBridge connection before subscribe a topic
+        IsROSBridgeConnected();
+        var cmd_speed_mph = Math.round(message.speed * METER_TO_MPH);
+        console.log(message);
+        // insertNewTableRow('tblFirstB', 'Cmd Speed (m/s)', message.speed.toFixed(2));
+        // insertNewTableRow('tblFirstB', 'Cmd Speed (MPH)', cmd_speed_mph);
+        // insertNewTableRow('tblFirstB', 'Max Accel', message.max_accel.toFixed(2));
 
     });
 }
@@ -294,6 +281,8 @@ function showDiagnostics()
     });
     let isACCEngagedDisplayed = false;
     listenerACCEngaged.subscribe(function (message) {
+        //Check ROSBridge connection before subscribe a topic
+        IsROSBridgeConnected();
         // insertNewTableRow('tblFirstB', 'ACC Engaged', message.data);
         // console.log(message);
         if($('#guidance_info_no_data').length >0)
@@ -318,9 +307,11 @@ function showDiagnostics()
     });
     let isDiagnosticsDisplayed = false;
     listenerDiagnostics.subscribe(function (messageList) {
-
+        //Check ROSBridge connection before subscribe a topic
+        IsROSBridgeConnected();
         messageList.status.forEach(
-            function (myStatus) {
+            function (myStatus) 
+            {
                 // insertNewTableRow('tblFirstA', 'Diagnostic Name', myStatus.name);
                 // insertNewTableRow('tblFirstA', 'Diagnostic Message', myStatus.message);
                 // insertNewTableRow('tblFirstA', 'Diagnostic Hardware ID', myStatus.hardware_id);
@@ -413,6 +404,8 @@ function showCANSpeeds()
     let isCANSpeedDisplayed = false;
     listenerCANSpeed.subscribe(function (message) 
     {
+        //Check ROSBridge connection before subscribe a topic
+        IsROSBridgeConnected();
         var speedMPH = Math.round(message.data.toFixed(2) * METER_TO_MPH);
 	    // insertNewTableRow('tblFirstB', 'CAN Speed (m/s)', message.data);
         // insertNewTableRow('tblFirstB', 'CAN Speed (MPH)', speedMPH);
@@ -541,6 +534,8 @@ function checkLateralControlDriver()
     });
 
     listenerLateralControl.subscribe(function (message) {
+        //Check ROSBridge connection before subscribe a topic
+        IsROSBridgeConnected();
         console.log(message);
         // insertNewTableRow('tblFirstB', 'Lateral Axle Angle', message.axle_angle);
         // insertNewTableRow('tblFirstB', 'Lateral Max Axle Angle Rate', message.max_axle_angle_rate);

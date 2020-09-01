@@ -27,12 +27,12 @@ function subscribeToInboundBinary(){
         let BottomLine = svgDov.getElementById('bottom-line');
 
         // Set the colour to something else
-        OBUStatusDownArrow1.setAttribute('fill', '#87b821'); 
-        OBUStatusDownArrow1.setAttribute('stroke', '#87b821'); 
-        OBUStatusDownArrow2.setAttribute('fill', '#87b821'); 
-        OBUStatusDownArrow2.setAttribute('stroke', '#87b821'); 
-        BottomLine.setAttribute('fill', '#87b821'); 
-        BottomLine.setAttribute('stroke', '#87b821');  
+        OBUStatusDownArrow1.setAttribute('fill', 'rgb(188, 250, 63)'); 
+        OBUStatusDownArrow1.setAttribute('stroke', 'rgb(188, 250, 63)'); 
+        OBUStatusDownArrow2.setAttribute('fill', 'rgb(188, 250, 63)'); 
+        OBUStatusDownArrow2.setAttribute('stroke', 'rgb(188, 250, 63)'); 
+        BottomLine.setAttribute('fill', 'rgb(188, 250, 63)'); 
+        BottomLine.setAttribute('stroke', 'rgb(188, 250, 63)');  
         //set back to black after 5 seconds.
         if(!isTimeerSet)
         {
@@ -80,12 +80,12 @@ function subscribeToOutboundBinary(){
         let BottomLine = svgDov.getElementById('bottom-line');
         
         // Set the colour to something else
-        OBUStatusUpArrow1.setAttribute('fill', '#87b821'); 
-        OBUStatusUpArrow1.setAttribute('stroke', '#87b821'); 
-        OBUStatusUpArrow2.setAttribute('fill', '#87b821'); 
-        OBUStatusUpArrow2.setAttribute('stroke', '#87b821'); 
-        BottomLine.setAttribute('fill', '#87b821'); 
-        BottomLine.setAttribute('stroke', '#87b821');  
+        OBUStatusUpArrow1.setAttribute('fill', 'rgb(188, 250, 63)'); 
+        OBUStatusUpArrow1.setAttribute('stroke', 'rgb(188, 250, 63)'); 
+        OBUStatusUpArrow2.setAttribute('fill', 'rgb(188, 250, 63)'); 
+        OBUStatusUpArrow2.setAttribute('stroke', 'rgb(188, 250, 63)'); 
+        BottomLine.setAttribute('fill', 'rgb(188, 250, 63)'); 
+        BottomLine.setAttribute('stroke', 'rgb(188, 250, 63)');  
         //set back to black after 5 seconds.
         if(!isTimeerSet)
         {

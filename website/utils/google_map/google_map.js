@@ -17,26 +17,64 @@
 /***
  This file shall contain Map related functions.
 ****/
+var map_frame = null;  //map iframe 
+var map_content_window = null; //map iframe content window
+var map_doc = null;
 
-function initMap() {
-    map= new google.maps.Map(document.getElementById('map'), {
-        zoom: 17,
-        center: { lat: 38.955097, lng: -77.147190 },
-        mapTypeId: 'hybrid'
-    });
+$(document).ready(()=>{
+    initMap();
+});
 
-    if (sessionStorage.getItem('mapMarkers') != null)
-        markers =  sessionStorage.getItem('mapMarkers');
+function initMap() 
+{
+    map_frame = document.createElement("iframe");
+    map_frame.setAttribute('style',"width: 100%; height: 100%; border:0px; border-bottom-left-radius:10px;border-bottom-right-radius:10px; ");
+   
+    map_frame.onload = function() 
+    {
+        map_doc = map_frame.contentDocument;    
+        map_content_window = map_frame.contentWindow;
 
-    //Display the route on the map.
-    setRouteMap(map);
+        map_content_window.showNewMap = function() 
+        {
+            var mapContainer =  map_doc.createElement('div');
+            mapContainer.setAttribute('style',"width: 100%; height: 100%");
+            map_doc.body.setAttribute('style',"width: 100%; height: 100%; padding:0px;margin:0px");
+            map_doc.body.appendChild(mapContainer);
+        
+            map = new this.google.maps.Map(mapContainer, {
+                zoom: 18,
+                center: { lat: 38.955097, lng: -77.147190 },
+                mapTypeId: 'hybrid',
+                disableDefaultUI: true,
+                zoomControl: true, 
+                zoomControlOptions: {
+                    position: this.google.maps.ControlPosition.LEFT_CENTER
+                    },
+                scaleControl: true,
+                mapTypeControl: true,
+                fullscreenControl: true
+            });
 
-    //Set the markers for the vehicle(s).
-    setHostMarker();
-
+            if (sessionStorage.getItem('mapMarkers') != null)
+                markers =  sessionStorage.getItem('mapMarkers');
+        
+            // Display the route on the map.
+            setRouteMap(map);
+        
+            // Set the markers for the vehicle(s).
+            setHostMarker();
+        }
+        //reference: http://jsfiddle.net/gS7sZ/1/
+        var script = document.createElement('script');
+        script.type = 'text/javascript';
+        script.src = src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCMzV4biqVN0pf3l1lYVWQ4KSWLyoG6OV0&callback=showNewMap";
+        
+        map_frame.contentDocument.getElementsByTagName('head')[0].appendChild(script);
+    };
+    document.getElementById('load-map').appendChild(map_frame);
 }
-
-
+ 
 /*
     Draws the route on the map.
 */
@@ -53,7 +91,7 @@ function setRouteMap(map){
         };
 
         //Maps the selected route on the map.
-        var routePath = new google.maps.Polyline({
+        var routePath = new map_content_window.google.maps.Polyline({
           path: routePlanCoordinates,
           geodesic: true,
           strokeColor: '#6495ed', // cornflowerblue
@@ -70,7 +108,7 @@ function setRouteMap(map){
 function setHostMarker() {
 
     //Add host vehicle
-    var marker = new google.maps.Marker({
+    var marker = new map_content_window.google.maps.Marker({
         id: 'mHostVehicle',
         position: { lat: 38.95647, lng: -77.15031 },
         map: map,
@@ -151,7 +189,7 @@ function moveMarkerWithTimeout( myMarker, newLat, newLong, timeout) {
 
     window.setTimeout(function() {
 
-        myMarker.setPosition(new google.maps.LatLng(newLat, newLong));
+        myMarker.setPosition(new map_content_window.google.maps.LatLng(newLat, newLong));
 
         if (myMarker.id == 'mHostVehicle')
         {
@@ -187,9 +225,9 @@ function addMarkerForOtherVehicleWithTimeout(newId, newLat, newLong, timeout) {
       if (markers == null)
         markers = new Array();
 
-      markers.push(new google.maps.Marker({
+      markers.push(new map_content_window.google.maps.Marker({
         id: newId,
-        position: new google.maps.LatLng(newLat, newLong),
+        position: new map_content_window.google.maps.LatLng(newLat, newLong),
         map: map,
         title: newId,
         dateTimeCreated: new Date(),
@@ -203,7 +241,7 @@ function addMarkerForOtherVehicleWithTimeout(newId, newLat, newLong, timeout) {
 */
 function addMarkerWithTimeout(position, timeout) {
     window.setTimeout(function() {
-      markers.push(new google.maps.Marker({
+      markers.push(new map_content_window.google.maps.Marker({
         position: position,
         map: map,
       }));
@@ -242,9 +280,3 @@ function deleteMarker(id) {
         }
     }
 };
-
-
-$(document).ready(()=>{
-    //call Map
-    initMap();
-});

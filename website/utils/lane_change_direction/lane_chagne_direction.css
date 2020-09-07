@@ -1,7 +1,6 @@
 
 .lane-change-wrapper{
     position: relative;
-    height: 52px;
 }
 .lane-change-label{
     color: white; 
@@ -15,6 +14,6 @@
 .lane-change-img{
     width: 340px; 
     top: 5px;
-    left: 5px;
+    left: 0px;
     position: absolute;
 }

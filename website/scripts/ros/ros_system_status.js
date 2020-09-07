@@ -731,10 +731,10 @@ function checkRouteInfo()
             $('#route_info_body').append('<tr><th scope="col" >Cross Track / Down Track</th>'+
             '<td id="StatusRouteStatetrackDivideId">'+message.cross_track.toFixed(2) + ' / ' + message.down_track.toFixed(2)+'</td></tr>');
 
-            $('#route_info_body').append('<tr><th scope="col" >Cross Track / Down Track</th>'+
+            $('#route_info_body').append('<tr><th scope="col" >LaneLet ID</th>'+
             '<td id="StatusRouteStateLaneletId">' + message.lanelet_id+'</td></tr>');
             
-            $('#route_info_body').append('<tr><th scope="col" >Cross Track / Down Track</th>'+
+            $('#route_info_body').append('<tr><th scope="col" >Current LaneLet Downtrack</th>'+
             '<td id="StatusRouteStateLaneletDowntrackId">'+ message.lanelet_downtrack+'</td></tr>');
             
             

@@ -102,6 +102,7 @@ body
 .light-bar-wrapper{
     display:flex;
 }
+/* 
 #lane_change_group{
     width: 340px;
     display:flex;
@@ -114,7 +115,7 @@ body
 }
 .lane-change-id{
     width: 90%;
-}
+} */
 canvas 
 { 
     display: block; 

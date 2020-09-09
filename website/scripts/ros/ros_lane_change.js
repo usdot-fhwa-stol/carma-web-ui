@@ -1,4 +1,7 @@
-//rostopic pub -r 10 /lane_change  std_msgs/String "left,7"
+/**
+ * rostopic pub -r 10 /lane_change cav_msgs/LaneChangeInfo "direction: 0 
+distance_to_lanechange: 3.2"
+**/
 
 function subscribeLaneChangeTopics()
 {
@@ -62,14 +65,13 @@ function subscribeLaneChangeTopics()
      .done((successMessage)=>{
         //listener here
             listener.subscribe((message)=>{
-                let data = message.data.split(',');
-                let miles = data[1];
-                let direction = data[0];
+                let miles = message.distance_to_lanechange.toFixed(2);
+                let direction = message.direction;
                 //update miles
                 updateLaneChange(laneChangeSVG, miles);
 
                 //turn left
-                if(direction == 'left')
+                if(direction == 0) // ToLeft
                 {
                     left_arrow.classList.add('cls-blue');
                     left_arrow.classList.remove('cls-gray');
@@ -96,7 +98,7 @@ function subscribeLaneChangeTopics()
                     right_dot_3.classList.remove('cls-white');
                 }
                 //turn right
-                else if (direction == 'right')        
+                else if (direction == 1)  //ToRight
                 {
                     right_arrow.classList.add('cls-blue');
                     right_arrow.classList.remove('cls-gray');

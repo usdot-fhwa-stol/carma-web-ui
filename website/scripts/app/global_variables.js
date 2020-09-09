@@ -91,7 +91,7 @@ const M_VEHICLE_CMD = 'autoware_msgs/VehicleCmd';
 const M_TWIST_STAMPED = 'geometry_msgs/TwistStamped';
 const M_LIGHT_BAR_STATUS = 'cav_msgs/LightBarStatus';
 const M_GEOFENCE_INFO_MSG = 'cav_msgs/CheckActiveGeofence';
-const M_LANE_CHANGE = 'std_msgs/String';
+const M_LANE_CHANGE = 'cav_msgs/LaneChangeInfo';
 const M_PLATOON_INFO = 'cav_msgs/PlatooningInfo';
 const M_LOCALIZATION_REPORT = 'cav_msgs/LocalizationStatusReport';
 

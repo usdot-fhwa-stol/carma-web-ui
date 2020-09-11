@@ -66,7 +66,7 @@ function updatePlatooningInfo(platooning_state,host_vehicle_position,desired_gap
    document.getElementById('platooning_desired_gap_id').innerHTML ="DESIRED GAP FROM LEADER: " + desired_gap;
    document.getElementById('platooning_actual_gap_id').innerHTML = "ACTUAL GAP FROM LEADER: " + actual_gap;
    document.getElementById('platooning_leader_vehicle_id').innerHTML ="VEHICLE ID: " +  leader_vehicle_id;
-   document.getElementById('platooning_applied_speed_id').innerHTML ="PLATOON APPLIED SPEED: " +  platoon_applied_speed;
+   document.getElementById('platooning_applied_speed_id').innerHTML ="PLATOON APPLIED SPEED: " +  platoon_applied_speed + " MPH";
    document.getElementById('platooning_id').innerHTML =  "PLATOON ID: " + platoon_id;
 }
 

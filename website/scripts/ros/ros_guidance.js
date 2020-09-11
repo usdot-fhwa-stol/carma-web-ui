@@ -47,6 +47,9 @@ function subscribeToGuidanceState ()
                 //     startDateTime.remove();
                 btnCAVGuidance.src = "../../images/Xtra_Art/Big-greenREV.svg";
                 btnCAVGuidance.style.boxShadow = null;
+                $('#allPlugins-btn').css('display','block');
+                $('input:checkbox').prop("disabled", false);
+                $('input:checkbox+.slider').css('cursor','pointer');
                 break;
             case ACTIVE:
                  //clear/reset engage elapsed time in session
@@ -57,7 +60,12 @@ function subscribeToGuidanceState ()
                 btnCAVGuidance.style.boxShadow  = "0px 0px 10px 0px white";              
                 
                 $('#divCapabilitiesGuidance').html('Guidance is now ACTIVE.');
-                $('#divCapabilitiesContent').css('display','inline-block');            
+                $('#divCapabilitiesContent').css('display','inline-block');   
+                
+                //Disabled Change plugins at guidance Active state
+                $('#allPlugins-btn').css('display','none');
+                $('input:checkbox').prop("disabled", true);
+                $('input:checkbox+.slider').css('cursor','not-allowed');
                 break;
             case ENGAGED: 
                 session_isGuidance.engaged = true;                
@@ -80,6 +88,11 @@ function subscribeToGuidanceState ()
                 $('.nav-link.display').addClass('active'); //change navigation to display
                 $("#widgets-panel").css('display','block'); //show navigation to display
                 $("#main-canvas").css('display','block'); //show navigation to display   
+
+                //Disabled Change plugin at guidance Active state
+                $('#allPlugins-btn').css('display','none');
+                $('input:checkbox').prop("disabled", true);
+                $('input:checkbox+.slider').css('cursor','not-allowed');
                 break;
             case INACTIVE:
                  //clear/reset engage elapsed time in session

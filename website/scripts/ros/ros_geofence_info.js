@@ -22,7 +22,10 @@ function subscribeToGeofenceInfo ()
       {
         $('#statistics-dropdown').css('display','');
         $('#geofence-info-btn').css('display','');
-        updateGeofenceInfo(message.value + " MPH");
+        updateGeofenceInfo(message.is_on_active_geofence,
+                           message.type,
+                           (message.value * METER_TO_MPH).toFixed(2), 
+                           message.distance_to_next_geofence.toFixed(2));
       }       
     });
 

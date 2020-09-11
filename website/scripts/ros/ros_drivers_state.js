@@ -67,22 +67,27 @@ uint8 AWAIT_MANUAL_INITIALIZATION=5 # State representing that the system was ini
 function subscribeToLocalizationStatusReport()
 {
     let listener = new ROSLIB.Topic({
-        ros:g_ros,
+        ros: g_ros,
         name: T_LOCALIZATION_STATUS,
         messageType: M_LOCALIZATION_REPORT
     });
 
-    listener.subscribe((message)=>
-    {
+    listener.subscribe((message) => {
         //Check ROSBridge connection before subscribe a topic
         IsROSBridgeConnected();
-        switch(message.status)
-        {
+        switch (message.status) {
             case LOCALIZATION_STATUS_OPERATIONAL:
-                $('#localization-status').css('color','rgb(188, 250, 63)');
+                $('#localization-status').css('color', 'rgb(188, 250, 63)');
                 break;
+            case LOCALIZATION_STATUS_DEGRADED:
+                $('#localization-status').css('color', '#ffc107');
+                break;
+            case LOCALIZATION_STATUS_DEGRADED_NO_LIDAR_FIX:
+                $('#localization-status').css('color', 'rgb(255,127,80)');
+                break;
+
             default:
-                $('#localization-status').css('color','gray');
+                $('#localization-status').css('color', 'gray');
                 break;
         }
     });

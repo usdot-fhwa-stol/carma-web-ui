@@ -71,7 +71,7 @@ function subscribeLaneChangeTopics()
                 updateLaneChange(laneChangeSVG, miles);
 
                 //turn left
-                if(direction == 0) // ToLeft
+                if(direction == LANE_CHANGE_DIRECTION_TO_LEFT) // ToLeft
                 {
                     left_arrow.classList.add('cls-blue');
                     left_arrow.classList.remove('cls-gray');
@@ -98,7 +98,7 @@ function subscribeLaneChangeTopics()
                     right_dot_3.classList.remove('cls-white');
                 }
                 //turn right
-                else if (direction == 1)  //ToRight
+                else if (direction == LANE_CHANGE_DIRECTION_TO_RIGHT)  //ToRight
                 {
                     right_arrow.classList.add('cls-blue');
                     right_arrow.classList.remove('cls-gray');

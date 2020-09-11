@@ -63,13 +63,13 @@ function subscribeToPlatoonInfo ()
                 platooning_state = 'N/A';
                 break;
         }
-        updatePlatooningInfo(platooning_state, 
-                            message.host_platoon_position + ' out of 4 vehicles', 
-                            message.desired_gap,
+        updatePlatooningInfo(platooning_state,  //host vehicle platoon state
+                            message.host_platoon_position + ' out of 4 vehicles',  //host vehicle position
+                            message.desired_gap, //Desired Gap
                             'N/A', //actual gap
                             message.leader_id, //leader_vehicle_id = leader_id
                             message.platoon_id, //platoon_id
-                            message.leader_cmd_speed //platoon_applied_speed = leader_cmd_speed
+                            (message.leader_cmd_speed * METER_TO_MPH).toFixed(2) //platoon_applied_speed = leader_cmd_speed
                             );
       }
     });

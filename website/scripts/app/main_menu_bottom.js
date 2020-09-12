@@ -170,14 +170,74 @@ $(document).ready(function(){
           $("#maps-btn").toggleClass('active');
      });
      
-     //Hide stastics dropdown every 10 seconds
+     //Check dropdown every 10 seconds
      setInterval(()=>{
-          $("#geofence-info-btn").css('display','none');
+          //statistics dropdown
           $("#statistics-dropdown").css('display','none');
           $("#statistics-dropdown").removeClass("show");
-          $("#statistics-btn").attr("aria-expanded","false");
+          $("#statistics-btn").attr("aria-expanded","false");  
           $("#platoon-info-btn").css('display','none');
+          $("#geofence-info-btn").css('display','none');          
      },10000);
+
+     //Check dropdown every 1 second
+     setInterval(()=>{
+          //Statistics dropdown
+          CheckStatisticsItemShowCount();
+        
+          //advanced dropdown
+          CheckAdvancedItemShowCount();
+     },500);
+
+     function CheckStatisticsItemShowCount()
+     {
+          let showCount = 0;
+          $('a.statistics-dropdown-item').each(function(index){
+               if(this.style.display != 'none') showCount++;
+          });
+          if(showCount > 0) 
+          {
+               $('#statistics-no-item-text').remove();               
+               $("#statistics-btn").css({
+                    "cursor":"pointer",
+                    "color":"white"
+               });
+          }
+          else
+          {
+               $("#statistics-btn").css({
+                    "cursor":"not-allowed"
+               });
+               if($('#statistics-no-item-text').length <1)
+                    $('.statistics-dropdown-menu').append('<p id="statistics-no-item-text" style="color:#ffc107">No Iteam Available</p>');
+          } 
+     } 
+
+     function CheckAdvancedItemShowCount()
+     {
+          let showCount = 0;
+          $('a.advanced-dropdown-item').each(function(index){
+               if(this.style.display != 'none' ) showCount++;
+          });
+          if(showCount > 0) 
+          {
+               $('#advanced-no-item-text').remove();
+               $("#advanced-btn").css({
+                    "cursor":"pointer",
+                    "color":"white"
+               });
+          }
+          else
+          {
+               $("#advanced-btn").css({
+                    "cursor":"not-allowed",
+                    "color":"grey"
+               });
+               if($('#advanced-no-item-text').length <1)
+                    $('.advanced-dropdown-menu').html('<p id="advanced-no-item-text" style="color:#ffc107">No Iteam Available</p>');
+          } 
+     } 
+
 
      function toggleLoading()
      {

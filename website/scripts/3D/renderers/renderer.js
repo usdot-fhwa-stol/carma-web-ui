@@ -1,5 +1,8 @@
  //3D scripts placeholder                     
- import {GeometryUtils} from '../../../thirdparty/three/GeometryUtils.js';
+import { LineGeometry } from '../../../thirdparty/three/modules/lines/LineGeometry.js'; //https://threejs.org/examples/jsm/lines/LineGeometry.js
+import { Line2 } from '../../../thirdparty/three/modules/lines/Line2.js'; //https://threejs.org/examples/jsm/lines/Line2.js
+import { LineMaterial } from '../../../thirdparty/three/modules/lines/LineMaterial.js';//https://threejs.org/examples/jsm/lines/LineMaterial.js
+
  //
  var scene = new THREE.Scene();
  var camera = new THREE.PerspectiveCamera( 50, 0.5*window.innerWidth / window.innerHeight, 0.1, 1000 );
@@ -122,13 +125,15 @@
  planeArea.position.z = 0;
  scene.add(planeArea);
 
- var dashlineMaterial = new THREE.LineDashedMaterial( {
-   color: 0xffffff,
-   linewidth: 2,
-   scale: 1,
-   dashSize: 5,
-   gapSize: 10,
- } );
+/**
+ * LineDashedMaterial
+var dashlineMaterial = new THREE.LineDashedMaterial( {
+    color: 0xffffff,
+    linewidth: 2,
+    scale: 1,
+    dashSize: 5,
+    gapSize: 10,
+  } );
  var points = [];
  points.push( new THREE.Vector3( -1000, 0, 2.5 ) );
  points.push( new THREE.Vector3( 1000, 1, 2.5) );
@@ -136,14 +141,37 @@
  var dashLineRight = new THREE.Line( geometry, dashlineMaterial );
  dashLineRight.computeLineDistances();
  scene.add( dashLineRight );
+ ***/
+var roadLineMaterial = new LineMaterial({
+    color:  0xffffff,
+    linewidth: 0.012,
+    dashed: true,
+    dashScale: 1,
+    dashSize: 14,
+    gapSize: 12,
+    resolution: THREE.Vector2(innerWidth,innerHeight), // to be set by renderer
+ });
+ roadLineMaterial.defines.USE_DASH="";
 
- var points = [];
- points.push( new THREE.Vector3( -1000, 0.06, -2.5 ) );
- points.push( new THREE.Vector3( 1000, 0.06, -2.5) );
- var geometry = new THREE.BufferGeometry().setFromPoints( points );
- var dashLineLeft = new THREE.Line( geometry, dashlineMaterial );
+ var positions = [];
+ positions.push(  -1000, 0.05, -2.5  );
+ positions.push( 1000, 0.05, -2.5 );
+ var lineGeometryLeft = new LineGeometry();
+ lineGeometryLeft.setPositions(positions);
+ var dashLineLeft = new Line2( lineGeometryLeft, roadLineMaterial );
  dashLineLeft.computeLineDistances();
+ dashLineLeft.scale.set(1,1,1);
  scene.add( dashLineLeft );
+ 
+ positions = [];
+ positions.push( -1000, 0.05, 2.5 );
+ positions.push( 1000, 0.05, 2.5 );
+ var lineGeometryRight = new LineGeometry();
+ lineGeometryRight.setPositions(positions);
+ var dashLineRight = new Line2( lineGeometryRight, roadLineMaterial );
+ dashLineRight.computeLineDistances();
+ dashLineRight.scale.set(1,1,1);
+ scene.add( dashLineRight );
 
  // create the plane lanes' material	
  var planeMaterial =
@@ -195,56 +223,6 @@
  plane_lane3.position.z = 5;
  scene.add(plane_lane3);
  
-
-//key events
-document.addEventListener("keydown",onDocumentKeyDown, false);
-var xSpeed = 0.1; //+ move forward
-var zSpeed = 0.1; //+ move right; - move left
-var quaternion = new THREE.Quaternion();
-var axisNormalised = new THREE.Vector3(0, 1, 0).normalize();
-var  angle ;
-function onDocumentKeyDown(event)
-{
-     console.log("key pressed" + event.which);
-    var keyCode = event.which;
-    //up
-    if(keyCode == 38)
-    {
-         loadedcar_cur.position.x +=xSpeed;
-         console.log("speed up " + xSpeed);
-    }
-    //left
-    else if(keyCode == 37)
-    {
-     //    loadedcar_cur.position.z -=zSpeed;
-    
-     angle = 10 * Math.PI / 180;
-     quaternion.setFromAxisAngle(axisNormalised, angle);
-     loadedcar_cur.quaternion.copy(quaternion);
-     loadedcar_cur.__dirtyRotation = true;
-        console.log("change left lane " + zSpeed);
-    }
-     //right
-     else if(keyCode == 39)
-    {
-        loadedcar_cur.position.z +=zSpeed;
-        console.log("change right lane " + zSpeed);
-    }   
-}
- // var axesHelper = new THREE.AxesHelper( 5 );
- // axesHelper.position.y = 2;
- // scene.add( axesHelper );     
-
-
- var startQuaternion = new THREE.Quaternion().set( 0, 0, 0, 1 ).normalize();
- var endQuaternion = new THREE.Quaternion().set( 1, 0, 0, 1 ).normalize();
- var t = 1;
- //rotate camera
- var startQuaternion_c = new THREE.Quaternion().set( 0,0, 0, 1 ).normalize();
- var endQuaternion_c = new THREE.Quaternion().set( 0, 1, 0, 0 ).normalize();
- var t_c = 0.1; // constant angular momentum
-
-
  function animate() 
  {
      requestAnimationFrame( animate );              
@@ -274,10 +252,10 @@ function onDocumentKeyDown(event)
        //  loadedcar_front.position.x +=0.01;                   
            
        //move camera
-       //camera.position.x =loadedcar_cur.position.x-35;
-       //camera.position.z =loadedcar_cur.position.z;
-       //camera.position.y =loadedcar_cur.position.y+25;
-       //camera.lookAt(loadedcar_cur.position);  
+       camera.position.x =loadedcar_cur.position.x-35;
+       camera.position.z =loadedcar_cur.position.z;
+       camera.position.y =loadedcar_cur.position.y+25;
+       camera.lookAt(loadedcar_cur.position);  
 
    }
 

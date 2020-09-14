@@ -83,7 +83,7 @@ function subscribeToLocalizationStatusReport()
                 $('#localization-status').css('color', '#ffc107');
                 break;
             case LOCALIZATION_STATUS_DEGRADED_NO_LIDAR_FIX:
-                $('#localization-status').css('color', 'rgb(255,127,80)');
+                $('#localization-status').css('color', '#FF0000');
                 break;
 
             default:

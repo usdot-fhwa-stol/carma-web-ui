@@ -25,7 +25,7 @@ function subscribeToGuidanceAvailaleRoutes ()
             if(session_selectedRoute != null && session_selectedRoute.id != null 
                 && session_selectedRoute.id.length != 0 && session_selectedRoute.id !='undefined')
             {
-                $('#divCapabilitiesRoute').html('Seleted route is ' + session_selectedRoute.id );  
+                $('#divCapabilitiesRoute').html('Seleted route is ' + session_selectedRoute.name );  
                 $('#route-list-content').append(createRouteSelectionRadio(session_selectedRoute.id,session_selectedRoute.name));   
                 //check whether the route is already selected in session
                 if(session_selectedRoute != null && session_selectedRoute.id != null 
@@ -164,7 +164,7 @@ function setRoute(id,route_name)
                 //load the selected/active route to session
                 session_selectedRoute.id = selectedRouteid;
                 session_selectedRoute.name = route_name;
-                $('#divCapabilitiesRoute').html('Seleted route is ' + selectedRouteid );
+                $('#divCapabilitiesRoute').html('Seleted route is ' + route_name );
                 $('#divCapabilitiesContent').css('display','inline-block');
 
                 //Subscribe to active route to map the segments

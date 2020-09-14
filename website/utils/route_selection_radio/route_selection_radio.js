@@ -5,10 +5,12 @@
  */
 function  createRouteSelectionRadio(routeId, RouteName) {
     let labelContainer = document.createElement('label');
-    labelContainer.classList.add('container');
+    labelContainer.classList.add('container','container_route_radio');
+    labelContainer.id='container_route_radio_' + routeId;
 
     let spanRouteName = document.createElement('span');
     spanRouteName.classList.add('title');
+    spanRouteName.id = 'route_label_name_' + RouteName;
     spanRouteName.innerHTML = RouteName;
 
     let routeRadio = document.createElement('input');
@@ -19,7 +21,7 @@ function  createRouteSelectionRadio(routeId, RouteName) {
     routeRadio.onclick = ()=>
     {
         //Defined in connectToROSServicesOnLoad.js
-       setRouteEventLisenter(routeId);
+       setRouteEventLisenter(routeId,RouteName);
     };
 
     let spanCheckMark = document.createElement('span');

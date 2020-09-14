@@ -5,8 +5,8 @@ function TrafficSignalInfoList(){
 
     listener = new ROSLIB.Topic({
         ros: g_ros,
-        name: '/traffic_signal_info',
-        messageType: 'cav_msgs/TrafficSignalInfoList'
+        name: T_TRAFFIC_SIGNAL_INFO,
+        messageType: M_TRAFFIC_SIGNAL_INFO_LIST
     });
 
     let signalState = null;
@@ -17,19 +17,14 @@ function TrafficSignalInfoList(){
          IsROSBridgeConnected();
         message.traffic_signal_info_list.forEach(element => {
             /**
-             * 
-                UNLIT=0
-                GREEN=1
-                YELLOW=2
-                RED=3
-                FLASHING_GREEN=4
-                FLASHING_YELLOW=5
-                FLASHING_RED=6
+             *  UNLIT=0; GREEN=1; YELLOW=2; RED=3; FLASHING_GREEN=4; FLASHING_YELLOW=5; FLASHING_RED=6
             */
            //Prevent repeating the same state
-           if(signalState != element.state){
+           if(signalState != element.state)
+           {
                 signalState = element.state;
-                switch(signalState){
+                switch(signalState)
+                {
                     case SIGNAL_GREEN_STATE:
                         $('.traffic-signal-col').append(updateTrafficSignal('green',element.remaining_time));
                         break;
@@ -50,6 +45,8 @@ function TrafficSignalInfoList(){
                         break;
                     default:
                         $('.traffic-signal-col').html('');
+                        $('.traffic-signal-col').append(updateTrafficSignal('',''));
+                        console.error("Traffic signal state is invalid");
                         break;
                 } 
                 //set back to black after 5 seconds.

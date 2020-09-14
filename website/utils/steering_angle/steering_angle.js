@@ -1,10 +1,5 @@
 /**
  * Create Steering wheel widget
-  <div style="color: white; font-size: 10pt;text-align: center;font-weight: bolder;">STEERING</div>
-                      <div id="steering-wheel-wrapper" class="steering-wheel-wrapper" style="position: absolute;">
-                        <span style="color: white; position: absolute;z-index: 2;top:31px;left:30px;font-weight: bold;">5%</span>
-                        <img src="images/basic_travel/Steering/Steering_whell@2x.png" style="transform: rotateZ(20deg);width: 100px; height: 100px;"/>              
-                      </div>
  */
 function createSteeringWheel(degreePercent,rotateDegree){
     let steeringWheelContainerDiv = document.createElement('div');

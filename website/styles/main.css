@@ -82,6 +82,7 @@ body
     border-top-right-radius: 15px;
     border-bottom-right-radius: 15px;
 }
+
 .accelarator-col-1 {
     border-top-left-radius: 15px;
     border-bottom-left-radius: 15px;
@@ -93,6 +94,28 @@ body
     border-radius: 10px;
     background-color: #2C343D;
 }
+#light_bar_group{
+    width: 340px;
+    display:flex;
+    padding: 10px 0px;
+}
+.light-bar-wrapper{
+    display:flex;
+}
+/* 
+#lane_change_group{
+    width: 340px;
+    display:flex;
+    border: 1px solid #C7C8D9;
+    border-radius: 10px;
+    background-color: #2C343D;
+}
+.lane-change-col-1{
+    width: 100%;
+}
+.lane-change-id{
+    width: 90%;
+} */
 canvas 
 { 
     display: block; 
@@ -101,7 +124,6 @@ canvas
     /**width: calc(100vw - 600px) !important;
     margin-right: 600px;**/
     width:100vw !important;
-    padding-right: 20px;
 }
 #route-list-area{
     height: calc(100vh - 140px) !important;
@@ -112,6 +134,25 @@ canvas
 #route-list-content-no-route-available{
     color:rgb(239, 189, 39) ;
     font-size: 85%;
+}
+#divCapabilitiesArea
+{
+   
+    display: block;
+    width: 40vw;
+    margin: auto;
+    z-index: 20;
+    position: absolute;
+    float: none;
+    left: 43vw;
+}
+#divCapabilitiesContent{
+    position: relative;
+    color: #ffc107;
+    font-size: 70%;
+    border: 1px solid white;
+    border-radius: 15px;
+    padding: 10px;
 }
 a:hover, a:active, a.active
 {
@@ -128,7 +169,7 @@ a.custom-nav
     right: 0;
     width: 30vw ;
     height: calc(100vh - 140px);
-    opacity: 70%;
+    opacity: 85%;
     position: absolute;    
     overflow-y: auto;  
     z-index: 999;  
@@ -154,6 +195,10 @@ hr{
 #right-panel .card {
     border-radius: 15px;
 }
+
+#right-panel .card-body {
+    padding:5px;
+}
 #right-panel .card .card-header{
     border-top-left-radius: 15px;
     border-top-right-radius: 15px;
@@ -161,7 +206,7 @@ hr{
 /* status panel */
 #status-panel{
     overflow: hidden;
-    height: 60%;
+    height: 70%;
 }
 #status-panel .card{
     overflow: hidden;
@@ -186,7 +231,14 @@ hr{
 #status-panel .table-dark thead th{
  border-top-color: black;
 }
-
+#status-panel .systemversion-card-footer{
+    display: block;
+    margin: 0px ;
+    padding: 5px 0px;
+    font-size: 70%;
+    text-align: center;
+    background-color: #1a1a1a !important
+}
 /**logs panel***/
 #logs-panel{
     height: 60%;
@@ -212,6 +264,18 @@ hr{
  #logs-panel .log-content::-webkit-scrollbar-thumb{
      background-color: white;
  }
+
+ #maps-panel{
+    height: 60%;
+ }
+ #maps-panel .card-body{
+     padding: 0px !important;
+ }
+#maps-panel #load-map,#maps-panel .card{
+    height: 100%;
+    border-bottom-right-radius: 10px;
+    border-bottom-left-radius: 10px;
+}
 
 .card-custom-header{
     color:  rgb(167, 223, 57)  !important;

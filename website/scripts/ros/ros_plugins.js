@@ -112,11 +112,8 @@ function getRequiredPluginParam()
     requiredPluginsParam.get((value)=>{
         g_required_plugins = value +"";
         g_required_plugins = g_required_plugins.replace(/\s/g,'').toLowerCase();
-    });
-    
+    });   
 }
-
-
 
 /*
   Activate the plugin based on user selection.
@@ -139,41 +136,23 @@ function activatePlugin(pluginName,pluginType,pluginVersionId,changeToNewStatus,
     {
         //If the plugin is required to be on all times, it cannot be deactivated by the user, so need to notify users with a specific message.
         //Regardless, the call to activate plugin will fail.
-        //divCapabilitiesMessage.innerHTML = 'Sorry, this capability is required. It cannot be deactivated.';
-        //Need to set it back to original value.
-        //cbCapabilities.checked = !newStatus;
+        $('#divCapabilitiesPlugin').html('Sorry, this capability is required. It cannot be deactivated.');
+        $('#divCapabilitiesContent').css('display','inline-block');
+        setTimeout(()=>{
+            $('#divCapabilitiesPlugin').html('');
+        }, 5000);
         //Change the checked status back
         updateChangePluginSwitch(pluginName, pluginType,pluginVersionId,!changeToNewStatus);
         return;
     }
-
-    // If guidance is engaged, at least 1 plugin must be selected.
-    /**
-    if (isGuidance.engaged == true) {
-        var divSubCapabilities = document.getElementById('divSubCapabilities');
-        var cntCapabilitiesSelected = getCheckboxesSelected(divSubCapabilities).length;
-
-        if (cntCapabilitiesSelected == 0) {
-            divCapabilitiesMessage.innerHTML = 'Sorry, CAV Guidance is engaged and there must be at least one active capability.'
-                + '<br/>You can choose to dis-engage to deactivate all capablities.';
-
-            //Need to set it back to original value.
-            cbCapabilities.checked = !newStatus;
-            return;
-        }
-    } */
-
     // Calling service
     var service = new ROSLIB.Service({
         ros: g_ros,
-        name: '/guidance/plugins/activate_plugin',
-        serviceType: 'cav_srvs/PluginActivation'
+        name: S_ACTIVATE_PLUGINS,
+        serviceType: M_PLUGIN_ACTIVATION
     });
 
     // Get name and version.
-    // var splitValue = id.replace('cb', '').split('&');
-    // var name = splitValue[0].replace(/\_/g, ' ');
-    // var version = splitValue[1].replace(/\_/g, '.');
     // Setup the request.
     var request = new ROSLIB.ServiceRequest({
         header: {
@@ -194,42 +173,22 @@ function activatePlugin(pluginName,pluginType,pluginVersionId,changeToNewStatus,
     {
         //Check ROSBridge connection before subscribe a topic
         IsROSBridgeConnected();
-        if (result.newState != changeToNewStatus) //Failed
+        if (result.newState != changeToNewStatus) 
         {
-            //divCapabilitiesMessage.innerHTML = 'Activating the capability failed, please try again.';
+            $('#divCapabilitiesContent').html('');
+            $('#divCapabilitiesContent').html('Activating the capability failed, please try again.');
+            $('#divCapabilitiesContent').css('display','inline-block');
             $('#pluginErrorMsgs').css('display','');
             setTimeout(()=>{
                 $('#pluginErrorMsgs').css('display','none');
-            }, 2000);
+            }, 5000);
         }
-        else {
-            //var divSubCapabilities = document.getElementById('divSubCapabilities');
-            //divSubCapabilities.style.display = 'block';
-            //divCapabilitiesMessage.innerHTML = 'Please select one or more capabilities to activate.';
+        else 
+        {
             updateChangePluginSwitch(pluginName, pluginType,pluginVersionId,changeToNewStatus);
 
             //update the list of active plugins
             updateActivePlugin(pluginName,pluginType,pluginVersionId,changeToNewStatus);
         }
-
-        //Set to new state set by the PluginManager.
-        // cbCapabilities.checked = result.newState;
-
-        // if (cbCapabilities.checked == false) {
-        //     lblCapabilities.style.backgroundColor = 'gray';
-        // }
-        // else if (cbCapabilities.checked == true) {
-        //     lblCapabilities.style.backgroundColor = 'cornflowerblue';
-        // }
-
-        //Call the widget fw to activate for selection.
-        // var cbTitle = name + ' ' + version;
-        //var cbId = id.substring(2,id.length);
-
-        //Populate list for Widget Options.
-       // CarmaJS.WidgetFramework.activatePlugin(cbId, cbTitle, cbCapabilities.checked);
-
-        //Enable the CAV Guidance button if plugins are selected
-        //enableGuidance();
     });
 }

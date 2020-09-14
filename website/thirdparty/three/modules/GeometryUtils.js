@@ -1,7 +1,9 @@
+import {
+	Vector3
+} from "./three.module.js";
 
-
-import {Vector3} from './modules/three.module.js';
 var GeometryUtils = {
+
 	/**
 	 * Generates 2D-Coordinates in a very fast way.
 	 *
@@ -146,4 +148,4 @@ var GeometryUtils = {
 
 };
 
-export {  GeometryUtils };
+export { GeometryUtils };

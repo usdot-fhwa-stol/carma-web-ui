@@ -13,9 +13,9 @@ function checkSystemAlerts() {
     listenerSystemAlert = new ROSLIB.Topic({
         ros: g_ros,
         name: T_SYSTEM_ALERT,
-        messageType: 'cav_msgs/SystemAlert'
+        messageType: M_SYSTEM_ALERT
     });
-
+    let systemAlertQueue = [];
     // Then we add a callback to be called every time a message is published on this topic.
     listenerSystemAlert.subscribe(function (message) 
     {
@@ -77,6 +77,7 @@ function checkSystemAlerts() {
             case SYSTEM_ALERT_DRIVERS_READY: 
                 session_isSystemAlert.ready = true;
                 messageTypeFullDescription = 'System ready. ' + message.description;
+                $('#divCapabilitiesSystemAlert').html('');
                 break;
 
             case SYSTEM_ALERT_SHUTDOWN: 
@@ -105,17 +106,13 @@ function checkSystemAlerts() {
                 break;
         }
         let currentTime = new Date().toLocaleTimeString("en-US", {timeZone: "America/New_York"});
-        if (g_cnt_log_lines < MAX_LOG_LINES) 
+        let eachElement = currentTime+'-'+messageTypeFullDescription + "&#13;&#10;";
+        let eachElementLeight = eachElement.length;
+        $('#logs-panel-text-system-alert').prepend( eachElement );        
+        let currnettext = $('#logs-panel-text-system-alert').html();
+        if ( (currnettext.length / eachElementLeight) > MAX_LOG_LINES) 
         {
-            setTimeout(()=>{
-                $('#logs-panel-text-system-alert').append(currentTime+'-'+messageTypeFullDescription + "&#13;&#10;");
-                g_cnt_log_lines++;
-            },1000);           
-        }
-        else 
-        {
-            $('#logs-panel-text-system-alert').html(currentTime+'-'+messageTypeFullDescription + '&#13;&#10;');
-            g_cnt_log_lines = 0;
+            $('#logs-panel-text-system-alert').html( currnettext.substring(0, (currnettext.length - eachElementLeight)) );
         }
     });
 }

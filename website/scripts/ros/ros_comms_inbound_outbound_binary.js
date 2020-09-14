@@ -5,8 +5,8 @@
 function subscribeToInboundBinary(){
     let listener = new ROSLIB.Topic({
         ros:g_ros,
-        name: '/hardware_interface/comms/inbound_binary_msg',
-        messageType: 'cav_msgs/ByteArray'
+        name: T_COMMS_INBOUND_BINARY_MSG,
+        messageType: M_CAV_BYTEARRAY
     });
     let isTimeerSet = false;
 
@@ -27,12 +27,12 @@ function subscribeToInboundBinary(){
         let BottomLine = svgDov.getElementById('bottom-line');
 
         // Set the colour to something else
-        OBUStatusDownArrow1.setAttribute('fill', '#87b821'); 
-        OBUStatusDownArrow1.setAttribute('stroke', '#87b821'); 
-        OBUStatusDownArrow2.setAttribute('fill', '#87b821'); 
-        OBUStatusDownArrow2.setAttribute('stroke', '#87b821'); 
-        BottomLine.setAttribute('fill', '#87b821'); 
-        BottomLine.setAttribute('stroke', '#87b821');  
+        OBUStatusDownArrow1.setAttribute('fill', 'rgb(188, 250, 63)'); 
+        OBUStatusDownArrow1.setAttribute('stroke', 'rgb(188, 250, 63)'); 
+        OBUStatusDownArrow2.setAttribute('fill', 'rgb(188, 250, 63)'); 
+        OBUStatusDownArrow2.setAttribute('stroke', 'rgb(188, 250, 63)'); 
+        BottomLine.setAttribute('fill', 'rgb(188, 250, 63)'); 
+        BottomLine.setAttribute('stroke', 'rgb(188, 250, 63)');  
         //set back to black after 5 seconds.
         if(!isTimeerSet)
         {
@@ -58,8 +58,8 @@ function subscribeToInboundBinary(){
 function subscribeToOutboundBinary(){
     let listener = new ROSLIB.Topic({
         ros:g_ros,
-        name: '/hardware_interface/comms/outbound_binary_msg',
-        messageType: 'cav_msgs/ByteArray'
+        name: T_COMMS_OUTBOUND_BINARY_MSG,
+        messageType: M_CAV_BYTEARRAY
     });
     let isTimeerSet = false;
 
@@ -80,23 +80,23 @@ function subscribeToOutboundBinary(){
         let BottomLine = svgDov.getElementById('bottom-line');
         
         // Set the colour to something else
-        OBUStatusUpArrow1.setAttribute('fill', '#87b821'); 
-        OBUStatusUpArrow1.setAttribute('stroke', '#87b821'); 
-        OBUStatusUpArrow2.setAttribute('fill', '#87b821'); 
-        OBUStatusUpArrow2.setAttribute('stroke', '#87b821'); 
-        BottomLine.setAttribute('fill', '#87b821'); 
-        BottomLine.setAttribute('stroke', '#87b821');  
+        OBUStatusUpArrow1.setAttribute('fill', 'rgb(188, 250, 63)'); 
+        OBUStatusUpArrow1.setAttribute('stroke', 'rgb(188, 250, 63)'); 
+        OBUStatusUpArrow2.setAttribute('fill', 'rgb(188, 250, 63)'); 
+        OBUStatusUpArrow2.setAttribute('stroke', 'rgb(188, 250, 63)'); 
+        BottomLine.setAttribute('fill', 'rgb(188, 250, 63)'); 
+        BottomLine.setAttribute('stroke', 'rgb(188, 250, 63)');  
         //set back to black after 5 seconds.
         if(!isTimeerSet)
         {
             isTimeerSet=true;
             setTimeout(function(){
-                OBUStatusUpArrow1.setAttribute('fill', 'grey'); //grey
-                OBUStatusUpArrow1.setAttribute('stroke', 'grey'); //grey
-                OBUStatusUpArrow2.setAttribute('fill', 'grey'); //grey
-                OBUStatusUpArrow2.setAttribute('stroke', 'grey'); //grey
-                BottomLine.setAttribute('fill', 'grey'); //grey
-                BottomLine.setAttribute('stroke', 'grey'); //grey
+                OBUStatusUpArrow1.setAttribute('fill', 'grey'); 
+                OBUStatusUpArrow1.setAttribute('stroke', 'grey'); 
+                OBUStatusUpArrow2.setAttribute('fill', 'grey'); 
+                OBUStatusUpArrow2.setAttribute('stroke', 'grey'); 
+                BottomLine.setAttribute('fill', 'grey'); 
+                BottomLine.setAttribute('stroke', 'grey'); 
                 isTimeerSet=false;
             }, 5000);
         }

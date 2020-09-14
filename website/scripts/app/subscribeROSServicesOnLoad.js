@@ -47,7 +47,8 @@ $(document).ready(function(){
         
         $.when(deferROSConnection)
         .done((successMessage)=>{
-            console.log(successMessage);
+            $('#divCapabilitiesSystemAlert').html('Awaiting for system ready...');
+            $('#divCapabilitiesContent').css('display','inline-block');
             // Check System Ready:ros_system_alert.js
             let systemAlertInterval = setInterval(()=>{
                 checkSystemAlerts();
@@ -80,6 +81,7 @@ $(document).ready(function(){
             subscribeToDriverDiscovery();//GPS or PinPoint status        
             subscribeToInboundBinary(); //OBU status
             subscribeToOutboundBinary(); //OBU status
+            subscribeToLocalizationStatusReport(); //Localization Status
 
             /**
              * SECTION: Display Area
@@ -88,6 +90,8 @@ $(document).ready(function(){
             subscribeToVehicleCMD(); //Vechile Command; Steering angle; applied speed; brake; accelerator     
             subscribeToGuidanceRouteState(); //Route - Speed Limit        
             TrafficSignalInfoList(); //Traffic Signal 
+            subscribeLightBarStatus(); //light bar
+            subscribeLaneChangeTopics(); //lane change
 
             /***
              * SECTION: Right Panel Info
@@ -110,7 +114,8 @@ $(document).ready(function(){
 
             subscribeToGuidanceActivePlugins();//Active plugins panel
             showStatusandLogs(); //system status panel
-
+            subscribeToGeofenceInfo(); //show geofence info
+            subscribeToPlatoonInfo(); //show platoon info
             /***
              * SECTION: Bottom Menu 
              * */
@@ -123,8 +128,9 @@ $(document).ready(function(){
     } 
     else 
     {
-        console.log('Sorry, cannot proceed unless your browser support HTML Web Storage Objects.' + 
+        $('#divCapabilitiesSystemAlert').html('Sorry, cannot proceed unless your browser support HTML Web Storage Objects.' + 
                                            'Please contact your system administrator.');
+        $('#divCapabilitiesContent').css('display','inline-block');
     }
 });
 
@@ -319,16 +325,18 @@ function initializeSessionVariables()
  * Definitions: Events and actions taken from UI users 
  * **************************************
  */
-function setRouteEventLisenter(routeId)
+function setRouteEventLisenter(routeId, route_name)
 {
     //TODO: call abort route to abort the current selected route.
     //It is defined in ros_route.js
-    // if(session_selectedRoute.name!=null && session_selectedRoute.name.length > 0){
-    //     abortRoute(session_selectedRoute.name);
-    // }  
+     if(session_selectedRoute!=null && session_selectedRoute.id!=null && session_selectedRoute.id.length > 0)
+     {
+        //abortRoute(session_selectedRoute.name);
+        return;
+     }  
     //After the current active route is aborted, call setRoute(routeId) to set a new route. 
     //It is defined in ros_route.js
-    setRoute(routeId);
+    setRoute(routeId,route_name);
 }
 
 function activatePluginLisenter(pluginName,pluginType,pluginVersionId,changeToNewStatus,isRequired)
@@ -357,4 +365,6 @@ function uncheckAllRoutesListener()
     route_error_msgs.forEach((elemenet)=>{
         elemenet.style.display ='none';
     });
+    $('#divCapabilitiesRoute').html('Please select a route.');
+    $('#divCapabilitiesContent').css('display','inline-block');
 }

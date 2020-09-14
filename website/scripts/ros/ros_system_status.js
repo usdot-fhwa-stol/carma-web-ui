@@ -3,6 +3,7 @@
 */
 function showStatusandLogs() 
 {
+    getCARMAVersion();
     //getParamsForSystemStatus(); //getParams(); Commented out for now to only show system alerts on divLog.
     getVehicleInfo();
     showNavSatFix();
@@ -10,14 +11,10 @@ function showStatusandLogs()
     showCANSpeeds();
     showActualSpeed();
     showDiagnostics();
-    //showDriverStatus();
     showControllingPlugins();
     checkLateralControlDriver();
-    //showUIInstructions();
-    mapOtherVehicles();
+    mapOtherVehicles(); 
     checkRouteInfo();
-   // showCommStatus(); // Update the signal icon on the status bar based on the binary incoming and outgoing messages.
-    //showLightBarStatus(); 
     checkRobotEnabled();
 }
 
@@ -71,17 +68,6 @@ function getVehicleInfo()
 */
 function showVehicleInfo(itemName, index) 
 {
-    // if (itemName.startsWith('/saxton_cav/vehicle') == true && itemName.indexOf('database_path') < 0) {
-    //     //Sample call to get param.
-    //     var myParam = new ROSLIB.Param({
-    //         ros: g_ros,
-    //         name: itemName
-    //     });
-    //     // console.log(myParam);
-    //     myParam.get(function (myValue) {
-    //         //insertNewTableRow('tblSecondB', toCamelCase(itemName), myValue);
-    //     });
-    // }
     let isHostVehicleInfoDisplayed = false;
     if (itemName.startsWith('/vehicle') == true && itemName.indexOf('database_path') < 0) {
         //Sample call to get param.
@@ -89,7 +75,6 @@ function showVehicleInfo(itemName, index)
             ros: g_ros,
             name: itemName
         });
-        // console.log(myParam);
         myParam.get(function (myValue) {        
             //insertNewTableRow('tblSecondB', toCamelCase(itemName), myValue);
             if(!isHostVehicleInfoDisplayed)
@@ -160,12 +145,15 @@ function showNavSatFix()
 {
     var listenerNavSatFix = new ROSLIB.Topic({
         ros: g_ros,
-        name: t_nav_sat_fix, //not published
-        messageType: 'sensor_msgs/NavSatFix'
+        name: T_NAV_SAT_FIX, 
+        messageType: M_NAV_SAT_FIX
     });
+
+    let buffer_size = 10;
+    let count_position = 0;
+    let vector_positions = [];
     listenerNavSatFix.subscribe(function (message) 
     {
-        // console.log(message);
         if (message.latitude == null || message.longitude == null)
             return;
         // insertNewTableRow('tblFirstA', 'NavSatStatus', message.status.status);
@@ -173,9 +161,6 @@ function showNavSatFix()
         // insertNewTableRow('tblFirstA', 'Longitude', message.longitude.toFixed(6));
         // insertNewTableRow('tblFirstA', 'Altitude', message.altitude.toFixed(6));
 
-        // if (hostmarker != null) {
-        //     moveMarkerWithTimeout(hostmarker, message.latitude, message.longitude, 0);
-        // }
         if($('#important_vehicle_info_no_data').length >0)
         {
             $('#important_vehicle_info_no_data').remove();
@@ -220,31 +205,63 @@ function showNavSatFix()
         {
             $('#StatusNavSatFixAltitudeId').text(message.altitude.toFixed(6));
         }   
+
+        //update map
+        if (hostmarker != null) 
+        {
+           let jsonUnit = {};
+           jsonUnit.latitude =  message.latitude.toFixed(6);
+           jsonUnit.longitude =  message.longitude.toFixed(6);
+
+           if(count_position < buffer_size)
+           {
+                vector_positions[count_position++] = jsonUnit;
+           }
+           else
+           {
+                let avgPosition = AvgHostMarkerGeoPositions( vector_positions, buffer_size );
+                count_position= 0;
+                vector_positions = [];
+                moveMarkerWithTimeout(hostmarker, avgPosition.avgLatitude.toString(), avgPosition.avglongitude.toString(), 0);
+           }           
+        }
     });
 }
 
+function AvgHostMarkerGeoPositions( vector_positions, buffer_size )
+{  
+    let returnJson = {};
+    let latitude_total = 0;
+    let longitude_total = 0;
+    vector_positions.forEach((position) =>{
+        latitude_total += parseFloat(position.latitude); 
+        longitude_total += parseFloat(position.longitude); 
+    });
+    returnJson.avgLatitude = (latitude_total/buffer_size).toFixed(6);
+    returnJson.avglongitude = (longitude_total/buffer_size).toFixed(6);
+    return returnJson;
+}
 
 /*
     Display the close loop control of speed
 */
 function showSpeedAccelInfo() 
 {
-    // console.log('showSpeedAccelInfo');
     var listenerSpeedAccel = new ROSLIB.Topic({
             ros: g_ros,
-            name: t_cmd_speed, //not published
-            messageType: 'cav_msgs/SpeedAccel'
+            name: T_CMD_SPEED, //not published
+            messageType: M_SPEED_ACCL
     });
 
     listenerSpeedAccel.subscribe(function (message) 
     {
-
-            var cmd_speed_mph = Math.round(message.speed * METER_TO_MPH);
-             console.log(message);
-            // insertNewTableRow('tblFirstB', 'Cmd Speed (m/s)', message.speed.toFixed(2));
-            // insertNewTableRow('tblFirstB', 'Cmd Speed (MPH)', cmd_speed_mph);
-            // insertNewTableRow('tblFirstB', 'Max Accel', message.max_accel.toFixed(2));
-
+        //Check ROSBridge connection before subscribe a topic
+        IsROSBridgeConnected();
+        var cmd_speed_mph = Math.round(message.speed * METER_TO_MPH);
+        console.log(message);
+        // insertNewTableRow('tblFirstB', 'Cmd Speed (m/s)', message.speed.toFixed(2));
+        // insertNewTableRow('tblFirstB', 'Cmd Speed (MPH)', cmd_speed_mph);
+        // insertNewTableRow('tblFirstB', 'Max Accel', message.max_accel.toFixed(2));
     });
 }
 /*
@@ -254,11 +271,13 @@ function showDiagnostics()
 {
     var listenerACCEngaged = new ROSLIB.Topic({	
         ros: g_ros,	
-        name: t_acc_engaged,	
-        messageType: 'std_msgs/Bool'	
+        name: T_ACC_ENGAGED,	
+        messageType: M_BOOL	
     });
     let isACCEngagedDisplayed = false;
     listenerACCEngaged.subscribe(function (message) {
+        //Check ROSBridge connection before subscribe a topic
+        IsROSBridgeConnected();
         // insertNewTableRow('tblFirstB', 'ACC Engaged', message.data);
         // console.log(message);
         if($('#guidance_info_no_data').length >0)
@@ -278,14 +297,16 @@ function showDiagnostics()
 
     var listenerDiagnostics = new ROSLIB.Topic({
         ros: g_ros,
-        name: t_diagnostics, //not published
-        messageType: 'diagnostic_msgs/DiagnosticArray'
+        name: T_DIAGNOSTICS, //not published
+        messageType: M_DIAGNOSTIC_ARRAY
     });
     let isDiagnosticsDisplayed = false;
     listenerDiagnostics.subscribe(function (messageList) {
-
+        //Check ROSBridge connection before subscribe a topic
+        IsROSBridgeConnected();
         messageList.status.forEach(
-            function (myStatus) {
+            function (myStatus) 
+            {
                 // insertNewTableRow('tblFirstA', 'Diagnostic Name', myStatus.name);
                 // insertNewTableRow('tblFirstA', 'Diagnostic Message', myStatus.message);
                 // insertNewTableRow('tblFirstA', 'Diagnostic Hardware ID', myStatus.hardware_id);
@@ -348,8 +369,8 @@ function showCANSpeeds()
 {
 	var listenerCANEngineSpeed = new ROSLIB.Topic({
 	    ros: g_ros,
-	    name: t_can_engine_speed, 
-	    messageType: 'std_msgs/Float64'
+	    name: T_CAN_ENGINE_SPEED, 
+	    messageType: M_FLOAT64
 	});
     let isCANEngineSpeedDisplayed= false;
 	listenerCANEngineSpeed.subscribe(function (message) {
@@ -372,12 +393,14 @@ function showCANSpeeds()
 
 	var listenerCANSpeed = new ROSLIB.Topic({
 	    ros: g_ros,
-	    name: t_can_speed,
-	    messageType: 'std_msgs/Float64'
+	    name: T_CAN_SPEED,
+	    messageType: M_FLOAT64
 	});
     let isCANSpeedDisplayed = false;
     listenerCANSpeed.subscribe(function (message) 
     {
+        //Check ROSBridge connection before subscribe a topic
+        IsROSBridgeConnected();
         var speedMPH = Math.round(message.data.toFixed(2) * METER_TO_MPH);
 	    // insertNewTableRow('tblFirstB', 'CAN Speed (m/s)', message.data);
         // insertNewTableRow('tblFirstB', 'CAN Speed (MPH)', speedMPH);
@@ -405,12 +428,12 @@ function showCANSpeeds()
 /*
     The Sensor Fusion velocity can be used to derive the actual speed.
 */
-function showActualSpeed(){
-    
+function showActualSpeed()
+{   
     var listenerSFVelocity = new ROSLIB.Topic({
         ros: g_ros,
-        name: t_sensor_fusion_filtered_velocity, 
-        messageType: 'geometry_msgs/TwistWithCovarianceStamped' 
+        name: T_SENSOR_FUSION_FILTERED_VELOCITY, 
+        messageType: M_TWIST__COVARIANCE_STAMPED 
     });//'geometry_msgs/TwistStamped'
     let isActualSpeedDisplayed= false;
     listenerSFVelocity.subscribe(function (message) 
@@ -447,11 +470,12 @@ function showActualSpeed(){
 /*
     Show which plugins are controlling the lateral and longitudinal manuevers.
 */
-function showControllingPlugins() {
+function showControllingPlugins() 
+{
     var listenerControllingPlugins = new ROSLIB.Topic({
         ros: g_ros,
-        name: t_controlling_plugins, //not publish
-        messageType: 'cav_msgs/ActiveManeuvers'
+        name: T_CONTROLLING_PLUGINS, //not publish
+        messageType: M_ACTIVE_MANEUVERS
     });
 
     listenerControllingPlugins.subscribe(function (message) 
@@ -500,11 +524,13 @@ function checkLateralControlDriver()
     //Subscription
     var listenerLateralControl = new ROSLIB.Topic({
         ros: g_ros,
-        name: t_lateral_control_driver, //not publish
-        messageType: 'cav_msgs/LateralControl'
+        name: T_LATERAL_CONTROL_DRIVER, //not publish
+        messageType: M_LATERAL_CONTROL
     });
 
     listenerLateralControl.subscribe(function (message) {
+        //Check ROSBridge connection before subscribe a topic
+        IsROSBridgeConnected();
         console.log(message);
         // insertNewTableRow('tblFirstB', 'Lateral Axle Angle', message.axle_angle);
         // insertNewTableRow('tblFirstB', 'Lateral Max Axle Angle Rate', message.max_axle_angle_rate);
@@ -522,38 +548,38 @@ function mapOtherVehicles()
     //Subscribe to Topic
     var listenerClient = new ROSLIB.Topic({
         ros: g_ros,
-        name: t_incoming_bsm,
-        messageType: 'cav_msgs/BSM'
+        name: T_INCOMING_BSM,
+        messageType: M_BSM
     });
-    let isBSMDisplayed = false;
     listenerClient.subscribe(function (message) 
     {
          //Check ROSBridge connection before subscribe a topic
          IsROSBridgeConnected();
-       // console.log(message);
+        // console.log(message);
         // insertNewTableRow('tblSecondB', 'BSM Temp ID - ' + message.core_data.id + ': ', message.core_data.id);
         // insertNewTableRow('tblSecondB', 'BSM Latitude - ' + message.core_data.id + ': ', message.core_data.latitude.toFixed(6));
         // insertNewTableRow('tblSecondB', 'BSM Longitude - ' + message.core_data.id + ': ', message.core_data.longitude.toFixed(6));
-        //console.log(message);
-        //setOtherVehicleMarkers(message.core_data.id, message.core_data.latitude.toFixed(6), message.core_data.longitude.toFixed(6));
-        if($('#host_vehicle_info_no_data').length >0)
+        if($('#other_vehicles_info_no_data').length >0)
         {
-            $('#host_vehicle_info_no_data').remove();
+            $('#other_vehicles_info_no_data').remove();
         } 
+
         if(document.getElementById('BSMTempIdRow_'+message.core_data.id) == null)
         {
-            $('#host_vehicle_info_body').append('<tr id="BSMTempIdRow_'+message.core_data.id+'">'+
+            $('#other_vehicles_info_body').append('<tr id="BSMTempIdRow_'+message.core_data.id+'">'+
             '<th scope="col" id="BSMTempKeyId_'+message.core_data.id+'" >BSM Temp ID -' + message.core_data.id+':</th>'+
             '<td id="BSMTempId_'+message.core_data.id+'">'+message.core_data.id+'</td></tr>');
         }
-        else{
+        else
+        {
             document.getElementById('BSMTempKeyId_'+message.core_data.id).innerHTML ='BSM Temp ID-' + message.core_data.id;
             document.getElementById('BSMTempId_'+message.core_data.id).innerHTML = message.core_data.id;
            
         }
+
         if(document.getElementById('BSMLatitudeTitleRow_'+message.core_data.id) == null )
         {
-            $('#host_vehicle_info_body').append('<tr id="BSMLatitudeTitleRow_'+message.core_data.id+'"><th scope="col" id="BSMLatitudeTitle_'+message.core_data.id+'">BSM Latitude -'+ message.core_data.id+':</th>'+
+            $('#other_vehicles_info_body').append('<tr id="BSMLatitudeTitleRow_'+message.core_data.id+'"><th scope="col" id="BSMLatitudeTitle_'+message.core_data.id+'">BSM Latitude -'+ message.core_data.id+':</th>'+
             '<td id="BSMLatitudeId_'+message.core_data.id+'">' + message.core_data.latitude.toFixed(6) + '</td></tr>');
         }
         else
@@ -561,9 +587,10 @@ function mapOtherVehicles()
             document.getElementById('BSMLatitudeTitle_'+message.core_data.id).innerHTML ='BSM Latitude-' + message.core_data.id;
             document.getElementById('BSMLatitudeId_'+message.core_data.id).innerHTML = message.core_data.latitude.toFixed(6);
         }
+
         if(document.getElementById('BSMLogitudeTitleRow_'+message.core_data.id) == null)
         {
-            $('#host_vehicle_info_body').append('<tr id="BSMLogitudeTitleRow_'+message.core_data.id+'"><th scope="col" id="BSMLogitudeTitle_'+message.core_data.id+'">BSM Longitude -' + message.core_data.id+':</th>'+
+            $('#other_vehicles_info_body').append('<tr id="BSMLogitudeTitleRow_'+message.core_data.id+'"><th scope="col" id="BSMLogitudeTitle_'+message.core_data.id+'">BSM Longitude -' + message.core_data.id+':</th>'+
             '<td id="BSMLongitudeId_'+message.core_data.id+'">' + message.core_data.longitude.toFixed(6) + '</td></tr>');
         }
         else
@@ -571,6 +598,9 @@ function mapOtherVehicles()
             document.getElementById('BSMLogitudeTitle_'+message.core_data.id).innerHTML ='BSM Longitude-' + message.core_data.id;
             document.getElementById('BSMLongitudeId_'+message.core_data.id).innerHTML = message.core_data.longitude.toFixed(6)
         }
+
+        //update map
+        setOtherVehicleMarkers(message.core_data.id, message.core_data.latitude.toFixed(6), message.core_data.longitude.toFixed(6));        
     });
 }
 
@@ -589,8 +619,8 @@ function checkRouteInfo()
     //Get Route Event
     var listenerRouteEvent = new ROSLIB.Topic({
         ros: g_ros,
-        name: t_route_event,
-        messageType: 'cav_msgs/RouteEvent'
+        name: T_ROUTE_EVENT,
+        messageType: M_ROUTE_EVENT
     });
     let isRouteEventDisplayed = false;
     listenerRouteEvent.subscribe(function (message) 
@@ -618,7 +648,6 @@ function checkRouteInfo()
         let messageTypeFullDescription='';
         if (message.event == 3) //ROUTE_COMPLETED=3
         {
-            //showModal(false, 'ROUTE COMPLETED. <br/> <br/> PLEASE TAKE MANUAL CONTROL OF THE VEHICLE.', true);
             messageTypeFullDescription = 'PLEASE TAKE <strong>MANUAL</strong> CONTROL OF THE VEHICLE.<br/> <br/> ROUTE COMPLETED.  ';
             //If this modal does not exist, create one 
             if( $('#systemAlertModal').length < 1 ) 
@@ -647,15 +676,30 @@ function checkRouteInfo()
              }
             $('#systemAlertModal').modal({backdrop: 'static', keyboard: false}); 
             playSound('audioAlert1', true);
-            //showModal(true, 'You have LEFT THE ROUTE. <br/> <br/> PLEASE TAKE MANUAL CONTROL OF THE VEHICLE.', true);
+        }
+
+        if (message.event == 5)//ROUTE_ABORTED=5
+        {
+            messageTypeFullDescription = 'ROUTE ABORTED. <br/> <br/> PLEASE TAKE MANUAL CONTROL OF THE VEHICLE.';
+            //If this modal does not exist, create one 
+            if( $('#systemAlertModal').length < 1 ) 
+            { 
+                $('#ModalsArea').append(createSystemAlertModal(
+                    '<span style="color:red"><i class="fas fa-exclamation-triangle"></i></span>&nbsp;&nbsp;SYSTEM ALERT', 
+                    messageTypeFullDescription,
+                    true,true
+                    ));              
+            }
+           $('#systemAlertModal').modal({backdrop: 'static', keyboard: false}); 
+           playSound('audioAlert1', true);
         }
     });
 
     //Get Route State
     var listenerRouteState = new ROSLIB.Topic({
         ros: g_ros,
-        name: t_route_state,
-        messageType: 'cav_msgs/RouteState'
+        name: T_ABBR_ROUTE_STATE,
+        messageType: M_ROUTE_STATE
     });
 
     let isRouteStateDisplayed = false;
@@ -666,19 +710,12 @@ function checkRouteInfo()
         // insertNewTableRow('tblSecondA', 'Route ID', message.routeID);
         // insertNewTableRow('tblSecondA', 'Route State', message.state);
         // insertNewTableRow('tblSecondA', 'Cross Track / Down Track', message.cross_track.toFixed(2) + ' / ' + message.down_track.toFixed(2));
+        // insertNewTableRow('tblSecondA', 'LaneLet ID', message.lanelet_id);
+        // insertNewTableRow('tblSecondA', 'Current LaneLet Downtrack', message.lanelet_downtrack);
 
         // insertNewTableRow('tblSecondA', 'Current Segment ID', message.current_segment.waypoint.waypoint_id);
         // insertNewTableRow('tblSecondA', 'Current Segment Max Speed', message.current_segment.waypoint.speed_limit);
 
-        // if (message.lane_index != null && message.lane_index != 'undefined') {
-        //     insertNewTableRow('tblSecondA', 'Lane Index', message.lane_index);
-        // }
-
-        // if (message.current_segment.waypoint.lane_count != null
-        //     && message.current_segment.waypoint.lane_count != 'undefined') {
-        //     insertNewTableRow('tblSecondA', 'Current Segment Lane Count', message.current_segment.waypoint.lane_count);
-        //     insertNewTableRow('tblSecondA', 'Current Segment Req Lane', message.current_segment.waypoint.required_lane_index);
-        // }
         if($('#route_info_no_data').length >0)
         {
             $('#route_info_no_data').remove();
@@ -693,6 +730,13 @@ function checkRouteInfo()
 
             $('#route_info_body').append('<tr><th scope="col" >Cross Track / Down Track</th>'+
             '<td id="StatusRouteStatetrackDivideId">'+message.cross_track.toFixed(2) + ' / ' + message.down_track.toFixed(2)+'</td></tr>');
+
+            $('#route_info_body').append('<tr><th scope="col" >LaneLet ID</th>'+
+            '<td id="StatusRouteStateLaneletId">' + message.lanelet_id+'</td></tr>');
+            
+            $('#route_info_body').append('<tr><th scope="col" >Current LaneLet Downtrack</th>'+
+            '<td id="StatusRouteStateLaneletDowntrackId">'+ message.lanelet_downtrack+'</td></tr>');
+            
             
             // if (message.lane_index != null && message.lane_index != 'undefined') {
             //     // insertNewTableRow('tblSecondA', 'Lane Index', message.lane_index);
@@ -717,6 +761,8 @@ function checkRouteInfo()
             $('#StatusRouteStateId').text(message.routeID);
             $('#StatusRouteStateStatusId').text(message.state);
             $('#StatusRouteStatetrackDivideId').text(message.cross_track.toFixed(2) + ' / ' + message.down_track.toFixed(2));
+            $('#StatusRouteStateLaneletId').text(message.lanelet_id);
+            $('#StatusRouteStateLaneletDowntrackId').text( message.lanelet_downtrack);
         }
 
     });
@@ -731,8 +777,8 @@ function checkRobotEnabled() {
 
     var listenerRobotStatus = new ROSLIB.Topic({
             ros: g_ros,
-            name: 'controller/robotic_status',
-            messageType: 'cav_msgs/RobotEnabled'
+            name: T_ROBOTIC_STATUS,
+            messageType: M_ROBOT_ENABLED
      });
      isRobotStatusDisplayed = false;
      listenerRobotStatus.subscribe(function (message) 
@@ -761,4 +807,50 @@ function checkRobotEnabled() {
                 $('#StatusRobotEnabledId').text(message.robot_enabled);
             } 
      });
+}
+
+/*
+    Get the CARMA version using the PHP script calling the docker container inspect to get the carma-config image version used.
+*/
+function getCARMAVersion() 
+{
+	var request = new XMLHttpRequest();
+	var url = "scripts/carmaVersion.php";
+	request.open("POST", url, true);
+	request.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+	 
+	request.onreadystatechange = function() {
+		if(request.readyState == 4 && request.status == 200) {
+		showCARMAVersion(request.responseText);
+		publishCARMAVersion(request.responseText);
+		}
+	}
+	request.send();
+}
+
+/*
+    Show the CARMA version under the footer tag.
+*/
+function showCARMAVersion(response) {
+	var elemSystemVersion = document.getElementsByClassName('systemversion');
+	elemSystemVersion[0].innerHTML = response;
+}
+
+/*
+    Publish the CARMA version.
+    Initially designed for CARMA Messenger truck inspection plugin needing the CARMAPlatform version.
+*/
+function publishCARMAVersion(response) {
+
+	var topicCARMASystemVersion = new ROSLIB.Topic({
+	    ros: g_ros,
+	    name: T_CARMA_SYSTEM_VERSION,
+	    messageType: 'std_msgs/String'
+	});
+
+    var msg = new ROSLIB.Message({
+        data: response
+    });
+
+	topicCARMASystemVersion.publish(msg);
 }

@@ -37,7 +37,7 @@ function subscribeToGuidanceAvailaleRoutes ()
         && session_selectedRoute.id.length != 0 && session_selectedRoute.id !='undefined')
     {
         $('#route-list-content-no-route-available').html('');
-        $('#divCapabilitiesRoute').html('Seleted route is ' + session_selectedRoute.name );  
+        $('#divCapabilitiesRoute').html('Selected route is ' + session_selectedRoute.name );  
         $('#route-list-content').append(createRouteSelectionRadio(session_selectedRoute.id,session_selectedRoute.name));   
         //check whether the route is already selected in session
         if(session_selectedRoute != null && session_selectedRoute.id != null 
@@ -163,7 +163,7 @@ function setRoute(id,route_name)
                 //load the selected/active route to session
                 session_selectedRoute.id = selectedRouteid;
                 session_selectedRoute.name = route_name;
-                $('#divCapabilitiesRoute').html('Seleted route is ' + route_name );
+                $('#divCapabilitiesRoute').html('Selected route is ' + route_name );
                 $('#divCapabilitiesContent').css('display','inline-block');
                 $('#clearRoutes').css('display','none');
                 var route_list = document.getElementsByClassName('container_route_radio');

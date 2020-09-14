@@ -255,7 +255,7 @@ $(document).ready(function(){
      {
           
           //console.log(session_isGuidance + session_isGuidance.active)
-          if(session_isGuidance!= null && session_isGuidance.engaged == true) //already automated guidance-engaged
+          if(session_isGuidance!= null && (session_isGuidance.engaged == true || session_isGuidance.active == true)) //already automated guidance-engaged
           {
                toggleLoading();
               //clear this ModalArea before create new modal

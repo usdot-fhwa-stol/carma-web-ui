@@ -209,7 +209,7 @@ $(document).ready(function(){
                     "cursor":"not-allowed"
                });
                if($('#statistics-no-item-text').length <1)
-                    $('.statistics-dropdown-menu').append('<p id="statistics-no-item-text" style="color:#ffc107">No Iteam Available</p>');
+                    $('.statistics-dropdown-menu').append('<p id="statistics-no-item-text" style="color:#ffc107">Not Available</p>');
           } 
      } 
 
@@ -234,7 +234,7 @@ $(document).ready(function(){
                     "color":"grey"
                });
                if($('#advanced-no-item-text').length <1)
-                    $('.advanced-dropdown-menu').html('<p id="advanced-no-item-text" style="color:#ffc107">No Iteam Available</p>');
+                    $('.advanced-dropdown-menu').html('<p id="advanced-no-item-text" style="color:#ffc107">Not Available</p>');
           } 
      } 
 

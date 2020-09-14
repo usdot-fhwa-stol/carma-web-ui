@@ -40,7 +40,7 @@ function subscribeToDriverDiscovery()
                     GPSStatus.style.color = '#ff6600'; //Orange
                     break;
                 case GPS_DRIVER_STATUS_FAULT: //FAULT
-                    GPSStatus.style.color = '#b32400'; //Red
+                    GPSStatus.style.color = '#FF0000'; //Red
                     break;
                 default:
                     GPSStatus.style.color = ''; //default to grey

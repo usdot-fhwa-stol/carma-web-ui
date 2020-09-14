@@ -22,24 +22,14 @@ function subscribeToGuidanceAvailaleRoutes ()
         var availableRoutes = result.availableRoutes;
         if(availableRoutes != null && availableRoutes.length > 0){
             $('#route-list-content-no-route-available').html('');
-            if(session_selectedRoute != null && session_selectedRoute.name != null 
-                && session_selectedRoute.name.length != 0 && session_selectedRoute.name !='undefined')
+            if(session_selectedRoute != null && session_selectedRoute.id != null 
+                && session_selectedRoute.id.length != 0 && session_selectedRoute.id !='undefined')
             {
-                $('#divCapabilitiesRoute').html('Seleted route is ' + session_selectedRoute.name );               
-            }
-            else
-            {
-                $('#divCapabilitiesRoute').html('Please select a route.');
-            }
-           
-            availableRoutes.forEach(route=>{
-                // console.log('route name is: ' + route.route_name);
-                // console.log('route Id is: ' + route.route_id);                
-                //display route list info in html <div id='route-list-content'>
-                $('#route-list-content').append(createRouteSelectionRadio(route.route_id,route.route_name));
+                $('#divCapabilitiesRoute').html('Seleted route is ' + session_selectedRoute.id );  
+                $('#route-list-content').append(createRouteSelectionRadio(session_selectedRoute.id,session_selectedRoute.name));   
                 //check whether the route is already selected in session
                 if(session_selectedRoute != null && session_selectedRoute.id != null 
-                    && session_selectedRoute.id.length > 0 && session_selectedRoute.id == route.id)
+                    && session_selectedRoute.id.length > 0)
                 {
                     let selectedRouteRadio = document.getElementById('route_radio_'+session_selectedRoute.id);
                     if(selectedRouteRadio != null && selectedRouteRadio != 'undefined')
@@ -47,8 +37,18 @@ function subscribeToGuidanceAvailaleRoutes ()
                         selectedRouteRadio.checked = true;
                         session_selectedRoute.name = route.route_name;
                     }
-                }
-            });
+                }          
+            }
+            else
+            {
+                $('#divCapabilitiesRoute').html('Please select a route.');           
+                availableRoutes.forEach(route=>{
+                    // console.log('route name is: ' + route.route_name);
+                    // console.log('route Id is: ' + route.route_id);                
+                    //display route list info in html <div id='route-list-content'>
+                    $('#route-list-content').append(createRouteSelectionRadio(route.route_id,route.route_name));
+                });
+            }
         }
         
     });
@@ -97,7 +97,7 @@ function subscribeToGuidanceRouteState()
 /*
     Set the route once based on user selection.
 */
-function setRoute(id) 
+function setRoute(id,route_name) 
 {
     // Calling setActiveRoute service
     var service = new ROSLIB.Service({
@@ -163,6 +163,7 @@ function setRoute(id)
                 console.log('call set active route success!');
                 //load the selected/active route to session
                 session_selectedRoute.id = selectedRouteid;
+                session_selectedRoute.name = route_name;
                 $('#divCapabilitiesRoute').html('Seleted route is ' + selectedRouteid );
                 $('#divCapabilitiesContent').css('display','inline-block');
 

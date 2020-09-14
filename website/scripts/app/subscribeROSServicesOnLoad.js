@@ -325,16 +325,18 @@ function initializeSessionVariables()
  * Definitions: Events and actions taken from UI users 
  * **************************************
  */
-function setRouteEventLisenter(routeId)
+function setRouteEventLisenter(routeId, route_name)
 {
     //TODO: call abort route to abort the current selected route.
     //It is defined in ros_route.js
-    // if(session_selectedRoute.name!=null && session_selectedRoute.name.length > 0){
-    //     abortRoute(session_selectedRoute.name);
-    // }  
+     if(session_selectedRoute!=null && session_selectedRoute.id!=null && session_selectedRoute.id.length > 0)
+     {
+        //abortRoute(session_selectedRoute.name);
+        return;
+     }  
     //After the current active route is aborted, call setRoute(routeId) to set a new route. 
     //It is defined in ros_route.js
-    setRoute(routeId);
+    setRoute(routeId,route_name);
 }
 
 function activatePluginLisenter(pluginName,pluginType,pluginVersionId,changeToNewStatus,isRequired)

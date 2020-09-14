@@ -5,7 +5,8 @@
  */
 function  createRouteSelectionRadio(routeId, RouteName) {
     let labelContainer = document.createElement('label');
-    labelContainer.classList.add('container');
+    labelContainer.classList.add('container','container_route_radio');
+    labelContainer.id='container_route_radio_' + routeId;
 
     let spanRouteName = document.createElement('span');
     spanRouteName.classList.add('title');

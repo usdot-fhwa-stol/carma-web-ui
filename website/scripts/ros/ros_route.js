@@ -20,38 +20,37 @@ function subscribeToGuidanceAvailaleRoutes ()
         //Check ROSBridge connection before subscribe a topic
         IsROSBridgeConnected();
         var availableRoutes = result.availableRoutes;
-        if(availableRoutes != null && availableRoutes.length > 0){
-            $('#route-list-content-no-route-available').html('');
-            if(session_selectedRoute != null && session_selectedRoute.id != null 
-                && session_selectedRoute.id.length != 0 && session_selectedRoute.id !='undefined')
-            {
-                $('#divCapabilitiesRoute').html('Seleted route is ' + session_selectedRoute.name );  
-                $('#route-list-content').append(createRouteSelectionRadio(session_selectedRoute.id,session_selectedRoute.name));   
-                //check whether the route is already selected in session
-                if(session_selectedRoute != null && session_selectedRoute.id != null 
-                    && session_selectedRoute.id.length > 0)
-                {
-                    let selectedRouteRadio = document.getElementById('route_radio_'+session_selectedRoute.id);
-                    if(selectedRouteRadio != null && selectedRouteRadio != 'undefined')
-                    {
-                        selectedRouteRadio.checked = true;
-                        session_selectedRoute.name = route.route_name;
-                    }
-                }          
-            }
-            else
-            {
-                $('#divCapabilitiesRoute').html('Please select a route.');           
-                availableRoutes.forEach(route=>{
-                    // console.log('route name is: ' + route.route_name);
-                    // console.log('route Id is: ' + route.route_id);                
-                    //display route list info in html <div id='route-list-content'>
-                    $('#route-list-content').append(createRouteSelectionRadio(route.route_id,route.route_name));
-                });
-            }
-        }
-        
+        if(availableRoutes != null && availableRoutes.length > 0)
+        {
+            $('#route-list-content-no-route-available').html('');           
+            $('#divCapabilitiesRoute').html('Please select a route.');           
+            availableRoutes.forEach(route=>{
+                // console.log('route name is: ' + route.route_name);
+                // console.log('route Id is: ' + route.route_id);                
+                //display route list info in html <div id='route-list-content'>
+                $('#route-list-content').append(createRouteSelectionRadio(route.route_id,route.route_name));
+            });
+        }        
     });
+    //route is Already selected
+    if(session_selectedRoute != null && session_selectedRoute.id != null 
+        && session_selectedRoute.id.length != 0 && session_selectedRoute.id !='undefined')
+    {
+        $('#route-list-content-no-route-available').html('');
+        $('#divCapabilitiesRoute').html('Seleted route is ' + session_selectedRoute.name );  
+        $('#route-list-content').append(createRouteSelectionRadio(session_selectedRoute.id,session_selectedRoute.name));   
+        //check whether the route is already selected in session
+        if(session_selectedRoute != null && session_selectedRoute.id != null 
+            && session_selectedRoute.id.length > 0)
+        {
+            let selectedRouteRadio = document.getElementById('route_radio_'+session_selectedRoute.id);
+            if(selectedRouteRadio != null && selectedRouteRadio != 'undefined')
+            {
+                selectedRouteRadio.checked = true;
+                session_selectedRoute.name = route.route_name;
+            }
+        }          
+    }
 }
 
 /**
@@ -166,7 +165,15 @@ function setRoute(id,route_name)
                 session_selectedRoute.name = route_name;
                 $('#divCapabilitiesRoute').html('Seleted route is ' + route_name );
                 $('#divCapabilitiesContent').css('display','inline-block');
-
+                $('#clearRoutes').css('display','none');
+                var route_list = document.getElementsByClassName('container_route_radio');
+                Array.prototype.forEach.call(route_list, function(ele) {
+                    if(ele.id != 'container_route_radio_' +  selectedRouteid)
+                    {
+                        ele.style.display='none';
+                    }
+                });                
+               
                 //Subscribe to active route to map the segments
                 showActiveRoute();
             }

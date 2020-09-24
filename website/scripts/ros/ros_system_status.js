@@ -328,9 +328,9 @@ function showDiagnostics()
                 }           
                 else
                 {
-                    $('#StatusDiagnosticsNameId').text(message.data);
-                    $('#StatusDiagnosticsMessageId').text(message.message);
-                    $('#StatusDiagnosticsHardwareId').text(message.hardware_id);
+                    $('#StatusDiagnosticsNameId').text(myStatus.data);
+                    $('#StatusDiagnosticsMessageId').text(myStatus.message);
+                    $('#StatusDiagnosticsHardwareId').text(myStatus.hardware_id);
                 } 
                 let isStateValueDisplay = false;
                 myStatus.values.forEach(

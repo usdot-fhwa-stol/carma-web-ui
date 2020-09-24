@@ -83,11 +83,16 @@ function subscribeToGuidanceState ()
                 //hide route area
                 $('#clearRoutes').css('display','none'); //remove Clear from route selection
                 $("#route-list-area").css('display','none');   //hide route selection area 
-                $(".nav-link.route").removeClass('active'); //remove navigation route active style        
-                //Show display area:  widgets area and 3D canvas 
-                $('.nav-link.display').addClass('active'); //change navigation to display
-                $("#widgets-panel").css('display','block'); //show navigation to display
-                $("#main-canvas").css('display','block'); //show navigation to display   
+                $(".nav-link.route").removeClass('active'); //remove navigation route active style     
+                if(!g_IsDisplayShownUponFirstEngaged)   
+                {
+                    //Show display area:  widgets area and 3D canvas 
+                    $('.nav-link.display').addClass('active'); //change navigation to display
+                    $("#widgets-panel").css('display','block'); //show navigation to display
+                    $("#main-canvas").css('display','block'); //show navigation to display  
+                    $("#divCapabilitiesArea").css('display','none'); //hide divCapability in display
+                    g_IsDisplayShownUponFirstEngaged=true;
+                }
 
                 //Disabled Change plugin at guidance Active state
                 $('#allPlugins-btn').css('display','none');

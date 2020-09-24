@@ -177,6 +177,7 @@ var g_acceleratorCircle = null;
 var g_brakeCircle = null;
 var g_timer = null; //elapsed timer
 var g_ready_counter = 0;
+var g_IsDisplayShownUponFirstEngaged = false;
 
 //map 
 var map;

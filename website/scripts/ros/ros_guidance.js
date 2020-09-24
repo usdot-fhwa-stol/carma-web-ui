@@ -80,12 +80,13 @@ function subscribeToGuidanceState ()
 
                 $('#divCapabilitiesGuidance').html('Guidance is now ENGAGED.' );
                 $('#divCapabilitiesContent').css('display','inline-block');
-                //hide route area
-                $('#clearRoutes').css('display','none'); //remove Clear from route selection
-                $("#route-list-area").css('display','none');   //hide route selection area 
-                $(".nav-link.route").removeClass('active'); //remove navigation route active style     
+                //hide route clear link
+                $('#clearRoutes').css('display','none'); //remove Clear from route selection   
                 if(!g_IsDisplayShownUponFirstEngaged)   
                 {
+                    //hide route area
+                    $("#route-list-area").css('display','none');   //hide route selection area 
+                    $(".nav-link.route").removeClass('active'); //remove navigation route active style  
                     //Show display area:  widgets area and 3D canvas 
                     $('.nav-link.display').addClass('active'); //change navigation to display
                     $("#widgets-panel").css('display','block'); //show navigation to display

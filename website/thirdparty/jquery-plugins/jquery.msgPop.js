@@ -31,7 +31,7 @@ function initMsgPop()
 	var containerCreated = false;
 	var closeAllBtnCreated = false;
 	var loadMoreBtnCreated = false;
-	var msgPopQueueSize = 20;
+	var msgPopQueueSize = 25;
 
 	/* Disabling this feature, to have same display as on tablet.
 	//Browser check

@@ -17,7 +17,7 @@ function initMsgPop()
 
 	//Public properties
 	MsgPop.effectSpeed = 250;
-	MsgPop.limit = 10;
+	MsgPop.limit = 8;
 	MsgPop.displaySmall = true;
 	MsgPop.position = "bottom-right";
 	//Desc - Descending means insert new item at the top of list
@@ -31,7 +31,7 @@ function initMsgPop()
 	var containerCreated = false;
 	var closeAllBtnCreated = false;
 	var loadMoreBtnCreated = false;
-	var msgPopQueueSize = 25;
+	var msgPopQueueSize = 30;
 
 	/* Disabling this feature, to have same display as on tablet.
 	//Browser check

@@ -82,17 +82,17 @@ function subscribeToSpeedPedals()
         IsROSBridgeConnected();
         if(message!=null && message.brake !=null)
         {
-              //Brake
+              //Brake(0-1 percent)
               if(message.brake != null && g_brakeCircle != null)
               {
-                  let max, brakeLimit = '';
-                  //set brake  limit to the host vehicle deceleration(brake) limit if exist in session, otherwise default to 6
-                  if(message.brake>0)
-                      brakeLimit = session_hostVehicle.brakeLimit;
+                let max, brakeLimit = '';
+                //set brake  limit to the host vehicle deceleration(brake) limit if exist in session, otherwise default to 6
+                if(message.brake>0)
+                    brakeLimit = session_hostVehicle.brakeLimit;
                   
-                      max =  brakeLimit != null && brakeLimit.length > 0? brakeLimit: 6;
-                  let value = message.brake;
-                  updateBrake(g_brakeCircle,max,value);
+                max =  brakeLimit != null && brakeLimit.length > 0? brakeLimit: 6;
+                let value = message.brake * max; //brake value
+                updateBrake(g_brakeCircle,max,value);
               }
         }
     });
@@ -114,7 +114,7 @@ function subscribeToSteeringWheel()
         //Steering wheel
         if(message.angle != null)
         {
-            let rad = message.angle;
+            let rad = message.angle * 180/(Math.PI);
             let rotateDegree = rad % 360; //-35 to +35
             // console.log('rotateDegree'+rotateDegree);
             let degreePercent = Math.floor(((rotateDegree/360) * 100));

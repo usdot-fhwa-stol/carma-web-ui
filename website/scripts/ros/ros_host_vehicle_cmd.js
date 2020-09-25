@@ -105,12 +105,25 @@ function subscribeToSteeringWheel()
         //Check ROSBridge connection before subscribe a topic
         IsROSBridgeConnected();
         //Steering wheel
+        /**
+         * compute the maximum_steering_wheel_angle with the following equation.
+            vehicle_steer_lim_deg_rad = vehicle_steer_lim_deg * 180/pi
+            maximum_steering_wheel_angle  = vehicle_steering_gear_ratio * vehicle_steer_lim_deg_rad
+            Your steering percentage is then
+            steer_percentage = (message.steer / maximum_steering_wheel_angle) * 100 (edited) 
+         */
         if(message.angle != null)
         {
+            //steering  percentage
+            let vehicle_steer_lim_deg_rad = session_hostVehicle.steeringLimit * 180/pi;
+            let maximum_steering_wheel_angle = session_hostVehicle.steeringRatio * vehicle_steer_lim_deg_rad;
+            let steer_percentage = (message.angle / maximum_steering_wheel_angle) * 100;
+
+            //steering degree
             let rotateDegree = message.angle * 180/(Math.PI);
             let rotateDegreeModule = rotateDegree % 360; 
-            // console.log('rotateDegree'+rotateDegree);
-            updateSteeringWheel(message.angle.toFixed(2),rotateDegreeModule);
+
+            updateSteeringWheel(steer_percentage+ "%",rotateDegreeModule);
         }  
     });
 }

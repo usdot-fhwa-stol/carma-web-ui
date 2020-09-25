@@ -311,6 +311,32 @@ function initializeSessionVariables()
              sessionStorage.setItem('vehicleDecelerationLimit', newValue);
             //  console.log('set vehicleDecelerationLimit(brake): ' + newValue);
          },
+         get steeringLimit() 
+         {
+             let vehicleSteeringLimit = sessionStorage.getItem('vehicleSteeringLimit');
+             if (vehicleSteeringLimit == 'undefined' || vehicleSteeringLimit == null || vehicleSteeringLimit.length == 0) 
+             {
+                vehicleSteeringLimit = '';
+             }
+             return vehicleSteeringLimit;
+         },
+         set steeringLimit(newValue) 
+         {
+             sessionStorage.setItem('vehicleSteeringLimit', newValue);
+         },
+         get steeringRatio() 
+         {
+             let vehicleSteeringRatio = sessionStorage.getItem('vehicleSteeringRatio');
+             if (vehicleSteeringRatio == 'undefined' || vehicleSteeringRatio == null || vehicleSteeringRatio.length == 0) 
+             {
+                vehicleSteeringRatio = '';
+             }
+             return vehicleSteeringRatio;
+         },
+         set steeringRatio(newValue) 
+         {
+             sessionStorage.setItem('vehicleSteeringRatio', newValue);
+         },
          remove() 
          {
              sessionStorage.removeItem('vehicleMake');

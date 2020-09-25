@@ -114,6 +114,14 @@ function showVehicleInfo(itemName, index)
             {
                 session_hostVehicle.brakeLimit = myValue;
             }
+            else if(session_hostVehicle != null && itemName.includes('vehicle_steer_lim_deg'))
+            {
+                session_hostVehicle.steeringLimit = myValue
+            }
+            else if(session_hostVehicle != null && itemName.includes('vehicle_steering_gear_ratio'))
+            {
+                session_hostVehicle.steeringRatio = myValue
+            }
         });
     }
 }

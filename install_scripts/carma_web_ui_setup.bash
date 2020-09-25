@@ -27,7 +27,7 @@ sudo chgrp -R $GRP_ID /opt/carma/
 sudo chmod 775 -R /opt/carma/
 sudo chmod 775 /opt/carma/Desktop /opt/carma/Pictures
 
-curl -o /opt/carma/Desktop/CARMA_WEB_UI.desktop -L https://raw.githubusercontent.com/usdot-fhwa-stol/carma-web-ui/integration/ui/install_scripts/Desktop/CARMA_WEB_UI.desktop 
+curl -o /opt/carma/Desktop/CARMA_WEB_UI.desktop -L https://raw.githubusercontent.com/usdot-fhwa-stol/carma-web-ui/integration/ui/install_scripts/Desktop/CARMA_UI.desktop 
 chmod 775 /opt/carma/Desktop/CARMA_WEB_UI.desktop
 
 

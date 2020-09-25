@@ -52,6 +52,9 @@ const T_GEOFENCE_INFO = "/environment/active_geofence";
 const T_LANE_CHANGE = '/lane_change';
 const T_PLATOON_INFO = '/platooning_info';
 const T_LOCALIZATION_STATUS = '/localization/localization_status';
+const T_STEERING_WHEEL="/hardware_interface/steering_wheel";
+const T_SPEED_PEDALS ="/hardware_interface/speed_pedals";
+const T_GPS_NODELET_WRAPPER='/hardware_interface/novatel_gps_nodelet_wrapper';
 
 //ROS Services names
 const S_GUIDANCE_AVAILABLE_ROUTES = '/guidance/get_available_routes';
@@ -94,6 +97,8 @@ const M_GEOFENCE_INFO_MSG = 'cav_msgs/CheckActiveGeofence';
 const M_LANE_CHANGE = 'cav_msgs/LaneChangeInfo';
 const M_PLATOON_INFO = 'cav_msgs/PlatooningInfo';
 const M_LOCALIZATION_REPORT = 'cav_msgs/LocalizationStatusReport';
+const M_STEERING_WHEEL="automotive_platform_msgs/SteerWheel";
+const M_SPEED_PEDALS="automotive_platform_msgs/SpeedPedals";
 
 //ROS param names
 const P_REQUIRED_PLUGINS = '/guidance/health_monitor/required_plugins';
@@ -177,6 +182,7 @@ var g_acceleratorCircle = null;
 var g_brakeCircle = null;
 var g_timer = null; //elapsed timer
 var g_ready_counter = 0;
+var g_IsDisplayShownUponFirstEngaged = false;
 
 //map 
 var map;

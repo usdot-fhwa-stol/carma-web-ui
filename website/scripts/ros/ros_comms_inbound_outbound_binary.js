@@ -22,6 +22,9 @@ function subscribeToInboundBinary(){
         return;
 
         let svgDov = OBUStatusOBJ.contentDocument;
+        if (svgDov == null || svgDov == 'undefined')
+            return;
+
         let OBUStatusDownArrow1 = svgDov.getElementById('dsrc-cls-1-down-1');
         let OBUStatusDownArrow2 = svgDov.getElementById('dsrc-cls-1-down-2');
         let BottomLine = svgDov.getElementById('bottom-line');
@@ -75,6 +78,8 @@ function subscribeToOutboundBinary(){
         return;
 
         let svgDov = OBUStatusOBJ.contentDocument;
+        if (svgDov == null || svgDov == 'undefined')
+            return;
         let OBUStatusUpArrow1 = svgDov.getElementById('dsrc-cls-1-up-1');
         let OBUStatusUpArrow2 = svgDov.getElementById('dsrc-cls-1-up-2');
         let BottomLine = svgDov.getElementById('bottom-line');

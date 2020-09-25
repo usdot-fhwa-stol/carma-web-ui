@@ -44,15 +44,20 @@ import { LineMaterial } from '../../../thirdparty/three/modules/lines/LineMateri
      const objLoader = new THREE.OBJLoader();    
      objLoader.setMaterials(materials);
      objLoader.load('images/models/car.obj', loaded => {
-         loaded.scale.set(2.2,2,1);//change car shape
+         loaded.scale.set(2.5,2,1);//change car shape
          //set car position
-         loaded.position.x=-12;
+         loaded.position.x=-20;
          loaded.position.y=0;
          loaded.position.z=0;
          loadedcar_cur = loaded;
          scene.add( loaded );
      }); 
  });
+
+ var geometryCube = new THREE.BoxGeometry( 0.5, 0.5, 0.5 );
+ var materialCube = new THREE.MeshBasicMaterial( {color: 0x000000} );
+ var cube = new THREE.Mesh( geometryCube, materialCube );
+ scene.add( cube );
 
  //car3 - front
  mtlLoader.load('images/models/car_black.mtl', materials => {
@@ -222,7 +227,7 @@ var roadLineMaterial = new LineMaterial({
  plane_lane3.position.y = 0.03;
  plane_lane3.position.z = 5;
  scene.add(plane_lane3);
- 
+
  function animate() 
  {
      requestAnimationFrame( animate );              
@@ -252,10 +257,14 @@ var roadLineMaterial = new LineMaterial({
        //  loadedcar_front.position.x +=0.01;                   
            
        //move camera
-       camera.position.x =loadedcar_cur.position.x-35;
-       camera.position.z =loadedcar_cur.position.z;
-       camera.position.y =loadedcar_cur.position.y+25;
-       camera.lookAt(loadedcar_cur.position);  
+
+       cube.position.x=loadedcar_cur.position.x+10;
+       cube.position.y=loadedcar_cur.position.y;
+       cube.position.z=loadedcar_cur.position.z;
+       camera.position.x =cube.position.x-25;
+       camera.position.z =cube.position.z;
+       camera.position.y =cube.position.y+25;
+       camera.lookAt(cube.position);  
 
    }
 

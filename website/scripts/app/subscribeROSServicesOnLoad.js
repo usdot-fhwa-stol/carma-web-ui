@@ -87,7 +87,9 @@ $(document).ready(function(){
              * SECTION: Display Area
              * **/
             subscribeToLocalizationEKFTwist(); //Current Vehicle Speed
-            subscribeToVehicleCMD(); //Vechile Command; Steering angle; applied speed; brake; accelerator     
+            subscribeToVehicleCMD(); //Vechile Command;  applied speed; accelerator  
+            subscribeToSteeringWheel(); //Steering angle
+            subscribeToSpeedPedals(); //brake;
             subscribeToGuidanceRouteState(); //Route - Speed Limit        
             TrafficSignalInfoList(); //Traffic Signal 
             subscribeLightBarStatus(); //light bar
@@ -308,6 +310,32 @@ function initializeSessionVariables()
          {
              sessionStorage.setItem('vehicleDecelerationLimit', newValue);
             //  console.log('set vehicleDecelerationLimit(brake): ' + newValue);
+         },
+         get steeringLimit() 
+         {
+             let vehicleSteeringLimit = sessionStorage.getItem('vehicleSteeringLimit');
+             if (vehicleSteeringLimit == 'undefined' || vehicleSteeringLimit == null || vehicleSteeringLimit.length == 0) 
+             {
+                vehicleSteeringLimit = '';
+             }
+             return vehicleSteeringLimit;
+         },
+         set steeringLimit(newValue) 
+         {
+             sessionStorage.setItem('vehicleSteeringLimit', newValue);
+         },
+         get steeringRatio() 
+         {
+             let vehicleSteeringRatio = sessionStorage.getItem('vehicleSteeringRatio');
+             if (vehicleSteeringRatio == 'undefined' || vehicleSteeringRatio == null || vehicleSteeringRatio.length == 0) 
+             {
+                vehicleSteeringRatio = '';
+             }
+             return vehicleSteeringRatio;
+         },
+         set steeringRatio(newValue) 
+         {
+             sessionStorage.setItem('vehicleSteeringRatio', newValue);
          },
          remove() 
          {

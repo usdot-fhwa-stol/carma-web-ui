@@ -114,6 +114,14 @@ function showVehicleInfo(itemName, index)
             {
                 session_hostVehicle.brakeLimit = myValue;
             }
+            else if(session_hostVehicle != null && itemName.includes('vehicle_steer_lim_deg'))
+            {
+                session_hostVehicle.steeringLimit = myValue
+            }
+            else if(session_hostVehicle != null && itemName.includes('vehicle_steering_gear_ratio'))
+            {
+                session_hostVehicle.steeringRatio = myValue
+            }
         });
     }
 }
@@ -328,9 +336,9 @@ function showDiagnostics()
                 }           
                 else
                 {
-                    $('#StatusDiagnosticsNameId').text(message.data);
-                    $('#StatusDiagnosticsMessageId').text(message.message);
-                    $('#StatusDiagnosticsHardwareId').text(message.hardware_id);
+                    $('#StatusDiagnosticsNameId').text(myStatus.data);
+                    $('#StatusDiagnosticsMessageId').text(myStatus.message);
+                    $('#StatusDiagnosticsHardwareId').text(myStatus.hardware_id);
                 } 
                 let isStateValueDisplay = false;
                 myStatus.values.forEach(

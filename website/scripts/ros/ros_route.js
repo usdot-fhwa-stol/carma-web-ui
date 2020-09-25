@@ -15,43 +15,53 @@ function subscribeToGuidanceAvailaleRoutes ()
 
     // Call the service and get back the results in the callback.
     // The result is a ROSLIB.ServiceResponse object.
-    service.callService(request, function (result) 
+    try
     {
-        //Check ROSBridge connection before subscribe a topic
-        IsROSBridgeConnected();
-        var availableRoutes = result.availableRoutes;
-        if(availableRoutes != null && availableRoutes.length > 0)
+        service.callService(request, function (result) 
         {
-            $('#route-list-content-no-route-available').html('');           
-            $('#divCapabilitiesRoute').html('Please select a route.');           
-            availableRoutes.forEach(route=>{
-                // console.log('route name is: ' + route.route_name);
-                // console.log('route Id is: ' + route.route_id);                
-                //display route list info in html <div id='route-list-content'>
-                $('#route-list-content').append(createRouteSelectionRadio(route.route_id,route.route_name));
-            });
-        }        
-    });
-    //route is Already selected
-    if(session_selectedRoute != null && session_selectedRoute.id != null 
-        && session_selectedRoute.id.length != 0 && session_selectedRoute.id !='undefined')
-    {
-        $('#route-list-content-no-route-available').html('');
-        $('#divCapabilitiesRoute').html('Selected route is ' + session_selectedRoute.name );         
-        $('#clearRoutes').css('display','none'); 
-        $('#route-list-content').append(createRouteSelectionRadio(session_selectedRoute.id,session_selectedRoute.name));   
-        //check whether the route is already selected in session
-        if(session_selectedRoute != null && session_selectedRoute.id != null 
-            && session_selectedRoute.id.length > 0)
-        {
-            let selectedRouteRadio = document.getElementById('route_radio_'+session_selectedRoute.id);
-            if(selectedRouteRadio != null && selectedRouteRadio != 'undefined')
+            //Check ROSBridge connection before subscribe a topic
+            IsROSBridgeConnected();
+            var availableRoutes = result.availableRoutes;
+            if(availableRoutes != null && availableRoutes.length > 0)
             {
-                selectedRouteRadio.checked = true;
-                session_selectedRoute.name = route.route_name;
-            }
-        }          
+                $('#route-list-content-no-route-available').html('');           
+                $('#divCapabilitiesRoute').html('Please select a route.');           
+                availableRoutes.forEach(route=>{
+                    // console.log('route name is: ' + route.route_name);
+                    // console.log('route Id is: ' + route.route_id);                
+                    //display route list info in html <div id='route-list-content'>
+                    $('#route-list-content').append(createRouteSelectionRadio(route.route_id,route.route_name));
+                });
+            }        
+        });
     }
+    catch(ex)
+    {
+        console.error("ros_route.js: call rosservice /guidance/get_available_routes failed.")
+    }
+   finally
+   {
+         //route is Already selected
+        if(session_selectedRoute != null && session_selectedRoute.id != null 
+            && session_selectedRoute.id.length != 0 && session_selectedRoute.id !='undefined')
+        {
+            $('#route-list-content-no-route-available').html('');
+            $('#divCapabilitiesRoute').html('Selected route is ' + session_selectedRoute.name );         
+            $('#clearRoutes').css('display','none'); 
+            $('#route-list-content').append(createRouteSelectionRadio(session_selectedRoute.id,session_selectedRoute.name));   
+            //check whether the route is already selected in session
+            if(session_selectedRoute != null && session_selectedRoute.id != null 
+                && session_selectedRoute.id.length > 0)
+            {
+                let selectedRouteRadio = document.getElementById('route_radio_'+session_selectedRoute.id);
+                if(selectedRouteRadio != null && selectedRouteRadio != 'undefined')
+                {
+                    selectedRouteRadio.checked = true;
+                }
+            }          
+        }
+   }
+   
 }
 
 /**

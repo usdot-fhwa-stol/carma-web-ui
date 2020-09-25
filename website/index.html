@@ -1,107 +1,142 @@
 <!DOCTYPE html>
-<!--
-  Copyright (C) 2018-2020 LEIDOS.
-
-  Licensed under the Apache License, Version 2.0 (the "License"); you may not
-  use this file except in compliance with the License. You may obtain a copy of
-  the License at
-
-  http://www.apache.org/licenses/LICENSE-2.0
-
-  Unless required by applicable law or agreed to in writing, software
-  distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
-  WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
-  License for the specific language governing permissions and limitations under
-  the License.
--->
 <html>
 <head>
-    <title>CARMA Platform</title>
-    <meta charset="utf-8" />
+    <title>CARMA</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
     <meta name="mobile-web-app-capable" content="yes" />
-    <meta name="apple-mobile-web-app-capable" content="yes">
-
-    <link rel="stylesheet" type="text/css" href="styles/index.css"/>
-    <link rel="stylesheet" href="thirdparty/jqwidgets/styles/jqx.base.css" type="text/css" />
-
-    <!-- START: favicon image references for different devices-->
-
-    <link rel="apple-touch-icon" sizes="57x57" href="images/favicon/apple-icon-57x57.png">
-    <link rel="apple-touch-icon" sizes="60x60" href="images/favicon/apple-icon-60x60.png">
-    <link rel="apple-touch-icon" sizes="72x72" href="images/favicon/apple-icon-72x72.png">
-    <link rel="apple-touch-icon" sizes="76x76" href="images/favicon/apple-icon-76x76.png">
-    <link rel="apple-touch-icon" sizes="114x114" href="images/favicon/apple-icon-114x114.png">
-    <link rel="apple-touch-icon" sizes="120x120" href="images/favicon/apple-icon-120x120.png">
-    <link rel="apple-touch-icon" sizes="144x144" href="images/favicon/apple-icon-144x144.png">
-    <link rel="apple-touch-icon" sizes="152x152" href="images/favicon/apple-icon-152x152.png">
-    <link rel="apple-touch-icon" sizes="180x180" href="images/favicon/apple-icon-180x180.png">
-    <link rel="icon" type="image/png" sizes="192x192" href="images/favicon/android-icon-192x192.png">
-    <link rel="icon" type="image/png" sizes="32x32" href="images/favicon/favicon-32x32.png">
-    <link rel="icon" type="image/png" sizes="96x96" href="images/favicon/favicon-96x96.png">
-    <link rel="icon" type="image/png" sizes="16x16" href="images/favicon/favicon-16x16.png">
-    <link rel="manifest" href="/manifest.json">
     <meta name="msapplication-TileColor" content="#ffffff">
-    <meta name="msapplication-TileImage" content="images/favicon/ms-icon-144x144.png">
     <meta name="theme-color" content="#ffffff">
-    <!-- END: favicon -->
 
-    <script src = "thirdparty/jquery/jquery-1.12.4.min.js"></script>
+    <!--START: Thirdparty-->
+    <link rel="stylesheet" type="text/css" href="thirdparty/fontawesome-free-5.14.0-web/css/all.min.css" />
+    <link rel="stylesheet" type="text/css" href="thirdparty/bootstrap-4.5.0-dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" type="text/css" href="thirdparty/bootstrap-switch-button-1.1.0/css/bootstrap-switch-button.min.css">
+    <link rel="stylesheet" href="thirdparty/jqwidgets/styles/jqx.base.css" type="text/css" />
+    <link rel="stylesheet" href="thirdparty/jquery-ui-1.12.1/jquery-ui.css" type="text/css" />
+    <script src="thirdparty/jquery/jquery-1.12.4.min.js"></script>
+    <script src="thirdparty/jquery-ui-1.12.1/jquery-ui.min.js"></script>
     <script type="text/javascript" src="thirdparty/jqwidgets/jqxcore.js"></script>
     <script type="text/javascript" src="thirdparty/jqwidgets/jqxloader.js"></script>
     <script type="text/javascript" src="thirdparty/jqwidgets/jqxbuttons.js"></script>
-    <script>
-        $(document).ready(function () {
-            $("#btnOk").jqxButton({
-                width: 150
-            });
-            $("#jqxLoader").jqxLoader({width: 150, height: 100, imagePosition: 'center', isModal: true});
-            $('#btnOk').on('click', function () {
-                $('#jqxLoader').jqxLoader('open');
-            });
-       });
-    </script>
+    <script src="thirdparty/bootstrap-4.5.0-dist/js/bootstrap.min.js"></script> 
+    <script src="thirdparty/bootstrap-switch-button-1.1.0/dist/bootstrap-switch-button.min.js"></script>
+    <script src="thirdparty/ros/eventemitter2.min.js"></script>
+    <script src="thirdparty/ros/roslib.min.js"></script>
+
+    <!--START: custom css-->
+    <link rel="stylesheet" type="text/css" href="styles/index.css" />
+    <!--END: custom css-->
+
+     <!---Global variables and Config -->
+     <script src="scripts/app/global_variables.js"></script>
+     <script src="scripts/app/carma.config.js"></script>
+
+    <!--Backend services-->
+    <script src="scripts/ros/rosbridge_v2.js"></script>
+
+    <!--Front end scripts invoke backend services-->
+    <script src="scripts/app/index.js"></script>
+
 </head>
+
 <body>
-<noscript>
-    <h2 style="color: #ff0000">
-        Seems your browser doesn't support Javascript! Websocket relies on Javascript being enabled. Please enable Javascript and reload this page!
-    </h2>
-</noscript>
-<div id="divSystemAdvisory" align="center">
-    <br/><br/>
-    <img id="imgCARMAColor" src="images/CARMA_color.png" style="width:50%; height:50%;" />
-    <h1 style="color: blue">
-        Welcome to CARMA Platform
-        <br/>
-    </h1>
-    <h2 id="warning">
-        <div style="color: red; font-size: 28px;">
-            <i><u>System Advisory</u></i>
-            <br/><br/>
+    <noscript>
+        <h2 style="color: #ff0000">
+            Seems your browser doesn't support Javascript! Websocket relies on Javascript being enabled. Please enable Javascript and reload this page!
+        </h2>
+    </noscript>
+
+   <div id="Carma-index-div">
+        <!--Carma Title Div--> 
+        <div class="CarmaTitleFrame">
+            <div class="CarmaTitleRec">     
+            <div class="Carma-logo-div">
+                <img class="logo" src="images/CARMA_Platform.png" />
+            </div>
+            </div>
         </div>
-        <i>
-            This vehicle is equipped with automated control and should be operated by
-            <span style="color: #ff0000"><u>Authorized Users ONLY</u></span>.
-        </i>
-        <br /> <br />
-        <!-- TODO: Get the official System Advisory message. -->
-        Operators should proceed with caution and always obey traffic laws and pay attention to traffic.
-        <br /><br />
-        Please review the manual for complete system details and further instructions.
-        <br /><br />
-    </h2>
-    <form action="scripts/launchPlatform.php" method="get">     
-            <input id="btnOk" type="submit" value="OK"/> <br/> <br/>
-            <input type="checkbox" onchange="document.getElementById('rosBagEnabler').disabled = !this.checked;" style="vertical-align: middle" id="cbRemoteLaunch" name="remotelaunch" value="true" checked="checked" class="regular-checkbox big-checkbox" />
-            <label for="cbRemoteLaunch"></label>
-            &nbsp; <span id="lblCheckBox">Remote Launch</span> &nbsp; <br />
-	    <input type="checkbox" style="vertical-align: middle" id="rosBagEnabler" name="rosbagrecorder" value="true" checked="checked" class="regular-checkbox big-checkbox" />
-            <label for="rosBagEnabler"></label>
-            &nbsp; <span id="lblCheckBox">Record ROSbag</span> &nbsp;
-            <div id="jqxLoader"></div>
-    </form>
-</div>
+        <div id="Carma-index-content">   
+            <!--Carma Launching Div--> 
+            <div id="Carma-index-start-div">  
+
+                <!-- Carma Banner -->
+                <div class="alert  alert-custom-splash" role="alertdialog">
+                    CARMA Platform is an open source software (OSS) that enables researchers and engineers to develop and test their 
+                    Cooperative Driving Automation (CDA) features on properly equipped vehicles to set the foundation for 
+                    interoperability across vehicle make and model as well as the safe introduction of the technology 
+                    on our nation's roads.
+                </div>
+
+                <!--Form: Launching Carma-->
+                <form id="start-Carma-form" >
+                    <!-- Start Carma Button-->     
+                    <div class="form-group" >
+                        <input type="image"  id="btnStart" src="images/Xtra_Art/START.png" title="Click to start CARMA"/>
+                       <div style="width: fit-content;margin: 10px auto;">
+                        <div id="Carma-connection-fail-alert"  role="alert" style="display: none;color:red" >
+                            <strong>Sorry, unable to connect to ROS. Please try again.</strong>
+                        </div>    
+                       </div>                                  
+                    </div>
+                
+                    <!--  Carma Options Description/Help Info Modal -->
+                    <div class="modal fade" id="CarmaOptionsModal" tabindex="-1" role="dialog" aria-labelledby="CarmaOptionsModalTitle" aria-hidden="true">
+                        <div class="modal-dialog modal-dialog-centered modal-dialog modal-lg" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h4 class="modal-title" id="exampleModalLongTitle"  style="text-align: left;">
+                                    <strong>Options</strong>
+                                </h4>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <hr>
+                            <div class="modal-body" style="text-align: left;"> 
+                                <p>"Debug Mode" provides the option to not launch the backend services when clicking the "Start" button.</p>    
+                                <p>"Record ROSbag" option enables or disables logging when the platform backend services are running.</p>                                                             
+                            </div>
+                            <div class="modal-footer">
+                            <button type="button" class="btn btn-success btn-lg" data-dismiss="modal">CLOSE</button>
+                            </div>
+                        </div>
+                        </div>
+                    </div>   
+
+                    <!-- Carma Options Card -->        
+                    <div class="card" id="Carma-option-card" >
+                        <div class="card-header" style="text-align: left;padding-bottom: 0px;">
+                            Options 
+                            <span style="float: right; color: limegreen; font-size: 160%; margin:0px" id="Carma-option-description" title="Click me for more information" data-toggle="modal" data-target="#CarmaOptionsModal">
+                                <i class="fas fa-info-circle"></i>
+                            </span>
+                        </div>
+                        <div class="card-body" style="text-align: left;">
+                            <div style="margin: 5px auto;">
+                                <input type="checkbox" data-toggle="switchbutton" data-onstyle="success" data-size="lg"  
+                                    id="cbDebugMd" name="cbDebugMd" />
+                                <label for="cbdebugMd"  class="card-text">Debug Mode</label>
+                            </div>     
+                            <div style="margin: 5px auto;">
+                                <input type="checkbox"   data-toggle="switchbutton" data-onstyle="success" data-size="lg" id="rosBagEnabler" name="rosbagrecorder"   />
+                                <label for="rosBagEnabler" class="card-text">Record ROSbag </label>
+                            </div >     
+                        </div>                       
+                    </div>               
+                    <div id="jqxLoader"></div><!--Loading-->                   
+                </form> 
+        </div><!--END: Carma-index-start-div-->
+    </div><!--END: Carma-index-content-->
+   
+     <!-- Carma Root  -->  
+    <div class="footerPanel">
+        <div class="SystemDateTime " >
+            <img class="FHWALogo"/>
+        </div>
+        <div class="systemversion" ></div>
+        <div class="copyright">Copyright &copy LEIDOS  <script>document.write( new Date().getFullYear() );</script> </div>
+    </div>
+
+   </div><!--END: Carma-index-div-->
 </body>
 </html>

@@ -1,0 +1,27 @@
+.speed-green-circle{
+    border: 3px solid rgb(167, 223, 57);
+    border-radius: 50%;
+    width: 130px;
+    height: 130px;
+    background-color: #2C343D;
+    color: white;
+    margin: auto;
+    display: block;
+    text-align: center;
+}
+.speed-green-circle .speed-text{
+    font-size: 230% !important;
+    margin-top: 0px;
+    line-height: 1;
+}
+.speed-green-circle .speed-unit{
+    font-size:10pt !important;
+    font-weight: bolder;
+    margin-top: 0px;
+}
+
+.speed-green-circle .speed-type{
+    margin-top: 10px;
+    font-weight: bolder;
+    font-size: 13pt !important
+}

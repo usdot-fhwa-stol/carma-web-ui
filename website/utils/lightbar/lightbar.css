@@ -1,0 +1,14 @@
+
+.light-bar-wrapper{
+    position: relative;
+    float: left;
+}
+.light-bar-label{
+    color: white; 
+    font-size: 10pt;
+    text-align: left;
+    font-weight: bolder;
+}
+.light-bar-img{
+    width: 340px; 
+}

@@ -1,0 +1,5 @@
+/node_modules/
+/bower_components/
+docs/sass/.sass-cache/
+*.sublime-project
+*.sublime-workspace

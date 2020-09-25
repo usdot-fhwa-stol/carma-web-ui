@@ -27,7 +27,8 @@ function subscribeToDriverDiscovery()
         if (GPSStatus == null || GPSStatus == 'undefined')
         return;
 
-        if(message.name == T_GPS_NODELET_WRAPPER){
+        if(message.gnss!=null && message.gnss.toLowerCase()=='true')
+        {
             switch (message.status) 
             {
                 case GPS_DRIVER_STATUS_OFF: //OFF
@@ -46,6 +47,11 @@ function subscribeToDriverDiscovery()
                     GPSStatus.style.color = ''; //default to grey
                     break;
             }
+            return; //return when gnss is on
+        }
+        else
+        {
+            GPSStatus.style.color = ''; //default to grey
         }        
     });
 }

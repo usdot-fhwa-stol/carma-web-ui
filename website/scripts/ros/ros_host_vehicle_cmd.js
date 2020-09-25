@@ -73,8 +73,8 @@ function subscribeToSpeedPedals()
 {
     var listener = new ROSLIB.Topic({
         ros: g_ros,
-        name: "/hardware_interface/speed_pedals",
-        messageType: "automotive_platform_msgs/SpeedPedals"
+        name: T_SPEED_PEDALS,
+        messageType: M_SPEED_PEDALS
     });
     listener.subscribe(function(message)
     {
@@ -97,8 +97,8 @@ function subscribeToSteeringWheel()
 {
     var listener = new ROSLIB.Topic({
         ros: g_ros,
-        name: "/hardware_interface/steering_wheel",
-        messageType: "automotive_platform_msgs/SteerWheel"
+        name: T_STEERING_WHEEL,
+        messageType: M_STEERING_WHEEL
     });
     listener.subscribe(function(message)
     {

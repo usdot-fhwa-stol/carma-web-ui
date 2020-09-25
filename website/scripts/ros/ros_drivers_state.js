@@ -27,7 +27,7 @@ function subscribeToDriverDiscovery()
         if (GPSStatus == null || GPSStatus == 'undefined')
         return;
 
-        if(message.name == '/hardware_interface/novatel_gps_nodelet_wrapper'){
+        if(message.name == T_GPS_NODELET_WRAPPER){
             switch (message.status) 
             {
                 case GPS_DRIVER_STATUS_OFF: //OFF

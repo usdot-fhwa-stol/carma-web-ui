@@ -114,11 +114,10 @@ function subscribeToSteeringWheel()
         //Steering wheel
         if(message.angle != null)
         {
-            let rad = message.angle * 180/(Math.PI);
-            let rotateDegree = rad % 360; //-35 to +35
+            let rotateDegree = message.angle * 180/(Math.PI);
+            let rotateDegreeModule = rotateDegree % 360; 
             // console.log('rotateDegree'+rotateDegree);
-            let degreePercent = Math.floor(((rotateDegree/360) * 100));
-            updateSteeringWheel(degreePercent +'%',rotateDegree);
+            updateSteeringWheel(message.angle.toFixed(2),rotateDegreeModule);
         }  
     });
 }

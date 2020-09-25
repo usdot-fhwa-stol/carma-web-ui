@@ -16,6 +16,8 @@ function subscribeToDriverDiscovery()
         messageType: M_DRIVER_STATUS
     });
 
+    let isGnssOn = false;
+    let isGnssReseted= true;
     listener.subscribe((message)=>
     {
         //Check ROSBridge connection before subscribe a topic
@@ -26,8 +28,24 @@ function subscribeToDriverDiscovery()
         
         if (GPSStatus == null || GPSStatus == 'undefined')
         return;
+        //message.gnss is boolean
+        if(message.gnss!=null && message.gnss && isGnssReseted)
+        {
+            isGnssOn = true;
+            isGnssReseted = false;
 
-        if(message.gnss!=null && message.gnss.toLowerCase()=='true')
+            //reset gnss value in 5 seconds
+            if(!isGnssReseted)
+            {                
+                setTimeout(function(){
+                    isGnssOn = false;
+                    isGnssReseted = true;
+                },5000);
+            }
+           
+        }
+        //change pinpoint color
+        if(isGnssOn)
         {
             switch (message.status) 
             {
@@ -47,13 +65,14 @@ function subscribeToDriverDiscovery()
                     GPSStatus.style.color = ''; //default to grey
                     break;
             }
-            return; //return when gnss is on
-        }
+        } 
         else
         {
             GPSStatus.style.color = ''; //default to grey
-        }        
+        }
     });
+
+     
 }
 
 //Get Localization status

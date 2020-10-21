@@ -367,12 +367,17 @@ function checkSystemAlerts() {
                 HideCloseBtn:	false});
                 break;
 
-            case 3: //FATAL
-                //Show modal popup for Fatal alerts.
-                messageTypeFullDescription = 'System received a FATAL message. Please wait for system to shut down. <br/><br/>' + message.description;
-                messageTypeFullDescription += '<br/><br/>PLEASE TAKE MANUAL CONTROL OF THE VEHICLE.';
-                listenerSystemAlert.unsubscribe();
-                showModal(true, messageTypeFullDescription, false);
+            case 3: //FATAL - equivalent to CRITICAL "error". Don't use the word FATAL to describe to users.
+                addToLogView ('CRITICAL: ' + message.description);
+
+                MsgPop.open({
+                Type:			"error",
+                Content:		message.description,
+                AutoClose:		true,
+                CloseTimer:		30000,
+                ClickAnyClose:	true,
+                ShowIcon:		true,
+                HideCloseBtn:	false});
                 break;
             case 4://NOT_READY
                 isSystemAlert.ready = false;
@@ -384,6 +389,13 @@ function checkSystemAlerts() {
                 break;
             case 6: //SHUTDOWN
                 isSystemAlert.ready = false;
+
+                //Show modal popup for Fatal alerts.
+                messageTypeFullDescription = 'System is shutting down. <br/><br/>' + message.description;
+                messageTypeFullDescription += '<br/><br/>PLEASE TAKE MANUAL CONTROL OF THE VEHICLE.';
+                listenerSystemAlert.unsubscribe();
+                showModal(true, messageTypeFullDescription, false);
+
                 listenerSystemAlert.unsubscribe();
                 break;
             default:
@@ -982,8 +994,8 @@ function checkGuidanceState() {
                 setCAVButtonState('INACTIVE');
                 break;
             case 0: //SHUTDOWN
-                //Show modal popup for Shutdown alerts from Guidance, which is equivalent to Fatal since it cannot restart with this state.
-                messageTypeFullDescription = 'System received a Guidance SHUTDOWN. <br/><br/>' + message.description;
+                //Show modal popup for Shutdown alerts Health Monitor. Guidance and other nodes may issue FATAL however, SHUTDOWN will only occur when FATAL is received from the nodes are required.
+                messageTypeFullDescription = 'System received a SYSTEM SHUTDOWN. <br/><br/>' + message.description;
                 messageTypeFullDescription += '<br/><br/>PLEASE TAKE MANUAL CONTROL OF THE VEHICLE.';
 
                 if(listenerSystemAlert != null && listenerSystemAlert != 'undefined')

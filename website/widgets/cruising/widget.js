@@ -253,7 +253,7 @@ CarmaJS.WidgetFramework.Cruising = (function () {
              },
              showActiveRoute: function(){
                 showActiveRoute();
-             },
+             }
         });//CarmaJS.cruisingSpeedLimit
 
         $.widget("CarmaJS.cruisingSpeedCmd", {

@@ -1174,7 +1174,7 @@ function showDriverStatus() {
         var targetImg;
 
         //Get PinPoint status for now.
-        if (message.position == true) {
+        if (message.gnss == true) {
             targetImg = document.getElementById('imgPinPoint');
         }
 

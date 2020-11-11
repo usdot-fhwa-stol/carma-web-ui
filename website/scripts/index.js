@@ -69,7 +69,7 @@ function connectToROS()
 {
     try
     {
-        var ip ="127.0.0.1"; //CarmaJS.Config.getIP();
+        var ip = CarmaJS.Config.getIP();
         // If there is an error on the backend, an 'error' emit will be emitted.
         ros.on('error', function (error) 
         {

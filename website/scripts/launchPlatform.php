@@ -17,7 +17,7 @@
   //Check if remotelaunch parameter is selected. 
   if (!isset($_GET['remotelaunch'])){
     // Switch to main.html
-    header("Location: ../main.html");
+    //header("Location: ../main.html");
     exit;
   }
 
@@ -26,5 +26,5 @@
 
   sleep(10); // Need delay before trying to use rosbridge. TODO move to rosbridge.js
   // Switch to main.html
-  header("Location: ../main.html");
+  //header("Location: ../main.html");
 ?>

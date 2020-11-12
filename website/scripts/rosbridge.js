@@ -65,7 +65,7 @@ var tbn_outbound_binary_msg = 'comms/outbound_binary_msg';
 var t_nav_sat_fix = '';
 
 var t_robot_status = 'controller/robotic_status';
-var t_cmd_speed = 'controller/vehicle_cmd';
+var t_cmd_speed = '/vehicle_cmd';
 var t_lateral_control_driver = '';
 var t_light_bar_status = 'control/light_bar_status'; //02/2019: added to display lightbar on UI
 
@@ -1174,7 +1174,7 @@ function showDriverStatus() {
         var targetImg;
 
         //Get PinPoint status for now.
-        if (message.position == true) {
+        if (message.gnss == true) {
             targetImg = document.getElementById('imgPinPoint');
         }
 

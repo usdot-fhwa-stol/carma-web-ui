@@ -212,7 +212,11 @@ CarmaJS.WidgetFramework.Cruising = (function () {
                 setSpeedometer(actualSpeedMPH);
             });
         };
-
+        var setDefaultSpeedLimit = function (){
+            if (document.getElementById('divSpeedLimitValue') == null)
+                    return;
+            document.getElementById('divSpeedLimitValue').innerHTML = CarmaJS.Config.getSPEEDLIMIT();
+        }
         /***
         * Custom widgets using JQuery Widget Framework.
         * NOTE: that widget framework namespace can only be one level deep.
@@ -240,6 +244,9 @@ CarmaJS.WidgetFramework.Cruising = (function () {
 
                 this.element.empty();
                 this._super();
+             },
+             setDefaultSpeedLimit: function(){
+                setDefaultSpeedLimit();
              },
              checkRouteState: function(){
                 checkRouteState();
@@ -305,6 +312,7 @@ CarmaJS.WidgetFramework.Cruising = (function () {
         var loadCustomWidget = function(container) {
 
             container.cruisingSpeedLimit();
+            container.cruisingSpeedLimit("setDefaultSpeedLimit",null);
             container.cruisingSpeedLimit("showActiveRoute",null);
             container.cruisingSpeedLimit("checkRouteState",null);
 

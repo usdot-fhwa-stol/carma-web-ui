@@ -155,7 +155,7 @@ CarmaJS.WidgetFramework.Autoware = (function () {
 
             listenerSpeedAccel = new ROSLIB.Topic({
                 ros: ros,
-                name: t_cmd_speed,
+                name: t_cmd_speed_widget,
                 messageType: 'autoware_msgs/VehicleCmd'
             });
 
@@ -164,7 +164,7 @@ CarmaJS.WidgetFramework.Autoware = (function () {
 
                 //Display on DriverView the Speed Cmd for Speed Harm or Cruising
                 //NOTE: There is currently no indicator to know if SpeedHarm is transmitting.
-                if (message.speed != null && message.speed != 'undefined')
+                if (message.ctrl_cmd.linear_velocity != null && message.ctrl_cmd.linear_velocity != 'undefined')
                     document.getElementById('divSpeedCmdValue').innerHTML = cmd_speed_mph;
             });
         };

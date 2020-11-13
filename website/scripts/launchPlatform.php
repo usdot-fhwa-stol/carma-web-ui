@@ -18,7 +18,7 @@
   if (!isset($_GET['remotelaunch'])){
     // Switch to main.html
     //header("Location: ../main.html");
-   // exit;
+    exit;
   }
 
   // Launch Platform

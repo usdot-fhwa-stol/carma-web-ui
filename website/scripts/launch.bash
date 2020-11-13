@@ -22,14 +22,16 @@ pkill -f ros
 source /opt/ros/kinetic/setup.bash
 
 # Source platform and set ros environment variables
-source /opt/carma/app/bin/setup.bash
+#source /opt/carma/app/bin/setup.bash
 
 # Set ros to run from /opt/carma instead of home directory
-export ROS_HOME=/opt/carma/.ros
-
+#export ROS_HOME=/opt/carma/.ros
+bash /var/www/html/scripts/kill.bash
 # Remove bad launch.pid file if it exists
-rm /opt/carma/launch.pid
+#rm /opt/carma/launch.pid
 
 # Launch platform
-rosBagRecord=$1
-roslaunch --pid=/opt/carma/launch.pid carma saxton_cav.launch use_rosbag:=$rosBagRecord
+#rosBagRecord=$1
+#roslaunch --pid=/opt/carma/launch.pid carma saxton_cav.launch use_rosbag:=$rosBagRecord
+docker-compose -f /opt/carma/vehicle/config/docker-compose.yml -p carma up -d
+

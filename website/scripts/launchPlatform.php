@@ -17,7 +17,7 @@
   //Check if remotelaunch parameter is selected. 
   if (!isset($_GET['remotelaunch'])){
     // Switch to main.html
-    header("Location: ../main.html");
+    //header("Location: ../main.html");
    // exit;
   }
 

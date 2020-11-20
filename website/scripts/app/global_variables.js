@@ -55,6 +55,9 @@ const T_LOCALIZATION_STATUS = '/localization/localization_status';
 const T_STEERING_WHEEL="/hardware_interface/steering_wheel";
 const T_SPEED_PEDALS ="/hardware_interface/speed_pedals";
 const T_GPS_NODELET_WRAPPER='/hardware_interface/novatel_gps_nodelet_wrapper';
+const T_STEERING_WHEEL_FEEDBACK = "/hardware_interface/steering_feedback";
+const T_THROTTLE_FEEDBACK = "/hardware_interface/throttle_feedback";
+const T_BRAKE_FEEDBACK = "/hardware_interface/brake_feedback";
 
 //ROS Services names
 const S_GUIDANCE_AVAILABLE_ROUTES = '/guidance/get_available_routes';
@@ -99,6 +102,9 @@ const M_PLATOON_INFO = 'cav_msgs/PlatooningInfo';
 const M_LOCALIZATION_REPORT = 'cav_msgs/LocalizationStatusReport';
 const M_STEERING_WHEEL="automotive_platform_msgs/SteerWheel";
 const M_SPEED_PEDALS="automotive_platform_msgs/SpeedPedals";
+const M_THROTTLE_FEEDBACK="automotive_platform_msgs/ThrottleFeedback";
+const M_STEERING_FEEDBACK="automotive_platform_msgs/SteeringFeedback";
+const M_BRAKE_FEEDBACK="automotive_platform_msgs/BrakeFeedback";
 
 //ROS param names
 const P_REQUIRED_PLUGINS = '/guidance/health_monitor/required_plugins';

@@ -1,0 +1,27 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 153.63 22.02">
+    <defs>
+        <style>
+        .cls-gray{fill:#7b838c;}
+        .cls-white{fill:#fff;}
+        .cls-blue{fill:#41c8ff;}
+        .lane_change_in_miles { font: normal 9pt serif; fill: white; font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,"Noto Sans",sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol","Noto Color Emoji"}
+        </style>
+    </defs>
+    <g id="Layer_2" data-name="Layer 2">
+        <g id="Layer_4" data-name="Layer 4">
+            <rect width="150" height="22" x="0" y="0" rx="5" ry ="5" style="fill:#2C343D;stroke-width:1;stroke:#C7C8D9" />
+            <polygon class="cls-gray" id="left-arrow"  points="10.17 20.76 0 10.59 10.33 0.26 12.23 2.17 3.81 10.59 12.08 18.85 10.17 20.76"/>
+            <rect class="cls-gray" id="left-dot-1" x="21.52" y="8.44" width="4.04" height="4.04"/>
+            <rect class="cls-gray" id="left-dot-2" x="12.44" y="8.44" width="4.04" height="4.04"/>
+            <rect class="cls-gray" id="left-dot-3" x="30.61" y="8.44" width="4.04" height="4.04"/>
+
+            <polygon class="cls-gray" id="right-arrow" points="63.2 21.02 73.63 10.59 63.04 0 61.08 1.96 69.72 10.59 61.25 19.07 63.2 21.02"/>
+            <rect class="cls-gray"  id="right-dot-1"  x="39.69" y="8.44" width="4.04" height="4.04"/>
+            <rect class="cls-gray"  id="right-dot-2" x="57.8" y="8.44" width="4.15" height="4.15" transform="translate(119.75 21.02) rotate(180)"/>
+            <rect class="cls-gray"  id="right-dot-3" x="48.72" y="8.44" width="4.15" height="4.15" transform="translate(101.58 21.02) rotate(180)"/>
+             <text  x="80" y="15" class="lane_change_in_miles" id = "lane_change_in_miles_id"> in 0 miles.</text>
+        </g>
+    </g>
+    
+       
+</svg>

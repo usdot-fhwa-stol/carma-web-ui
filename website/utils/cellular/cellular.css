@@ -1,0 +1,39 @@
+ /* bars */
+ .cellular-sizing-box {
+    height: 50px;
+    width: 45px;
+  }
+
+  .signal-bars {
+    display: flex;
+    flex-wrap: wrap-reverse;
+    justify-items: baseline;
+    position: absolute;
+    bottom: -5px;
+  }
+
+  .signal-bars .bar {
+    width: 5px;
+    margin-left: 3px;
+    min-height: 20%;
+  }
+  .signal-bars .bar.first-bar  { height: 15%; }
+  .signal-bars .bar.second-bar { height: 35%; }
+  .signal-bars .bar.third-bar  { height: 50%; }
+  .signal-bars .bar.fourth-bar { height: 65%; }
+  .signal-bars .bar.fifth-bar  { height: 80%; }
+
+  .good .bar {
+    background-color:  #87b821;
+    border: thin solid #87b821;
+  }
+
+  .four-bars .bar.fifth-bar,
+  .three-bars .bar.fifth-bar,
+  .three-bars .bar.fourth-bar,
+  .one-bars .bar:not(.first-bar),
+  .two-bars .bar:not(.first-bar):not(.second-bar),
+  .zero-bars .bar {       
+    background-color: grey;
+    border: thin solid grey;
+  }

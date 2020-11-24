@@ -185,11 +185,15 @@ function sunscribeToSteeringFeedback()
             vehicle_steer_lim_deg = session_hostVehicle.steeringLimit;
             vehicle_steering_gear_ratio =session_hostVehicle.steeringRatio;
             current_steering_angle = message.steering_wheel_angle;
+            //current_steering_angle is unit of rad and convert to unit degree before assign to rotateDegree
+            //let rotateDegree = Math.ceil(current_steering_angle * 180/(Math.PI));
 
-            let rotateDegree = Math.ceil(current_steering_angle * 180/(Math.PI));
-            let rotateDegreeModule = - (rotateDegree % (vehicle_steer_lim_deg * vehicle_steering_gear_ratio));; 
+            //steer_percentage is the percentage text displayed at the center of the image
             let steer_percentage = Math.abs(((current_steering_angle/(vehicle_steering_gear_ratio*vehicle_steer_lim_deg * DEG2RAD))* 100).toFixed(0));
-            
+
+            //rorate Degree Module is the degree the image rotate. 
+           // let rotateDegreeModule = - (rotateDegree % (vehicle_steer_lim_deg * vehicle_steering_gear_ratio)); 
+           let rotateDegreeModule = steer_percentage * 360
             //Accelerator Progress
             updateSteeringWheel(steer_percentage+ "%",rotateDegreeModule);
         }

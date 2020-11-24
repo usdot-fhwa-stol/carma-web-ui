@@ -148,7 +148,7 @@ function subscribeToSteeringWheelOLD()
             let vehicle_steer_lim_deg = session_hostVehicle.steeringLimit;
             let vehicle_steering_gear_ratio = session_hostVehicle.steeringRatio;
             let current_steering_angle = message.angle;
-            let steer_percentage = (current_steering_angle/(vehicle_steering_gear_ratio*vehicle_steer_lim_deg * DEG2RAD))* 100;
+            let steer_percentage = Math.abs(((current_steering_angle/(vehicle_steering_gear_ratio*vehicle_steer_lim_deg * DEG2RAD))* 100).toFixed(0));
             //steering degree
             let rotateDegree = message.angle * 180/(Math.PI);
             let rotateDegreeModule = rotateDegree % 360; 
@@ -181,15 +181,15 @@ function sunscribeToSteeringFeedback()
 
         if(message!=null && message.steering_wheel_angle!=null)
         {
-            let value, vehicle_steer_ratio,vehicle_steer_lim_deg = '';
+            let current_steering_angle, vehicle_steering_gear_ratio,vehicle_steer_lim_deg = '';
             vehicle_steer_lim_deg = session_hostVehicle.steeringLimit;
-            vehicle_steer_ratio =session_hostVehicle.steeringRatio;
-            value = message.steering_wheel_angle;
+            vehicle_steering_gear_ratio =session_hostVehicle.steeringRatio;
+            current_steering_angle = message.steering_wheel_angle;
 
-            let rotateDegree = Math.ceil(value * 180/(Math.PI));
-            let rotateDegreeModule = - (rotateDegree % (vehicle_steer_lim_deg * vehicle_steer_ratio));; 
-            let steer_percentage = Math.abs(((rotateDegree / (vehicle_steer_lim_deg * vehicle_steer_ratio))*100).toFixed(0));
-
+            let rotateDegree = Math.ceil(current_steering_angle * 180/(Math.PI));
+            let rotateDegreeModule = - (rotateDegree % (vehicle_steer_lim_deg * vehicle_steering_gear_ratio));; 
+            let steer_percentage = Math.abs(((current_steering_angle/(vehicle_steering_gear_ratio*vehicle_steer_lim_deg * DEG2RAD))* 100).toFixed(0));
+            
             //Accelerator Progress
             updateSteeringWheel(steer_percentage+ "%",rotateDegreeModule);
         }

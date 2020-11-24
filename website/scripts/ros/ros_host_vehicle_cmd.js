@@ -54,13 +54,10 @@ function sunscribeToThrottleFeedback()
         if(message!=null && message.throttle_pedal!=null)
         {
             let value = message.throttle_pedal;
-            let max, accelerationLimit = '';
-            accelerationLimit = session_hostVehicle.accelerationLimit;
-            max =  accelerationLimit != null && accelerationLimit.length > 0? accelerationLimit : 3;
             //Accelerator Progress
             if(g_acceleratorCircle != null)
             {
-                updateAccerator(g_acceleratorCircle,max,value);
+                updateAccerator(g_acceleratorCircle,1,value);
             }
         }
     });
@@ -88,13 +85,10 @@ function sunscribeToBrakeFeedback()
         if(message!=null && message.brake_pedal!=null)
         {
             let value = message.brake_pedal;
-            let max, brakeLimit = '';
-            brakeLimit = session_hostVehicle.brakeLimit;
-            max =  brakeLimit != null && brakeLimit.length > 0? brakeLimit : 6;
             //Accelerator Progress
             if(g_brakeCircle != null)
             {
-                updateBrake(g_brakeCircle,max,value);
+                updateBrake(g_brakeCircle,1,value);
             }
         }
     });

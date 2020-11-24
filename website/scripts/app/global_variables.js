@@ -21,6 +21,7 @@ const WIFI = 'wifi';
 const BLUETOOTH = 'bluetooth';
 const CELLULAR = 'cellular';
 const NONE = 'none';
+const DEG2RAD = 0.0174533;
 
 //ROS Topci names
 const T_GUIDANCE_STATE = '/guidance/state';

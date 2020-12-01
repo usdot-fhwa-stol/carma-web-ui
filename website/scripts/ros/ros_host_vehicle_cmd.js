@@ -191,7 +191,7 @@ function sunscribeToSteeringFeedback()
             let rotate_deg = Math.ceil(current_steering_angle * 180/(Math.PI));
 
             //steer_percentage is the percentage text displayed at the center of the steering_wheel image
-            let steer_percentage = ((current_steering_angle/( maximum_steering_wheel_angle_deg * DEG2RAD ))* 100).toFixed(0);
+            let steer_percentage = - ((current_steering_angle/( maximum_steering_wheel_angle_deg * DEG2RAD ))* 100).toFixed(0);
 
             //rorate degree Offset is the degree if steering_wheel image rotation. 
             let offset_rotate_deg = - (rotate_deg % maximum_steering_wheel_angle_deg); 

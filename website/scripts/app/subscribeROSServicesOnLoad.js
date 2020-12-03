@@ -87,9 +87,10 @@ $(document).ready(function(){
              * SECTION: Display Area
              * **/
             subscribeToLocalizationEKFTwist(); //Current Vehicle Speed
-            subscribeToVehicleCMD(); //Vechile Command;  applied speed; accelerator  
-            subscribeToSteeringWheel(); //Steering angle
-            subscribeToSpeedPedals(); //brake;
+            subscribeToVehicleCMD(); //Vechile Command;  applied speed; 
+            sunscribeToSteeringFeedback(); //Steering angle
+            sunscribeToBrakeFeedback(); //brake;
+            sunscribeToThrottleFeedback(); //accelerator  
             subscribeToGuidanceRouteState(); //Route - Speed Limit        
             TrafficSignalInfoList(); //Traffic Signal 
             subscribeLightBarStatus(); //light bar

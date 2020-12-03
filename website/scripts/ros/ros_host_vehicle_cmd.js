@@ -21,40 +21,7 @@ function subscribeToVehicleCMD()
         IsROSBridgeConnected();
         
         if(message!=null && message.ctrl_cmd !=null)
-        {
-            // //Steering wheel
-            // if(message.ctrl_cmd.steering_angle != null)
-            // {
-            //     let rad = message.ctrl_cmd.steering_angle;
-            //     let rotateDegree = rad % 360; //-35 to +35
-            //     // console.log('rotateDegree'+rotateDegree);
-            //     let degreePercent = Math.floor(((rotateDegree/360) * 100));
-            //     updateSteeringWheel(degreePercent +'%',rotateDegree);
-            // }            
-            //Brake
-            // if(message.brake_cmd.brake != null && g_brakeCircle != null)
-            // {
-            //     let max, brakeLimit = '';
-            //     //set brake  limit to the host vehicle deceleration(brake) limit if exist in session, otherwise default to 6
-            //     if(message.brake_cmd.brake>0)
-            //         brakeLimit = session_hostVehicle.brakeLimit;
-                
-            //         max =  brakeLimit != null && brakeLimit.length > 0? brakeLimit: 6;
-            //     let value = message.brake_cmd.brake;
-            //     updateBrake(g_brakeCircle,max,value);
-            // }
-            //Accelerator
-            if(message.ctrl_cmd.linear_acceleration != null  && g_acceleratorCircle != null)
-            {
-                let max, accelerationLimit = '';
-                //set acceleration limit to the host vehicle acceleration limit if exist in session, otherwise default to 3
-                if(message.ctrl_cmd.linear_acceleration > 0)
-                   accelerationLimit = session_hostVehicle.accelerationLimit;
-
-                max =  accelerationLimit != null && accelerationLimit.length > 0? accelerationLimit : 3;
-                let value = message.ctrl_cmd.linear_acceleration;
-                updateAccerator(g_acceleratorCircle,max,value);
-            }
+        {       
             //Applied/Command Speed
             if(message.ctrl_cmd.linear_velocity != null)
             {
@@ -65,11 +32,72 @@ function subscribeToVehicleCMD()
         }
     });
 }
+/**Accelerator Feedback position from ssc_interface package
+ * Topic: /hardware_interface/throttle_feedback 
+ * Message: automotive_platform_msgs/ThrottleFeedback
+            std_msgs/Header header
+                uint32 seq
+                time stamp
+                string frame_id
+            float32 throttle_pedal
+ */
+function sunscribeToThrottleFeedback()
+{
+    var listener = new ROSLIB.Topic({
+        ros:g_ros,
+        name: T_THROTTLE_FEEDBACK,
+        messageType: M_THROTTLE_FEEDBACK
+    });
+    listener.subscribe(function(message){
+        //Check ROSBridge connection before subscribe a topic
+        IsROSBridgeConnected();
+        if(message!=null && message.throttle_pedal!=null)
+        {
+            let value = message.throttle_pedal;
+            //Accelerator Progress
+            if(g_acceleratorCircle != null)
+            {
+                updateAccerator(g_acceleratorCircle,1,value);
+            }
+        }
+    });
+}
+
+/**brake_feedback from ssc_interface package
+ * Topic: /hardware_interface/brake_feedback 
+ * Message: automotive_platform_msgs/BrakeFeedback
+            std_msgs/Header header
+                uint32 seq
+                time stamp
+                string frame_id
+            float32 brake_pedal
+ */
+function sunscribeToBrakeFeedback()
+{
+    var listener = new ROSLIB.Topic({
+        ros:g_ros,
+        name: T_BRAKE_FEEDBACK,
+        messageType: M_BRAKE_FEEDBACK
+    });
+    listener.subscribe(function(message){
+        //Check ROSBridge connection before subscribe a topic
+        IsROSBridgeConnected();
+        if(message!=null && message.brake_pedal!=null)
+        {
+            let value = message.brake_pedal;
+            //Accelerator Progress
+            if(g_brakeCircle != null)
+            {
+                updateBrake(g_brakeCircle,1,value);
+            }
+        }
+    });
+}
 
 /**
  * /hardware_interface/speed_pedals
  */
-function subscribeToSpeedPedals()
+function subscribeToSpeedPedalsOLD()
 {
     var listener = new ROSLIB.Topic({
         ros: g_ros,
@@ -90,10 +118,12 @@ function subscribeToSpeedPedals()
         }
     });
 }
+
+
 /**
  * /hardware_interface/steering_wheel 
  */
-function subscribeToSteeringWheel()
+function subscribeToSteeringWheelOLD()
 {
     var listener = new ROSLIB.Topic({
         ros: g_ros,
@@ -115,15 +145,60 @@ function subscribeToSteeringWheel()
         if(message.angle != null)
         {
             //steering  percentage
-            let vehicle_steer_lim_deg_rad = session_hostVehicle.steeringLimit * 180/pi;
-            let maximum_steering_wheel_angle = session_hostVehicle.steeringRatio * vehicle_steer_lim_deg_rad;
-            let steer_percentage = (message.angle / maximum_steering_wheel_angle) * 100;
-
+            let vehicle_steer_lim_deg = session_hostVehicle.steeringLimit;
+            let vehicle_steering_gear_ratio = session_hostVehicle.steeringRatio;
+            let current_steering_angle = message.angle;
+            let steer_percentage = Math.abs(((current_steering_angle/(vehicle_steering_gear_ratio*vehicle_steer_lim_deg * DEG2RAD))* 100).toFixed(0));
             //steering degree
             let rotateDegree = message.angle * 180/(Math.PI);
             let rotateDegreeModule = rotateDegree % 360; 
 
             updateSteeringWheel(steer_percentage+ "%",rotateDegreeModule);
         }  
+    });
+}
+
+
+/**steering_feedback from ssc_interface package
+ * Topic: /hardware_interface/steering_feedback 
+ * Message: automotive_platform_msgs/BrakeFeedback
+            std_msgs/Header header
+                uint32 seq
+                time stamp
+                string frame_id
+            float32 steering_wheel_angle
+ */
+function sunscribeToSteeringFeedback()
+{
+    var listener = new ROSLIB.Topic({
+        ros:g_ros,
+        name: T_STEERING_WHEEL_FEEDBACK,
+        messageType: M_STEERING_FEEDBACK
+    });
+    listener.subscribe(function(message){
+        //Check ROSBridge connection before subscribe a topic
+        IsROSBridgeConnected();
+
+        if(message!=null && message.steering_wheel_angle!=null)
+        {
+            let current_steering_angle, vehicle_steering_gear_ratio,vehicle_steer_lim_deg = '';
+            vehicle_steer_lim_deg = session_hostVehicle.steeringLimit;
+            vehicle_steering_gear_ratio =session_hostVehicle.steeringRatio;
+            current_steering_angle = message.steering_wheel_angle;
+            let maximum_steering_wheel_angle_deg = vehicle_steering_gear_ratio * vehicle_steer_lim_deg;
+
+            //current_steering_angle is unit of rad and convert to unit degree before assign to rotate_deg
+            let rotate_deg = Math.ceil(current_steering_angle * 180/(Math.PI));
+
+            //steer_percentage is the percentage text displayed at the center of the steering_wheel image
+            let steer_percentage = - ((current_steering_angle/( maximum_steering_wheel_angle_deg * DEG2RAD ))* 100).toFixed(0);
+
+            //rorate degree Offset is the degree if steering_wheel image rotation. 
+            let offset_rotate_deg = - (rotate_deg % maximum_steering_wheel_angle_deg); 
+
+            //let offset_rotate_deg = steer_percentage * 360
+            //Accelerator Progress
+            updateSteeringWheel(steer_percentage+ "%",offset_rotate_deg);
+        }
     });
 }

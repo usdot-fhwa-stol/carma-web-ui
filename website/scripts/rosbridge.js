@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2018-2019 LEIDOS.
+ * Copyright (C) 2018-2020 LEIDOS.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
@@ -23,6 +23,8 @@
 var ip = CarmaJS.Config.getIP();
 
 // Topics
+var t_carma_system_version = "/carma_system_version";
+
 var t_system_alert = 'system_alert';
 var t_available_plugins = 'plugins/available_plugins';
 var t_controlling_plugins = 'plugins/controlling_plugins';
@@ -64,6 +66,7 @@ var t_nav_sat_fix = '';
 
 var t_robot_status = 'controller/robotic_status';
 var t_cmd_speed = 'controller/vehicle_cmd';
+var t_cmd_speed_widget = '/hardware_interface/vehicle_cmd';
 var t_lateral_control_driver = '';
 var t_light_bar_status = 'control/light_bar_status'; //02/2019: added to display lightbar on UI
 
@@ -249,7 +252,7 @@ function connectToROS() {
     try {
         // If there is an error on the backend, an 'error' emit will be emitted.
         ros.on('error', function (error) {
-            document.getElementById('divLog').innerHTML += '<br/> ROS Connection Error.';
+            addToLogView ('ROS Connection Error.');
             divCapabilitiesMessage.innerHTML = 'Sorry, unable to connect to ROS server, please refresh your page to try again or contact your System Admin.';
             console.log(error);
 
@@ -262,7 +265,7 @@ function connectToROS() {
 
         // Find out exactly when we made a connection.
         ros.on('connection', function () {
-            document.getElementById('divLog').innerHTML += '<br/> ROS Connection Made.';
+            addToLogView ('ROS Connection Made.');
             document.getElementById('connecting').style.display = 'none';
             document.getElementById('error').style.display = 'none';
             document.getElementById('closed').style.display = 'none';
@@ -273,16 +276,17 @@ function connectToROS() {
         });
 
         ros.on('close', function () {
-
-            document.getElementById('divLog').innerHTML += '<br/> ROS Connection Closed.';
+            addToLogView ('ROS Connection Closed.');
             document.getElementById('connecting').style.display = 'none';
             document.getElementById('connected').style.display = 'none';
             document.getElementById('closed').style.display = 'inline';
+
 
             //Show modal popup for when ROS connection has been abruptly closed.
             var messageTypeFullDescription = 'ROS Connection Closed.';
             messageTypeFullDescription += '<br/><br/>PLEASE TAKE MANUAL CONTROL OF THE VEHICLE.';
             showModal(true, messageTypeFullDescription, false);
+
 
         });
 
@@ -294,6 +298,30 @@ function connectToROS() {
         divCapabilitiesMessage.innerHTML = 'Unexpected Error. Sorry, unable to connect to ROS server, please refresh your page to try again or contact your System Admin.';
         console.log(err);
     }
+}
+
+/*
+    Add the information to Log View.
+*/
+function addToLogView (logMessage)
+{
+        //Truncate the log when MAX_LOG_LINES has been reached.
+        if (cnt_log_lines < MAX_LOG_LINES) {
+            document.getElementById('divLog').innerHTML += '<br/> ' + logMessage;
+            cnt_log_lines++;
+        }
+        else {
+            document.getElementById('divLog').innerHTML = logMessage;
+            cnt_log_lines = 0;
+        }
+
+        //Show the rest of the system alert messages in the log.
+        //Make sure message list is scrolled to the bottom
+        var container = document.getElementById('divLog');
+        var containerHeight = container.clientHeight;
+        var contentHeight = container.scrollHeight;
+        container.scrollTop = contentHeight - containerHeight;
+
 }
 
 /*
@@ -314,50 +342,66 @@ function checkSystemAlerts() {
         var messageTypeFullDescription = 'NA';
 
         switch (message.type) {
-            case 1:
-                messageTypeFullDescription = 'System received a CAUTION message. ' + message.description;
+            case 1: //CAUTION
+                addToLogView ('CAUTION: ' + message.description);
+
+                MsgPop.open({
+                Type:			"caution",
+                Content:		message.description,
+                AutoClose:		true,
+                CloseTimer:		30000,
+                ClickAnyClose:	true,
+                ShowIcon:		true,
+                HideCloseBtn:	false});
+
                 break;
-            case 2:
-                messageTypeFullDescription = 'System received a WARNING message. ' + message.description;
+            case 2: //WARNING
+                addToLogView ('WARNING: ' + message.description);
+
+                MsgPop.open({
+                Type:			"warning",
+                Content:		message.description,
+                AutoClose:		true,
+                CloseTimer:		30000,
+                ClickAnyClose:	true,
+                ShowIcon:		true,
+                HideCloseBtn:	false});
                 break;
-            case 3:
-                //Show modal popup for Fatal alerts.
-                messageTypeFullDescription = 'System received a FATAL message. Please wait for system to shut down. <br/><br/>' + message.description;
-                messageTypeFullDescription += '<br/><br/>PLEASE TAKE MANUAL CONTROL OF THE VEHICLE.';
-                listenerSystemAlert.unsubscribe();
-                showModal(true, messageTypeFullDescription, false);
+
+            case 3: //FATAL - equivalent to CRITICAL "error". Don't use the word FATAL to describe to users.
+                addToLogView ('CRITICAL: ' + message.description);
+
+                MsgPop.open({
+                Type:			"error",
+                Content:		message.description,
+                AutoClose:		true,
+                CloseTimer:		30000,
+                ClickAnyClose:	true,
+                ShowIcon:		true,
+                HideCloseBtn:	false});
                 break;
-            case 4:
+            case 4://NOT_READY
                 isSystemAlert.ready = false;
                 messageTypeFullDescription = 'System is not ready, please wait and try again. ' + message.description;
                 break;
-            case 5:
+            case 5://DRIVERS_READY
                 isSystemAlert.ready = true;
                 messageTypeFullDescription = 'System is ready. ' + message.description;
                 break;
-            case 6: // SHUTDOWN
+            case 6: //SHUTDOWN
                 isSystemAlert.ready = false;
+
+                //Show modal popup for Fatal alerts.
+                messageTypeFullDescription = 'System is shutting down. <br/><br/>' + message.description;
+                messageTypeFullDescription += '<br/><br/>PLEASE TAKE MANUAL CONTROL OF THE VEHICLE.';
+                listenerSystemAlert.unsubscribe();
+                showModal(true, messageTypeFullDescription, false);
+
                 listenerSystemAlert.unsubscribe();
                 break;
             default:
                 messageTypeFullDescription = 'System alert type is unknown. Assuming system it not yet ready.  ' + message.description;
         }
-
-        if (cnt_log_lines < MAX_LOG_LINES) {
-            document.getElementById('divLog').innerHTML += '<br/> ' + messageTypeFullDescription;
-            cnt_log_lines++;
-        }
-        else {
-            document.getElementById('divLog').innerHTML = messageTypeFullDescription;
-            cnt_log_lines = 0;
-        }
-
-        //Show the rest of the system alert messages in the log.
-        //Make sure message list is scrolled to the bottom
-        var container = document.getElementById('divLog');
-        var containerHeight = container.clientHeight;
-        var contentHeight = container.scrollHeight;
-        container.scrollTop = contentHeight - containerHeight;
     });
 }
 
@@ -401,7 +445,7 @@ function showRouteOptions() {
             createRadioElement(divRoutes, myRoutes[i].routeID, myRoutes[i].routeName, myRoutes.length, 'groupRoutes', myRoutes[i].valid);
         }
 
-        if (myRoutes.length == 0) {
+        if (myRoutes == null || myRoutes.length == 0) {
             divCapabilitiesMessage.innerHTML = 'Sorry, there are no available routes, and cannot proceed without one. <br/> Please contact your System Admin.';
         }
 
@@ -420,11 +464,9 @@ function setRoute(id) {
         serviceType: 'cav_srvs/SetActiveRoute'
     });
 
-    //TODO: Remove this when Route Manager has updated the RouteID to not have spaces. For now have to do this.
-    var selectedRouteid = id.toString().replace('rb', '').replace(/_/g, ' ');
+    var selectedRouteid = id.toString().replace('rb', '');
 
-    // Then we create a Service Request.
-    // replace rb with empty string and underscore with space to go back to original ID from topic.
+    // Create a Service Request.
     var request = new ROSLIB.ServiceRequest({
         routeID: selectedRouteid
     });
@@ -953,8 +995,8 @@ function checkGuidanceState() {
                 setCAVButtonState('INACTIVE');
                 break;
             case 0: //SHUTDOWN
-                //Show modal popup for Shutdown alerts from Guidance, which is equivalent to Fatal since it cannot restart with this state.
-                messageTypeFullDescription = 'System received a Guidance SHUTDOWN. <br/><br/>' + message.description;
+                //Show modal popup for Shutdown alerts Health Monitor. Guidance and other nodes may issue FATAL however, SHUTDOWN will only occur when FATAL is received from the nodes are required.
+                messageTypeFullDescription = 'System received a SYSTEM SHUTDOWN. <br/><br/>' + message.description;
                 messageTypeFullDescription += '<br/><br/>PLEASE TAKE MANUAL CONTROL OF THE VEHICLE.';
 
                 if(listenerSystemAlert != null && listenerSystemAlert != 'undefined')
@@ -1133,7 +1175,7 @@ function showDriverStatus() {
         var targetImg;
 
         //Get PinPoint status for now.
-        if (message.position == true) {
+        if (message.gnss == true) {
             targetImg = document.getElementById('imgPinPoint');
         }
 
@@ -1805,7 +1847,10 @@ function startEngagedTimer() {
 function waitForSystemReady() {
 
     setTimeout(function () {   //  call a 5s setTimeout when the loop is called
-        checkSystemAlerts();   //  check here
+
+        if (listenerSystemAlert == null) //only listen once
+            checkSystemAlerts();   //  check here
+
         ready_counter++;       //  increment the counter
 
         //  if the counter < 4, call the loop function
@@ -1832,7 +1877,8 @@ function waitForSystemReady() {
 */
 function evaluateNextStep() {
 
-    if (isSystemAlert.ready == false) {
+    //if system not ready and listernerSystemAlert is not initialized
+    if (isSystemAlert.ready == false || listenerSystemAlert == null) {
         waitForSystemReady();
         return;
     }
@@ -1880,6 +1926,7 @@ function getCARMAVersion()
 	request.onreadystatechange = function() {
 		if(request.readyState == 4 && request.status == 200) {
 		showCARMAVersion(request.responseText);
+		publishCARMAVersion(request.responseText);
 		}
 	}
 	request.send();
@@ -1891,6 +1938,25 @@ function getCARMAVersion()
 function showCARMAVersion(response) {
 	var elemSystemVersion = document.getElementsByClassName('systemversion');
 	elemSystemVersion[0].innerHTML = response;
+}
+
+/*
+    Publish the CARMA version.
+    Initially designed for CARMA Messenger truck inspection plugin needing the CARMAPlatform version.
+*/
+function publishCARMAVersion(response) {
+
+	var topicCARMASystemVersion = new ROSLIB.Topic({
+	    ros: ros,
+	    name: t_carma_system_version,
+	    messageType: 'std_msgs/String'
+	});
+
+    var msg = new ROSLIB.Message({
+        data: response
+    });
+
+	topicCARMASystemVersion.publish(msg);
 }
 
 /*

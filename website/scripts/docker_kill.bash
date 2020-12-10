@@ -1,6 +1,6 @@
 #!/bin/bash
 
-#  Copyright (C) 2018-2019 LEIDOS.
+#  Copyright (C) 2018-2020 LEIDOS.
 # 
 #  Licensed under the Apache License, Version 2.0 (the "License"); you may not
 #  use this file except in compliance with the License. You may obtain a copy of
@@ -14,4 +14,4 @@
 #  License for the specific language governing permissions and limitations under
 #  the License.
 
-docker-compose -f /opt/carma/vehicle/docker-compose.yml -p carma down
+docker-compose -f /opt/carma/vehicle/config/docker-compose.yml -p carma down

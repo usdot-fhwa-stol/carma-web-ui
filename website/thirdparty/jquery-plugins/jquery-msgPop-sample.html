@@ -1,0 +1,184 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN">
+<html lang="en" style="height:100%;">
+<!-- Modified: Reversed and TimeStamped -->
+
+<head>
+    <meta charset="utf-8"/>
+    <!--
+    <link href="http://maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="css/msgPop.css" />
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+    <script language="javascript" type="text/javascript" src="js/jquery.msgPop.js"></script>
+    -->
+
+    <link rel="stylesheet" type="text/css" href="../../styles/styles.css" />
+    <link rel="stylesheet" href="../font-awesome-4.7.0/css/font-awesome.min.css" />
+    <link rel="stylesheet" href="../font-awesome-4.7.0/css/font-awesome-animation.min.css"/>
+
+    <link rel="stylesheet" href="../jqwidgets/styles/jqx.base.css"/>
+    <link rel = "stylesheet" href = "../jquery-ui-1.12.1/jquery-ui.min.css"/>
+
+    <script src = "../jquery/jquery-1.12.4.min.js"></script>
+    <script src = "../jquery-ui-1.12.1/jquery-ui.min.js"></script>
+
+
+    <link rel = "stylesheet" href = "jquery.msgPop.css"/>
+    <script src = "jquery.msgPop.js"></script>
+
+</head>
+
+
+
+<script language="javascript" type="text/javascript">
+	var intervalID = 0;
+	var time = 10;
+
+	MsgPop.displaySmall = true;
+	MsgPop.position = "bottom-right";
+
+	/*
+	$(document).ready(function(){
+		var test = MsgPop.open({
+		Type:			"success",
+		Content:		"Welcome to MsgPop!"});
+
+		MsgPop.live();
+	});
+    */
+
+
+    /*
+        Play sound for specific alerts or notifications.
+    */
+    function playSound(audioId, repeat) {
+        var audioAlert1 = document.getElementById(audioId);
+        audioAlert1.currentTime = 0;
+        audioAlert1.play();
+
+        if (repeat == false)
+            return;
+
+        //Repeat the sounds 5x max or until OK/logout page shows.
+        setTimeout(function () {
+            sound_counter++;
+            if (sound_counter < sound_counter_max) {
+                playSound(audioId, true);
+            }
+        }, 3000)
+    }
+
+	function showMessages(){
+		//MsgPop.closeAll({ClearEvents:	true});
+		//MsgPop.displaySmall = true;
+
+		MsgPop.open({
+		Type:			"success",
+		Content:		"1) This has been a success!",
+		AutoClose:		false});
+
+		MsgPop.open({
+		Type:			"error",
+		Content:		"2) Fail! You have to click the close button.",
+		AutoClose:		false,
+		ClickAnyClose:	false});
+
+		MsgPop.open({
+		Type:			"message",
+		Content:		'3) This message was created using msgPop! It will close in <span id="time">10</span> seconds!',
+		AutoClose:		true,
+		BeforeOpen:		function(){
+							time = 10;
+							if(intervalID == 0){
+								intervalID = setInterval(function(){
+									time-=1;
+									$(document.getElementById('time')).html(time);
+								},1000);
+							}
+						},
+		BeforeClose:	function(){
+							time = 10;
+							clearInterval(intervalID);
+							intervalID = 0;
+						},
+		CloseTimer:		10000,
+		ClickAnyClose:	false,
+		HideCloseBtn:	true});
+
+		MsgPop.open({
+		Type:			"caution",
+		Content:		"4) This is a caution. Click anywhere to close me!",
+		AutoClose:		false,
+		ClickAnyClose:	true,
+		ShowIcon:		true,
+		HideCloseBtn:	true});
+
+		MsgPop.open({
+		Type:			"warning",
+		Content:		"5) This is a warning. Click anywhere to close me!",
+		AutoClose:		false,
+		ClickAnyClose:	true,
+		ShowIcon:		true,
+		HideCloseBtn:	true});
+
+		MsgPop.open({
+		Type:			"success",
+		Content:		"6) I was hiding...If you close me you will see an example of my hooks.",
+		AutoClose:		false});
+
+		MsgPop.open({
+		Type:			"error",
+		Content:		"7) This message will self destruct in 5 seconds!",
+		AutoClose:		true,
+		CloseTimer:		5000,
+		ClickAnyClose:	false,
+		HideCloseBtn:	true});
+
+
+		MsgPop.open({
+		Type:			"message",
+		Content:		"8) I have given this message a unique dom ID",
+		AutoClose:		false,
+		MsgID:			"info",
+		ClickAnyClose:	true});
+	}
+
+
+	function showMessages2(){
+		//MsgPop.closeAll({ClearEvents:	true});
+		//MsgPop.displaySmall = true;
+
+		MsgPop.open({
+		Type:			"warning",
+		Content:		"9) This has Message 2A",
+		AutoClose:		false});
+
+		MsgPop.open({
+		Type:			"caution",
+		Content:		"10) This is Message 2B.",
+		AutoClose:		false,
+		ClickAnyClose:	false});
+    }
+</script>
+
+<body>
+
+<div id="master">
+    <div id="content">
+        <h1>Message Pop!</h1>
+
+        <p>
+            Message pop is a free plug-in that leverages jQuery and FontAwesome to create a simple to use and clean messaging system.
+        </p>
+
+
+        <button type="button" onclick="showMessages()">Run Demo</button>
+        <button type="button" onclick="showMessages2()">Run Demo 2</button>
+    </div>
+</div>
+<!-- Used by showModalNoAck sounds E.g. Lane Change -->
+<audio id="audioAlert4" preload="auto">
+    <source src="../../sound/arp.mp3" type="audio/mpeg">
+    Your browser does not support the audio element.
+</audio>
+</body>
+</html>

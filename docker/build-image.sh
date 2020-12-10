@@ -1,6 +1,6 @@
 #!/bin/bash
 
-#  Copyright (C) 2018-2019 LEIDOS.
+#  Copyright (C) 2018-2020 LEIDOS.
 # 
 #  Licensed under the Apache License, Version 2.0 (the "License"); you may not
 #  use this file except in compliance with the License. You may obtain a copy of
@@ -17,7 +17,7 @@
 USERNAME=usdotfhwastol
 
 cd "$(dirname "$0")"
-IMAGE=$(./get-image-name.sh)
+IMAGE=$(basename `git rev-parse --show-toplevel`)
 
 echo ""
 echo "##### $IMAGE Docker Image Build Script #####"
@@ -39,6 +39,11 @@ while [[ $# -gt 0 ]]; do
             PUSH=true
             shift
             ;;
+        -d|--develop)
+            USERNAME=usdotfhwastoldev
+            COMPONENT_VERSION_STRING=develop
+            shift
+            ;;
     esac
 done
 
@@ -50,10 +55,10 @@ echo "Building docker image for $IMAGE version: $COMPONENT_VERSION_STRING"
 echo "Final image name: $USERNAME/$IMAGE:$COMPONENT_VERSION_STRING"
 
 cd ..
-docker build --no-cache -t $USERNAME/$IMAGE:$COMPONENT_VERSION_STRING \
-    --build-arg VERSION="$COMPONENT_VERSION_STRING" \
-    --build-arg VCS_REF=`git rev-parse --short HEAD` \
-    --build-arg BUILD_DATE=`date -u +”%Y-%m-%dT%H:%M:%SZ”` .
+    docker build --no-cache -t $USERNAME/$IMAGE:$COMPONENT_VERSION_STRING \
+        --build-arg VERSION="$COMPONENT_VERSION_STRING" \
+        --build-arg VCS_REF=`git rev-parse --short HEAD` \
+        --build-arg BUILD_DATE=`date -u +”%Y-%m-%dT%H:%M:%SZ”` .
 
 TAGS=()
 TAGS+=("$USERNAME/$IMAGE:$COMPONENT_VERSION_STRING")

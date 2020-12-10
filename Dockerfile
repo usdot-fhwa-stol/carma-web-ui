@@ -1,4 +1,4 @@
-#  Copyright (C) 2018-2019 LEIDOS.
+#  Copyright (C) 2018-2020 LEIDOS.
 # 
 #  Licensed under the Apache License, Version 2.0 (the "License"); you may not
 #  use this file except in compliance with the License. You may obtain a copy of
@@ -33,7 +33,7 @@ LABEL org.label-schema.description="Web user interface for the CARMA Platform"
 LABEL org.label-schema.vendor="Leidos"
 LABEL org.label-schema.version=${VERSION}
 LABEL org.label-schema.url="https://highways.dot.gov/research/research-programs/operations/CARMA"
-LABEL org.label-schema.vcs-url="https://github.com/usdot-fhwa-stol/CARMAWebUi/"
+LABEL org.label-schema.vcs-url="https://github.com/usdot-fhwa-stol/carma-web-ui/"
 LABEL org.label-schema.vcs-ref=${VCS_REF}
 LABEL org.label-schema.build-date=${BUILD_DATE}
 

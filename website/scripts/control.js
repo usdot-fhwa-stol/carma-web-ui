@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2018-2019 LEIDOS.
+ * Copyright (C) 2018-2020 LEIDOS.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
@@ -107,14 +107,11 @@ function createRadioElement(container, radioId, radioTitle, itemCount, groupName
     newInput.type = 'radio';
     newInput.name = groupName;
 
-    //TODO: Remove this when RouteID has been changed to have no spaces.
-    //Currently, RouteID and RouteName are same and have spaces, but ID should not have any spaces. For now, updating to have underscore
-    var revisedId = radioId.toString().replace(/ /g, '_');
-    newInput.id = 'rb' + revisedId;
+    newInput.id = 'rb' + radioId.toString();
     newInput.onclick = function () { setRoute(newInput.id.toString()) };
 
     var newLabel = document.createElement('label');
-    newLabel.id = 'lbl' + revisedId;
+    newLabel.id = 'lbl' + radioId.toString();
     newLabel.htmlFor = newInput.id.toString();
     newLabel.innerHTML = radioTitle;
 
@@ -551,6 +548,8 @@ function countUpTimer() {
             + pad(minutes, 2) + 'm ' + pad(seconds, 2) + 's ';
     }
     //console.log('engaged_timer: ' + engaged_timer);
+    if ((divRouteInfo != null || divRouteInfo != 'undefined') && selectedRoute!=null)
+        divRouteInfo.innerHTML = selectedRoute.name + ' : ' + engaged_timer;
 }
 
 /*

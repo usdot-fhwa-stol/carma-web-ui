@@ -41,16 +41,19 @@ CarmaJS.registerNamespace("CarmaJS.Config");
 
 CarmaJS.Config = (function () {
         //Private variables
-        var ip = '192.168.88.10'; //'192.168.88.10'; 192.168.32.146;
-
+        var ip = '127.0.0.1'; //'192.168.88.10'; 192.168.32.146;
+        var speed_limit = 30; //Default Speed Limit
         //Private methods
         //Creating functions to prevent access by reference to private variables
         var getIP = function() {
             return ip;
         };
-
+        var getSPEEDLIMIT = function() {
+            return speed_limit;
+        };
         //Public API
         return {
-            getIP: getIP
+            getIP: getIP,
+            getSPEEDLIMIT: getSPEEDLIMIT
         };
 })();

@@ -1,6 +1,6 @@
 ﻿<!DOCTYPE html>
 <!--
-  Copyright (C) 2018-2019 LEIDOS.
+  Copyright (C) 2018-2020 LEIDOS.
 
   Licensed under the Apache License, Version 2.0 (the "License"); you may not
   use this file except in compliance with the License. You may obtain a copy of
@@ -38,16 +38,19 @@
     <!-- Widget Framework -->
     <script src="scripts/carma.config.js"></script>
     <script src="scripts/carma.widgetfw.js"></script>
-
-    <script src="thirdparty/ros/eventemitter2.min.js"></script>
-    <script src="thirdparty/ros/roslib.min.js"></script>
     <script src="scripts/control.js" defer></script>
     <script src="scripts/rosbridge.js" defer></script>
+
+    <!-- Third Party-->
+    <script src="thirdparty/ros/eventemitter2.min.js"></script>
+    <script src="thirdparty/ros/roslib.min.js"></script>
     <script src="scripts/googlemap.js"></script>
-    <script async defer
-            src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCMzV4biqVN0pf3l1lYVWQ4KSWLyoG6OV0&callback=initMap">
-    </script>
     <script src="thirdparty/svg/svg.min.js" defer></script>
+    <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCMzV4biqVN0pf3l1lYVWQ4KSWLyoG6OV0&callback=initMap"></script>
+
+    <!-- Third Party - MsgPop -->
+    <link rel = "stylesheet" href = "thirdparty/jquery-plugins/jquery.msgPop.css"/>
+    <script src = "thirdparty/jquery-plugins/jquery.msgPop.js"></script>
 
     <!-- START: favicon image references for different devices-->
     <link rel="apple-touch-icon" sizes="57x57" href="images/favicon/apple-icon-57x57.png">
@@ -68,6 +71,7 @@
     <meta name="msapplication-TileImage" content="images/favicon/ms-icon-144x144.png">
     <meta name="theme-color" content="#ffffff">
     <!-- END: favicon -->
+
 </head>
 <body>
     <div class="tab">
@@ -79,21 +83,11 @@
         <img id="imgCARMAIconColor" src="images/CARMA_icon_color.png" style="height:120px; width:120px;" />
     </div>
     <div class="tabindicators">
-        <button id="btnACCPrimed" disabled><img id="imgACCPrimed" src="images/acc_primed.png" style="width: 40px; height: 40px;" /></button>
         <button id="btnPinPoint" disabled ><i id="imgPinPoint" class="fa fa-map-pin" aria-hidden="true" style="font-size: 38px;"></i></button>
         <button disabled>
             <object type="image/svg+xml" data="images/signal.svg" style="width: 50px; height: 50px;" id="objOBUBroadcast">
                 Your browser does not support SVG
             </object>
-        </button>
-        <button id="btnConnected" disabled onclick="alert('To be implemented');" ><i class="fa fa-handshake-o" aria-hidden="true" style="color:gray; font-size: 35px;"></i></button>
-        <button disabled>
-            <span id="spanLonPlugin" style="font-size:20px; display:block; text-align:right; padding-top:10px; min-height:25px;">&nbsp;</span>
-            <i id="imgLonPlugin" class="fa fa-arrows-v" aria-hidden="true" style="font-size:38px; display:block; margin-left:-38px;margin-top:-30px;"></i>
-        </button>
-        <button disabled>
-            <span id="spanLatPlugin" style="font-size:20px; display:block; text-align:center; padding-top:5px; min-height:25px;">&nbsp;</span>
-            <i id="imgLatPlugin" class="fa fa-arrows-h" aria-hidden="true" style="font-size:40px; display:block; margin-top:-10px;  margin-bottom:-15px;"></i>
         </button>
     </div>
     <div class="tabheader">
@@ -222,24 +216,35 @@
         <div id="modalUIInstructionsContent">
         </div>
     </div>
+
+    <!-- Used by showModal() warning sound. E.g. FATAL, DISENGAGE, SHUTDOWN, LEFTROUTE-->
     <audio id="audioAlert1" preload="auto">
         <source src="sound/not-kiddin.mp3" type="audio/mpeg">
         Your browser does not support the audio element.
     </audio>
+    <!-- Used by showModal() success sound. E.g. ROUTE COMPLETED -->
     <audio id="audioAlert2" preload="auto">
         <source src="sound/sunny.mp3" type="audio/mpeg">
         Your browser does not support the audio element.
     </audio>
+    <!-- Used by INACTIVE guidance -->
     <audio id="audioAlert3" preload="auto">
         <source src="sound/hurry.mp3" type="audio/mpeg">
         Your browser does not support the audio element.
     </audio>
+    <!-- Used by showModalNoAck sounds E.g. Lane Change -->
     <audio id="audioAlert4" preload="auto">
         <source src="sound/arp.mp3" type="audio/mpeg">
         Your browser does not support the audio element.
     </audio>
+    <!-- Used by MsgPopUp sound for warning and caution -->
+    <audio id="audioAlert5" preload="auto">
+        <source src="sound/toneb.mp3" type="audio/mpeg">
+        Your browser does not support the audio element.
+    </audio>
 </body>
 <footer>
+
     <p class="copyright"></p>
     <p class="systemversion">&nbsp;</p>
 </footer>

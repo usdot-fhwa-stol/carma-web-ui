@@ -548,6 +548,8 @@ function countUpTimer() {
             + pad(minutes, 2) + 'm ' + pad(seconds, 2) + 's ';
     }
     //console.log('engaged_timer: ' + engaged_timer);
+    if ((divRouteInfo != null || divRouteInfo != 'undefined') && selectedRoute!=null)
+        divRouteInfo.innerHTML = selectedRoute.name + ' : ' + engaged_timer;
 }
 
 /*

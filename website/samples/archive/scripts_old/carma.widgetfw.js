@@ -211,12 +211,12 @@ CarmaJS.WidgetFramework = (function () {
                      //Widget Namespace should come from the Plugin.name without "Plugin" at the end, and without spaces.
                      //e.g. "Speed Harmonization Plugin" widget namespace should be CarmaJS.WidgetFramework.SpeedHarmonization
                      //e.g. CarmaJS.WidgetFramework.RouteFollowing & CarmaJS.WidgetFramework.Cruising
-                     var widgetNamespace = 'CarmaJS.WidgetFramework.' + id.substring(0, id.indexOf('_Plugin')).replace('cb','').replace('_','');
+                     var widgetNamespace = 'CarmaJS.WidgetFramework.' + id.substring(0, id.indexOf('Plugin')).replace('cb','').replace('_','');
 
                      //Widget install path should come from the Plugin.name without the "Plugin", and replacing the spaces with underscore(s).
                      //e.g. "Speed Harmonization Plugin" widget folder path should be speed_harmonization
                      //e.g. widgets/route_following
-                     var widgetInstallPath = 'widgets/' + id.substring(0, id.indexOf('_Plugin')).replace('cb','').toLowerCase();
+                     var widgetInstallPath = 'widgets/' + id.substring(0, id.indexOf('Plugin')).replace('cb','').toLowerCase();
 
                      var pluginItem = {id: cbId, title: cbTitle,  namespace: widgetNamespace, folderpath: widgetInstallPath, isWidgetShown: false};
 

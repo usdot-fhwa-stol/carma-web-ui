@@ -1,4 +1,4 @@
-version: 2
+version: 2.1
 #  Copyright (C) 2018-2019 LEIDOS.
 # 
 #  Licensed under the Apache License, Version 2.0 (the "License"); you may not
@@ -54,7 +54,9 @@ jobs:
             $bin 100; done'
 
             sudo sh -c 'for bin in /usr/lib/jvm/jdk-11.0.6+10/bin/*; do
-            update-alternatives --set $(basename $bin) $bin; done'
+            update-alternatives --set $(basename $bin) $bin; done
+            
+            java --version'
       - run:
           name: Create src folder
           command: |

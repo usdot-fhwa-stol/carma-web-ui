@@ -39,20 +39,20 @@ jobs:
       - run:
           name: Create src folder
           command: |
-            export SONAR_DIR=/opt/sonarqube
-            sudo mkdir $SONAR_DIR 
-            sudo curl -o $SONAR_DIR/sonar-scanner.zip https://binaries.sonarsource.com/Distribution/sonar-scanner-cli/sonar-scanner-cli-3.3.0.1492-linux.zip 
-            sudo curl -o $SONAR_DIR/build-wrapper.zip https://sonarcloud.io/static/cpp/build-wrapper-linux-x86.zip
-            cd $SONAR_DIR
-            sudo unzip $SONAR_DIR/sonar-scanner.zip -d . 
-            sudo unzip $SONAR_DIR/build-wrapper.zip -d . 
+            mkdir /opt/sonarqube 
+            cd /opt/sonarqube
+            wget -c https://binaries.sonarsource.com/Distribution/sonar-scanner-cli/sonar-scanner-cli-3.3.0.1492-linux.zip   -o /opt/sonarqube/sonar-scanner.zip
+            wget -c https://sonarcloud.io/static/cpp/build-wrapper-linux-x86.zip -o /opt/sonarqube/build-wrapper.zip 
+            cd /opt/sonarqube
+            unzip /opt/sonarqube/sonar-scanner.zip -d . 
+            unzip/opt/sonarqube/build-wrapper.zip -d . 
             
-            sudo rm $SONAR_DIR/sonar-scanner.zip 
-            sudo rm $SONAR_DIR/build-wrapper.zip 
+            rm /opt/sonarqube/sonar-scanner.zip 
+            rm /opt/sonarqube/build-wrapper.zip 
 
-            sudo mv $(ls $SONAR_DIR | grep "sonar-scanner-") $SONAR_DIR/sonar-scanner/ 
-            sudo mv $(ls $SONAR_DIR | grep "build-wrapper-") $SONAR_DIR/build-wrapper/ 
-            export PATH=$PATH:/opt/jq/:$SONAR_DIR/sonar-scanner/bin/:$SONAR_DIR/build-wrapper/
+            mv $(ls /opt/sonarqube | grep "sonar-scanner-") /opt/sonarqube/sonar-scanner/ 
+            mv $(ls /opt/sonarqube | grep "build-wrapper-") /opt/sonarqube/build-wrapper/ 
+            export PATH=$PATH:/opt/jq/:/opt/sonarqube/sonar-scanner/bin/:/opt/sonarqube/build-wrapper/
             mkdir src
             cd src
             mkdir CARMAWebUi

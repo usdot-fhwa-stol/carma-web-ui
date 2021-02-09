@@ -28,7 +28,7 @@ jobs:
     # Pull docker image from docker hub
     # XTERM used for better catkin_make output
     docker:
-      - image: 'circleci/openjdk:11-jdk'
+      - image: 'cimg/openjdk:15.0.1'
         user: carma
         environment:
           TERM: xterm # use xterm to get full display output from build

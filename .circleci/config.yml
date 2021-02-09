@@ -96,6 +96,8 @@ jobs:
           name: Run Sonar Scanner
           command: |
             source ${INIT_ENV}
+            export JAVA_HOME=/usr/lib/jvm/jdk-11.0.6+10
+            java --version
             if [ -z "${CIRCLE_PULL_REQUEST}" ]; then
               echo "Non-PR Build Detected. Running analysis on ${CIRCLE_BRANCH}"
               cd src/CARMAWebUi

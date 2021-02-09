@@ -52,7 +52,7 @@ jobs:
 
             sudo mv $(ls /opt/sonarqube | grep "sonar-scanner-") /opt/sonarqube/sonar-scanner/ 
             sudo mv $(ls /opt/sonarqube | grep "build-wrapper-") /opt/sonarqube/build-wrapper/ 
-            sudo export PATH=$PATH:/opt/jq/:/opt/sonarqube/sonar-scanner/bin/:/opt/sonarqube/build-wrapper/
+            export PATH=$PATH:/opt/jq/:/opt/sonarqube/sonar-scanner/bin/:/opt/sonarqube/build-wrapper/
             cd ~
             mkdir src
             cd src

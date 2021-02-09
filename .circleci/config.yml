@@ -1,4 +1,4 @@
-version: 2
+version: 2.1
 #  Copyright (C) 2018-2019 LEIDOS.
 # 
 #  Licensed under the Apache License, Version 2.0 (the "License"); you may not
@@ -28,19 +28,16 @@ jobs:
     # Pull docker image from docker hub
     # XTERM used for better catkin_make output
     docker:
-      - image: usdotfhwastol/carma-base:3.7.1
+      - image: 'circleci/openjdk:11-jdk'
         user: carma
         environment:
           TERM: xterm # use xterm to get full display output from build
-          INIT_ENV: /home/carma/.base-image/init-env.sh
-    working_directory: "/opt/carma/"
+        #  INIT_ENV: /home/carma/.base-image/init-env.sh
     # Execution steps
     steps:
       - run:
           name: Create src folder
           command: |
-            pwd
-            source ${INIT_ENV}
             mkdir src
             cd src
             mkdir CARMAWebUi
@@ -50,21 +47,7 @@ jobs:
       - run: 
           name: Pull CARMAMsgs
           command: |
-            source ${INIT_ENV}
             git clone -b CARMAMsgs_1.1.0 --depth 1 git@github.com:usdot-fhwa-stol/carma-msgs.git src/CARMAMsgs
-      - run:
-          name: Build Driver
-          command: |
-            source ${INIT_ENV}
-            build-wrapper-linux-x86-64 --out-dir /opt/carma/bw-output bash make_with_coverage.bash -m -e /opt/carma/ -o ./coverage_reports/gcov
-      - run:
-          name: Run C++ Tests
-          command: |
-            source ${INIT_ENV}
-            bash make_with_coverage.bash -t -e /opt/carma/ -o ./coverage_reports/gcov
-      - persist_to_workspace:
-          root: .
-          path: "./*"
       # Run SonarCloud analysis
       # PR Branchs and number extracted from Circle variables and github api
       # Circle CI seems to make a change to the base branch, so we must fetch --force to ensure correct git file change stats
@@ -75,18 +58,10 @@ jobs:
       # sonar.pullrequest.github.token.secured
       # sonar.pullrequest.github.repository
       # Use -X on sonar-scanner to enable debug output
-    
-  sonar:
-    docker:
-      - image: 'circleci/openjdk:11-jdk'
-    steps:
-      - checkout
-      - attach_workspace:
-          at: .
       - run:
           name: Run Sonar Scanner
           command: |
-            source ${INIT_ENV}
+            java --version
             if [ -z "${CIRCLE_PULL_REQUEST}" ]; then
               echo "Non-PR Build Detected. Running analysis on ${CIRCLE_BRANCH}"
               cd src/CARMAWebUi

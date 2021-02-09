@@ -43,7 +43,7 @@ jobs:
             sudo cd /opt/sonarqube
             sudo wget -c https://binaries.sonarsource.com/Distribution/sonar-scanner-cli/sonar-scanner-cli-3.3.0.1492-linux.zip   -o /opt/sonarqube/sonar-scanner.zip
             sudo wget -c https://sonarcloud.io/static/cpp/build-wrapper-linux-x86.zip -o /opt/sonarqube/build-wrapper.zip 
-            sudo cd /opt/sonarqube
+            cd /opt/sonarqube
             sudo unzip /opt/sonarqube/sonar-scanner.zip -d . 
             sudo unzip/opt/sonarqube/build-wrapper.zip -d . 
             

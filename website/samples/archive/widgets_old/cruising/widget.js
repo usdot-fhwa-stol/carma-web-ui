@@ -155,16 +155,16 @@ CarmaJS.WidgetFramework.Cruising = (function () {
 
             listenerSpeedAccel = new ROSLIB.Topic({
                 ros: ros,
-                name: t_cmd_speed,
-                messageType: 'cav_msgs/SpeedAccel'
+                name: t_cmd_speed_widget,
+                messageType: 'autoware_msgs/VehicleCmd'
             });
 
             listenerSpeedAccel.subscribe(function (message) {
-                var cmd_speed_mph = Math.round(message.speed * METER_TO_MPH);
+                var cmd_speed_mph = Math.round(message.ctrl_cmd.linear_velocity * METER_TO_MPH);
 
                 //Display on DriverView the Speed Cmd for Speed Harm or Cruising
                 //NOTE: There is currently no indicator to know if SpeedHarm is transmitting.
-                if (message.speed != null && message.speed != 'undefined')
+                if (message.ctrl_cmd.linear_velocity != null && message.ctrl_cmd.linear_velocity != 'undefined')
                     document.getElementById('divSpeedCmdValue').innerHTML = cmd_speed_mph;
             });
         };
@@ -212,7 +212,11 @@ CarmaJS.WidgetFramework.Cruising = (function () {
                 setSpeedometer(actualSpeedMPH);
             });
         };
-
+        var setDefaultSpeedLimit = function (){
+            if (document.getElementById('divSpeedLimitValue') == null)
+                    return;
+            document.getElementById('divSpeedLimitValue').innerHTML = CarmaJS.Config.getSPEEDLIMIT();
+        }
         /***
         * Custom widgets using JQuery Widget Framework.
         * NOTE: that widget framework namespace can only be one level deep.
@@ -240,6 +244,9 @@ CarmaJS.WidgetFramework.Cruising = (function () {
 
                 this.element.empty();
                 this._super();
+             },
+             setDefaultSpeedLimit: function(){
+                setDefaultSpeedLimit();
              },
              checkRouteState: function(){
                 checkRouteState();
@@ -305,6 +312,7 @@ CarmaJS.WidgetFramework.Cruising = (function () {
         var loadCustomWidget = function(container) {
 
             container.cruisingSpeedLimit();
+            container.cruisingSpeedLimit("setDefaultSpeedLimit",null);
             container.cruisingSpeedLimit("showActiveRoute",null);
             container.cruisingSpeedLimit("checkRouteState",null);
 

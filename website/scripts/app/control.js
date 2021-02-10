@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2018-2020 LEIDOS.
+ * Copyright (C) 2018-2021 LEIDOS.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
@@ -548,6 +548,8 @@ function countUpTimer() {
             + pad(minutes, 2) + 'm ' + pad(seconds, 2) + 's ';
     }
     //console.log('engaged_timer: ' + engaged_timer);
+    if ((divRouteInfo != null || divRouteInfo != 'undefined') && selectedRoute!=null)
+        divRouteInfo.innerHTML = selectedRoute.name + ' : ' + engaged_timer;
 }
 
 /*

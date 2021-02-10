@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2018-2020 LEIDOS.
+ * Copyright (C) 2018-2021 LEIDOS.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
@@ -60,7 +60,6 @@ var tbn_outbound_binary_msg = 'comms/outbound_binary_msg';
 
 var t_robot_status = 'controller/robotic_status';
 var t_cmd_speed = 'controller/vehicle_cmd';
-
 var t_light_bar_status = 'control/light_bar_status'; //02/2019: added to display lightbar on UI
 
 var t_can_engine_speed = 'can/engine_speed';
@@ -1133,7 +1132,7 @@ function showDriverStatus() {
         var targetImg;
 
         //Get PinPoint status for now.
-        if (message.position == true) {
+        if (message.gnss == true) {
             targetImg = document.getElementById('imgPinPoint');
         }
 

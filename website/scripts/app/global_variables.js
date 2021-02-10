@@ -68,6 +68,7 @@ const S_GUIDANCE_ACTIVATED = '/guidance/set_guidance_active';
 const S_ACTIVATE_PLUGINS = '/guidance/plugins/activate_plugin';
 const S_ACTIVATE_ROUTE = '/guidance/set_active_route';
 const S_START_ACTIVE_ROUTE = 'start_active_route';
+const S_ABORT_ACTIVE_ROUTE="/guidance/abort_active_route";
 
 //ROS msgs names
 const M_GUIDANCE_STATE = 'cav_msgs/GuidanceState';
@@ -79,6 +80,7 @@ const M_GUIDANCE_ACTIVATE = 'cav_srvs/SetGuidanceActive';
 const M_PLUGIN_ACTIVATION = 'cav_srvs/PluginActivation';
 const M_ROUTE_STATE = 'cav_msgs/RouteState';
 const M_ACTIVE_ROUTE = 'cav_srvs/SetActiveRoute';
+const M_ABORT_ACTIVE_ROUTE_REQ="cav_srvs/AbortActiveRoute";
 const M_ROUTE_EVENT = 'cav_msgs/RouteEvent';
 const M_START_ACTIVE_ROUTE = 'cav_srvs/StartActiveRoute';
 const M_ROUTE = 'cav_msgs/Route';

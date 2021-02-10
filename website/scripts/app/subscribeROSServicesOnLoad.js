@@ -368,6 +368,12 @@ function setRouteEventLisenter(routeId, route_name)
     setRoute(routeId,route_name);
 }
 
+function abortRouteEventListener(){
+    console.log("abortRouteEventListener called");
+    //abort active route after route has already started
+    abortActiveRoute();
+}
+
 function activatePluginLisenter(pluginName,pluginType,pluginVersionId,changeToNewStatus,isRequired)
 {
     //call activatePlugin(pluginName,pluginType,pluginVersionId,changeToNewStatus,isRequired) 

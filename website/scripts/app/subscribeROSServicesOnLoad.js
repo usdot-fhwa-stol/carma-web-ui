@@ -4,6 +4,7 @@ $(document).ready(function(){
         let deferSessionInit = $.Deferred();
         let deferROSConnection = $.Deferred();
         let deferSystemReady = $.Deferred();
+        let deferRouteSelectionState = $.Deferred();
 
         //Initialize session variables
         if( initializeSessionVariables() )
@@ -71,9 +72,33 @@ $(document).ready(function(){
              ** NEXT STEP:
             ** After session initialized , ROS connected, and system alert is ready, subscribe to below services and topics.                
             ***/
-
+            
             //SECTION: Route Area
-            subscribeToGuidanceAvailaleRoutes ();  
+            //call abort active route to reinforce route transition to selection state
+            abortActiveRoute();
+
+            //Get available routes
+            subscribeToGuidanceAvailaleRoutes(); 
+
+            //listen to route event
+            if(subscribeToRouteEvent() == ROUTE_LOADED)
+            {
+                deferRouteSelectionState.resolve("Routes are loaded");
+            }
+            else{
+                deferRouteSelectionState.reject("Routes are not loaded");
+            }
+
+            $.when(deferRouteSelectionState)
+            .done((successMessage)=>{
+                console.log('deferRouteSelectionState succeed: '+ successMessage);
+            })
+            .fail((error)=>{
+                console.error('deferRouteSelectionState error: '+ error);
+                $("#reloadRoutes").css('display','');
+                $("divCapabilitiesRoute").html('Routes are not loaded. Please click reload routes hyperlink or refresh current page.');
+                $('#divCapabilitiesContent').css('display','inline-block');
+            });
 
             /***
              * SECTION: Display Status icons 

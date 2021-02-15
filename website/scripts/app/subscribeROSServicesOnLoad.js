@@ -71,9 +71,13 @@ $(document).ready(function(){
              ** NEXT STEP:
             ** After session initialized , ROS connected, and system alert is ready, subscribe to below services and topics.                
             ***/
-
+            
             //SECTION: Route Area
-            subscribeToGuidanceAvailaleRoutes ();  
+            //call abort active route to reinforce route transition to selection state
+            abortActiveRoute();
+
+            //Get available routes
+            subscribeToGuidanceAvailaleRoutes(); 
 
             /***
              * SECTION: Display Status icons 

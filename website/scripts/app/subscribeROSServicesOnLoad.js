@@ -80,26 +80,6 @@ $(document).ready(function(){
             //Get available routes
             subscribeToGuidanceAvailaleRoutes(); 
 
-            //listen to route event
-            if(subscribeToRouteEvent() == ROUTE_LOADED)
-            {
-                deferRouteSelectionState.resolve("Routes are loaded");
-            }
-            else{
-                deferRouteSelectionState.reject("Routes are not loaded");
-            }
-
-            $.when(deferRouteSelectionState)
-            .done((successMessage)=>{
-                console.log('deferRouteSelectionState succeed: '+ successMessage);
-            })
-            .fail((error)=>{
-                console.error('deferRouteSelectionState error: '+ error);
-                $("#reloadRoutes").css('display','');
-                $("divCapabilitiesRoute").html('Routes are not loaded. Please click reload routes hyperlink or refresh current page.');
-                $('#divCapabilitiesContent').css('display','inline-block');
-            });
-
             /***
              * SECTION: Display Status icons 
              */        

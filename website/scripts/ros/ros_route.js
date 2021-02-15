@@ -362,27 +362,3 @@ function mapEachRouteSegment(segment)
         sessionStorage.setItem('routePlanCoordinates', JSON.stringify(routeCoordinates));
     }
 }
-
-/***
- *  uint8 ROUTE_LOADED=0
-    uint8 ROUTE_SELECTED=1
-    uint8 ROUTE_STARTED=2
-    uint8 ROUTE_COMPLETED=3
-    uint8 ROUTE_DEPARTED=4
-    uint8 ROUTE_ABORTED=5
-    uint8 ROUTE_GEN_FAILED=6
- */
-function subscribeToRouteEvent()
-{
-    var listenerRouteEvent = new ROSLIB.Topic({
-        ros: g_ros,
-        name: T_ROUTE_EVENT,
-        messageType: M_ROUTE_EVENT
-    });
-    listenerRouteEvent.subscribe(function (message) 
-    {
-
-        return message.event;
-    });
-    return 'UNKNOWN';
-}

@@ -4,7 +4,6 @@ $(document).ready(function(){
         let deferSessionInit = $.Deferred();
         let deferROSConnection = $.Deferred();
         let deferSystemReady = $.Deferred();
-        let deferRouteSelectionState = $.Deferred();
 
         //Initialize session variables
         if( initializeSessionVariables() )

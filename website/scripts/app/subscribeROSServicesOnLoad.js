@@ -73,8 +73,14 @@ $(document).ready(function(){
             ***/
             
             //SECTION: Route Area
-            //call abort active route to reinforce route transition to selection state
-            abortActiveRoute();
+            if(sessionStorage.getItem('selectedRouteName')===null ||
+                sessionStorage.getItem('selectedRouteId') ===null ||                
+                sessionStorage.getItem('isGuidanceActive') ===null)
+            {
+                console.log("Calling abort active route.");
+                //call abort active route to reinforce route transition to selection state
+                abortActiveRoute();
+            }
 
             //Get available routes
             subscribeToGuidanceAvailaleRoutes(); 

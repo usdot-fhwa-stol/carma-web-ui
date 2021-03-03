@@ -93,9 +93,9 @@
                                 </button>
                             </div>
                             <hr>
-                            <div class="modal-body" style="text-align: left;"> 
+                            <div class="modal-body" style="text-align: left;">
                                 <p>"Debug Mode" provides the option to not launch the backend services when clicking the "Start" button.</p>    
-                                <p>"Record ROSbag" option enables or disables logging when the platform backend services are running.</p>                                                             
+                                <p style="display:none">"Record ROSbag" option enables or disables logging when the platform backend services are running.</p>
                             </div>
                             <div class="modal-footer">
                             <button type="button" class="btn btn-success btn-lg" data-dismiss="modal">CLOSE</button>
@@ -118,7 +118,7 @@
                                     id="cbDebugMd" name="cbDebugMd" />
                                 <label for="cbdebugMd"  class="card-text">Debug Mode</label>
                             </div>     
-                            <div style="margin: 5px auto;">
+                            <div style="margin: 5px auto;display:none">
                                 <input type="checkbox"   data-toggle="switchbutton" data-onstyle="success" data-size="lg" id="rosBagEnabler" name="rosbagrecorder"   />
                                 <label for="rosBagEnabler" class="card-text">Record ROSbag </label>
                             </div >     

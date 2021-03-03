@@ -29,8 +29,6 @@ $(document).ready(function(){
         //hide route
         $("#route-list-area").css('display','none');
 
-        //hide divCapability
-        $("#divCapabilitiesArea").css('display','none');
     });
 
     $('#sound-status').click(()=>{

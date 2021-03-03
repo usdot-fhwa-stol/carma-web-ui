@@ -32,6 +32,9 @@
         <link rel="stylesheet" type="text/css" href="utils/active_plugin/active_plugins.css">
         <link rel="stylesheet" type="text/css" href="utils/wifi/wifi.css">
         <link rel="stylesheet" type="text/css" href="utils/cellular/cellular.css">
+
+
+
         <!-- thirdparty js -->
         <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r99/three.js"></script> -->
         <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r99/three.module.min.js" type="module"></script> -->
@@ -47,7 +50,6 @@
         <script src = "thirdparty/bootstrap-4.5.0-dist/js/bootstrap.min.js"></script> 
         <script src = "thirdparty/fontawesome-free-5.14.0-web/js/all.min.js"></script>
         <script src = "thirdparty/circle-progress/dist/circle-progress.js"></script>
-        <script src = "thirdparty/jquery-plugins/jquery.msgPop.js"></script>
         <script src = "thirdparty/three/CustomLoaderLocal.js" ></script>
         <script src = "thirdparty/three/MTLLoader.js" ></script>
         <script src = "thirdparty/three/OBJLoader.js" ></script>
@@ -56,6 +58,7 @@
         <!---Global variables and Config -->
         <script src="scripts/app/global_variables.js"></script>
         <script src="scripts/app/carma.config.js"></script>
+        <script src = "thirdparty/jquery-plugins/jquery.msgPop.js"></script>
 
         <!--layout and panel js-->
         <script src="scripts/app/main_menu_top.js"></script>
@@ -226,14 +229,7 @@
                 </div>            
             </div>           
         </div>
-        <div id="divCapabilitiesArea">
-          <div id="divCapabilitiesContent"  style="display: none;">
-            <span id = "divCapabilitiesRoute" style="display: block;"></span>
-            <span id = "divCapabilitiesSystemAlert" style="display: block;"></span>
-            <span id = "divCapabilitiesGuidance" style="display: block;"></span>
-            <span id = "divCapabilitiesPlugin" style="display: block;"></span>
-          </div>
-        </div>
+
        
         <!--3D canvas -->
         <div id="main-canvas" style="display: none;"></div>
@@ -468,6 +464,16 @@
           </div>        
       </div><!--Right panel END-->
 
+        <!---Bubble Capabilities notifications-->
+        <div id="divCapabilitiesArea">
+          <div id="divCapabilitiesContent"  style="display: none;">
+            <span id = "divCapabilitiesRoute" style="display: block;"></span>
+            <span id = "divCapabilitiesSystemAlert" style="display: block;"></span>
+            <span id = "divCapabilitiesGuidance" style="display: block;"></span>
+            <span id = "divCapabilitiesPlugin" style="display: block;"></span>
+          </div>
+        </div>
+
       <!-- Bottom Menu -->
       <div id="bottom-nav" >           
           <div id="bottom-nav-left">
@@ -531,7 +537,7 @@
 
       <!-- 3D ROS Connection: TODO-->
       
-      <!-- Used by showModal() warning sound. E.g. FATAL, DISENGAGE, SHUTDOWN, LEFTROUTE-->
+      <!-- Used by showModal() warning sound. E.g. FATAL, SHUTDOWN, LEFT ROUTE-->
       <audio id="audioAlert1" preload="auto">
           <source src="sound/not-kiddin.mp3" type="audio/mpeg">
           Your browser does not support the audio element.

@@ -90,8 +90,7 @@ function subscribeToGuidanceState ()
                     //Show display area:  widgets area and 3D canvas 
                     $('.nav-link.display').addClass('active'); //change navigation to display
                     $("#widgets-panel").css('display','block'); //show navigation to display
-                    $("#main-canvas").css('display','block'); //show navigation to display  
-                    $("#divCapabilitiesArea").css('display','none'); //hide divCapability in display
+                    $("#main-canvas").css('display','block'); //show navigation to display
                     g_IsDisplayShownUponFirstEngaged=true;
                 }
 
@@ -99,15 +98,31 @@ function subscribeToGuidanceState ()
                 $('#allPlugins-btn').css('display','none');
                 $('input:checkbox').prop("disabled", true);
                 $('input:checkbox+.slider').css('cursor','not-allowed');
+
+                //reset to replay inactive sound it comes back again
+                g_sound_played_once = false;
+
                 break;
             case INACTIVE:
                  //clear/reset engage elapsed time in session
                  if(startDateTime != null)
                      startDateTime.remove();
                 //Set based on whatever guidance_state says, regardless if UI has not been engaged yet.
-                btnCAVGuidance.src = "../../images/Xtra_Art/Big-redREV.svg"; 
-                playSound('audioAlert3', true);
-                $('#divCapabilitiesGuidance').html('CAV Guidance is INACTIVE. <br/> To re-engage, double tap the ACC switch downward on the steering wheel.');
+                btnCAVGuidance.src = "../../images/Xtra_Art/Big-redREV.svg";
+
+                //This check to make sure inactive  sound is only played once even when it is been published multiple times in a row
+                // It will get reset when status changes back to engage
+                if(g_sound_played_once == false || g_play_audio_error==true)
+                {
+                    playSound('audioAlert3', false);
+
+                    //make sure play audio does not return any error and successfully played once before update g_sound_played_once value
+                    if(g_play_audio_error == false){
+                         g_sound_played_once = true;
+                    }
+                }
+
+                $('#divCapabilitiesGuidance').html('CAV Guidance is INACTIVE. <br/>');
                 $('#divCapabilitiesContent').css('display','inline-block');
                 break;
             case SHUTDOWN:                

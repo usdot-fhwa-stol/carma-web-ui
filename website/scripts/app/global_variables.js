@@ -210,7 +210,8 @@ var t_light_bar_status = 'control/light_bar_status'; //02/2019: added to display
 
 var g_sound_counter = 0;
 var g_sound_counter_max = 3; //max # of times the sounds will be repeated.
-var g_sound_played_once = false; //For ROUTE_COMPLETE, LEFT_ROUTE, and INACTIVE; FATAL & SHUTDOWN
+var g_sound_played_once = false; //For ROUTE_COMPLETE, LEFT_ROUTE, FATAL & SHUTDOWN
+var g_sound_guidance_played_once = false; //For INACTIVE
 var g_sound_msgPop_played_once = false; //For Warning and Caution; Separate this from the ROUTE_COMPLETE, LEFT_ROUTE, and INACTIVE in case these events happens at same time
 var g_play_audio_error = false; //No Error
 

@@ -100,7 +100,7 @@ function subscribeToGuidanceState ()
                 $('input:checkbox+.slider').css('cursor','not-allowed');
 
                 //reset to replay inactive sound it comes back again
-                g_sound_played_once = false;
+                g_sound_guidance_played_once = false;
 
                 break;
             case INACTIVE:
@@ -112,13 +112,13 @@ function subscribeToGuidanceState ()
 
                 //This check to make sure inactive  sound is only played once even when it is been published multiple times in a row
                 // It will get reset when status changes back to engage
-                if(g_sound_played_once == false || g_play_audio_error==true)
+                if(g_sound_guidance_played_once == false || g_play_audio_error==true)
                 {
                     playSound('audioAlert3', false);
 
-                    //make sure play audio does not return any error and successfully played once before update g_sound_played_once value
+                    //make sure play audio does not return any error and successfully played once before update g_sound_guidance_played_once value
                     if(g_play_audio_error == false){
-                         g_sound_played_once = true;
+                        g_sound_guidance_played_once = true;
                     }
                 }
 

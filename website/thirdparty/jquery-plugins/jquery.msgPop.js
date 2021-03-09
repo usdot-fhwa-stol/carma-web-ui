@@ -181,7 +181,17 @@ function initMsgPop()
 
         //Added sounds for MsgPop plugin
         //NOTE: Currently this MsgPop is only used for Warning and Caution, when starting to use other features, may need different sounds.
-	    playSound('audioAlert4', false);
+
+	    //This check to make sure inactive  sound is only played once even when it is been published multiple times in a row
+        // It will get reset when status changes back to engage
+        if(g_sound_msgPop_played_once == false || g_play_audio_error==true)
+        {
+           playSound('audioAlert4', false);
+            //make sure play audio does not return any error and successfully played once before update g_sound_played_once value
+            if(g_play_audio_error == false){
+                 g_sound_msgPop_played_once = true;
+            }
+        }
 
 		//Create Load More & Close All Buttons
 		loadMoreBtn = createLoadMore(container);
@@ -268,6 +278,7 @@ function initMsgPop()
 			}
 			msgPopCount -= 1;
 			MsgPop.cleanUp(isCloseAll);
+
 		}
 	};
 
@@ -309,7 +320,8 @@ function initMsgPop()
 				MsgPop.close(id, true);
 			});
 		}
-		
+	    //reset sound play after close popup
+		g_sound_msgPop_played_once = false;
 	}
 
 	MsgPop.destroy = function()

@@ -66,7 +66,7 @@ function checkSystemAlerts() {
                         ));              
                 }
                 $('#systemAlertModal').modal({backdrop: 'static', keyboard: false}); 
-                playSound('audioAlert1', true);
+                playSound('audioAlert1', false);
                 break;
 
             case SYSTEM_ALERT_NOT_READY:
@@ -97,7 +97,7 @@ function checkSystemAlerts() {
                         ));              
                 }
                 $('#systemAlertModal').modal({backdrop: 'static', keyboard: false}); 
-                playSound('audioAlert1', true);
+                playSound('audioAlert1', false);
                 break;
 
             default:

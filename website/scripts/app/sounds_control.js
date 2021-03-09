@@ -4,11 +4,18 @@
 */
 function playSound(audioId, repeat) {
     var audioAlert = document.getElementById(audioId);
+
     if(audioAlert!=null && audioAlert != 'undefined' && !audioAlert.muted)
     {
         audioAlert.currentTime = 0;
         $(document).ready(function(){
-            audioAlert.play();
+                audioAlert.play().catch(function(error){
+                    console.error('Audio play error due to DOMException needs users interaction with DOM first.');
+                    //mute the sound icon and ask for user to un mute it
+                    muteSound();
+                    g_play_audio_error = true;
+                });
+                g_play_audio_error = false;
         });
 
         if (repeat == false)
@@ -24,4 +31,39 @@ function playSound(audioId, repeat) {
     }
 
     
+}
+
+//Un-Mute sound
+function enableSound()
+{
+        let audioAlert4 = document.getElementById('audioAlert4');
+        audioAlert4.muted = false;
+
+        let audioAlert5 = document.getElementById('audioAlert5');
+        audioAlert5.muted = false;
+
+        $('.fa-volume-mute').css('display', 'none');
+
+        $('.fa-volume-up').css({
+            'display': '',
+            'color':'rgb(135, 184, 33)'
+        });
+}
+
+
+//Mute sound
+function muteSound()
+{
+        let audioAlert4 = document.getElementById('audioAlert4');
+        audioAlert4.muted = true;
+
+        let audioAlert5 = document.getElementById('audioAlert5');
+        audioAlert5.muted = true;
+
+        $('.fa-volume-up').css('display', 'none');
+
+        $('.fa-volume-mute').css({
+            'display': '',
+            'color':'grey'
+        });
 }

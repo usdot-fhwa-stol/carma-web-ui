@@ -667,7 +667,17 @@ function checkRouteInfo()
                     ));              
             }
            $('#systemAlertModal').modal({backdrop: 'static', keyboard: false}); 
-           playSound('audioAlert2', true);
+
+           //This check to make sure inactive  sound is only played once even when it is been published multiple times in a row
+           // It will get reset when status changes back to engage
+           if(g_sound_played_once == false || g_play_audio_error==true)
+           {
+               playSound('audioAlert2', false);
+               //make sure play audio does not return any error and successfully played once before update g_sound_played_once value
+               if(g_play_audio_error == false){
+                     g_sound_played_once = true;
+               }
+           }
         }
 
         if (message.event == 4)//LEFT_ROUTE=4
@@ -683,7 +693,17 @@ function checkRouteInfo()
                      ));              
              }
             $('#systemAlertModal').modal({backdrop: 'static', keyboard: false}); 
-            playSound('audioAlert1', true);
+
+            //This check to make sure inactive  sound is only played once even when it is been published multiple times in a row
+           // It will get reset when status changes back to engage
+           if(g_sound_played_once == false || g_play_audio_error==true)
+           {
+                playSound('audioAlert1', false);
+               //make sure play audio does not return any error and successfully played once before update g_sound_played_once value
+               if(g_play_audio_error == false){
+                     g_sound_played_once = true;
+               }
+           }
         }
 
         if (message.event == 5)//ROUTE_ABORTED=5

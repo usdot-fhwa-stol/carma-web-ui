@@ -145,6 +145,9 @@ $(document).ready(function(){
                                            'Please contact your system administrator.');
         $('#divCapabilitiesContent').css('display','inline-block');
     }
+
+    //Enable sound
+    enableSound();
 });
 
 

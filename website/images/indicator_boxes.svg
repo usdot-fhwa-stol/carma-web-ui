@@ -1,0 +1,25 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 150.31 20">
+<defs>
+<style>
+.cls-gray{fill:#a3a3a3;}
+.cls-yellow{fill:rgb(239, 189, 39);}
+.cls-green{fill:rgb(167, 223, 57);}
+.light-bar-label{fill:white; font-size: 7px; font-weight:bold; font-family: -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,"Noto Sans",sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol","Noto Color Emoji"}
+</style>
+</defs>
+<g id="Layer_2" data-name="Layer 2">
+<g id="Layer_3" data-name="Layer 3">
+
+
+<text class="light-bar-label"  x="0" width="120" height="10" y="8">LIGHT BAR INDICATOR</text>
+<rect class="cls-gray" id="indicator-box-1" width="15.7" height="10" y="10"/>
+<rect class="cls-gray" id="indicator-box-2" x="19.23" width="15.7" height="10" y="10"/>
+<rect class="cls-gray" id="indicator-box-3" x="38.46" width="15.7" height="10" y="10"/>
+<rect class="cls-gray" id="indicator-box-4" x="57.69" width="15.7" height="10" y="10"/>
+<rect class="cls-gray" id="indicator-box-5" x="76.92" width="15.7" height="10" y="10"/>
+<rect class="cls-gray" id="indicator-box-6" x="96.15" width="15.7" height="10" y="10"/>
+<rect class="cls-gray" id="indicator-box-7" x="115.38" width="15.7" height="10" y="10"/>
+<rect class="cls-gray" id="indicator-box-8" x="134.61" width="15.7" height="10" y="10"/>
+</g></g>
+
+</svg>

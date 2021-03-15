@@ -1,251 +1,567 @@
-﻿<!DOCTYPE html>
-<!--
-  Copyright (C) 2018-2020 LEIDOS.
-
-  Licensed under the Apache License, Version 2.0 (the "License"); you may not
-  use this file except in compliance with the License. You may obtain a copy of
-  the License at
-
-  http://www.apache.org/licenses/LICENSE-2.0
-
-  Unless required by applicable law or agreed to in writing, software
-  distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
-  WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
-  License for the specific language governing permissions and limitations under
-  the License.
--->
+<!DOCTYPE html>
 <html>
-<head>
-    <title>CARMA Platform</title>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="mobile-web-app-capable" content="yes" />
+	<head>
+		<meta charset="utf-8">
+        <title>CARMA</title>        
+        <!-- thirdparty css -->
+        <link rel="stylesheet" type="text/css" href="thirdparty/bootstrap-4.5.0-dist/css/bootstrap.min.css" />
+        <link rel="stylesheet" type="text/css" href="thirdparty/fontawesome-free-5.14.0-web/css/all.min.css"> 
+        <link rel="stylesheet" href="thirdparty/jqwidgets/styles/jqx.base.css" type="text/css" />
+        <link rel = "stylesheet" href = "thirdparty/jquery-plugins/jquery.msgPop.css"/> 
 
-    <link rel="stylesheet" type="text/css" href="styles/styles.css" />
-    <link rel="stylesheet" href="thirdparty/font-awesome-4.7.0/css/font-awesome.min.css" />
-    <link rel="stylesheet" href="thirdparty/font-awesome-4.7.0/css/font-awesome-animation.min.css"/>
+        <!--layout and panel css-->
+        <link rel="stylesheet" type="text/css" href="styles/main.css">
 
-    <link rel="stylesheet" href="thirdparty/jqwidgets/styles/jqx.base.css"/>
-    <link rel = "stylesheet" href = "thirdparty/jquery-ui-1.12.1/jquery-ui.min.css"/>
+        <!-- widgets styles from utils-->
+        <link rel="stylesheet" type="text/css" href="utils/brake/brake.css">
+        <link rel="stylesheet" type="text/css" href="utils/cmd_speed/cmd_speed.css">
+        <link rel="stylesheet" type="text/css" href="utils/current_speed/current_speed.css">
+        <link rel="stylesheet" type="text/css" href="utils/speed_limit/speed_limit.css">
+        <link rel="stylesheet" type="text/css" href="utils/steering_angle/steering_angle.css">
+        <link rel="stylesheet" type="text/css" href="utils/lightbar/lightbar.css">
+        <link rel="stylesheet" type="text/css" href="utils/lane_change_direction/lane_change_direction.css">
+        <link rel="stylesheet" type="text/css" href="utils/traffic_signal/traffic_signal.css">
+        <link rel="stylesheet" type="text/css" href="utils/modals/disengage_confirmation/disengage_confirmation.css">
+        <link rel="stylesheet" type="text/css" href="utils/modals/system_alert/system_alert.css">
+        <link rel="stylesheet" type="text/css" href="utils/elapsed_time/elapsed_time.css">
+        <link rel="stylesheet" type="text/css" href="utils/accelarator/accelarator.css">
+        <link rel="stylesheet" type="text/css" href="utils/platooning_info/platooning_info.css">
+        <link rel="stylesheet" type="text/css" href="utils/geofence_info/geofence_info.css">
+        <link rel="stylesheet" type="text/css" href="utils/route_selection_radio/route_selection_radio.css">
+        <link rel="stylesheet" type="text/css" href="utils/change_plugins_switch/change_plugins_switch.css">
+        <link rel="stylesheet" type="text/css" href="utils/active_plugin/active_plugins.css">
+        <link rel="stylesheet" type="text/css" href="utils/wifi/wifi.css">
+        <link rel="stylesheet" type="text/css" href="utils/cellular/cellular.css">
 
-    <script src = "thirdparty/jquery/jquery-1.12.4.min.js"></script>
-    <script src = "thirdparty/jquery-ui-1.12.1/jquery-ui.min.js"></script>
 
-    <script type="text/javascript" src="thirdparty/jqwidgets/jqxcore.js"></script>
-    <script type="text/javascript" src="thirdparty/jqwidgets/jqxbuttons.js"></script>
-    <script type="text/javascript" src="thirdparty/jqwidgets/jqxscrollbar.js"></script>
 
-    <!-- Widget Framework -->
-    <script src="scripts/carma.config.js"></script>
-    <script src="scripts/carma.widgetfw.js"></script>
-    <script src="scripts/control.js" defer></script>
-    <script src="scripts/rosbridge.js" defer></script>
+        <!-- thirdparty js -->
+        <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r99/three.js"></script> -->
+        <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r99/three.module.min.js" type="module"></script> -->
+        <!-- <script src="https://threejs.org/build/three.js" ></script> -->
+        <script src = "thirdparty/three/three.min.js" ></script>
+        <script src = "thirdparty/jquery-3.5.1/jquery-3.5.1.min.js"></script>
+        <script src = "thirdparty/popper/popper.min.js" ></script>
+        <script src = "thirdparty/ros/eventemitter2.min.js"></script>
+        <script src = "thirdparty/ros/roslib.min.js"></script>
+        <script type = "text/javascript" src="thirdparty/jqwidgets/jqxcore.js"></script>
+        <script type = "text/javascript" src="thirdparty/jqwidgets/jqxloader.js"></script>
+        <script type = "text/javascript" src="thirdparty/jqwidgets/jqxbuttons.js"></script>
+        <script src = "thirdparty/bootstrap-4.5.0-dist/js/bootstrap.min.js"></script> 
+        <script src = "thirdparty/fontawesome-free-5.14.0-web/js/all.min.js"></script>
+        <script src = "thirdparty/circle-progress/dist/circle-progress.js"></script>
+        <script src = "thirdparty/three/CustomLoaderLocal.js" ></script>
+        <script src = "thirdparty/three/MTLLoader.js" ></script>
+        <script src = "thirdparty/three/OBJLoader.js" ></script>
+        <script src = "thirdparty/three/OrbitControls.js" ></script>
+        
+        <!---Global variables and Config -->
+        <script src="scripts/app/global_variables.js"></script>
+        <script src="scripts/app/carma.config.js"></script>
+        <script src = "thirdparty/jquery-plugins/jquery.msgPop.js"></script>
 
-    <!-- Third Party-->
-    <script src="thirdparty/ros/eventemitter2.min.js"></script>
-    <script src="thirdparty/ros/roslib.min.js"></script>
-    <script src="scripts/googlemap.js"></script>
-    <script src="thirdparty/svg/svg.min.js" defer></script>
-    <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCMzV4biqVN0pf3l1lYVWQ4KSWLyoG6OV0&callback=initMap"></script>
+        <!--layout and panel js-->
+        <script src="scripts/app/main_menu_top.js"></script>
+        <script src="scripts/app/main_menu_bottom.js"></script>
+        <script src="scripts/app/sounds_control.js"></script>
 
-    <!-- Third Party - MsgPop -->
-    <link rel = "stylesheet" href = "thirdparty/jquery-plugins/jquery.msgPop.css"/>
-    <script src = "thirdparty/jquery-plugins/jquery.msgPop.js"></script>
+        <!--wigets JS from utils-->
+        <script src="utils/google_map/google_map.js"></script>
+        <script src="utils/lane_change_direction/lane_change_direction.js"></script>
+        <script src="utils/current_speed/current_speed.js"></script>
+        <script src="utils/accelarator/accelarator.js"></script>  
+        <script src="utils/speed_limit/speed_limit.js"></script>
+        <script src="utils/cmd_speed/cmd_speed.js"></script>
+        <script src="utils/brake/brake.js"></script>
+        <script src="utils/platooning_info/platooning_info.js"></script>
+        <script src="utils/geofence_info/geofence_info.js"></script>
+        <script src="utils/modals/disengage_confirmation/disengage_confirmation.js"></script>
+        <script src="utils/modals/system_alert/system_alert.js"></script>
+        <script src="utils/elapsed_time/elapsed_time.js"></script>
+        <script src="utils/traffic_signal/traffic_signal.js"></script>
+        <script src="utils/steering_angle/steering_angle.js"></script>
+        <script src="utils/route_selection_radio/route_selection_radio.js"></script>
+        <script src="utils/change_plugins_switch/change_plugins_switch.js"></script>
+        <script src="utils/active_plugin/active_plugins.js"></script>
+        <script src="utils/wifi/wifi.js"></script>
+        <script src="utils/cellular/cellular.js"></script>
+        <!--3D stored js libraries --> 
 
-    <!-- START: favicon image references for different devices-->
-    <link rel="apple-touch-icon" sizes="57x57" href="images/favicon/apple-icon-57x57.png">
-    <link rel="apple-touch-icon" sizes="60x60" href="images/favicon/apple-icon-60x60.png">
-    <link rel="apple-touch-icon" sizes="72x72" href="images/favicon/apple-icon-72x72.png">
-    <link rel="apple-touch-icon" sizes="76x76" href="images/favicon/apple-icon-76x76.png">
-    <link rel="apple-touch-icon" sizes="114x114" href="images/favicon/apple-icon-114x114.png">
-    <link rel="apple-touch-icon" sizes="120x120" href="images/favicon/apple-icon-120x120.png">
-    <link rel="apple-touch-icon" sizes="144x144" href="images/favicon/apple-icon-144x144.png">
-    <link rel="apple-touch-icon" sizes="152x152" href="images/favicon/apple-icon-152x152.png">
-    <link rel="apple-touch-icon" sizes="180x180" href="images/favicon/apple-icon-180x180.png">
-    <link rel="icon" type="image/png" sizes="192x192" href="images/favicon/android-icon-192x192.png">
-    <link rel="icon" type="image/png" sizes="32x32" href="images/favicon/favicon-32x32.png">
-    <link rel="icon" type="image/png" sizes="96x96" href="images/favicon/favicon-96x96.png">
-    <link rel="icon" type="image/png" sizes="16x16" href="images/favicon/favicon-16x16.png">
-    <link rel="manifest" href="/manifest.json">
-    <meta name="msapplication-TileColor" content="#ffffff">
-    <meta name="msapplication-TileImage" content="images/favicon/ms-icon-144x144.png">
-    <meta name="theme-color" content="#ffffff">
-    <!-- END: favicon -->
+        <!--backend services (2D) -->
+        <script src="scripts/ros/rosbridge_v2.js"></script>
+        <script src="scripts/ros/ros_system_alert.js"></script>
+        <script src="scripts/ros/ros_system_status.js"></script>
+        <script src="scripts/ros/ros_guidance.js"></script>
+        <script src="scripts/ros/ros_route.js"></script>
+        <script src="scripts/ros/ros_plugins.js"></script>
+        <script src="scripts/ros/ros_drivers_state.js"></script>
+        <script src="scripts/ros/ros_comms_inbound_outbound_binary.js"></script>
+        <script src="scripts/ros/ros_host_vehicle_current.js"></script>  
+        <script src="scripts/ros/ros_host_vehicle_cmd.js"></script>
+        <script src="scripts/ros/ros_traffic_signal.js"></script>            
+        <script src="scripts/ros/ros_light_bar.js"></script>              
+        <script src="scripts/ros/ros_lane_change.js"></script>                    
+        <script src="scripts/ros/ros_platooning_info.js"></script>  
+         <script src="scripts/ros/ros_geofence_info.js"></script>
+        <script src="scripts/app/subscribeROSServicesOnLoad.js"></script>
+	</head>
+	<body >  
+        <!--Top Navigation-->
+        <nav id="top-nav" class="navbar navbar-expand-lg  navbar-dark bg-darkgray">
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo01" aria-controls="navbarTogglerDemo01" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+              </button>
+              <div class="collapse navbar-collapse bg-darkgray" id="navbarTogglerDemo01">
+                <ul class="navbar-nav mr-auto mt-2 mt-lg-0 ">
+                    <li class="nav-item ">
+                        <a class="nav-link nav-link-border route active" style="padding-left:  5px;padding-right: 30px;font-weight: bolder" href="#">                            
+                            <i class="fas fa-route"></i>Route
+                        </a>
+                    </li>
+                  <li class="nav-item ">
+                    <a class="nav-link nav-link-border display " style="padding-left:  30px;padding-right: 30px; font-weight: bolder;" href="#">
+                        <i class="fas fa-tv"></i>
+                        Display 
+                    </a>                    
+                  </li>              
+                </ul>
+                <!--Status panel-->
+                <div id="gps-drivers-signals-panel" style="color: grey;">
+                  <div id="sound-status"  
+                      title="Sound Status"
+                      style="width: 45px;height: 40px;position:relative;display: inline-block;">
+                    <i class="fas fa-volume-mute"></i>
+                    <i class="fas fa-volume-up" style="display: none;"></i>
+                  </div>
+                  <div id="GPS-status" 
+                         title="GPS Status"
+                         style="width: 20px;height: 40px;position:relative;display: inline-block;">
+                    <i class="fas fa-map-pin"></i>
+                  </div>
+                  <div id="localization-status" 
+                         title="Localization Status"  
+                         style="width: 45px;height: 40px;position:relative;display: inline-block;">
+                    <i class="fas fa-map-marked-alt"></i>
+                  </div>
+                  <div  id="wifi-status" 
+                        title="WIFI Status" 
+                        style="width: 45px;height: 40px;position:relative;display: inline-block;display: none;"></div>
+                  <div id="cellular-status" 
+                       title="Cellular Status" 
+                       style="width: 45px;height: 40px;position:relative; display: inline-block;display: none;"></div>
+                  <div id="OBU-status" 
+                       style="width: 45px;height: 40px;position:relative;display: inline-block;">
+                       <object id="OBU-status-svg" type="image/svg+xml" 
+                               data="images/DSRC/DSRC_downup.svg" 
+                               style="position: absolute;width: 45px; height: 50px;"></object>
+                  </div>
+                </div><!--Status panel END-->                
+              </div><!--navbar END-->
+        </nav><!--Top Navigation END-->
+        <div id="ModalsArea" ></div><!--POPUP modal-->
+        <div id="jqxLoader"></div><!--Loading modal-->  
 
-</head>
-<body>
-    <div class="tab">
-        <button class="tablinks active" onclick="openTab(event, 'divCapabilities')" id="defaultOpen"><i class="fa fa-tasks" aria-hidden="false"></i><span class="tabName">&nbsp;Tasks</span></button>
-        <button class="tablinks" onclick="openTab(event, 'divDriverView')"><i class="fa fa-qrcode" aria-hidden="true"></i><span class="tabName">&nbsp;Views</span></button>
-        <button class="tablinks" onclick="openTab(event, 'divMap')"><i class="fa fa-map" aria-hidden="true"></i><span class="tabName">&nbsp;Map</span></button>
-        <button class="tablinks" onclick="openTab(event, 'divSystemStatus')"><i class="fa fa-info-circle" aria-hidden="true"></i><span class="tabName">&nbsp;Status</span></button>
-        <button class="tablinks" onclick="openTab(event, 'divSystemLogs')"><i class="fa fa-file-text" aria-hidden="true"></i><span class="tabName">&nbsp;Logs</span></button>
-        <img id="imgCARMAIconColor" src="images/CARMA_icon_color.png" style="height:120px; width:120px;" />
-    </div>
-    <div class="tabindicators">
-        <button id="btnPinPoint" disabled ><i id="imgPinPoint" class="fa fa-map-pin" aria-hidden="true" style="font-size: 38px;"></i></button>
-        <button disabled>
-            <object type="image/svg+xml" data="images/signal.svg" style="width: 50px; height: 50px;" id="objOBUBroadcast">
-                Your browser does not support SVG
-            </object>
-        </button>
-    </div>
-    <div class="tabheader">
-        <button id="btnCAVGuidance" onclick="activateGuidance();" title="CAV Guidance" class="button_cav button_disabled" disabled="true">CAV Guidance</button>
-        <object id="objLightBarStatus" type="image/svg+xml" data="images/vehicle_lightbar.svg" style="width:100%; height: 20px; text-align:center; display: inline-block;">
-            Your browser does not support SVG
-        </object>
-    </div>
-    <div id="divCapabilities" class="tabcontent">
-        <div id="divCapabilitiesMessage" class="message_box">Welcome!</div>
-        <div id="divRoutes" align="center"></div>
-        <div id="divSubCapabilities" hidden align="center">
+        <!--Widgets display area-->
+        <div id="widgets-panel" style="display: none;padding-left: 10px;">
+        <div class="container-fluid">
+            <div class="row">
+              <div class="elapse-time-col widget-col-margin"></div>
+              <div class="traffic-signal-col widget-col-margin" style="min-width:50px" ></div> 
+              <div class="divCenterWrapper">
+                <div class="divCenter">
+                  <div class="command-speed-col widget-col-margin" ></div>                
+                  <div class="current-speed-col widget-col-margin" ></div>                  
+                  <div class="speed-limit-col widget-col-margin"></div>   
+              </div>
+              </div>                           
+            </div><!--END: row-->
+
+            <div class="row">                 
+              <div id="progress_group">                      
+                <div class=" accelarator-col-1 " >     
+                    <div class="progressAccTitle">ACCELERATOR</div> 
+                    <div class="progressAcc"></div>                        
+                </div>
+                <div class=" brake-col-1 ">
+                  <div class="progressBrakeTitle">BRAKE</div>
+                  <div class="progressBrake"></div>
+                </div>
+                <div class="steel-angle-col-1 "></div>
+              </div>   <!--END: group-->
+            </div><!--END: row-->
+            
+            <div class="row">                 
+              <div id="light_bar_group">    
+                <div class="light-bar-col-1 ">
+                  <object id="light-bar-img-id" class="light-bar-img" type="image/svg+xml" data='../../images/indicator_boxes.svg'></object>
+                </div>
+              </div>   <!--END: group-->
+            </div><!--END: row-->
+
+            <div class="row">                 
+              <div id="lane_change_group">    
+                <div class="lane-change-col-1">
+                  <div class="lane-change-wrapper">
+                    <object id="lane-change-img-id" class="lane-change-img" type="image/svg+xml" data='../../images/turn-arrow.svg'></object>
+                  </div>                  
+                </div>
+              </div>   <!--END: group-->
+            </div><!--END: row-->
+
+          </div> <!--END: container-fluid-->           
+        </div><!--END: canvas-top-status-->
+
+        <!--Route Selection list-->
+        <div id ="route-list-area" style="display: block;">
+            <div id="route-list-panel" style="position: relative;color:white;background-color: #494747; width: 40vw;height: 95%; padding: 20px 20px 20px 35px;margin:20px;border-radius: 10px; ;">               
+                <div class="container-title" style="color: rgb(188, 250, 63);width: 100%; display: block;font-weight: bolder;padding: 5px;margin-bottom: 10px;">
+                  Select a Route
+                  <span id = "clearRoutes" 
+                        style="text-decoration: underline;float: right;font-size: 80%;color: white;font-weight: normal;cursor: pointer;"
+                        onclick="uncheckAllRoutesListener()">                        
+                        Clear
+                  </span>
+                </div>
+                <div class="container-content-wrapper " id='route-list-content-wrapper' style="height: calc(95% - 50px);position: relative;">
+                  <div class="container-content " id='route-list-content' style=" overflow-y: auto;position: relative; max-height:100%">
+                    <span id='route-list-content-no-route-available'>No Route Available</span> 
+                  </div>
+                </div>            
+            </div>           
         </div>
-    </div>
-    <div id="divDriverView" class="tabcontent">
-        <div id='divRouteInfo'>No Route Selected : 00h 00m 00s</div>
-        <div id="divWidgetOptions" hidden>
-            <h3>Please select one or more widget(s): </h3>
-            <div id="divWidgetOptionsList">
+
+       
+        <!--3D canvas -->
+        <div id="main-canvas" style="display: none;"></div>
+
+        <!--Right Panels Begin-->
+        <div id = "right-panel" class="right-panel"  >
+
+            <!--advanced all plugins-->
+          <div id="allPlugins-panel" class="bg-black border-gray" style="display: none;">
+              <div class="card text-white bg-black mb-3" style="width: 100%;">                    
+                  <div class="card-header card-custom-header" style="text-align: center;padding-left: 0px;">
+                      <button type="button" class="btn btn-info" id="changePluginsCloseBtn">X</button>
+                      <div>
+                          Change Plugins
+                      </div> 
+                  </div>
+                  <div class="card-body" >
+                    <p class="card-text warning-messages">
+                        <i class="fas fa-exclamation-triangle"></i>
+                        <span>Please proceed with caution. Any changes to these plugins will change vehicle behavior.<small style="color: red;display:block">(* Plugin is required)</small></span>                       
+                    </p>
+                    <span id="pluginErrorMsgs" style="color: red; font-size: 80%;display: none;">
+                      <small><i class="fas fa-exclamation-triangle"></i><span id="pluginErrorMsgsText">the capability failed, please try again.</span> </small>
+                    </span>  
+                    <hr>
+                    <p class="card-text plugin-type">
+                      <span>Strategic Plugins</span>                       
+                    </p>
+                    <div id="strategic-plugins-section">
+                      <span id='change-plugins-no-strategic-plugins'>No Strategic Plugins</span>
+                    </div>  
+
+                    <hr>                      
+                    <p class="card-text plugin-type">
+                      <span>Tactical Plugins</span>                       
+                    </p>
+                    <div id="tactical-plugins-section">
+                      <span id='change-plugins-no-tactical-plugins'>No Tactical Plugins</span> 
+                    </div>                   
+                    
+                    <hr>
+                    <p class="card-text plugin-type">
+                      <span >Controlling Plugins</span>                       
+                    </p>                      
+                    <div id = "controlling-plugins-section">
+                      <span id='change-plugins-no-controlling-plugins'>No Controlling Plugins</span>
+                    </div> 
+                  </div>
+                </div>
+          </div> 
+           <!--Platoon Info-->
+          <div id="platoon-info-panel" class="bg-black border-gray" style="display: none;">
+            <div class="card text-white bg-black mb-3" style="width: 100%;">
+                <div class="card-header card-custom-header" style="text-align: center;padding-left: 0px;">
+                  <button type="button" class="btn btn-info" id="platoonInfoCloseBtn">X</button>
+                  <div>
+                    Platoon
+                  </div> 
+                </div>
+                <div class="card-body" id="platooning-info-content"></div>
+              </div>
+          </div>  
+          
+          <!--Speed/Geofence advisory Info-->
+          <div id="speed-advisory-info-panel" class="bg-black border-gray" style="display: none;">
+            <div class="card text-white bg-black mb-3" style="width: 100%;">
+                <div class="card-header card-custom-header" style="text-align: center;padding-left: 0px;">
+                  <button type="button" class="btn btn-info" id="speedAdvisoryInfoInfoCloseBtn">X</button>
+                  <div>
+                    Geofence Advisory
+                  </div> 
+                </div>
+                <div class="card-body" id="geofence-info-content"></div>
+              </div>
+          </div>
+
+          <!--maps-->
+          <div id="maps-panel" class="bg-black border-gray" style="display: none;">
+              <div class="card text-white bg-black mb-3" style="width: 100%;">
+                  <div class="card-header card-custom-header" style="text-align: center;padding-left: 0px;" >
+                    <button type="button" class="btn btn-info" id="MapsInfoInfoCloseBtn">X</button>
+                    Maps
+                  </div>
+                  <div class="card-body" >   
+                    <div id="load-map"></div>              
+                  </div>
+                </div>
+          </div>
+          
+          <!--Status-->  
+          <div id="status-panel" class="bg-black border-gray" style="display: none;">
+              <div class="card text-white bg-black mb-3" style="width: 100%;">
+                  <div class="card-header card-custom-header" style="text-align: center;padding-left: 0px;" >
+                    <button type="button" class="btn btn-info" id="SystemStatusInfoInfoCloseBtn">X</button>
+                    Status
+                  </div>
+                  <div class="card-body" >
+                    <div class="table-responsive-sm" >
+                      <table id="important_vehicle_info" class="table table-striped table-dark card-text" style = "table-layout: fixed;font-size: 85%;border:0px;border-radius: 10px; ">
+                        <caption style=" caption-side:top;color:white;text-align: center;">Important Vehicle Info</caption>
+                        <thead>
+                          <tr >
+                            <th scope="col">Title</th>
+                            <th>Value</th>
+                          </tr>
+                        </thead>
+                        <tbody id="important_vehicle_info_body">                           
+                          <tr id="important_vehicle_info_no_data">
+                            <th scope="row" style="color:rgb(239, 189, 39)">N/A</th>
+                            <td style="color:rgb(239, 189, 39)">N/A</td>
+                          </tr>
+                        </tbody>
+                      </table>
+
+                      <table id="guidance_info" class="table table-striped table-dark card-text" style = "table-layout: fixed;font-size: 85%;border:0px;border-radius: 10px; ">
+                        <caption style=" caption-side:top;color:white;text-align: center;">Related Guidance Info</caption>
+                        <thead>
+                          <tr>
+                            <th scope="col" >Title</th>
+                            <th>Value</th>
+                          </tr>
+                        </thead>
+                        <tbody id="guidance_info_body">   
+                          <tr id="guidance_info_no_data">
+                            <th scope="row" style="color:rgb(239, 189, 39)">N/A</th>
+                            <td style="color:rgb(239, 189, 39)">N/A</td>
+                          </tr>
+                      </tbody>
+                      </table>
+
+                      <table id="lightbar_info" class="table table-striped table-dark card-text" style = "table-layout: fixed;font-size: 85%;border:0px;border-radius: 10px; ">
+                        <caption style=" caption-side:top;color:white;text-align: center;">Light Bar Info</caption>
+                        <thead>
+                          <tr>
+                            <th scope="col" colspan="2" >Title</th>
+                            <th >Value</th>
+                          </tr>
+                        </thead>
+                        <tbody id="lightbar_info_body">   
+                          <tr id="lightbar_info_no_data">
+                            <th scope="row"  style="color:rgb(239, 189, 39)">N/A</th>
+                            <td style="color:rgb(239, 189, 39)">N/A</td>
+                          </tr>
+                      </tbody>
+                      </table>
+
+                      <table id="route_info" class="table table-striped table-dark card-text" style = "table-layout: fixed;font-size: 85%;border:0px;border-radius: 10px; ">
+                        <caption style=" caption-side:top;color:white;text-align: center;">Route Info</caption>
+                        <thead>
+                          <tr >
+                            <th scope="col">Title</th>
+                            <th>Value</th>
+                          </tr>
+                        </thead>
+                        <tbody id="route_info_body"> 
+                          <tr id="route_info_no_data">
+                            <th scope="row" style="color:rgb(239, 189, 39)">N/A</th>
+                            <td style="color:rgb(239, 189, 39)">N/A</td>
+                          </tr>
+                      </tbody>
+                      </table>
+
+                      <table id="host_vehicle_info" class="table table-striped table-dark card-text" style = "table-layout: fixed;font-size: 80%;border:0px;border-radius: 10px; ">
+                        <caption style=" caption-side:top;color:white;text-align: center;">Host Vehicle Info</caption>
+                        <thead>
+                          <tr>
+                            <th scope="col">Title</th>
+                            <th scope="col">Value</th>
+                          </tr>
+                        </thead>
+                        <tbody id="host_vehicle_info_body"> 
+                          <tr id="host_vehicle_info_no_data">
+                            <th scope="row" style="color:rgb(239, 189, 39)">N/A</th>
+                            <td style="color:rgb(239, 189, 39)">N/A</td>
+                          </tr>
+                      </tbody>
+                      </table>
+
+                      <table id="other_vehicles_info" class="table table-striped table-dark card-text" style = "table-layout: fixed;font-size: 80%;border:0px;border-radius: 10px; ">
+                        <caption style=" caption-side:top;color:white;text-align: center;">Other Vehicles Info</caption>
+                        <thead>
+                          <tr>
+                            <th scope="col">Title</th>
+                            <th scope="col">Value</th>
+                          </tr>
+                        </thead>
+                        <tbody id="other_vehicles_info_body"> 
+                          <tr id="other_vehicles_info_no_data">
+                            <th scope="row" style="color:rgb(239, 189, 39)">N/A</th>
+                            <td style="color:rgb(239, 189, 39)">N/A</td>
+                          </tr>
+                      </tbody>
+                      </table>
+                    </div>
+                  </div>
+                  <div class="card-footer systemversion-card-footer">
+                    <span class="systemversion" ></span>
+                  </div>
+                </div>
+          </div>  
+
+          <!--Logs-->
+          <div id="logs-panel" class="bg-black border-gray" style="display: none;">
+              <div class="card text-white bg-black mb-3" style="width: 100%;">
+                  <div class="card-header card-custom-header" style="text-align: center;padding-left: 0px;" >
+                    <button type="button" class="btn btn-info" id="SystemLogsInfoInfoCloseBtn">X</button>
+                    Logs
+                  </div>
+                  <div class="card-body"  >
+                    <div class="log-content" style="overflow-y: scroll;">
+                      <p class="card-text" id="logs-panel-text-ros-connection"></p>
+                      <textarea rows="20" cols="1"
+                       style="width: 100%;overflow: hidden;font-size: 80%; background-color: inherit; color:white"
+                       maxlength="200"
+                       id="logs-panel-text-system-alert"></textarea>
+                    </div>
+                   </div>
+                </div>
+          </div>  
+
+          <!--Active plugins-->         
+          <div id="activePlugins-panel" class="bg-black border-gray" style="display: none;">
+              <div class="card text-white bg-black mb-3" style="width: 100%;">
+                  <div class="card-header card-custom-header" style="text-align: center;padding-left: 0px;">
+                    <button type="button" class="btn btn-info" id="ActivePluginInfoInfoCloseBtn">X</button>
+                    Active Plugins
+                  </div>
+                  <div class="card-body" id="active-plugins-content">
+                    <span id='no-active-plugins'>No Active Plugins</span> 
+                  </div>
+                </div>
+          </div>        
+      </div><!--Right panel END-->
+
+        <!---Bubble Capabilities notifications-->
+        <div id="divCapabilitiesArea">
+          <div id="divCapabilitiesContent"  style="display: none;">
+            <span id = "divCapabilitiesRoute" style="display: block;"></span>
+            <span id = "divCapabilitiesSystemAlert" style="display: block;"></span>
+            <span id = "divCapabilitiesGuidance" style="display: block;"></span>
+            <span id = "divCapabilitiesPlugin" style="display: block;"></span>
+          </div>
+        </div>
+
+      <!-- Bottom Menu -->
+      <div id="bottom-nav" >           
+          <div id="bottom-nav-left">
+              <div id="Guidace-btn" class="left"> 
+                  <img src="images/Xtra_Art/Big-grayREV.svg" id="CARMA_guidance_icon_png"  >   
+              </div>
+              <div id = "guidance-loading-status" style="font-size: 14pt;position: absolute; top: 0px; left: 170px; color:rgb(188, 250, 63)"></div>
+          </div>
+          <div id="bottom-nav-right">
+              <div class="btn-group dropup right">
+                <div id="logout-btn"  class=" bottom-nav-item-logout bottom-nav-item logout " >
+                  <i class="fas fa-sign-out-alt "></i><br>
+                  Logout
+                </div>
+              </div>
+              <div class="btn-group dropup right">                      
+                  <div id="advanced-btn"  class=" bottom-nav-item-advanced advanced " data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                      <i class="fas fa-ellipsis-h"></i><br>
+                      Advance
+                  </div>
+                  <div class="advanced-dropdown-menu dropdown-menu dropdown-menu-right padding-5" aria-labelledby="dropdownMenuButton">
+                      <a class="advanced-dropdown-item dropdown-item padding-10 " id="allPlugins-btn" type="button">Change Plugins</a>
+                      <!-- <a class="dropdown-item padding-10  " type="button">Change Theme</a> -->
+                  </div>
+              </div>
+
+              <div class="btn-group dropup right">
+                <div id="statistics-btn"  class=" bottom-nav-item-statistics"  data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                  <i class="fas fa-chart-line"></i><br>
+                    Statistics
+                </div>
+                <div id="statistics-dropdown" class="statistics-dropdown-menu dropdown-menu dropdown-menu-right padding-5" style="display: none;">
+                    <a class="statistics-dropdown-item dropdown-item padding-10 border-bottom " id="platoon-info-btn" type="button" style="display: none;">Platoon Info</a>
+                    <a class="statistics-dropdown-item dropdown-item padding-10 " id="geofence-info-btn" type="button" style="display: none;">Geofence Advisory Info</a>
+                </div>
             </div>
-        </div>
-        <div id="divWidgetArea"></div>
-    </div>
-    <div id="divMap" class="tabcontent">
-        <div id="map"></div>
-    </div>
-    <div id="divSystemStatus" class="tabcontent">
-        <table id="tblSystemStatus" class="table-style1">
-            <tr>
-                <td class="col-style1">
-                    <table id="tblFirstA" class="table-style1">
-                        <tr>
-                            <td class="section1" colspan="2">
-                                <strong>Important Vehicle Info</strong>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td class="col-title">Title</td>
-                            <td class="col-title">Value</td>
-                        </tr>
-                    </table>
-                    <table id="tblFirstB" class="table-style1">
-                        <tr>
-                            <td class="section1" colspan="2">
-                                <strong>Guidance Related Info</strong>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td class="col-title">Title</td>
-                            <td class="col-title">Value</td>
-                        </tr>
-                    </table>
-                </td>
-                <td class="col-style1">
-                    <table id="tblSecondA" class="table-style1">
-                        <tr>
-                            <td class="section1" colspan="2">
-                                <strong>Route Info</strong>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td class="col-title">Title</td>
-                            <td class="col-title">Value</td>
-                        </tr>
-                    </table>
-                    <table id="tblSecondB" class="table-style1">
-                        <tr>
-                            <td class="section1" colspan="2">
-                                <strong>Host Vehicle Info</strong>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td class="col-title">Title</td>
-                            <td class="col-title">Value</td>
-                        </tr>
-                    </table>
-                </td>
-            </tr>
-        </table>
-    </div>
-    <div id="divSystemLogs" class="tabcontent">
-        <h3>System Logs</h3>
-        <div id="statusIndicator">
-            <p id="connecting">
-                Connecting to ROSbridge...
-            </p>
-            <p id="connected" style="color:#00D600; display:none">
-                Connected to ROSBridge.
-            </p>
-            <p id="error" style="color:#FF0000; display:none">
-                ROSBridge unable to connect.
-            </p>
-            <p id="closed" style="display:none">
-                ROSBridge connection closed.
-            </p>
-        </div>     
-        <p />
-        <button id="btnModalLogout2" title="Shutdown and Logout" class="btnModal" onclick="javascript: shutdown();">Logout</button>
-        <!-- TODO: Implement to show list again  -->
-        &nbsp;
-        <button id="btnWidgetOptions" title="List Widget Options" class="btnModal" onclick="CarmaJS.WidgetFramework.listWidgetOptions(true);">List Widget Options</button>
-        <p/>
-        <div id="divLog" class="logStatus">
-        </div>
-    </div>
-    <!-- The Modal -->
-    <div id="modalMessageBox" class="modal">
-        <!-- Modal content -->
-        <div class="modal-content">
-            <div class="modal-header">
-                <span class="close">&times;</span>
-                <h2>SYSTEM ALERT<i class="fa fa-exclamation-triangle" style="font-size:40px;color:red;"></i></h2>
-            </div>
-            <div class="modal-body">
-                <p>Some text in the Modal Body.</p>
-            </div>
-            <div class="modal-footer">
-                <button id="btnModalButton1" title="btnModalButton1" class="btnModal">Button1</button> &nbsp; &nbsp;
-                <button id="btnModalButton2" title="btnModalButton2" class="btnModal">Button1</button>
-                <br/>
-                <div id="divFooterMessage"></div>
-            </div>
-        </div>
-    </div>
-    <div id="modalUIInstructions">
-        <div id="modalUIInstructionsContent">
-        </div>
-    </div>
 
-    <!-- Used by showModal() warning sound. E.g. FATAL, DISENGAGE, SHUTDOWN, LEFTROUTE-->
-    <audio id="audioAlert1" preload="auto">
-        <source src="sound/not-kiddin.mp3" type="audio/mpeg">
-        Your browser does not support the audio element.
-    </audio>
-    <!-- Used by showModal() success sound. E.g. ROUTE COMPLETED -->
-    <audio id="audioAlert2" preload="auto">
-        <source src="sound/sunny.mp3" type="audio/mpeg">
-        Your browser does not support the audio element.
-    </audio>
-    <!-- Used by INACTIVE guidance -->
-    <audio id="audioAlert3" preload="auto">
-        <source src="sound/hurry.mp3" type="audio/mpeg">
-        Your browser does not support the audio element.
-    </audio>
-    <!-- Used by showModalNoAck sounds E.g. Lane Change -->
-    <audio id="audioAlert4" preload="auto">
+            <div id="activePlugins-btn" class="bottom-nav-item right">
+                <i class="fas fa-plug"></i><br>
+                &nbsp;Plugins &nbsp;
+            </div>
+
+            <div id="logs-btn" class="bottom-nav-item right">
+                <i class="fas fa-copy"></i><br>
+                &nbsp;&nbsp;Logs&nbsp;&nbsp; 
+            </div>
+
+            <div id="status-btn" class="bottom-nav-item right">
+                <i class="fas fa-exclamation-circle"></i><br>
+                &nbsp;Status&nbsp;&nbsp;  
+            </div>
+
+            <div id="maps-btn" class="bottom-nav-item right">
+                <i class="fas fa-map"></i><br>
+                &nbsp;&nbsp;Maps&nbsp;&nbsp;  
+            </div>
+          </div>        
+      </div>
+      <!-- 3D init/renders-->
+      <script type="module" src="scripts/3D/renderers/renderer.js"> </script>
+
+      <!-- 3D ROS Connection: TODO-->
+      
+      <!-- Used by showModal() warning sound. E.g. FATAL, SHUTDOWN, LEFT ROUTE-->
+      <audio id="audioAlert1" preload="auto">
+          <source src="sound/not-kiddin.mp3" type="audio/mpeg">
+          Your browser does not support the audio element.
+      </audio>
+      <!-- Used by showModal() success sound. E.g. ROUTE COMPLETED -->
+      <audio id="audioAlert2" preload="auto">
+          <source src="sound/sunny.mp3" type="audio/mpeg">
+          Your browser does not support the audio element.
+      </audio>
+      <!-- Used by INACTIVE guidance -->
+      <audio id="audioAlert3" preload="auto">
+          <source src="sound/hurry.mp3" type="audio/mpeg">
+          Your browser does not support the audio element.
+      </audio>
+       <!-- Used by showModalNoAck sounds E.g. Lane Change -->
+      <audio id="audioAlert4" preload="auto" muted>
         <source src="sound/arp.mp3" type="audio/mpeg">
         Your browser does not support the audio element.
-    </audio>
-    <!-- Used by MsgPopUp sound for warning and caution -->
-    <audio id="audioAlert5" preload="auto">
+      </audio>
+      <!-- Used by MsgPopUp sound for warning and caution -->
+      <audio id="audioAlert5" preload="auto" muted>
         <source src="sound/toneb.mp3" type="audio/mpeg">
         Your browser does not support the audio element.
-    </audio>
-</body>
-<footer>
-
-    <p class="copyright"></p>
-    <p class="systemversion">&nbsp;</p>
-</footer>
+      </audio>
+       <!-- Used by showModalNoAck sounds E.g. Lane Change -->
+	</body>
 </html>

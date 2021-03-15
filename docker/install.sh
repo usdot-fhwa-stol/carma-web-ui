@@ -1,6 +1,6 @@
 #!/bin/bash
 
-#  Copyright (C) 2018-2020 LEIDOS.
+#  Copyright (C) 2018-2021 LEIDOS.
 # 
 #  Licensed under the Apache License, Version 2.0 (the "License"); you may not
 #  use this file except in compliance with the License. You may obtain a copy of
@@ -52,10 +52,6 @@ chmod +x /usr/local/bin/docker-compose
 
 # Configure user permissions for docker
 usermod -aG docker www-data
-
-# Switch to dockerized version of launch and kill script
-mv /var/www/html/scripts/docker_launch.bash /var/www/html/scripts/launch.bash
-mv /var/www/html/scripts/docker_kill.bash /var/www/html/scripts/kill.bash
 
 # Install stub carma.config.js to be overriden by later configuration
 mkdir -p /opt/carma/vehicle/config

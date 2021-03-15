@@ -1,6 +1,6 @@
 <?php
 
-  //  Copyright (C) 2018-2020 LEIDOS.
+  //  Copyright (C) 2018-2021 LEIDOS.
   // 
   //  Licensed under the Apache License, Version 2.0 (the "License"); you may not
   //  use this file except in compliance with the License. You may obtain a copy of
@@ -14,13 +14,10 @@
   //  License for the specific language governing permissions and limitations under
   //  the License.
 
-  //Check if remotelaunch parameter is selected. 
-  if (isset($_GET['remotelaunch'])  && trim($_GET['remotelaunch']) =="true"){
-    // Launch Platform
+  // Launch Platform
+  if (isset($_POST['cbDebugMd']) && trim($_POST['cbDebugMd']) == "false")
+  {
     shell_exec("/var/www/html/scripts/launch.bash");
-  }  
+  }
 
-  //sleep(10); // Need delay before trying to use rosbridge. TODO move to rosbridge.js
-  // Switch to main.html
-  //header("Location: ../main.html");
 ?>

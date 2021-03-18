@@ -32,6 +32,7 @@
         <link rel="stylesheet" type="text/css" href="utils/active_plugin/active_plugins.css">
         <link rel="stylesheet" type="text/css" href="utils/wifi/wifi.css">
         <link rel="stylesheet" type="text/css" href="utils/cellular/cellular.css">
+        <link rel="stylesheet" type="text/css" href="utils/event_info/event_info.css">
         <!-- thirdparty js -->
         <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r99/three.js"></script> -->
         <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r99/three.module.min.js" type="module"></script> -->
@@ -71,6 +72,7 @@
         <script src="utils/cmd_speed/cmd_speed.js"></script>
         <script src="utils/brake/brake.js"></script>
         <script src="utils/platooning_info/platooning_info.js"></script>
+        <script src="utils/event_info/event_info.js"></script>
         <script src="utils/geofence_info/geofence_info.js"></script>
         <script src="utils/modals/disengage_confirmation/disengage_confirmation.js"></script>
         <script src="utils/modals/system_alert/system_alert.js"></script>
@@ -100,6 +102,7 @@
         <script src="scripts/ros/ros_lane_change.js"></script>                    
         <script src="scripts/ros/ros_platooning_info.js"></script>  
          <script src="scripts/ros/ros_geofence_info.js"></script>
+         <script src="scripts/ros/ros_traffic_event_info.js"></script>
         <script src="scripts/app/subscribeROSServicesOnLoad.js"></script>
 	</head>
 	<body >  
@@ -310,6 +313,19 @@
               </div>
           </div>
 
+          <!--Traffic Incident Event Info-->
+           <div id="traffic-event-info-panel" class="bg-black border-gray" style="display: none;">
+            <div class="card text-white bg-black mb-3" style="width: 100%;">
+                <div class="card-header card-custom-header" style="text-align: center;padding-left: 0px;">
+                  <button type="button" class="btn btn-info" id="trafficEventInfoInfoCloseBtn">X</button>
+                  <div>
+                      Event Info
+                  </div> 
+                </div>
+                <div class="card-body" id="traffic-event-info-content"></div>
+              </div>
+          </div>
+
           <!--maps-->
           <div id="maps-panel" class="bg-black border-gray" style="display: none;">
               <div class="card text-white bg-black mb-3" style="width: 100%;">
@@ -490,7 +506,6 @@
                   </div>
                   <div class="advanced-dropdown-menu dropdown-menu dropdown-menu-right padding-5" aria-labelledby="dropdownMenuButton">
                       <a class="advanced-dropdown-item dropdown-item padding-10 " id="allPlugins-btn" type="button">Change Plugins</a>
-                      <!-- <a class="dropdown-item padding-10  " type="button">Change Theme</a> -->
                   </div>
               </div>
 
@@ -502,6 +517,7 @@
                 <div id="statistics-dropdown" class="statistics-dropdown-menu dropdown-menu dropdown-menu-right padding-5" style="display: none;">
                     <a class="statistics-dropdown-item dropdown-item padding-10 border-bottom " id="platoon-info-btn" type="button" style="display: none;">Platoon Info</a>
                     <a class="statistics-dropdown-item dropdown-item padding-10 " id="geofence-info-btn" type="button" style="display: none;">Geofence Advisory Info</a>
+                    <a class="statistics-dropdown-item dropdown-item padding-10 " id="traffic-event-info-btn" type="button" style="display: '';">Event Info</a>
                 </div>
             </div>
 
@@ -526,6 +542,13 @@
             </div>
           </div>        
       </div>
+
+      <div id="divLaneChangeStatusArea">
+        <div id="divLaneChangeStatusContent" class="border-good"  style="display: none;">
+          <span id = "divLaneChangeStatus" style="display: block;"></span>
+        </div>
+      </div>
+
       <!-- 3D init/renders-->
       <script type="module" src="scripts/3D/renderers/renderer.js"> </script>
 

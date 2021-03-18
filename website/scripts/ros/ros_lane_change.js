@@ -131,3 +131,37 @@ function subscribeLaneChangeTopics()
         console.log('deferlaneChangeInit: '+ error);
      });
 }
+
+function GetLaneChangeStatus()
+{
+    SubscribeToLaneChangeStatus();
+}
+
+//subscribe to topic lane_change_status
+/*** 
+ * Mockup publish topic
+ * rostopic pub -r 1 /lane_change_status cav_msgs/LaneChangeStatus "status: 0
+description: ''"
+*/
+function SubscribeToLaneChangeStatus()
+{
+    let listener = new ROSLIB.Topic({
+        ros: g_ros,
+        name: T_LANE_CHANGE_STATUS,
+        messageType: M_LANE_CHANGE_STATUS
+    });
+
+    listener.subscribe(function (message) 
+    {
+        if(message!=null && message.description!=null)
+        {                
+            $('#divLaneChangeStatusContent').css('display','');
+            $('#divLaneChangeStatus').html(message.description);
+        }
+    });
+
+    setInterval(()=>{
+        //hide Lane change  every 10 seconds in case no more message published to this topic  
+        $('#divLaneChangeStatusContent').css('display','none');     
+   },10000);
+}

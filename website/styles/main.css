@@ -164,26 +164,15 @@ canvas
     position: absolute;
     float: none;
     left: 43vw;
-    bottom: 130px;
+    bottom: 150px;
 }
 
 #divLaneChangeStatusContent{
     position: relative;
     color: white;
-    background-color: #2A2828;
     font-size: 70%;
-    border: 1px solid white;
-    border-radius: 15px;
-    padding: 10px;
 }
 
-#divLaneChangeStatusContent.border-good{
-    border: 1px solid rgb(188, 250, 63);
-}
-
-#divLaneChangeStatusContent.border-warning{
-    border: 1px solid #ff6600;
-}
 
 a:hover, a:active, a.active
 {

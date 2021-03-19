@@ -199,7 +199,8 @@ $(document).ready(function(){
           $("#statistics-dropdown").removeClass("show");
           $("#statistics-btn").attr("aria-expanded","false");  
           $("#platoon-info-btn").css('display','none');
-          $("#geofence-info-btn").css('display','none');          
+          $("#geofence-info-btn").css('display','none');   
+          $("#traffic-event-info-btn").css('display','none');          
      },10000);
 
      //Check dropdown every 1 second

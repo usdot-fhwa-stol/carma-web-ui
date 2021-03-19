@@ -73,6 +73,10 @@ function createDisengageConfirmModal(confirmTitle,confirmBody,isLogout, isRestar
         btnProceed.addEventListener('click', function(){
             $("#jqxLoader").jqxLoader({width: 150, height: 100, imagePosition: 'center', isModal: true});
             $('#jqxLoader').jqxLoader('open'); 
+
+            //abort current active route before clear session
+            abortRouteEventListener();
+            
             //Clear sesion variables
             sessionStorage.clear();
             clearInterval(g_timer); //stops the execution

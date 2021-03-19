@@ -145,6 +145,7 @@ canvas
     position: absolute;
     float: none;
     left: 43vw;
+    bottom: 80px;
 }
 #divCapabilitiesContent{
     position: relative;

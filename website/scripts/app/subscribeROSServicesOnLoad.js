@@ -71,9 +71,19 @@ $(document).ready(function(){
              ** NEXT STEP:
             ** After session initialized , ROS connected, and system alert is ready, subscribe to below services and topics.                
             ***/
-
+            
             //SECTION: Route Area
-            subscribeToGuidanceAvailaleRoutes ();  
+            if(sessionStorage.getItem('selectedRouteName')===null ||
+                sessionStorage.getItem('selectedRouteId') ===null ||                
+                sessionStorage.getItem('isGuidanceActive') ===null)
+            {
+                console.log("Calling abort active route.");
+                //call abort active route to reinforce route transition to selection state
+                abortActiveRoute();
+            }
+
+            //Get available routes
+            subscribeToGuidanceAvailaleRoutes(); 
 
             /***
              * SECTION: Display Status icons 
@@ -137,6 +147,9 @@ $(document).ready(function(){
                                            'Please contact your system administrator.');
         $('#divCapabilitiesContent').css('display','inline-block');
     }
+
+    //Enable sound
+    enableSound();
 });
 
 
@@ -368,6 +381,12 @@ function setRouteEventLisenter(routeId, route_name)
     //After the current active route is aborted, call setRoute(routeId) to set a new route. 
     //It is defined in ros_route.js
     setRoute(routeId,route_name);
+}
+
+function abortRouteEventListener(){
+    console.log("abortRouteEventListener called");
+    //abort active route after route has already started
+    abortActiveRoute();
 }
 
 function activatePluginLisenter(pluginName,pluginType,pluginVersionId,changeToNewStatus,isRequired)

@@ -217,6 +217,72 @@ function setRoute(id,route_name)
     });
 }
 
+/**
+ * When restart, the current active route will be aborted and reset route state from Following to Loading
+ */
+function abortActiveRoute()
+{
+    let service = new ROSLIB.Service({
+        ros: g_ros,
+        name: S_ABORT_ACTIVE_ROUTE,
+        serviceType: M_ABORT_ACTIVE_ROUTE_REQ
+    });
+
+     // Create a Service Request.
+    let request = new ROSLIB.ServiceRequest({
+    });
+
+    let ErrorStatus ={
+        NO_ERROR: { value: 0, text: 'NO_ERROR' },
+        NO_ACTIVE_ROUTE: { value: 1, text: 'NO_ACTIVE_ROUTE' }
+    }
+
+    try
+    {
+        // Call the service and get back the results in the callback.
+        service.callService(request, function (result) 
+        {
+            let errorDescription = '';
+            if (result.errorStatus != ErrorStatus.NO_ERROR.value) 
+            {             
+                switch (result.errorStatus) 
+                {
+                    case ErrorStatus.NO_ACTIVE_ROUTE.value:
+                        errorDescription = ErrorStatus.NO_ACTIVE_ROUTE.text;
+                        break;                    
+                    default: //unexpected value or error
+                        errorDescription = result.errorStatus; //print the number;
+                        break;
+                }
+            }
+            else 
+            { 
+                //Call succeeded
+                console.log('call abort active route success!');
+                if(session_selectedRoute!=null && session_selectedRoute.name!=null && session_selectedRoute.name.length()>0)
+                {
+                    $('#divCapabilitiesRoute').html('Aborted Route: ' + session_selectedRoute.name );       
+                    $('#divCapabilitiesContent').css('display','inline-block');
+                }             
+            }
+
+            if (errorDescription != '') 
+            {
+                if(errorDescription == ErrorStatus.NO_ACTIVE_ROUTE.text){
+                    $('#divCapabilitiesRoute').html('Called abort active route. Currently, '+errorDescription);
+                    $('#divCapabilitiesContent').css('display','inline-block');
+                }                
+            }
+        });
+    }
+    catch(ex)
+    {
+        console.log('Calling abort active route failed!');
+        $('#divCapabilitiesRoute').html('Calling abort active route failed. <br/> Please try again or contact your System Administrator.');
+        $('#divCapabilitiesContent').css('display','inline-block');
+    }
+}
+
 /* 
     Watch out for route completed, and display the Route State in the System Status tab.
     Route state are only set and can be shown after Route has been selected.

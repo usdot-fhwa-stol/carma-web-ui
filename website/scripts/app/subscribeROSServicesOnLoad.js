@@ -104,7 +104,8 @@ $(document).ready(function(){
             subscribeToGuidanceRouteState(); //Route - Speed Limit        
             TrafficSignalInfoList(); //Traffic Signal 
             subscribeLightBarStatus(); //light bar
-            subscribeLaneChangeTopics(); //lane change
+            subscribeLaneChangeTopics(); //lane change Info: left/right midles
+            GetLaneChangeStatus(); //Lane change status : CLC (Cooperative lane change status)
 
             /***
              * SECTION: Right Panel Info
@@ -129,6 +130,7 @@ $(document).ready(function(){
             showStatusandLogs(); //system status panel
             subscribeToGeofenceInfo(); //show geofence info
             subscribeToPlatoonInfo(); //show platoon info
+            GetTrafficEventInfo(); //Show Traffic Event Info
             /***
              * SECTION: Bottom Menu 
              * */

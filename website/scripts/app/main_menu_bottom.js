@@ -117,6 +117,22 @@ $(document).ready(function(){
                this.style.color='black';
           }
      });
+
+      //display event info panel
+    $("#traffic-event-info-btn").click(function(){
+          var trafficEventPanel = $("#traffic-event-info-panel");
+          if(trafficEventPanel.css('display') != "none"){
+               trafficEventPanel.css('display','none');
+               this.style.backgroundColor='black';
+               this.style.color='white';
+          }
+          else{
+               trafficEventPanel.css('display','block');
+               this.style.backgroundColor='rgb(167, 223, 57)';
+               this.style.color='black';
+          }
+     });
+
      //show logout modal
      $("#logout-btn").click(function(){
           //clear this ModalArea before create new modal
@@ -145,6 +161,12 @@ $(document).ready(function(){
           $("#speed-advisory-info-panel").css('display','none');
           $("#geofence-info-btn").css('background-color','black');
           $("#geofence-info-btn").css('color','white');
+     });
+
+     $('#trafficEventInfoInfoCloseBtn').click(function(){
+          $("#traffic-event-info-panel").css('display','none');
+          $("#traffic-event-info-btn").css('background-color','black');
+          $("#traffic-event-info-btn").css('color','white');
      });
 
      $('#SystemStatusInfoInfoCloseBtn').click(function(){
@@ -177,7 +199,8 @@ $(document).ready(function(){
           $("#statistics-dropdown").removeClass("show");
           $("#statistics-btn").attr("aria-expanded","false");  
           $("#platoon-info-btn").css('display','none');
-          $("#geofence-info-btn").css('display','none');          
+          $("#geofence-info-btn").css('display','none');   
+          $("#traffic-event-info-btn").css('display','none');          
      },10000);
 
      //Check dropdown every 1 second

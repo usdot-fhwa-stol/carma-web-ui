@@ -163,7 +163,7 @@ function SubscribeToLaneChangeStatus()
 
     listener.subscribe(function (message) 
     {
-        if(message!=null && message.description!=null)
+        if(message!=null && message.description !=null && message.description.trim().length > 0 )
         {               
             let wrapper = document.getElementById('lane_change_status_wrapper');
             let description_dev = document.getElementById('lane_change_status_description_id');
@@ -192,7 +192,7 @@ function SubscribeToLaneChangeStatus()
     setInterval(()=>{
         //hide Lane change  every 10 seconds in case no more message published to this topic  
         $('#divLaneChangeStatusContent').css('display','none');     
-   },10000);
+   },20000);
 }
 
 /**

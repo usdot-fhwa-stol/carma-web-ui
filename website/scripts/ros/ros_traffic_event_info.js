@@ -81,6 +81,6 @@ function getEventReasonStrById(event_reason_id)
 
         default:
             console.error('UNKOWN Event Reason');
-            return "EVENT REASON: UNKNOWN ";
+            return "UNKNOWN ";
     }
 }

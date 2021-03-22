@@ -42,7 +42,7 @@ function subscribeToTrafficEventInfo()
     let TrafficEventTypes = {
         EVENT_LANE_CLOSED : {
             id: 0,
-            description: "Lane closure ahead"
+            description: " Lane closure ahead"
         }
             
     };

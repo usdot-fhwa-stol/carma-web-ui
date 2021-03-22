@@ -26,7 +26,7 @@ function subscribeToTrafficEventInfo()
     {
         ACTIVE: {
             IsActive: true,
-            description: 'Detected active event. Lane closure ahead',
+            description: 'Detected active event.',
             imgPath: "../../images/geofence_warning.png",
             borderClass: 'border-warning'
         },
@@ -38,6 +38,14 @@ function subscribeToTrafficEventInfo()
         }
 
     }
+
+    let TrafficEventTypes = {
+        EVENT_LANE_CLOSED : {
+            id: 0,
+            description: "Lane closure ahead"
+        }
+            
+    };
 
     //Indicator to check Event to active or not - default is NOT active
     let isActive = TrafficEventActiveStatusDict.INACTIVE.isActive;
@@ -57,9 +65,18 @@ function subscribeToTrafficEventInfo()
                 console.log(TrafficEventActiveStatusDict.ACTIVE.IsActive);
                 // update lane change status div area and content to include event detected 
                 if(isActive && !isActiveStateDisplayed)
-                {            
+                {    
+                    let description = TrafficEventActiveStatusDict.ACTIVE.description;
+                    switch(message.event_type)
+                    {
+                        case TrafficEventTypes.EVENT_LANE_CLOSED.id:
+                            description += TrafficEventTypes.EVENT_LANE_CLOSED.description;
+                            break;
+                        default:
+                            break;
+                    }             
                     updateLaneChangeStatusDivByEventInfo(TrafficEventActiveStatusDict.ACTIVE.imgPath, 
-                        TrafficEventActiveStatusDict.ACTIVE.description, 
+                        description, 
                         TrafficEventActiveStatusDict.ACTIVE.borderClass);
 
                     //notify UI that an active event is detected

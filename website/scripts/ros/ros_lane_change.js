@@ -163,6 +163,13 @@ function SubscribeToLaneChangeStatus()
 
     listener.subscribe(function (message) 
     {
+        //check if planning is success. Planning successs means the vehicle merges to target lane
+        const PLANNING_SUCCESS = 9;
+        if(message != null && message.status != null &&  message.status == PLANNING_SUCCESS)
+        {
+            $('#divLaneChangeStatusContent').empty();     
+        }
+
         if(message!=null && message.description !=null && message.description.trim().length > 0 )
         {               
             let wrapper = document.getElementById('lane_change_status_wrapper');
@@ -188,11 +195,6 @@ function SubscribeToLaneChangeStatus()
             $('#divLaneChangeStatusContent').css('display','');
         }
     });
-
-    setInterval(()=>{
-        //hide Lane change  every 10 seconds in case no more message published to this topic  
-        $('#divLaneChangeStatusContent').css('display','none');     
-   },20000);
 }
 
 /**

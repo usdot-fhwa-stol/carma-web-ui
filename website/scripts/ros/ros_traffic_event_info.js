@@ -95,6 +95,10 @@ function subscribeToTrafficEventInfo()
 
                 isActiveStateDisplayed = false;
             }
+            //Clear the exit active event UI div after 10 seconds
+            setTimeout(()=>{    
+                $('#divLaneChangeStatusContent').empty();    
+            }, 10000) 
        }
     });
 }

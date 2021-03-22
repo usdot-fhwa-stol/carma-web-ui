@@ -222,7 +222,7 @@ function getImgPathBorderClassBYLaneChangeStatus(lane_change_status)
         },
         REQUEST_REJECTED: {
             id: 4,
-            imgPath: "../../images/lane_merge_warning.png",
+            imgPath: "../../images/handshake-slash-solid.svg",
             borderClass: "border-warning" 
         },
         RESPONSE_SENT: {
@@ -237,7 +237,7 @@ function getImgPathBorderClassBYLaneChangeStatus(lane_change_status)
         },
         REJECTION_RECEIVED: {
             id: 7,
-            imgPath: "../../images/lane_merge_warning.png",
+            imgPath: "../../images/handshake-slash-solid.svg",
             borderClass: "border-warning" 
         },
         OTHER_RECEIVED: {
@@ -252,7 +252,7 @@ function getImgPathBorderClassBYLaneChangeStatus(lane_change_status)
         },
         TIMED_OUT: {
             id: 10,
-            imgPath: "../../images/lane_merge_warning.png",
+            imgPath: "../../images/time-out-solid.svg",
             borderClass: "border-warning" 
         },
         UNKOWN: {

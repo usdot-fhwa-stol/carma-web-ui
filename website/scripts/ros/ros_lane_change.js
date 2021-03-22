@@ -161,10 +161,11 @@ function SubscribeToLaneChangeStatus()
         messageType: M_LANE_CHANGE_STATUS
     });
 
+    //check if planning is success. Planning successs means the vehicle merges to target lane
+    const PLANNING_SUCCESS = 9;
+
     listener.subscribe(function (message) 
     {
-        //check if planning is success. Planning successs means the vehicle merges to target lane
-        const PLANNING_SUCCESS = 9;
         if(message != null && message.status != null &&  message.status == PLANNING_SUCCESS)
         {
             $('#divLaneChangeStatusContent').empty();     

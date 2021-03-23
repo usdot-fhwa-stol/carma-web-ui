@@ -161,9 +161,17 @@ function SubscribeToLaneChangeStatus()
         messageType: M_LANE_CHANGE_STATUS
     });
 
+    //check if planning is success. Planning successs means the vehicle merges to target lane
+    const PLANNING_SUCCESS = 9;
+
     listener.subscribe(function (message) 
     {
-        if(message!=null && message.description!=null)
+        if(message != null && message.status != null &&  message.status == PLANNING_SUCCESS)
+        {
+            $('#divLaneChangeStatusContent').empty();     
+        }
+
+        if(message!=null && message.description !=null && message.description.trim().length > 0 )
         {               
             let wrapper = document.getElementById('lane_change_status_wrapper');
             let description_dev = document.getElementById('lane_change_status_description_id');
@@ -188,11 +196,6 @@ function SubscribeToLaneChangeStatus()
             $('#divLaneChangeStatusContent').css('display','');
         }
     });
-
-    setInterval(()=>{
-        //hide Lane change  every 10 seconds in case no more message published to this topic  
-        $('#divLaneChangeStatusContent').css('display','none');     
-   },10000);
 }
 
 /**
@@ -219,7 +222,7 @@ function getImgPathBorderClassBYLaneChangeStatus(lane_change_status)
         },
         REQUEST_REJECTED: {
             id: 4,
-            imgPath: "../../images/lane_merge_warning.png",
+            imgPath: "../../images/handshake-slash-solid.svg",
             borderClass: "border-warning" 
         },
         RESPONSE_SENT: {
@@ -234,7 +237,7 @@ function getImgPathBorderClassBYLaneChangeStatus(lane_change_status)
         },
         REJECTION_RECEIVED: {
             id: 7,
-            imgPath: "../../images/lane_merge_warning.png",
+            imgPath: "../../images/handshake-slash-solid.svg",
             borderClass: "border-warning" 
         },
         OTHER_RECEIVED: {
@@ -249,7 +252,7 @@ function getImgPathBorderClassBYLaneChangeStatus(lane_change_status)
         },
         TIMED_OUT: {
             id: 10,
-            imgPath: "../../images/lane_merge_warning.png",
+            imgPath: "../../images/time-out-solid.svg",
             borderClass: "border-warning" 
         },
         UNKOWN: {

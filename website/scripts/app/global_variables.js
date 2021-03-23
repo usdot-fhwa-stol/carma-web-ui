@@ -60,7 +60,7 @@ const T_STEERING_WHEEL_FEEDBACK = "/hardware_interface/steering_feedback";
 const T_THROTTLE_FEEDBACK = "/hardware_interface/throttle_feedback";
 const T_BRAKE_FEEDBACK = "/hardware_interface/brake_feedback";
 const T_TRAFFIC_EVENT_INFO = "/traffic_event_info";
-const T_LANE_CHANGE_STATUS = "/lane_change_status";
+const T_LANE_CHANGE_STATUS = "/cooperative_lane_change_status";
 
 //ROS Services names
 const S_GUIDANCE_AVAILABLE_ROUTES = '/guidance/get_available_routes';

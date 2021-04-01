@@ -26,7 +26,6 @@
         <link rel="stylesheet" type="text/css" href="utils/elapsed_time/elapsed_time.css">
         <link rel="stylesheet" type="text/css" href="utils/accelarator/accelarator.css">
         <link rel="stylesheet" type="text/css" href="utils/platooning_info/platooning_info.css">
-        <link rel="stylesheet" type="text/css" href="utils/geofence_info/geofence_info.css">
         <link rel="stylesheet" type="text/css" href="utils/route_selection_radio/route_selection_radio.css">
         <link rel="stylesheet" type="text/css" href="utils/change_plugins_switch/change_plugins_switch.css">
         <link rel="stylesheet" type="text/css" href="utils/active_plugin/active_plugins.css">
@@ -76,7 +75,6 @@
         <script src="utils/brake/brake.js"></script>
         <script src="utils/platooning_info/platooning_info.js"></script>
         <script src="utils/event_info/event_info.js"></script>
-        <script src="utils/geofence_info/geofence_info.js"></script>
         <script src="utils/modals/disengage_confirmation/disengage_confirmation.js"></script>
         <script src="utils/modals/system_alert/system_alert.js"></script>
         <script src="utils/elapsed_time/elapsed_time.js"></script>
@@ -105,8 +103,7 @@
         <script src="scripts/ros/ros_light_bar.js"></script>              
         <script src="scripts/ros/ros_lane_change.js"></script>                    
         <script src="scripts/ros/ros_platooning_info.js"></script>  
-         <script src="scripts/ros/ros_geofence_info.js"></script>
-         <script src="scripts/ros/ros_traffic_event_info.js"></script>
+         <script src="scripts/ros/ros_event_info.js"></script>
         <script src="scripts/app/subscribeROSServicesOnLoad.js"></script>
 	</head>
 	<body >  
@@ -296,30 +293,17 @@
                 <div class="card-body" id="platooning-info-content"></div>
               </div>
           </div>  
-          
-          <!--Speed/Geofence advisory Info-->
-          <div id="speed-advisory-info-panel" class="bg-black border-gray" style="display: none;">
-            <div class="card text-white bg-black mb-3" style="width: 100%;">
-                <div class="card-header card-custom-header" style="text-align: center;padding-left: 0px;">
-                  <button type="button" class="btn btn-info" id="speedAdvisoryInfoInfoCloseBtn">X</button>
-                  <div>
-                    Geofence Advisory
-                  </div> 
-                </div>
-                <div class="card-body" id="geofence-info-content"></div>
-              </div>
-          </div>
 
-          <!--Traffic Incident Event Info-->
-           <div id="traffic-event-info-panel" class="bg-black border-gray" style="display: none;">
+          <!--Event Info-->
+           <div id="event-info-panel" class="bg-black border-gray" style="display: none;">
             <div class="card text-white bg-black mb-3" style="width: 100%;">
                 <div class="card-header card-custom-header" style="text-align: center;padding-left: 0px;">
-                  <button type="button" class="btn btn-info" id="trafficEventInfoInfoCloseBtn">X</button>
+                  <button type="button" class="btn btn-info" id="EventInfoInfoCloseBtn">X</button>
                   <div>
                       Event Info
                   </div> 
                 </div>
-                <div class="card-body" id="traffic-event-info-content"></div>
+                <div class="card-body" id="event-info-content"></div>
               </div>
           </div>
 
@@ -524,7 +508,7 @@
                 <div id="statistics-dropdown" class="statistics-dropdown-menu dropdown-menu dropdown-menu-right padding-5" style="display: none;">
                     <a class="statistics-dropdown-item dropdown-item padding-10 border-bottom " id="platoon-info-btn" type="button" style="display: none;">Platoon Info</a>
                     <a class="statistics-dropdown-item dropdown-item padding-10 " id="geofence-info-btn" type="button" style="display: none;">Geofence Advisory Info</a>
-                    <a class="statistics-dropdown-item dropdown-item padding-10 " id="traffic-event-info-btn" type="button" style="display: '';">Event Info</a>
+                    <a class="statistics-dropdown-item dropdown-item padding-10 " id="event-info-btn" type="button" style="display: '';">Event Info</a>
                 </div>
             </div>
 

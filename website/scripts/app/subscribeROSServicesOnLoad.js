@@ -127,10 +127,8 @@ $(document).ready(function(){
             });  
 
             subscribeToGuidanceActivePlugins();//Active plugins panel
-            showStatusandLogs(); //system status panel
-            subscribeToGeofenceInfo(); //show geofence info
             subscribeToPlatoonInfo(); //show platoon info
-            GetTrafficEventInfo(); //Show Traffic Event Info
+            GetEventInfo(); //Show Traffic Event Info
             /***
              * SECTION: Bottom Menu 
              * */

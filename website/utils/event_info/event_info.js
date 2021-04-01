@@ -66,7 +66,7 @@ function createEventInfo(toHideEventInfo,event_min_gap,event_advisory_speed,even
     //distance_to_next_geofence
     let p_event_distance_to_next_event = document.createElement("p");
     if(distance_to_next_geofence != null)
-        p_event_distance_to_next_event.innerHTML = "DISTANCE TO NEXT GEOFENCE: "  + distance_to_next_geofence + "METERS";
+        p_event_distance_to_next_event.innerHTML = "DISTANCE TO NEXT GEOFENCE: "  + distance_to_next_geofence + " METERS";
     else{
         p_event_distance_to_next_event.style.display = "none";
     } 
@@ -126,7 +126,7 @@ function updateEventInfo(toHideEventInfo,event_min_gap,event_advisory_speed,even
 
         if(distance_to_next_geofence != null){
             document.getElementById('p_event_distance_to_next_event_id').style.display = "";
-            document.getElementById('p_event_distance_to_next_event_id').innerHTML = "DISTANCE TO NEXT GEOFENCE: "  + distance_to_next_geofence + "METERS";
+            document.getElementById('p_event_distance_to_next_event_id').innerHTML = "DISTANCE TO NEXT GEOFENCE: "  + distance_to_next_geofence + " METERS";
         }
         else{
             document.getElementById('p_event_distance_to_next_event_id').style.display = "none";

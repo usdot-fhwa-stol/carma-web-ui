@@ -178,7 +178,6 @@ function createOrUpdateEventInfoByEventType(isCreateDiv,event_minimum_gap, event
     {
         //Below variables set to null and will not be displayed
         value = null; 
-        event_minimum_gap = null;
         distance_to_next_geofence = null;
     }
     else

@@ -1,5 +1,5 @@
 
-function createEventInfo(toHideEventInfo,event_min_gap,event_advisory_speed,event_type,event_reason,value,distance_to_next_geofence)
+function createEventInfo(toHideEventInfo,event_min_gap,event_advisory_speed,event_type,event_reason,value,distance_to_next_geofence,headway)
 {
     let divEventInfoWrapper = document.createElement('div');
     divEventInfoWrapper.id='event_info_wrapper';
@@ -21,7 +21,7 @@ function createEventInfo(toHideEventInfo,event_min_gap,event_advisory_speed,even
     p_event_type.id = "event_type_id";
     p_event_div.append(p_event_type);
     
-    //Event Speed Advisory
+    //Event Speed Advisory OR Max Speed
     let p_event_speed_advisory = document.createElement("p");
     if(event_advisory_speed != null)
         p_event_speed_advisory.innerHTML = "SPEED ADVISORY: " + event_advisory_speed + " MPH";
@@ -30,6 +30,16 @@ function createEventInfo(toHideEventInfo,event_min_gap,event_advisory_speed,even
     } 
     p_event_speed_advisory.id = "event_speed_advisory_id";
     p_event_div.append(p_event_speed_advisory);
+
+     //Event Headway
+     let p_event_headway = document.createElement("p");
+     if(headway != null)
+        p_event_headway.innerHTML = "HEADWAY: " + headway + " METERS";
+     else{
+        p_event_headway.style.display = "none";
+     } 
+     p_event_headway.id = "event_headway_id";
+     p_event_div.append(p_event_headway);
 
     //Event Min Gap
     let p_event_min_gap = document.createElement("p");
@@ -79,7 +89,7 @@ function createEventInfo(toHideEventInfo,event_min_gap,event_advisory_speed,even
     return divEventInfoWrapper;
 }
 
-function updateEventInfo(toHideEventInfo,event_min_gap,event_advisory_speed,event_type,event_reason,value,distance_to_next_geofence)
+function updateEventInfo(toHideEventInfo,event_min_gap,event_advisory_speed,event_type,event_reason,value,distance_to_next_geofence,headway)
 {    
     if(!toHideEventInfo)
     {
@@ -107,6 +117,14 @@ function updateEventInfo(toHideEventInfo,event_min_gap,event_advisory_speed,even
             document.getElementById('event_speed_advisory_id').style.display = "none";
         }
 
+        if(headway != null){
+            document.getElementById('event_headway_id').innerHTML =  "HEADWAY: " + headway + " METERS";
+            document.getElementById('event_headway_id').style.display = "";
+        }
+        else{
+            document.getElementById('event_headway_id').style.display = "none";
+        }
+
         if(event_min_gap != null){
             document.getElementById('event_min_gap_id').innerHTML = "MIN GAP: " + event_min_gap+ " METERS";
             document.getElementById('event_min_gap_id').style.display = "";
@@ -115,7 +133,7 @@ function updateEventInfo(toHideEventInfo,event_min_gap,event_advisory_speed,even
         else{
             document.getElementById('event_min_gap_id').style.display = "none";
         }
-
+        
         if(value != null){
             document.getElementById('event_value_id').innerHTML = "SPEED LIMIT: " + value;
             document.getElementById('event_value_id').style.display = "";

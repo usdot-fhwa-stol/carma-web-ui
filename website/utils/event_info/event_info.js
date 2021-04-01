@@ -1,5 +1,5 @@
 
-function createEventInfo(toHideEventInfo,event_min_gap,event_advisory_speed,event_type,event_reason,value,distance_to_next_geofence,headway)
+function createEventInfo(toHideEventInfo,event_min_gap,event_advisory_speed,event_type,event_reason,value,distance_to_next_geofence)
 {
     let divEventInfoWrapper = document.createElement('div');
     divEventInfoWrapper.id='event_info_wrapper';
@@ -30,16 +30,6 @@ function createEventInfo(toHideEventInfo,event_min_gap,event_advisory_speed,even
     } 
     p_event_speed_advisory.id = "event_speed_advisory_id";
     p_event_div.append(p_event_speed_advisory);
-
-     //Event Headway
-     let p_event_headway = document.createElement("p");
-     if(headway != null)
-        p_event_headway.innerHTML = "HEADWAY: " + headway + " METERS";
-     else{
-        p_event_headway.style.display = "none";
-     } 
-     p_event_headway.id = "event_headway_id";
-     p_event_div.append(p_event_headway);
 
     //Event Min Gap
     let p_event_min_gap = document.createElement("p");
@@ -89,7 +79,7 @@ function createEventInfo(toHideEventInfo,event_min_gap,event_advisory_speed,even
     return divEventInfoWrapper;
 }
 
-function updateEventInfo(toHideEventInfo,event_min_gap,event_advisory_speed,event_type,event_reason,value,distance_to_next_geofence,headway)
+function updateEventInfo(toHideEventInfo,event_min_gap,event_advisory_speed,event_type,event_reason,value,distance_to_next_geofence)
 {    
     if(!toHideEventInfo)
     {
@@ -115,14 +105,6 @@ function updateEventInfo(toHideEventInfo,event_min_gap,event_advisory_speed,even
         }
         else{
             document.getElementById('event_speed_advisory_id').style.display = "none";
-        }
-
-        if(headway != null){
-            document.getElementById('event_headway_id').innerHTML =  "HEADWAY: " + headway + " METERS";
-            document.getElementById('event_headway_id').style.display = "";
-        }
-        else{
-            document.getElementById('event_headway_id').style.display = "none";
         }
 
         if(event_min_gap != null){

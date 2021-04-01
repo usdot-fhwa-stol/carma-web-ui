@@ -123,8 +123,7 @@ function subscribeToEventInfo()
                                     message.type,
                                     message.reason,
                                     message.value,
-                                    message.distance_to_next_geofence,
-                                    message.headway);
+                                    message.distance_to_next_geofence);
                 }
                 else
                 {            
@@ -134,8 +133,7 @@ function subscribeToEventInfo()
                                                         message.type,
                                                         message.reason,
                                                         message.value,
-                                                        message.distance_to_next_geofence,
-                                                        message.headway);
+                                                        message.distance_to_next_geofence);
                     
                     //add event wrapper to event content div
                     document.getElementById('event-info-content').appendChild(event_info_wrapper);          
@@ -161,14 +159,13 @@ function subscribeToEventInfo()
     });
 }
 
-function createOrUpdateEventInfoByEventType(isCreateDiv,event_minimum_gap, event_advisory_speed, event_type, event_reason, value, distance_to_next_geofence,headway)
+function createOrUpdateEventInfoByEventType(isCreateDiv,event_minimum_gap, event_advisory_speed, event_type, event_reason, value, distance_to_next_geofence)
 {
     if(event_type == event_types.EVENT_LANE_CLOSED.id && event_reason == event_reasons.EVENT_EMERGENCY_VEHICLE.id)
     {
         //Below variables set to null and will not be displayed
         value = null; 
-        distance_to_next_geofence = null;  
-        headway = null;  
+        distance_to_next_geofence = null; 
     }
     else if(event_type == event_types.EVENT_SPEED_LIMIT.id)
     {
@@ -176,7 +173,6 @@ function createOrUpdateEventInfoByEventType(isCreateDiv,event_minimum_gap, event
         event_minimum_gap = null;
         event_advisory_speed = null;    
         event_reason = null;
-        headway = null;    
     }
     else if(event_type == event_types.EVENT_LANE_CLOSED.id && event_reason == event_reasons.EVENT_WET_PAVEMENT.id)
     {
@@ -193,7 +189,6 @@ function createOrUpdateEventInfoByEventType(isCreateDiv,event_minimum_gap, event
         distance_to_next_geofence = null;
         event_minimum_gap = null;
         event_advisory_speed = null;
-        headway = null;  
     }
     if(isCreateDiv){
         return createEventInfo( false,
@@ -202,8 +197,7 @@ function createOrUpdateEventInfoByEventType(isCreateDiv,event_minimum_gap, event
             getEventTypeStrById(event_type),
             getEventReasonStrById(event_reason),
             value,
-            distance_to_next_geofence,
-            headway);
+            distance_to_next_geofence);
     }
     else
     {
@@ -213,8 +207,7 @@ function createOrUpdateEventInfoByEventType(isCreateDiv,event_minimum_gap, event
             getEventTypeStrById(event_type),
             getEventReasonStrById(event_reason),
             value,
-            distance_to_next_geofence,
-            headway);
+            distance_to_next_geofence);
     }
    
 }

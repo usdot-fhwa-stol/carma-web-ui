@@ -59,7 +59,6 @@ const T_GPS_NODELET_WRAPPER='/hardware_interface/novatel_gps_nodelet_wrapper';
 const T_STEERING_WHEEL_FEEDBACK = "/hardware_interface/steering_feedback";
 const T_THROTTLE_FEEDBACK = "/hardware_interface/throttle_feedback";
 const T_BRAKE_FEEDBACK = "/hardware_interface/brake_feedback";
-const T_TRAFFIC_EVENT_INFO = "/traffic_event_info";
 const T_LANE_CHANGE_STATUS = "/cooperative_lane_change_status";
 
 //ROS Services names
@@ -110,7 +109,6 @@ const M_SPEED_PEDALS="automotive_platform_msgs/SpeedPedals";
 const M_THROTTLE_FEEDBACK="automotive_platform_msgs/ThrottleFeedback";
 const M_STEERING_FEEDBACK="automotive_platform_msgs/SteeringFeedback";
 const M_BRAKE_FEEDBACK="automotive_platform_msgs/BrakeFeedback";
-const M_TRAFFIC_EVENT_INFO = "cav_msgs/TrafficEventInfo";
 const M_LANE_CHANGE_STATUS = "cav_msgs/LaneChangeStatus";
 
 //ROS param names

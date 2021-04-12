@@ -27,17 +27,6 @@ var event_types =
     }
 }
 
-var event_reasons =
-{
-    EVENT_EMERGENCY_VEHICLE: {
-        id: 0,
-        description: "EMERGENCY VEHICLE"
-    },
-    EVENT_WET_PAVEMENT: {
-        id: 1,
-        description: "WET PAVEMENT"
-    }
-} 
 
 function subscribeToEventInfo()
 {
@@ -161,7 +150,7 @@ function subscribeToEventInfo()
 
 function createOrUpdateEventInfoByEventType(isCreateDiv,event_minimum_gap, event_advisory_speed, event_type, event_reason, value, distance_to_next_geofence)
 {
-    if(event_type == event_types.EVENT_LANE_CLOSED.id && event_reason == event_reasons.EVENT_EMERGENCY_VEHICLE.id)
+    if(event_type == event_types.EVENT_LANE_CLOSED.id)
     {
         //Below variables set to null and will not be displayed
         value = null; 
@@ -174,27 +163,22 @@ function createOrUpdateEventInfoByEventType(isCreateDiv,event_minimum_gap, event
         event_advisory_speed = null;    
         event_reason = null;
     }
-    else if(event_type == event_types.EVENT_LANE_CLOSED.id && event_reason == event_reasons.EVENT_WET_PAVEMENT.id)
-    {
-        //Below variables set to null and will not be displayed
-        value = null; 
-        distance_to_next_geofence = null;
-    }
     else
     {
-        console.error("Unknown event type and event reason combination");
+        console.error("Unknown event type ");
         //Below variables set to null and will not be displayed
         value = null; 
         distance_to_next_geofence = null;
         event_minimum_gap = null;
         event_advisory_speed = null;
+        event_reason = "UNKNOWN";
     }
     if(isCreateDiv){
         return createEventInfo( false,
             event_minimum_gap,
             event_advisory_speed,
             getEventTypeStrById(event_type),
-            getEventReasonStrById(event_reason),
+            event_reason,
             value,
             distance_to_next_geofence);
     }
@@ -204,7 +188,7 @@ function createOrUpdateEventInfoByEventType(isCreateDiv,event_minimum_gap, event
             event_minimum_gap,
             event_advisory_speed,
             getEventTypeStrById(event_type),
-            getEventReasonStrById(event_reason),
+            event_reason,
             value,
             distance_to_next_geofence);
     }
@@ -257,23 +241,4 @@ function getEventTypeStrById(event_type_id)
             console.error('UNKOWN Event Type');
             return "UNKNOWN ";
     }    
-}
-
-function getEventReasonStrById(event_reason_id)
-{   
-    if (event_reason_id == null)
-        return null;
-        
-    switch(event_reason_id)
-    {
-        case event_reasons.EVENT_EMERGENCY_VEHICLE.id:
-            return event_reasons.EVENT_EMERGENCY_VEHICLE.description;
-
-        case event_reasons.EVENT_WET_PAVEMENT.id:
-            return event_reasons.EVENT_WET_PAVEMENT.description;
-
-        default:
-            console.error('UNKOWN Event Reason');
-            return "UNKNOWN ";
-    }
 }

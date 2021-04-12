@@ -14,7 +14,7 @@ event_reason: 0"
 var event_types = 
 {
     EVENT_LANE_CLOSED: {
-        id: 0,
+        id: 2,
         descrition: "LANE CLOSED"
     },
     EVENT_SPEED_LIMIT: {

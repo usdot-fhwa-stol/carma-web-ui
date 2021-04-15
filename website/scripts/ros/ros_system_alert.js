@@ -54,9 +54,7 @@ function checkSystemAlerts() {
             case SYSTEM_ALERT_FATAL:
                 session_isSystemAlert.ready = false;
                 //Show modal popup for Fatal alerts.
-                messageTypeFullDescription = 'CRITICAL: ';
-                messageTypeFullDescription += message.description;
-                listenerSystemAlert.unsubscribe();
+                messageTypeFullDescription = 'System received a CRITICAL message. ' + message.description;
                 MsgPop.open({
                     Type:           "error",
                     Content:        message.description,

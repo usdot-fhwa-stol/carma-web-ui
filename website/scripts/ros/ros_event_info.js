@@ -55,7 +55,7 @@ function subscribeToEventInfo()
 
     let LaneChangeStatusEventTypes = {
         EVENT_LANE_CLOSED : {
-            id: 0,
+            id: 2,
             description: " Lane closure ahead"
         }
             

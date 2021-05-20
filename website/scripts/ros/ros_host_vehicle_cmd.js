@@ -149,12 +149,6 @@ function subscribeToSteeringWheelOLD()
             let vehicle_steering_gear_ratio = session_hostVehicle.steeringRatio;
             let current_steering_angle = message.angle;
             let steer_percentage = Math.abs(((current_steering_angle/(vehicle_steering_gear_ratio*vehicle_steer_lim_deg * DEG2RAD))* 100).toFixed(0));
-            if(isFinite(steer_percentage) || isNaN(steer_percentage))
-            {
-                console.error("steering percentage is IsFinite/NaN " + steer_percentage);
-            }
-
-            console.error("steering percentage is IsFinite/NaN " + steer_percentage);
             //steering degree
             let rotateDegree = message.angle * 180/(Math.PI);
             let rotateDegreeModule = rotateDegree % 360; 

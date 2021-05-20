@@ -149,6 +149,12 @@ function subscribeToSteeringWheelOLD()
             let vehicle_steering_gear_ratio = session_hostVehicle.steeringRatio;
             let current_steering_angle = message.angle;
             let steer_percentage = Math.abs(((current_steering_angle/(vehicle_steering_gear_ratio*vehicle_steer_lim_deg * DEG2RAD))* 100).toFixed(0));
+            if(isFinite(steer_percentage) || isNaN(steer_percentage))
+            {
+                console.error("steering percentage is IsFinite/NaN " + steer_percentage);
+            }
+
+            console.error("steering percentage is IsFinite/NaN " + steer_percentage);
             //steering degree
             let rotateDegree = message.angle * 180/(Math.PI);
             let rotateDegreeModule = rotateDegree % 360; 
@@ -195,10 +201,19 @@ function sunscribeToSteeringFeedback()
 
             //rorate degree Offset is the degree if steering_wheel image rotation. 
             let offset_rotate_deg = - (rotate_deg % maximum_steering_wheel_angle_deg); 
-
+            if(!isFinite(steer_percentage) || isNaN(steer_percentage))
+            {
+                console.log("steering percentage is  " + steer_percentage);
+                console.log("current_steering_angle is " + current_steering_angle);
+                console.error("steering percentage is IsFinite/NaN " + steer_percentage);
+                steer_percentage = "--";
+            }else{
+                steer_percentage += "%";
+            }
             //let offset_rotate_deg = steer_percentage * 360
             //Accelerator Progress
-            updateSteeringWheel(steer_percentage+ "%",offset_rotate_deg);
+            updateSteeringWheel(steer_percentage, offset_rotate_deg);
+
         }
     });
 }

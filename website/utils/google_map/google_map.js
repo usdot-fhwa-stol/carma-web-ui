@@ -227,7 +227,7 @@ function moveMarkerWithTimeout( myMarker, newLat, newLong, timeout) {
             }
 
             //TCR request bounding box on the google map
-            contentStr = "<b>TCR bounding box</b><br> <li>Drawing points from position3D list in a clockwise direction.</li>"+
+            contentStr = "<b>TCR bounding box</b><br> <li>Drawing polygon from position3D list in a clockwise direction.</li>"+
             "<li>Position3D list</li> - latitude:"+vector_Geo_locations[0].lat+", longitude:"+vector_Geo_locations[0].lng+" <br>"
             + "- latitude:"+vector_Geo_locations[1].lat+", longitude:"+vector_Geo_locations[1].lng+" <br>"
             + "- latitude:"+vector_Geo_locations[2].lat+", longitude:"+vector_Geo_locations[2].lng+" <br>"

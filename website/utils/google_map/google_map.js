@@ -41,7 +41,7 @@ function initMap()
             map_doc.body.appendChild(mapContainer);
         
             map = new this.google.maps.Map(mapContainer, {
-                zoom: 18,
+                zoom: 17,
                 center: { lat: 38.955097, lng: -77.147190 },
                 mapTypeId: 'hybrid',
                 disableDefaultUI: true,
@@ -198,6 +198,61 @@ function moveMarkerWithTimeout( myMarker, newLat, newLong, timeout) {
 }
 
 
+/***
+ * Draw a polygon on the map based on list of geo positions and update map with the polygons
+ * input array: vector_Geo_locations
+  format: 
+    let vector_Geo_locations = [ 
+        { lat: 38.954377 , lng: -77.147888}, 
+        { lat: 38.955412, lng:  -77.151418},
+        { lat: 38.956947, lng:  -77.150431},
+        { lat: 38.955579, lng: -77.147448}
+    ];
+
+  */
+    function drawPolygonsOnMap(polygon_type,vector_Geo_locations)
+    {
+        if(! Array.isArray(vector_Geo_locations) || vector_Geo_locations.length != 4)
+        {
+            console.error("vector_Geo_locations for polygon is not an array or vector_Geo_locations does not contains 4 geo-loc.")
+            return;
+        }
+    
+        if(polygon_type == g_polygon_type.TCR)
+        {
+            //remove exist tcr_polygon first
+            if(tcr_polygon != null){
+                tcr_polygon.setMap(null);
+                tcr_polygon = null;
+            }
+
+            //TCR request bounding box on the google map
+            contentStr = "<b>TCR bounding box</b><br> <li>Drawing points from position3D list in a clockwise direction.</li>"+
+            "<li>Position3D list</li> - latitude:"+vector_Geo_locations[0].lat+", longitude:"+vector_Geo_locations[0].lng+" <br>"
+            + "- latitude:"+vector_Geo_locations[1].lat+", longitude:"+vector_Geo_locations[1].lng+" <br>"
+            + "- latitude:"+vector_Geo_locations[2].lat+", longitude:"+vector_Geo_locations[2].lng+" <br>"
+            + "- latitude:"+vector_Geo_locations[3].lat+", longitude:"+vector_Geo_locations[3].lng+" <br>";
+            tcr_polygon = new map_content_window.google.maps.Polygon({
+                paths: vector_Geo_locations,
+                strokeColor: "#000000",
+                strokeOpacity: 1,
+                strokeWeight: 2,
+                fillColor: "#FFA500",
+                fillOpacity: 0.3
+            });
+            let infoWindow = new map_content_window.google.maps.InfoWindow();
+    
+            tcr_polygon.setMap(map);
+    
+            tcr_polygon.addListener("click",(event)=>{
+                infoWindow.setContent(contentStr);
+                infoWindow.setPosition(event.latLng);
+                infoWindow.open(map);
+            });
+        }
+       
+    }
+    
 /*
     Find a marker.
 */

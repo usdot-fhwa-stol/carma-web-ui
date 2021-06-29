@@ -131,3 +131,171 @@ function subscribeLaneChangeTopics()
         console.log('deferlaneChangeInit: '+ error);
      });
 }
+
+function GetLaneChangeStatus()
+{
+    SubscribeToLaneChangeStatus();
+}
+
+//subscribe to topic lane_change_status
+/***
+ * uint8   PLAN_SENT=1
+uint8   REQUEST_RECEIVED=2
+uint8   REQUEST_ACCEPTED=3
+uint8   REQUEST_REJECTED=4
+uint8   RESPONSE_SENT=5
+uint8   ACCEPTANCE_RECEIVED=6
+uint8   REJECTION_RECEIVED=7
+uint8   OTHER_RECEIVED=8
+uint8   PLANNING_SUCCESS=9
+uint8   TIMED_OUT=10
+ * Mockup publish topic
+ * rostopic pub -r 1 /lane_change_status cav_msgs/LaneChangeStatus "status: 0
+description: ''"
+*/
+function SubscribeToLaneChangeStatus()
+{
+    let listener = new ROSLIB.Topic({
+        ros: g_ros,
+        name: T_LANE_CHANGE_STATUS,
+        messageType: M_LANE_CHANGE_STATUS
+    });
+
+    //check if planning is success. Planning successs means the vehicle merges to target lane
+    const PLANNING_SUCCESS = 9;
+
+    listener.subscribe(function (message) 
+    {
+        if(message != null && message.status != null &&  message.status == PLANNING_SUCCESS)
+        {
+            $('#divLaneChangeStatusContent').empty();     
+        }
+
+        if(message!=null && message.description !=null && message.description.trim().length > 0 )
+        {               
+            let wrapper = document.getElementById('lane_change_status_wrapper');
+            let description_dev = document.getElementById('lane_change_status_description_id');
+            let status_icon = document.getElementById('img_lane_change_status_icon_id');
+            if(wrapper != null && wrapper != 'undefined'
+                && description_dev != null && description_dev != 'undefined'
+                && status_icon != null && status_icon != 'undefined')
+            {   
+                updateLaneChangeStatus(false, getImgPathBorderClassBYLaneChangeStatus(message.status).imgPath, message.description);
+            }
+            else
+            {
+               let laneChangeStatusDiv = createLaneChangeStatus(false, getImgPathBorderClassBYLaneChangeStatus(message.status).imgPath, message.description);
+               $('#divLaneChangeStatusContent').append(laneChangeStatusDiv);        
+            }
+
+            $('#lane_change_status_wrapper').removeClass(function(index,css){
+                return (css.match(/(^|\s)border-\w*/g) || []).join(' ');
+            });
+            
+            $('#lane_change_status_wrapper').addClass(getImgPathBorderClassBYLaneChangeStatus(message.status).borderClass);
+            $('#divLaneChangeStatusContent').css('display','');
+        }
+    });
+}
+
+/**
+ * Map the lane change status to the coresponding image
+ * @param {*} lane_change_status 
+ */
+function getImgPathBorderClassBYLaneChangeStatus(lane_change_status)
+{
+    let lane_change_statuses={
+        PLAN_SENT: {
+            id: 1,
+            imgPath: "../../images/lane_merge_warning.png",
+            borderClass: "border-warning" 
+        },
+        REQUEST_RECEIVED: {
+            id: 2,
+            imgPath: "../../images/lane_merge_warning.png",
+            borderClass: "border-warning" 
+        },
+        REQUEST_ACCEPTED: {
+            id: 3,
+            imgPath: "../../images/hand_shake_green.png",
+            borderClass: "border-good" 
+        },
+        REQUEST_REJECTED: {
+            id: 4,
+            imgPath: "../../images/handshake-slash-solid.svg",
+            borderClass: "border-warning" 
+        },
+        RESPONSE_SENT: {
+            id: 5,
+            imgPath: "../../images/lane_merge_warning.png",
+            borderClass: "border-warning" 
+        },
+        ACCEPTANCE_RECEIVED: {
+            id: 6,
+            imgPath: "../../images/hand_shake_green.png",
+            borderClass: "border-good" 
+        },
+        REJECTION_RECEIVED: {
+            id: 7,
+            imgPath: "../../images/handshake-slash-solid.svg",
+            borderClass: "border-warning" 
+        },
+        OTHER_RECEIVED: {
+            id: 8,
+            imgPath: "../../images/unknown_lane_change_status_orange.png",
+            borderClass: "border-warning" 
+        },
+        PLANNING_SUCCESS: {
+            id: 9,
+            imgPath: "../../images/hand_shake_green.png",
+            borderClass: "border-good" 
+        },
+        TIMED_OUT: {
+            id: 10,
+            imgPath: "../../images/time-out-solid.svg",
+            borderClass: "border-warning" 
+        },
+        UNKOWN: {
+            id: 999,
+            imgPath: "../../images/unknown_lane_change_status_orange.png",
+            borderClass: "border-warning" 
+        }
+    } //End of lane change statuses enumeration structure
+
+    //Comparing lane change status with the enumeration to determine the imgPath to return
+    switch(lane_change_status)
+    {
+        case lane_change_statuses.PLAN_SENT.id:
+            return lane_change_statuses.PLAN_SENT;
+
+        case lane_change_statuses.REQUEST_RECEIVED.id:
+            return lane_change_statuses.REQUEST_RECEIVED;
+
+        case lane_change_statuses.REQUEST_ACCEPTED.id:
+            return lane_change_statuses.REQUEST_ACCEPTED;
+
+        case lane_change_statuses.REQUEST_REJECTED.id:
+            return lane_change_statuses.REQUEST_REJECTED;
+
+        case lane_change_statuses.RESPONSE_SENT.id:
+            return lane_change_statuses.RESPONSE_SENT;
+
+        case lane_change_statuses.ACCEPTANCE_RECEIVED.id:
+            return lane_change_statuses.ACCEPTANCE_RECEIVED;
+
+        case lane_change_statuses.REJECTION_RECEIVED.id:
+            return lane_change_statuses.REJECTION_RECEIVED;
+
+        case lane_change_statuses.OTHER_RECEIVED.id:
+            return lane_change_statuses.OTHER_RECEIVED;
+
+        case lane_change_statuses.PLANNING_SUCCESS.id:
+            return lane_change_statuses.PLANNING_SUCCESS;
+
+        case lane_change_statuses.TIMED_OUT.id:
+            return lane_change_statuses.TIMED_OUT;
+        
+        default :
+            return lane_change_statuses.UNKOWN;
+    }
+}

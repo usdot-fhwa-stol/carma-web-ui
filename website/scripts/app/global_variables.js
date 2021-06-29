@@ -30,9 +30,9 @@ const T_COMMS_INBOUND_BINARY_MSG = '/hardware_interface/comms/inbound_binary_msg
 const T_COMMS_OUTBOUND_BINARY_MSG='/hardware_interface/comms/outbound_binary_msg';
 const T_DRIVER_DISCOVERY = '/hardware_interface/driver_discovery';
 const T_ROUTE_STATE = '/guidance/route_state';
-const T_ROUTE_EVENT = 'route_event';
-const T_ROUTE = 'route';
-const T_ABBR_ROUTE_STATE = 'route_state'; 
+const T_ROUTE_EVENT = '/guidance/route_event';
+const T_ROUTE = '/guidance/route';
+const T_ABBR_ROUTE_STATE = '/guidance/route_state'; 
 const T_ROBOTIC_STATUS = 'controller/robotic_status';
 const T_INCOMING_BSM = '/message/incoming_bsm';
 const T_NAV_SAT_FIX = '/hardware_interface/gnss/fix_raw';//'nav_sat_fix';
@@ -50,8 +50,8 @@ const T_EKF_TWIST = '/localization/ekf_twist';
 const T_LIGHT_BAR_STATUS = '/hardware_interface/lightbar/light_bar_status';
 const T_CARMA_SYSTEM_VERSION = "/carma_system_version";
 const T_GEOFENCE_INFO = "/environment/active_geofence";
-const T_LANE_CHANGE = '/lane_change';
-const T_PLATOON_INFO = '/platooning_info';
+const T_LANE_CHANGE = '/guidance/lane_change';
+const T_PLATOON_INFO = '/guidance/platooning_info';
 const T_LOCALIZATION_STATUS = '/localization/localization_status';
 const T_STEERING_WHEEL="/hardware_interface/steering_wheel";
 const T_SPEED_PEDALS ="/hardware_interface/speed_pedals";
@@ -59,6 +59,8 @@ const T_GPS_NODELET_WRAPPER='/hardware_interface/novatel_gps_nodelet_wrapper';
 const T_STEERING_WHEEL_FEEDBACK = "/hardware_interface/steering_feedback";
 const T_THROTTLE_FEEDBACK = "/hardware_interface/throttle_feedback";
 const T_BRAKE_FEEDBACK = "/hardware_interface/brake_feedback";
+const T_LANE_CHANGE_STATUS = "/guidance/cooperative_lane_change_status";
+const T_TCR_BOUNDING_POINTS = "/environment/tcr_bounding_points";
 
 //ROS Services names
 const S_GUIDANCE_AVAILABLE_ROUTES = '/guidance/get_available_routes';
@@ -108,6 +110,8 @@ const M_SPEED_PEDALS="automotive_platform_msgs/SpeedPedals";
 const M_THROTTLE_FEEDBACK="automotive_platform_msgs/ThrottleFeedback";
 const M_STEERING_FEEDBACK="automotive_platform_msgs/SteeringFeedback";
 const M_BRAKE_FEEDBACK="automotive_platform_msgs/BrakeFeedback";
+const M_LANE_CHANGE_STATUS = "cav_msgs/LaneChangeStatus";
+const M_TCR_POLYGON = "cav_msgs/TrafficControlRequestPolygon"
 
 //ROS param names
 const P_REQUIRED_PLUGINS = '/guidance/health_monitor/required_plugins';
@@ -201,6 +205,10 @@ var hostmarker;
 var map_frame = null;  //map iframe 
 var map_content_window = null; //map iframe content window
 var map_doc = null;
+var tcr_polygon = null;
+const g_polygon_type = {
+    TCR: "TCR"
+}
 
 
 var p_host_instructions = '/saxton_cav/ui/host_instructions';

@@ -1,0 +1,31 @@
+#lane_change_status_wrapper{
+    height: 55px;
+    border: 1px solid white;
+    background-color: #2A2828;
+    border-radius: 15px;
+    padding: 5px;
+}
+
+
+#lane_change_status_wrapper.border-good{
+    border: 1px solid rgb(188, 250, 63);
+    box-shadow: 2px 2px 8px rgb(188, 250, 63);
+}
+
+#lane_change_status_wrapper.border-warning{
+    border: 1px solid #ff6600;
+    box-shadow: 2px 2px 8px #ff6600;
+}
+
+#img_lane_change_status_icon_id{
+    display: inline-flex;
+    width: 50px;
+    height: 40px;
+    right: 10px;
+    position: absolute;
+}
+
+#lane_change_status_description_id{
+    display: inline-flex;
+    margin: 5px 60px 5px 5px;
+}

@@ -22,6 +22,7 @@ function checkSystemAlerts() {
          //Check ROSBridge connection before subscribe a topic
          IsROSBridgeConnected();
         var messageTypeFullDescription = 'NA';
+        console.log("system alert type" + message.type);
         switch (message.type) 
         {
             case SYSTEM_ALERT_CAUTION:
@@ -52,21 +53,15 @@ function checkSystemAlerts() {
 
             case SYSTEM_ALERT_FATAL:
                 session_isSystemAlert.ready = false;
-                //Show modal popup for Fatal alerts.
-                messageTypeFullDescription = 'PLEASE TAKE <strong>MANUAL</strong> CONTROL OF THE VEHICLE.';
-                messageTypeFullDescription += '<br/><br/>System received a FATAL message. Please wait for system to shut down. <br/><br/>' + message.description;
-                listenerSystemAlert.unsubscribe();
-                //If this modal does not exist, create one 
-                if( $('#systemAlertModal').length < 1 ) 
-                { 
-                    $('#ModalsArea').append(createSystemAlertModal(
-                        '<span style="color:red"><i class="fas fa-exclamation-triangle"></i></span>&nbsp;&nbsp;SYSTEM ALERT', 
-                        messageTypeFullDescription,
-                        false,true
-                        ));              
-                }
-                $('#systemAlertModal').modal({backdrop: 'static', keyboard: false}); 
-                playSound('audioAlert1', false);
+                messageTypeFullDescription = 'System received a CRITICAL message. ' + message.description;
+                MsgPop.open({
+                    Type:           "error",
+                    Content:        message.description,
+                    AutoClose:      true,
+                    ClickAnyClose:  true,
+                    ShowIcon:       true,
+                    HideCloseBtn:   false
+                });
                 break;
 
             case SYSTEM_ALERT_NOT_READY:

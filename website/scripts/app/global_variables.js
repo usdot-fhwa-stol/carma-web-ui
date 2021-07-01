@@ -60,6 +60,7 @@ const T_STEERING_WHEEL_FEEDBACK = "/hardware_interface/steering_feedback";
 const T_THROTTLE_FEEDBACK = "/hardware_interface/throttle_feedback";
 const T_BRAKE_FEEDBACK = "/hardware_interface/brake_feedback";
 const T_LANE_CHANGE_STATUS = "/guidance/cooperative_lane_change_status";
+const T_TCR_BOUNDING_POINTS = "/environment/tcr_bounding_points";
 
 //ROS Services names
 const S_GUIDANCE_AVAILABLE_ROUTES = '/guidance/get_available_routes';
@@ -110,6 +111,7 @@ const M_THROTTLE_FEEDBACK="automotive_platform_msgs/ThrottleFeedback";
 const M_STEERING_FEEDBACK="automotive_platform_msgs/SteeringFeedback";
 const M_BRAKE_FEEDBACK="automotive_platform_msgs/BrakeFeedback";
 const M_LANE_CHANGE_STATUS = "cav_msgs/LaneChangeStatus";
+const M_TCR_POLYGON = "cav_msgs/TrafficControlRequestPolygon"
 
 //ROS param names
 const P_REQUIRED_PLUGINS = '/guidance/health_monitor/required_plugins';
@@ -203,6 +205,10 @@ var hostmarker;
 var map_frame = null;  //map iframe 
 var map_content_window = null; //map iframe content window
 var map_doc = null;
+var tcr_polygon = null;
+const g_polygon_type = {
+    TCR: "TCR"
+}
 
 
 var p_host_instructions = '/saxton_cav/ui/host_instructions';

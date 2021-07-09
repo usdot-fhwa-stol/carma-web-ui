@@ -69,7 +69,7 @@ function subscribeToPlatoonInfo ()
         if (message.actual_gap != undefined){
               actual_gap = message.actual_gap;
         }
-        if(message.desired_gap != 'undefined'){
+        if(message.desired_gap != undefined){
             desired_gap = message.desired_gap;
         }
         updatePlatooningInfo(platooning_state,  //host vehicle platoon state

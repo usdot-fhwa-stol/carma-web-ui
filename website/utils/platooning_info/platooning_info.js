@@ -61,11 +61,6 @@ function createPlatooningInfo(platooning_state,host_vehicle_position,desired_gap
 
 function updatePlatooningInfo(platooning_state,host_vehicle_position,desired_gap,actual_gap,leader_vehicle_id,platoon_id,platoon_applied_speed)
 {
-    if(actual_gap < 0)
-        actual_gap ='N/A';
-    
-    if(desired_gap < 0)
-        desired_gap ='N/A';
    document.getElementById('platooning_host_state_id').innerHTML ="PLATOON STATE: " + platooning_state;
    document.getElementById('platooning_host_position_id').innerHTML = "POSITION: " + host_vehicle_position;
    document.getElementById('platooning_desired_gap_id').innerHTML ="DESIRED GAP FROM LEADER: " + desired_gap + " METERS";

@@ -63,19 +63,11 @@ function subscribeToPlatoonInfo ()
                 platooning_state = 'N/A';
                 break;
         }
-        let actual_gap = -1;
-        let desired_gap = -1;
-        console.log(message.actual_gap);
-        if (message.actual_gap != undefined){
-              actual_gap = message.actual_gap;
-        }
-        if(message.desired_gap != undefined){
-            desired_gap = message.desired_gap;
-        }
+
         updatePlatooningInfo(platooning_state,  //host vehicle platoon state
                             (message.host_platoon_position+1) + ' out of '+ message.size +' vehicles',  //host vehicle position variable is index value, but actual platoon position = index + 1
-                             desired_gap.toFixed(1), //Desired Gap
-                             actual_gap.toFixed(1) , //actual gap
+                             message.desired_gap==undefined ? "N/A": message.desired_gap.toFixed(1), //Desired Gap
+                             message.actual_gap==undefined ? "N/A": message.actual_gap.toFixed(1) , //actual gap
                              message.leader_id, //leader_vehicle_id = leader_id
                              message.platoon_id, //platoon_id
                             (message.leader_cmd_speed * METER_TO_MPH).toFixed(2) //platoon_applied_speed = leader_cmd_speed

@@ -17,6 +17,7 @@ function showStatusandLogs()
     checkRouteInfo();
     checkRobotEnabled();
     showTCRPolygon();
+    UpdateHostVehicleMarkerLoc();
 }
 
 /*
@@ -215,6 +216,44 @@ function showNavSatFix()
             $('#StatusNavSatFixAltitudeId').text(message.altitude.toFixed(6));
         }   
 
+        //update map
+        if (hostmarker != null) 
+        {
+           let jsonUnit = {};
+           jsonUnit.latitude =  message.latitude.toFixed(6);
+           jsonUnit.longitude =  message.longitude.toFixed(6);
+
+           if(count_position < buffer_size)
+           {
+                vector_positions[count_position++] = jsonUnit;
+           }
+           else
+           {
+                let avgPosition = AvgHostMarkerGeoPositions( vector_positions, buffer_size );
+                count_position= 0;
+                vector_positions = [];
+                moveMarkerWithTimeout(hostmarker, avgPosition.avgLatitude.toString(), avgPosition.avglongitude.toString(), 0);
+           }           
+        }
+    });
+}
+
+function UpdateHostVehicleMarkerLoc()
+{   
+    var listenerNavSatFix = new ROSLIB.Topic({
+        ros: g_ros,
+        name: T_GNSS_FIX_FUSED, 
+        messageType: M_GPS_COMMON_GPSFIX
+    });
+
+    let buffer_size = 10;
+    let count_position = 0;
+    let vector_positions = [];
+    listenerNavSatFix.subscribe(function (message) 
+    {
+        if (message.latitude == null || message.longitude == null)
+            return;
+        
         //update map
         if (hostmarker != null) 
         {

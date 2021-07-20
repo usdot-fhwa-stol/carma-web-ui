@@ -61,6 +61,7 @@ const T_THROTTLE_FEEDBACK = "/hardware_interface/throttle_feedback";
 const T_BRAKE_FEEDBACK = "/hardware_interface/brake_feedback";
 const T_LANE_CHANGE_STATUS = "/guidance/cooperative_lane_change_status";
 const T_TCR_BOUNDING_POINTS = "/environment/tcr_bounding_points";
+const T_GNSS_FIX_FUSED="/hardware_interface/gnss_fix_fused";
 
 //ROS Services names
 const S_GUIDANCE_AVAILABLE_ROUTES = '/guidance/get_available_routes';
@@ -112,6 +113,7 @@ const M_STEERING_FEEDBACK="automotive_platform_msgs/SteeringFeedback";
 const M_BRAKE_FEEDBACK="automotive_platform_msgs/BrakeFeedback";
 const M_LANE_CHANGE_STATUS = "cav_msgs/LaneChangeStatus";
 const M_TCR_POLYGON = "cav_msgs/TrafficControlRequestPolygon"
+const M_GPS_COMMON_GPSFIX="gps_common/GPSFix";
 
 //ROS param names
 const P_REQUIRED_PLUGINS = '/guidance/health_monitor/required_plugins';

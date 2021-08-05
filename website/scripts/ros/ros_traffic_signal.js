@@ -40,6 +40,7 @@ function TrafficSignalInfoList(){
                                             $('.traffic-signal-col').append(updateTrafficSignal('flash_green',remaining_time));
                                             break;
                                         case TRAFFIC_SIGNAL_PHASE_STATE.permissive_clearance:
+                                        case TRAFFIC_SIGNAL_PHASE_STATE.caution_conflicting_traffic:
                                             $('.traffic-signal-col').append(updateTrafficSignal('flash_yellow',remaining_time));
                                             break;
                                         case TRAFFIC_SIGNAL_PHASE_STATE.stop_then_proceed:

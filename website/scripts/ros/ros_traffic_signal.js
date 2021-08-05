@@ -1,6 +1,3 @@
-/***
- * rostopic pub -r 10 traffic_signal_info cav_msgs/TrafficSignalInfoList  "traffic_signal_info_list: [{intersection_id: 0, state: 5,remaining_time: 1,lane_id: 0,remaining_distance: 1}]"
- */
 function TrafficSignalInfoList(){
 
     listener = new ROSLIB.Topic({

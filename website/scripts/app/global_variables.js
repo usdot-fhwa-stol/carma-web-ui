@@ -62,6 +62,7 @@ const T_BRAKE_FEEDBACK = "/hardware_interface/brake_feedback";
 const T_LANE_CHANGE_STATUS = "/guidance/cooperative_lane_change_status";
 const T_TCR_BOUNDING_POINTS = "/environment/tcr_bounding_points";
 const T_GNSS_FIX_FUSED="/hardware_interface/gnss_fix_fused";
+const T_J2735_SPAT="/message/incoming_j2735_spat";
 
 //ROS Services names
 const S_GUIDANCE_AVAILABLE_ROUTES = '/guidance/get_available_routes';
@@ -114,6 +115,7 @@ const M_BRAKE_FEEDBACK="automotive_platform_msgs/BrakeFeedback";
 const M_LANE_CHANGE_STATUS = "cav_msgs/LaneChangeStatus";
 const M_TCR_POLYGON = "cav_msgs/TrafficControlRequestPolygon"
 const M_GPS_COMMON_GPSFIX="gps_common/GPSFix";
+const M_J2735_SPAT="j2735_msgs/SPAT";
 
 //ROS param names
 const P_REQUIRED_PLUGINS = '/guidance/health_monitor/required_plugins';
@@ -138,6 +140,20 @@ const SIGNAL_FLASHING_GREEN_STATE=4;
 const SIGNAL_FLASHING_YELLOW_STATE=5;
 const SIGNAL_FLASHING_RED_STATE=6;
 const MAX_LOG_LINES = 10;
+
+//Signal state from J2735
+const TRAFFIC_SIGNAL_PHASE_STATE={
+    unavailable: 0,
+    dark: 1,
+    stop_then_proceed: 2, //flashing red
+    stop_and_remain: 3,    //red light
+    pre_movement: 4, // red+yellow
+    permissive_movement_allowed: 5, // permissive green
+    protected_movement_allowed: 6, // protected green
+    permissive_clearance: 7, // permissive yellow
+    protected_clearance: 8, // protected yellow
+    caution_conflicting_traffic: 9 //flashing yellow
+}
 
 //system alert types
 const SYSTEM_ALERT_CAUTION = 1;

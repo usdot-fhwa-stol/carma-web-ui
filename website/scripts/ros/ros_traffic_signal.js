@@ -28,27 +28,26 @@ function TrafficSignalInfoList(){
                                     switch(signalState)
                                     {
                                         case TRAFFIC_SIGNAL_PHASE_STATE.protected_movement_allowed:
-                                            $('.traffic-signal-col').append(updateTrafficSignal('green',remaining_time));
+                                            $('.traffic-signal-col').html(updateTrafficSignal('green',remaining_time));
                                             break;
                                         case TRAFFIC_SIGNAL_PHASE_STATE.stop_and_remain:
-                                            $('.traffic-signal-col').append(updateTrafficSignal('red',remaining_time));
+                                            $('.traffic-signal-col').html(updateTrafficSignal('red',remaining_time));
                                             break;
                                         case TRAFFIC_SIGNAL_PHASE_STATE.protected_clearance:
-                                            $('.traffic-signal-col').append(updateTrafficSignal('yellow',remaining_time));
+                                            $('.traffic-signal-col').html(updateTrafficSignal('yellow',remaining_time));
                                             break;
                                         case TRAFFIC_SIGNAL_PHASE_STATE.permissive_movement_allowed:
-                                            $('.traffic-signal-col').append(updateTrafficSignal('flash_green',remaining_time));
+                                            $('.traffic-signal-col').html(updateTrafficSignal('flash_green',remaining_time));
                                             break;
                                         case TRAFFIC_SIGNAL_PHASE_STATE.permissive_clearance:
                                         case TRAFFIC_SIGNAL_PHASE_STATE.caution_conflicting_traffic:
-                                            $('.traffic-signal-col').append(updateTrafficSignal('flash_yellow',remaining_time));
+                                            $('.traffic-signal-col').html(updateTrafficSignal('flash_yellow',remaining_time));
                                             break;
                                         case TRAFFIC_SIGNAL_PHASE_STATE.stop_then_proceed:
-                                            $('.traffic-signal-col').append(updateTrafficSignal('flash_red',remaining_time));
+                                            $('.traffic-signal-col').html(updateTrafficSignal('flash_red',remaining_time));
                                             break;
                                         default:
-                                            $('.traffic-signal-col').html('');
-                                            $('.traffic-signal-col').append(updateTrafficSignal('',''));
+                                            $('.traffic-signal-col').html(updateTrafficSignal('',''));
                                             console.error("Traffic signal state is invalid");
                                             break;
                                     } 
@@ -57,8 +56,7 @@ function TrafficSignalInfoList(){
                                     {
                                         isTimeerSet=true;
                                         setTimeout(function(){
-                                            $('.traffic-signal-col').html('');
-                                            $('.traffic-signal-col').append(updateTrafficSignal('',''));
+                                            $('.traffic-signal-col').html(updateTrafficSignal('',''));
                                             isTimeerSet=false;
                                             signalState = null;
                                         }, 5000);

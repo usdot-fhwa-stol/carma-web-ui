@@ -50,7 +50,7 @@ const T_EKF_TWIST = '/localization/ekf_twist';
 const T_LIGHT_BAR_STATUS = '/hardware_interface/lightbar/light_bar_status';
 const T_CARMA_SYSTEM_VERSION = "/carma_system_version";
 const T_GEOFENCE_INFO = "/environment/active_geofence";
-const T_LANE_CHANGE = '/guidance/lane_change';
+const T_LANE_CHANGE = '/guidance/upcoming_lane_change_status';
 const T_PLATOON_INFO = '/guidance/platooning_info';
 const T_LOCALIZATION_STATUS = '/localization/localization_status';
 const T_STEERING_WHEEL="/hardware_interface/steering_wheel";
@@ -61,6 +61,7 @@ const T_THROTTLE_FEEDBACK = "/hardware_interface/throttle_feedback";
 const T_BRAKE_FEEDBACK = "/hardware_interface/brake_feedback";
 const T_LANE_CHANGE_STATUS = "/guidance/cooperative_lane_change_status";
 const T_TCR_BOUNDING_POINTS = "/environment/tcr_bounding_points";
+const T_GNSS_FIX_FUSED="/hardware_interface/gnss_fix_fused";
 
 //ROS Services names
 const S_GUIDANCE_AVAILABLE_ROUTES = '/guidance/get_available_routes';
@@ -102,7 +103,7 @@ const M_VEHICLE_CMD = 'autoware_msgs/VehicleCmd';
 const M_TWIST_STAMPED = 'geometry_msgs/TwistStamped';
 const M_LIGHT_BAR_STATUS = 'cav_msgs/LightBarStatus';
 const M_GEOFENCE_INFO_MSG = 'cav_msgs/CheckActiveGeofence';
-const M_LANE_CHANGE = 'cav_msgs/LaneChangeInfo';
+const M_LANE_CHANGE = 'cav_msgs/UpcomingLaneChangeStatus';
 const M_PLATOON_INFO = 'cav_msgs/PlatooningInfo';
 const M_LOCALIZATION_REPORT = 'cav_msgs/LocalizationStatusReport';
 const M_STEERING_WHEEL="automotive_platform_msgs/SteerWheel";
@@ -112,12 +113,14 @@ const M_STEERING_FEEDBACK="automotive_platform_msgs/SteeringFeedback";
 const M_BRAKE_FEEDBACK="automotive_platform_msgs/BrakeFeedback";
 const M_LANE_CHANGE_STATUS = "cav_msgs/LaneChangeStatus";
 const M_TCR_POLYGON = "cav_msgs/TrafficControlRequestPolygon"
+const M_GPS_COMMON_GPSFIX="gps_common/GPSFix";
 
 //ROS param names
 const P_REQUIRED_PLUGINS = '/guidance/health_monitor/required_plugins';
 
 // m/s to MPH
 const METER_TO_MPH = 2.23694;
+const METER_TO_MILE = 0.000621371;
 
 //Guidance CAV_Messages
 const STARTUP = 1;
@@ -182,8 +185,9 @@ const  PLATOONING_STATE_FOLLOWING_LABEL = 'FOLLOWING';
 const GEOFENCE_TYPE_SPEED_LIMIT = 1;
 
 //Lane Change Direction
-const LANE_CHANGE_DIRECTION_TO_LEFT = 0;
-const LANE_CHANGE_DIRECTION_TO_RIGHT = 1;
+const LANE_CHANGE_DIRECTION_TO_LEFT = 1;
+const LANE_CHANGE_DIRECTION_TO_RIGHT = 2;
+const LANE_CHANGE_DIRECTION_STAY_IN_LANE = 0;
 
 //ROS
 var g_ros = new ROSLIB.Ros();

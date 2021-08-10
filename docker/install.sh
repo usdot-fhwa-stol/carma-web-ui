@@ -56,5 +56,5 @@ usermod -aG docker www-data
 # Install stub carma.config.js to be overriden by later configuration
 mkdir -p /opt/carma/vehicle/config
 touch /opt/carma/vehicle/config/carma.config.js
-ln -sf /opt/carma/vehicle/config/carma.config.js /var/www/html/scripts/carma.config.js
+ln -sf /opt/carma/vehicle/config/carma.config.js /var/www/html/scripts/app/carma.config.js
 chown www-data:www-data /opt/carma/vehicle/config/carma.config.js

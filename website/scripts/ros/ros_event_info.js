@@ -122,7 +122,7 @@ function subscribeToEventInfo()
                                     message.minimum_gap,
                                     message.advisory_speed,
                                     message.type,
-                                    message.reason,
+                                    message.reason.toUpperCase().includes(event_reason_work_zone)?  "WORK ZONE": message.reason,
                                     message.value,
                                     message.distance_to_next_geofence);
                 }
@@ -132,7 +132,7 @@ function subscribeToEventInfo()
                                                         message.minimum_gap,
                                                         message.advisory_speed,
                                                         message.type,
-                                                        message.reason,
+                                                        message.reason.toUpperCase().includes(event_reason_work_zone)?  "WORK ZONE": message.reason,
                                                         message.value,
                                                         message.distance_to_next_geofence);
                     

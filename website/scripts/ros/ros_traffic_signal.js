@@ -13,7 +13,6 @@ function UpdateIntersectionAndSignalGroupIds(){
         IsROSBridgeConnected();
         intersection_signal_group_ids[0] = message.data[0];
         intersection_signal_group_ids[1] = message.data[1];
-        console.log(intersection_signal_group_ids);
     });
 }
 
@@ -28,11 +27,10 @@ function TrafficSignalInfoList(){
     });
 
     let signalState = null;
-    let isTimeerSet = false;    
+    let isTimeerSet = false;
 
     listener.subscribe(function (message) 
     {
-
          //Check ROSBridge connection before subscribe a topic
          IsROSBridgeConnected();
          try{

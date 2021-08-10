@@ -26,6 +26,7 @@ var event_types =
         descrition: "LANE OPEN"
     }
 }
+var event_reason_work_zone = "WORKZONE";
 
 
 function subscribeToEventInfo()
@@ -53,9 +54,9 @@ function subscribeToEventInfo()
 
     }
 
-    let LaneChangeStatusEventTypes = {
+    let EventStatusEventTypes = {
         EVENT_LANE_CLOSED : {
-            id: 0,
+            id: 2,
             description: " Lane closure ahead"
         }
             
@@ -75,18 +76,27 @@ function subscribeToEventInfo()
                 isActive = EventActiveStatusDict.ACTIVE.IsActive;
 
                 // update lane change status div area and content to include event detected 
-                if(isActive && !isActiveStateDisplayed)
+                if(isActive)
                 {    
                     let description = EventActiveStatusDict.ACTIVE.description;
                     switch(message.type)
                     {
-                        case LaneChangeStatusEventTypes.EVENT_LANE_CLOSED.id:
-                            description += LaneChangeStatusEventTypes.EVENT_LANE_CLOSED.description;
+                        case EventStatusEventTypes.EVENT_LANE_CLOSED.id:
+                            description += EventStatusEventTypes.EVENT_LANE_CLOSED.description;
                             break;
                         default:
                             break;
-                    }             
-                    updateLaneChangeStatusDivByEventInfo(EventActiveStatusDict.ACTIVE.imgPath, 
+                    }
+
+                    let imgPath = ""; 
+                    if(message.reason != null && message.reason.trim().replace(/\s+/g, '').toUpperCase() == event_reason_work_zone)
+                    {
+                        imgPath = "../../images/work_zone_fence_orange.png";
+                    }else{
+                        imgPath = EventActiveStatusDict.ACTIVE.imgPath;
+                    }
+                              
+                    updateEventStatusDivByEventInfo(imgPath, 
                         description, 
                         EventActiveStatusDict.ACTIVE.borderClass);
 
@@ -128,22 +138,32 @@ function subscribeToEventInfo()
                     document.getElementById('event-info-content').appendChild(event_info_wrapper);          
                 }
         }
-       else if(! message.is_on_active_geofence)
+       else if(! message.is_on_active_geofence && isActiveStateDisplayed)
        {
             //not publishing required event information, this consider this event is inactive
             isActive = EventActiveStatusDict.INACTIVE.IsActive;
-            if(!isActive && isActiveStateDisplayed)
+            if(!isActive)
             {
-                updateLaneChangeStatusDivByEventInfo(EventActiveStatusDict.INACTIVE.imgPath, 
+                let imgPath = ""; 
+                if(message.reason != null && message.reason.trim().replace(/\s+/g, '').toUpperCase() == event_reason_work_zone)
+                {
+                    imgPath = "../../images/work_zone_fence_green.png";
+                }else{
+                    imgPath = EventActiveStatusDict.INACTIVE.imgPath;
+                }
+                                                
+                updateEventStatusDivByEventInfo(imgPath, 
                     EventActiveStatusDict.INACTIVE.description, 
                     EventActiveStatusDict.INACTIVE.borderClass);
 
-                isActiveStateDisplayed = false;
             }
-            //Clear the exit active event UI div after 10 seconds
-            setTimeout(()=>{    
-                $('#divLaneChangeStatusContent').empty();    
-            }, 5000) 
+            if(isActiveStateDisplayed){
+                isActiveStateDisplayed = false;
+                //Clear the exit active event UI div after 10 seconds
+                setTimeout(()=>{    
+                    $('#divEventStatusContent').empty();    
+                }, 5000) 
+            }
        }
     });
 }
@@ -195,30 +215,30 @@ function createOrUpdateEventInfoByEventType(isCreateDiv,event_minimum_gap, event
    
 }
 
-function updateLaneChangeStatusDivByEventInfo(imgPath, description, borderClass)
+function updateEventStatusDivByEventInfo(imgPath, description, borderClass)
 {
-    let wrapper = document.getElementById('lane_change_status_wrapper');
-    let description_dev = document.getElementById('lane_change_status_description_id');
-    let status_icon = document.getElementById('img_lane_change_status_icon_id');
+    let wrapper = document.getElementById('event_status_wrapper');
+    let description_dev = document.getElementById('event_status_description_id');
+    let status_icon = document.getElementById('img_event_status_icon_id');
     if(wrapper != null && wrapper != 'undefined'
         && description_dev != null && description_dev != 'undefined'
         && status_icon != null && status_icon != 'undefined')
     {   
        
-       updateLaneChangeStatus(false, imgPath, description);
+       updateEventStatus(false, imgPath, description);
     }
     else
     {
-        let laneChangeStatusDiv = createLaneChangeStatus(false, imgPath, description);
-        $('#divLaneChangeStatusContent').append(laneChangeStatusDiv);        
+        let EventStatusDiv = createEventStatus(false, imgPath, description);
+        $('#divEventStatusContent').append(EventStatusDiv);        
     }
 
-    $('#lane_change_status_wrapper').removeClass(function(index,css){
+    $('#event_status_wrapper').removeClass(function(index,css){
         return (css.match(/(^|\s)border-\w*/g) || []).join(' ');
     });
     
-    $('#lane_change_status_wrapper').addClass(borderClass);
-    $('#divLaneChangeStatusContent').css('display','');
+    $('#event_status_wrapper').addClass(borderClass);
+    $('#divEventStatusContent').css('display','');
 }
 
 function getEventTypeStrById(event_type_id)

@@ -16,6 +16,8 @@ function showStatusandLogs()
     mapOtherVehicles(); 
     checkRouteInfo();
     checkRobotEnabled();
+    showTCRPolygon();
+    UpdateHostVehicleMarkerLoc();
 }
 
 /*
@@ -214,6 +216,44 @@ function showNavSatFix()
             $('#StatusNavSatFixAltitudeId').text(message.altitude.toFixed(6));
         }   
 
+        //update map
+        if (hostmarker != null) 
+        {
+           let jsonUnit = {};
+           jsonUnit.latitude =  message.latitude.toFixed(6);
+           jsonUnit.longitude =  message.longitude.toFixed(6);
+
+           if(count_position < buffer_size)
+           {
+                vector_positions[count_position++] = jsonUnit;
+           }
+           else
+           {
+                let avgPosition = AvgHostMarkerGeoPositions( vector_positions, buffer_size );
+                count_position= 0;
+                vector_positions = [];
+                moveMarkerWithTimeout(hostmarker, avgPosition.avgLatitude.toString(), avgPosition.avglongitude.toString(), 0);
+           }           
+        }
+    });
+}
+
+function UpdateHostVehicleMarkerLoc()
+{   
+    var listenerNavSatFix = new ROSLIB.Topic({
+        ros: g_ros,
+        name: T_GNSS_FIX_FUSED, 
+        messageType: M_GPS_COMMON_GPSFIX
+    });
+
+    let buffer_size = 10;
+    let count_position = 0;
+    let vector_positions = [];
+    listenerNavSatFix.subscribe(function (message) 
+    {
+        if (message.latitude == null || message.longitude == null)
+            return;
+        
         //update map
         if (hostmarker != null) 
         {
@@ -881,4 +921,70 @@ function publishCARMAVersion(response) {
     });
 
 	topicCARMASystemVersion.publish(msg);
+}
+
+/***
+ * 
+rostopic pub /environment/tcr_bounding_points cav_msgs/TrafficControlRequestPolygon "polygon_list:
+- latitude: 38.955412
+  longitude: -77.151418
+  elevation: 0.0
+  elevation_exists: false 
+- latitude: 38.956947
+  longitude: -77.150431
+  elevation: 0.0
+  elevation_exists: false
+- latitude: 38.955579
+  longitude: -77.147448
+  elevation: 0.0
+  elevation_exists: false
+- latitude: 38.954377 
+  longitude: -77.147888
+  elevation: 0.0
+  elevation_exists: false"
+ */
+function showTCRPolygon() {
+    var listenerTCRBoundingPoints = new ROSLIB.Topic({
+        ros: g_ros,
+        name: T_TCR_BOUNDING_POINTS,
+        messageType: M_TCR_POLYGON
+ });
+
+ listenerTCRBoundingPoints.subscribe(function (message) 
+ {
+    vector_Geo_locations = [];
+    let geoLoc = {};
+
+    let dataArray = message.polygon_list;
+    if(! Array.isArray(dataArray)|| dataArray.length != 4)
+    {
+        console.error("TCR bounding points  are not in array or array does not contains 4 geo-loc");
+        return;
+    }
+    
+    geoLoc.lat = dataArray[0].latitude;
+    geoLoc.lng = dataArray[0].longitude;
+    vector_Geo_locations.push(geoLoc);
+    geoLoc = {};
+
+
+    geoLoc.lat = dataArray[1].latitude;
+    geoLoc.lng = dataArray[1].longitude;
+    vector_Geo_locations.push(geoLoc);
+    geoLoc = {};
+
+        
+    geoLoc.lat = dataArray[2].latitude;
+    geoLoc.lng = dataArray[2].longitude;
+    vector_Geo_locations.push(geoLoc);
+    geoLoc = {};
+
+        
+    geoLoc.lat = dataArray[3].latitude;
+    geoLoc.lng = dataArray[3].longitude;
+    vector_Geo_locations.push(geoLoc);
+    
+    drawPolygonsOnMap(g_polygon_type.TCR, vector_Geo_locations);
+ });
+
 }

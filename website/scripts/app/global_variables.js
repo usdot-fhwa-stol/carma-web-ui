@@ -63,7 +63,7 @@ const T_LANE_CHANGE_STATUS = "/guidance/cooperative_lane_change_status";
 const T_TCR_BOUNDING_POINTS = "/environment/tcr_bounding_points";
 const T_GNSS_FIX_FUSED="/hardware_interface/gnss_fix_fused";
 const T_J2735_SPAT="/message/incoming_j2735_spat";
-const T_INTERSECTION_SIGNAL_GROUP_IDS="/environment/intersection_sginal_group_ids";
+const T_INTERSECTION_SIGNAL_GROUP_IDS="/environment/intersection_signal_group_ids";
 
 //ROS Services names
 const S_GUIDANCE_AVAILABLE_ROUTES = '/guidance/get_available_routes';

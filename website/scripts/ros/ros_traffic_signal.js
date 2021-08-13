@@ -27,7 +27,7 @@ function TrafficSignalInfoList(){
     });
 
     let signalState = null;
-    let isTimeerSet = false;
+    let latest_start_time =  Date.now();
 
     listener.subscribe(function (message) 
     {
@@ -43,6 +43,7 @@ function TrafficSignalInfoList(){
                             //Checking signal group id
                             if(inner_ele.signal_group != unknown_signal_group && inner_ele.signal_group == intersection_signal_group_ids[1])
                                 {
+                                    latest_start_time = Date.now();
                                     inner_ele.state_time_speed.movement_event_list.forEach(event_ele=>{
                                         let signal_state = event_ele.event_state.movement_phase_state;
                                         console.log(signal_state);
@@ -89,14 +90,14 @@ function TrafficSignalInfoList(){
          }  
 
          //set back to black after 1 second.
-        if(!isTimeerSet)
+        setInterval(function()
         {
-            isTimeerSet=true;
-            setTimeout(function(){
-                $('.traffic-signal-col').html(updateTrafficSignal('',''));
-                isTimeerSet=false;
-                signalState = null;
-            }, 1000);
-        }
+            let elapsed_time = Date.now() -latest_start_time;
+            if(elapsed_time >= 1000)
+            {
+                    $('.traffic-signal-col').html(updateTrafficSignal('',''));
+                    signalState = null;
+            }
+         }, 1000);
     });
 }

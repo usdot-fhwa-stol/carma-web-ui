@@ -26,8 +26,8 @@ var event_types =
         descrition: "LANE OPEN"
     }
 }
-var event_reason_work_zone = "WORKZONE";
-
+var event_reason_work_zone = "SIG_WZ";
+const WORK_ZONE_LABEL = "WORK ZONE";
 
 function subscribeToEventInfo()
 {
@@ -43,12 +43,14 @@ function subscribeToEventInfo()
             IsActive: true,
             description: 'Detected active event.',
             imgPath: "../../images/geofence_warning.png",
+            imgPath_WZ: "../../images/work_zone_fence_orange.png",
             borderClass: 'border-warning'
         },
         INACTIVE: {
             IsActive: false,
             description: 'Exit active event',
             imgPath: "../../images/geofence_exit.png",
+            imgPath_WZ: "../../images/work_zone_fence_green.png",
             borderClass: 'border-good'
         }
 
@@ -89,9 +91,9 @@ function subscribeToEventInfo()
                     }
 
                     let imgPath = ""; 
-                    if(message.reason != null && message.reason.trim().replace(/\s+/g, '').toUpperCase() == event_reason_work_zone)
+                    if(message.reason != null && message.reason.trim().replace(/\s+/g, '').toUpperCase().includes(event_reason_work_zone))
                     {
-                        imgPath = "../../images/work_zone_fence_orange.png";
+                        imgPath = EventActiveStatusDict.ACTIVE.imgPath_WZ;
                     }else{
                         imgPath = EventActiveStatusDict.ACTIVE.imgPath;
                     }
@@ -120,7 +122,7 @@ function subscribeToEventInfo()
                                     message.minimum_gap,
                                     message.advisory_speed,
                                     message.type,
-                                    message.reason,
+                                    message.reason.toUpperCase().includes(event_reason_work_zone)? WORK_ZONE_LABEL: message.reason,
                                     message.value,
                                     message.distance_to_next_geofence);
                 }
@@ -130,7 +132,7 @@ function subscribeToEventInfo()
                                                         message.minimum_gap,
                                                         message.advisory_speed,
                                                         message.type,
-                                                        message.reason,
+                                                        message.reason.toUpperCase().includes(event_reason_work_zone)?  WORK_ZONE_LABEL: message.reason,
                                                         message.value,
                                                         message.distance_to_next_geofence);
                     
@@ -145,9 +147,9 @@ function subscribeToEventInfo()
             if(!isActive)
             {
                 let imgPath = ""; 
-                if(message.reason != null && message.reason.trim().replace(/\s+/g, '').toUpperCase() == event_reason_work_zone)
+                if(message.reason != null && message.reason.trim().replace(/\s+/g, '').toUpperCase().includes(event_reason_work_zone))
                 {
-                    imgPath = "../../images/work_zone_fence_green.png";
+                    imgPath = EventActiveStatusDict.INACTIVE.imgPath_WZ; 
                 }else{
                     imgPath = EventActiveStatusDict.INACTIVE.imgPath;
                 }

@@ -119,22 +119,22 @@ function subscribeToEventInfo()
                 if(event_info_wrapper !=null && event_info_wrapper!= undefined && event_info_wrapper!= 'undefined')
                 {
                     createOrUpdateEventInfoByEventType(false,
-                                    message.minimum_gap,
-                                    message.advisory_speed,
+                                    message.minimum_gap.toFixed(1),
+                                    message.advisory_speed.toFixed(1),
                                     message.type,
                                     message.reason.toUpperCase().includes(event_reason_work_zone)? WORK_ZONE_LABEL: message.reason,
-                                    message.value,
-                                    message.distance_to_next_geofence);
+                                    message.value.toFixed(1),
+                                    message.distance_to_next_geofence.toFixed(1));
                 }
                 else
                 {            
                     event_info_wrapper = createOrUpdateEventInfoByEventType(true,
-                                                        message.minimum_gap,
-                                                        message.advisory_speed,
+                                                        message.minimum_gap.toFixed(1),
+                                                        message.advisory_speed.toFixed(1),
                                                         message.type,
                                                         message.reason.toUpperCase().includes(event_reason_work_zone)?  WORK_ZONE_LABEL: message.reason,
-                                                        message.value,
-                                                        message.distance_to_next_geofence);
+                                                        message.value.toFixed(1),
+                                                        message.distance_to_next_geofence.toFixed(1));
                     
                     //add event wrapper to event content div
                     document.getElementById('event-info-content').appendChild(event_info_wrapper);          

@@ -120,20 +120,20 @@ function subscribeToEventInfo()
                 {
                     createOrUpdateEventInfoByEventType(false,
                                     message.minimum_gap.toFixed(1),
-                                    message.advisory_speed.toFixed(1),
+                                    (message.advisory_speed*METER_TO_MPH).toFixed(1),
                                     message.type,
                                     message.reason.toUpperCase().includes(event_reason_work_zone)? WORK_ZONE_LABEL: message.reason,
-                                    message.value.toFixed(1),
+                                    (message.value*METER_TO_MPH).toFixed(1),
                                     message.distance_to_next_geofence.toFixed(1));
                 }
                 else
                 {            
                     event_info_wrapper = createOrUpdateEventInfoByEventType(true,
                                                         message.minimum_gap.toFixed(1),
-                                                        message.advisory_speed.toFixed(1),
+                                                        (message.advisory_speed*METER_TO_MPH).toFixed(1),
                                                         message.type,
                                                         message.reason.toUpperCase().includes(event_reason_work_zone)?  WORK_ZONE_LABEL: message.reason,
-                                                        message.value.toFixed(1),
+                                                        (message.value*METER_TO_MPH).toFixed(1),
                                                         message.distance_to_next_geofence.toFixed(1));
                     
                     //add event wrapper to event content div

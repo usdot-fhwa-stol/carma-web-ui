@@ -182,8 +182,7 @@ function createOrUpdateEventInfoByEventType(isCreateDiv,event_minimum_gap, event
     {
         //Below variables set to null and will not be displayed
         event_minimum_gap = null;
-        event_advisory_speed = null;    
-        event_reason = null;
+        event_advisory_speed = null;  
     }
     else
     {

@@ -57,7 +57,7 @@ function createEventInfo(toHideEventInfo,event_min_gap,event_advisory_speed,even
     let p_event_value = document.createElement("p");
     p_event_value.id = "event_value_id";
     if(value != null)
-        p_event_value.innerHTML = "SPEED LIMIT: " + value;
+        p_event_value.innerHTML = "SPEED LIMIT: " + value + " METERS";
     else{
         p_event_value.style.display = "none";
     } 
@@ -117,7 +117,7 @@ function updateEventInfo(toHideEventInfo,event_min_gap,event_advisory_speed,even
         }
         
         if(value != null){
-            document.getElementById('event_value_id').innerHTML = "SPEED LIMIT: " + value;
+            document.getElementById('event_value_id').innerHTML = "SPEED LIMIT: " + value + " METERS";
             document.getElementById('event_value_id').style.display = "";
         }
         else{

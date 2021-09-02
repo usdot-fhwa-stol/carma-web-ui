@@ -65,6 +65,7 @@
         <script src="scripts/app/main_menu_top.js"></script>
         <script src="scripts/app/main_menu_bottom.js"></script>
         <script src="scripts/app/sounds_control.js"></script>
+        <script src="scripts/app/control.js"></script>
 
         <!--wigets JS from utils-->
         <script src="utils/google_map/google_map.js"></script>
@@ -106,6 +107,7 @@
         <script src="scripts/ros/ros_lane_change.js"></script>                    
         <script src="scripts/ros/ros_platooning_info.js"></script>  
          <script src="scripts/ros/ros_event_info.js"></script>
+         <script src="scripts/ros/ros_UIInstructions.js"></script>
         <script src="scripts/app/subscribeROSServicesOnLoad.js"></script>
 	</head>
 	<body >  
@@ -163,6 +165,29 @@
         </nav><!--Top Navigation END-->
         <div id="ModalsArea" ></div><!--POPUP modal-->
         <div id="jqxLoader"></div><!--Loading modal-->  
+
+        <!-- The Modal for UI instruction-->
+        <div id="modalMessageBox" class="modal">
+          <div class="modal-dialog" role="document">
+          <!-- Modal content -->
+          <div class="modal-content">
+              <div class="modal-header">
+                  <h2>ACTION REQUIRED &nbsp; <i class="fa fa-exclamation-triangle" style="font-size:40px; color:red;"></i></h2>
+                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+              </div>
+              <div class="modal-body">
+              </div>
+              <div class="modal-footer">
+                  <button id="btnModalButton1" title="btnModalButton1" class="btnModal">Button1</button> &nbsp; &nbsp;
+                  <button id="btnModalButton2" title="btnModalButton2" class="btnModal">Button1</button>
+                  <br/>
+                  <div id="divFooterMessage"></div>
+              </div>
+          </div>
+        </div>
+      </div>
 
         <!--Widgets display area-->
         <div id="widgets-panel" style="display: none;padding-left: 10px;">

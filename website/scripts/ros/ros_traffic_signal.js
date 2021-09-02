@@ -116,23 +116,20 @@ function TrafficSignalInfoList(){
  */
 function getCurPhaseMaxSecBySpatTiming(moy, min_end_time )
 {
-    var current_phase_max_sec = 0; 
+    let current_phase_max_sec = 0; 
 
     //get current year 
-    const current_date = Date.now();
-    console.log(current_date);
-    const current_year = current_date.getUTCFullYear();
-    console.log(current_year);
+    let current_date = Date.now();
+    let current_year = current_date.getUTCFullYear();
 
     //get current months, days, hours of the year based on moy (in mins)
-    const current_year_start = new Date(Date.UTC(current_year,01,01,00,00,00,000));
+    let current_year_start = new Date(Date.UTC(current_year,01,01,00,00,00,000));
     console.log(current_year_start);
-    const currnet_year_add_moy = new Date(current_year_start.getUTCMilliseconds() + moy*60*1000); 
-    const currnet_year_month_day_hour = new Date(Date.UTC(currnet_year_add_moy.getUTCFullYear(), currnet_year_add_moy.getUTCMonth(),currnet_year_add_moy.getUTCDate(),currnet_year_add_moy.getUTCHours(),00,00,000));
+    let currnet_year_add_moy = new Date(current_year_start.getUTCMilliseconds() + moy*60*1000); 
+    let currnet_year_month_day_hour = new Date(Date.UTC(currnet_year_add_moy.getUTCFullYear(), currnet_year_add_moy.getUTCMonth(),currnet_year_add_moy.getUTCDate(),currnet_year_add_moy.getUTCHours(),00,00,000));
 
     //get current time in terms of seconds, minutes, hours, day, and year
-
-    const currnet_year_add_moy_add_min_end_time = new Date(currnet_year_month_day_hour.getUTCMilliseconds() + min_end_time * 100); 
+    let currnet_year_add_moy_add_min_end_time = new Date(currnet_year_month_day_hour.getUTCMilliseconds() + min_end_time * 100); 
     current_phase_max_sec = Math.abs(currnet_year_add_moy_add_min_end_time.getUTCSeconds() - current_date.getUTCSeconds());
     return current_phase_max_sec;
 }

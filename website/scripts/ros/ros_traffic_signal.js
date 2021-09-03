@@ -53,7 +53,7 @@ function TrafficSignalInfoList(){
                                             let current_phase_max_sec = getCurPhaseMaxSecBySpatTiming(element.moy,event_ele.timing.min_end_time);
                                             setInterval(()=>{
                                                 remaining_time = current_phase_max_sec - 1;
-                                            }, 1000)
+                                            }, 1000);
                                        
 
                                             //Prevent repeating the same state                                    

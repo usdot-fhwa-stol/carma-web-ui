@@ -119,17 +119,28 @@ function getCurPhaseMaxSecBySpatTiming(moy, min_end_time )
     let current_phase_max_sec = 0; 
 
     //get current year 
-    let current_date = Date.now();
+    let current_date = new Date(Date.now());
     let current_year = current_date.getUTCFullYear();
-
+    let current_date_utc = new Date(Date.UTC(current_date.getUTCFullYear(), current_date.getUTCMonth(), current_date.getUTCDate(), current_date.getUTCHours(),current_date.getUTCMinutes(), current_date.getUTCSeconds(),current_date.getUTCMilliseconds()));
     //get current months, days, hours of the year based on moy (in mins)
-    let current_year_start = new Date(Date.UTC(current_year,01,01,00,00,00,000));
-    console.log(current_year_start);
-    let currnet_year_add_moy = new Date(current_year_start.getUTCMilliseconds() + moy*60*1000); 
+    //An integer between 0 (January) and 11 (December) representing the month.
+    //An integer between 1 and 31 representing the day of the month. 
+    //An integer between 0 and 23 representing the hours.
+    //An integer between 0 and 59 representing the minutes.
+    //An integer between 0 and 59 representing the seconds. 
+    let current_year_start = new Date(Date.UTC(current_year,00,01,00,00,00,000));
+    let currnet_year_add_moy = new Date(current_year_start.getTime() + moy*60*1000); 
     let currnet_year_month_day_hour = new Date(Date.UTC(currnet_year_add_moy.getUTCFullYear(), currnet_year_add_moy.getUTCMonth(),currnet_year_add_moy.getUTCDate(),currnet_year_add_moy.getUTCHours(),00,00,000));
-
+    
     //get current time in terms of seconds, minutes, hours, day, and year
-    let currnet_year_add_moy_add_min_end_time = new Date(currnet_year_month_day_hour.getUTCMilliseconds() + min_end_time * 100); 
-    current_phase_max_sec = Math.abs(currnet_year_add_moy_add_min_end_time.getUTCSeconds() - current_date.getUTCSeconds());
-    return current_phase_max_sec;
+    let currnet_year_add_moy_add_min_end_time = new Date(currnet_year_month_day_hour.getTime() + min_end_time * 100); 
+    console.log(currnet_year_add_moy_add_min_end_time.toUTCString());
+    console.log(current_date_utc.toUTCString());
+    //console.log(current_date_utc.getTime() - current_year_start.getTime());
+    
+    current_phase_max_sec = (currnet_year_add_moy_add_min_end_time.getTime() - current_date_utc.getTime())/1000;
+    if(current_phase_max_sec < 0){
+        console.error("Signal timing is expired.");
+    }
+    return current_phase_max_sec.toFixed(0);
 }

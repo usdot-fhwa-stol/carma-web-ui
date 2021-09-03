@@ -345,7 +345,7 @@ function showModalAck(msg, response_service) {
 
     btnModalButton2.title = 'NO';
     btnModalButton2.innerHTML = 'NO';
-    btnModalButton2.classList.add('btn','btn-light','btn-lg','btnConfirmYES');
+    btnModalButton2.classList.add('btn','btn-light','btn-lg','btnConfirmNO');
     btnModalButton2.onclick = function () {
         if(response_service.trim().toLowerCase() == S_GUIDANCE_ACTIVATED.trim().toLowerCase())
         {

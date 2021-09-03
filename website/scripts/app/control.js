@@ -328,6 +328,7 @@ function showModalAck(msg, response_service) {
 
     btnModalButton1.title = 'YES';
     btnModalButton1.innerHTML = 'YES';
+    btnModalButton1.classList.add('btn','btn-light','btn-lg','btnConfirmYES');
 
     btnModalButton1.onclick = function () {
         if(response_service.toLowerCase() == S_GUIDANCE_ACTIVATED.toLowerCase())
@@ -344,6 +345,7 @@ function showModalAck(msg, response_service) {
 
     btnModalButton2.title = 'NO';
     btnModalButton2.innerHTML = 'NO';
+    btnModalButton2.classList.add('btn','btn-light','btn-lg','btnConfirmYES');
     btnModalButton2.onclick = function () {
         if(response_service.trim().toLowerCase() == S_GUIDANCE_ACTIVATED.trim().toLowerCase())
         {

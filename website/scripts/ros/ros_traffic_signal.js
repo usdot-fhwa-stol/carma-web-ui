@@ -66,28 +66,40 @@ function TrafficSignalInfoList(){
                                             switch(signal_state)
                                             {
                                                 case TRAFFIC_SIGNAL_PHASE_STATE.protected_movement_allowed:
-                                                    current_phase_max_sec = GREEN_COUNT_DOWN_MAX_SEC;
+                                                    if(!is_timer_set){
+                                                     current_phase_max_sec = GREEN_COUNT_DOWN_MAX_SEC;
+                                                    }
                                                     $('.traffic-signal-col').html(updateTrafficSignal('green',remaining_time));
                                                     break;
                                                 case TRAFFIC_SIGNAL_PHASE_STATE.stop_and_remain:
+                                                    if(!is_timer_set){
                                                     current_phase_max_sec = RED_COUNT_DOWN_MAX_SEC;
+                                                    }
                                                     $('.traffic-signal-col').html(updateTrafficSignal('red',remaining_time));
                                                     break;
                                                 case TRAFFIC_SIGNAL_PHASE_STATE.protected_clearance:
+                                                    if(!is_timer_set){
                                                     current_phase_max_sec = YELLOW_COUNT_DOWN_MX_SEC;
+                                                    }
                                                     $('.traffic-signal-col').html(updateTrafficSignal('yellow',remaining_time));
                                                     break;
                                                 case TRAFFIC_SIGNAL_PHASE_STATE.permissive_movement_allowed:
+                                                    if(!is_timer_set){
                                                     current_phase_max_sec = GREEN_COUNT_DOWN_MAX_SEC;
+                                                    }
                                                     $('.traffic-signal-col').html(updateTrafficSignal('flash_green',remaining_time));
                                                     break;
                                                 case TRAFFIC_SIGNAL_PHASE_STATE.permissive_clearance:
                                                 case TRAFFIC_SIGNAL_PHASE_STATE.caution_conflicting_traffic:
+                                                    if(!is_timer_set){
                                                     current_phase_max_sec = YELLOW_COUNT_DOWN_MX_SEC;
+                                                    }
                                                     $('.traffic-signal-col').html(updateTrafficSignal('flash_yellow',remaining_time));
                                                     break;
                                                 case TRAFFIC_SIGNAL_PHASE_STATE.stop_then_proceed:
+                                                    if(!is_timer_set){
                                                     current_phase_max_sec = RED_COUNT_DOWN_MAX_SEC;
+                                                    }
                                                     $('.traffic-signal-col').html(updateTrafficSignal('flash_red',remaining_time));
                                                     break;
                                                 default:

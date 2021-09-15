@@ -1,6 +1,9 @@
 var unknown_intersection_id = -1; //Integer (0...65535)
 var unknown_signal_group = 0; //Integer (0...255). The value 0 shall be used when the ID is not available or not known.
 var intersection_signal_group_ids = [unknown_intersection_id,unknown_signal_group];
+const RED_COUNT_DOWN_MAX_SEC = 13;
+const GREEN_COUNT_DOWN_MAX_SEC= 13;
+const YELLOW_COUNT_DOWN_MX_SEC = 3;
 
 function UpdateIntersectionAndSignalGroupIds(){
     listener = new ROSLIB.Topic({
@@ -48,34 +51,43 @@ function TrafficSignalInfoList(){
                                         let signal_state = event_ele.event_state.movement_phase_state;
                                         if(signalStateTracking != signal_state)
                                         {
+                                            is_timer_set = false;
+                                        }
                                             signalStateTracking = signal_state;
                                             //set timer to count down ONY for current changed phase
-                                            let current_phase_max_sec = getCurPhaseMaxSecBySpatTiming(element.moy,event_ele.timing.min_end_time);
-                                            setInterval(()=>{
-                                                remaining_time = current_phase_max_sec - 1;
-                                            }, 1000);
+                                            // let current_phase_max_sec = getCurPhaseMaxSecBySpatTiming(element.moy,event_ele.timing.min_end_time);
+                                            
+                                            // setInterval(()=>{
+                                            //     remaining_time = current_phase_max_sec - 1;
+                                            // }, 1000);
                                        
 
                                             //Prevent repeating the same state                                    
                                             switch(signal_state)
                                             {
                                                 case TRAFFIC_SIGNAL_PHASE_STATE.protected_movement_allowed:
+                                                    current_phase_max_sec = GREEN_COUNT_DOWN_MAX_SEC;
                                                     $('.traffic-signal-col').html(updateTrafficSignal('green',remaining_time));
                                                     break;
                                                 case TRAFFIC_SIGNAL_PHASE_STATE.stop_and_remain:
+                                                    current_phase_max_sec = RED_COUNT_DOWN_MAX_SEC;
                                                     $('.traffic-signal-col').html(updateTrafficSignal('red',remaining_time));
                                                     break;
                                                 case TRAFFIC_SIGNAL_PHASE_STATE.protected_clearance:
+                                                    current_phase_max_sec = YELLOW_COUNT_DOWN_MX_SEC;
                                                     $('.traffic-signal-col').html(updateTrafficSignal('yellow',remaining_time));
                                                     break;
                                                 case TRAFFIC_SIGNAL_PHASE_STATE.permissive_movement_allowed:
+                                                    current_phase_max_sec = GREEN_COUNT_DOWN_MAX_SEC;
                                                     $('.traffic-signal-col').html(updateTrafficSignal('flash_green',remaining_time));
                                                     break;
                                                 case TRAFFIC_SIGNAL_PHASE_STATE.permissive_clearance:
                                                 case TRAFFIC_SIGNAL_PHASE_STATE.caution_conflicting_traffic:
+                                                    current_phase_max_sec = YELLOW_COUNT_DOWN_MX_SEC;
                                                     $('.traffic-signal-col').html(updateTrafficSignal('flash_yellow',remaining_time));
                                                     break;
                                                 case TRAFFIC_SIGNAL_PHASE_STATE.stop_then_proceed:
+                                                    current_phase_max_sec = RED_COUNT_DOWN_MAX_SEC;
                                                     $('.traffic-signal-col').html(updateTrafficSignal('flash_red',remaining_time));
                                                     break;
                                                 default:
@@ -83,7 +95,15 @@ function TrafficSignalInfoList(){
                                                     console.error("Traffic signal state is invalid");
                                                     break;
                                             } 
-                                        }
+                                            if(!is_timer_set){
+                                                setInterval(()=>{
+                                                    remaining_time = current_phase_max_sec - 1;
+                                                    is_timer_set = true;
+                                                }, 1000);
+                                            }
+                                            
+                                       
+                                        // }
                                     });
                             }
                             

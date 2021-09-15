@@ -64,7 +64,7 @@ const T_TCR_BOUNDING_POINTS = "/environment/tcr_bounding_points";
 const T_GNSS_FIX_FUSED="/hardware_interface/gnss_fix_fused";
 const T_J2735_SPAT="/message/incoming_j2735_spat";
 const T_INTERSECTION_SIGNAL_GROUP_IDS="/environment/intersection_signal_group_ids";
-const T_UI_INSTRUCTION ="/guidance/ui_instructions";
+const T_UI_INSTRUCTION ="/ui/ui_instructions";
 
 //ROS Services names
 const S_GUIDANCE_AVAILABLE_ROUTES = '/guidance/get_available_routes';

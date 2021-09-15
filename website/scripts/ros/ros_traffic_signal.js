@@ -1,9 +1,9 @@
 var unknown_intersection_id = -1; //Integer (0...65535)
 var unknown_signal_group = 0; //Integer (0...255). The value 0 shall be used when the ID is not available or not known.
 var intersection_signal_group_ids = [unknown_intersection_id,unknown_signal_group];
-const RED_COUNT_DOWN_MAX_SEC = 13;
-const GREEN_COUNT_DOWN_MAX_SEC= 13;
+const GREEN_COUNT_DOWN_MAX_SEC= 15;
 const YELLOW_COUNT_DOWN_MX_SEC = 3;
+const RED_COUNT_DOWN_MAX_SEC = 2 + YELLOW_COUNT_DOWN_MX_SEC + GREEN_COUNT_DOWN_MAX_SEC ;
 
 function UpdateIntersectionAndSignalGroupIds(){
     listener = new ROSLIB.Topic({

@@ -32,6 +32,7 @@ function TrafficSignalInfoList(){
     let signalStateTracking = 0; //0 -> unavailable
     let latest_start_time =  Date.now();
     let remaining_time = 0;
+    let is_timer_set = false;
     listener.subscribe(function (message) 
     {
          //Check ROSBridge connection before subscribe a topic

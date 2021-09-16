@@ -48,8 +48,8 @@ function TrafficSignalInfoList(){
                                         let signal_state = event_ele.event_state.movement_phase_state;
 
                                         console.log("signal_state: " + signal_state);
-                                        if(signalStateTracking != signal_state)
-                                        {
+                                        // if(signalStateTracking != signal_state)
+                                        // {
                                             signalStateTracking = signal_state;
                                             //set timer to count down ONY for current changed phase
                                             let current_phase_max_sec = getCurPhaseMaxSecBySpatTiming(element.moy,event_ele.timing.min_end_time);
@@ -86,7 +86,7 @@ function TrafficSignalInfoList(){
                                                     console.error("Traffic signal state is invalid");
                                                     break;
                                             } 
-                                        }
+                                        // }
                                     });
                             }
                             

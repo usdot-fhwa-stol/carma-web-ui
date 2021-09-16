@@ -46,6 +46,8 @@ function TrafficSignalInfoList(){
                                     latest_start_time = Date.now();
                                     inner_ele.state_time_speed.movement_event_list.forEach(event_ele=>{
                                         let signal_state = event_ele.event_state.movement_phase_state;
+
+                                        console.log("signal_state: " + signal_state);
                                         if(signalStateTracking != signal_state)
                                         {
                                             signalStateTracking = signal_state;

@@ -47,15 +47,9 @@ function TrafficSignalInfoList(){
                                     inner_ele.state_time_speed.movement_event_list.forEach(event_ele=>{
                                         let signal_state = event_ele.event_state.movement_phase_state;
 
-                                        console.log("signal_state: " + signal_state);
-                                        // if(signalStateTracking != signal_state)
-                                        // {
                                             signalStateTracking = signal_state;
                                             //set timer to count down ONY for current changed phase
                                             let current_phase_max_sec = getCurPhaseMaxSecBySpatTiming(element.moy,event_ele.timing.min_end_time);
-                                            // setInterval(()=>{
-                                            //     remaining_time = current_phase_max_sec - 1;
-                                            // }, 1000);
                                             remaining_time = current_phase_max_sec;
                                             console.log("remaining_time: " + remaining_time);
 
@@ -86,7 +80,6 @@ function TrafficSignalInfoList(){
                                                     console.error("Traffic signal state is invalid");
                                                     break;
                                             } 
-                                        // }
                                     });
                             }
                             
@@ -132,13 +125,13 @@ function getCurPhaseMaxSecBySpatTiming(moy, min_end_time )
     //An integer between 0 and 59 representing the minutes.
     //An integer between 0 and 59 representing the seconds. 
     let current_year_start = new Date(Date.UTC(current_year,00,01,00,00,00,000));
-    console.log("current_year_start: "+current_year_start.toUTCString());
+    // console.log("current_year_start: "+current_year_start.toUTCString());
     let current_year_add_moy = new Date(current_year_start.getTime() + moy*60*1000); 
 
-    console.log("current_year_add_moy: "+current_year_add_moy.toUTCString());
+    // console.log("current_year_add_moy: "+current_year_add_moy.toUTCString());
     let current_year_month_day_hour = new Date(Date.UTC(current_year_add_moy.getUTCFullYear(), current_year_add_moy.getUTCMonth(),current_year_add_moy.getUTCDate(),current_year_add_moy.getUTCHours(),00,00,000));
     
-    console.log("current_year_month_day_hour: "+current_year_month_day_hour.toUTCString());
+    // console.log("current_year_month_day_hour: "+current_year_month_day_hour.toUTCString());
     //get current time in terms of seconds, minutes, hours, day, and year
     let current_year_add_moy_add_min_end_time = new Date(current_year_month_day_hour.getTime() + min_end_time * 100); 
     console.log("current_year_add_moy_add_min_end_time" +current_year_add_moy_add_min_end_time.toUTCString());

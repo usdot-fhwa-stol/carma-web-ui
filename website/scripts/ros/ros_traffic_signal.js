@@ -51,10 +51,11 @@ function TrafficSignalInfoList(){
                                             signalStateTracking = signal_state;
                                             //set timer to count down ONY for current changed phase
                                             let current_phase_max_sec = getCurPhaseMaxSecBySpatTiming(element.moy,event_ele.timing.min_end_time);
-                                            setInterval(()=>{
-                                                remaining_time = current_phase_max_sec - 1;
-                                            }, 1000);
-                                       
+                                            // setInterval(()=>{
+                                            //     remaining_time = current_phase_max_sec - 1;
+                                            // }, 1000);
+                                            remaining_time = current_phase_max_sec;
+                                            console.log("remaining_time: " + remaining_time);
 
                                             //Prevent repeating the same state                                    
                                             switch(signal_state)
@@ -138,8 +139,8 @@ function getCurPhaseMaxSecBySpatTiming(moy, min_end_time )
     console.log("current_year_month_day_hour: "+current_year_month_day_hour.toUTCString());
     //get current time in terms of seconds, minutes, hours, day, and year
     let current_year_add_moy_add_min_end_time = new Date(current_year_month_day_hour.getTime() + min_end_time * 100); 
-    console.log(current_year_add_moy_add_min_end_time.toUTCString());
-    console.log(current_date_utc.toUTCString());
+    console.log("current_year_add_moy_add_min_end_time" +current_year_add_moy_add_min_end_time.toUTCString());
+    console.log("current_date_utc" + current_date_utc.toUTCString());
     //console.log(current_date_utc.getTime() - current_year_start.getTime());
     
     current_phase_max_sec = (current_year_add_moy_add_min_end_time.getTime() - current_date_utc.getTime())/1000;

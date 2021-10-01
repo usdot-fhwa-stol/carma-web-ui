@@ -21,8 +21,8 @@ function showUIInstructions()
     };
 
     var listenerUiInstructions = new ROSLIB.Topic({
-        ros: ros,
-        name: t_ui_instructions,
+        ros: g_ros,
+        name: T_UI_INSTRUCTION,
         messageType: 'cav_msgs/UIInstructions'
     });
 

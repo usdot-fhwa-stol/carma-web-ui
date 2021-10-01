@@ -96,6 +96,7 @@ function openTab(evt, name) {
 
 // Get the element with id="defaultOpen" and click on it
 // This needs to be outside a funtion to work.
+if(document.getElementById('defaultOpen')!=null)
 document.getElementById('defaultOpen').click();
 
 /*
@@ -327,22 +328,51 @@ function showModalAck(msg, response_service) {
 
     btnModalButton1.title = 'YES';
     btnModalButton1.innerHTML = 'YES';
+    btnModalButton1.classList.add('btn','btn-light','btn-lg','btnConfirmYES');
 
     btnModalButton1.onclick = function () {
-        sendModalResponse(true, response_service);
+        if(response_service.toLowerCase() == S_GUIDANCE_ACTIVATED.toLowerCase())
+        {
+            activateGuidance(true);
+        }
+        else{
+            sendModalResponse(true, response_service);
+        }
+        modal.style.display = 'none';
+        isModalPopupShowing=false;
         return;
     }
 
     btnModalButton2.title = 'NO';
     btnModalButton2.innerHTML = 'NO';
+    btnModalButton2.classList.add('btn','btn-light','btn-lg','btnConfirmNO');
     btnModalButton2.onclick = function () {
-        sendModalResponse(false, response_service);
+        if(response_service.trim().toLowerCase() == S_GUIDANCE_ACTIVATED.trim().toLowerCase())
+        {
+            activateGuidance(false);
+        }
+        else
+        {
+            sendModalResponse(false, response_service);
+        }
+        modal.style.display = 'none';
+        isModalPopupShowing=false;
         return;
     }
 
     // When the user clicks on <span> (x), close the modal
     span_modal.onclick = function () {
-        sendModalResponse(false, response_service);
+        if(response_service.trim().toLowerCase() == S_GUIDANCE_ACTIVATED.trim().toLowerCase())
+        {
+            activateGuidance(false);
+        }
+        else
+        {
+            sendModalResponse(false, response_service);
+        }
+        
+        modal.style.display = 'none';
+        isModalPopupShowing=false;
         return;
     }
 
@@ -353,7 +383,7 @@ function showModalAck(msg, response_service) {
     var modalHeader = document.getElementsByClassName('modal-header')[0];
     var modalFooter = document.getElementsByClassName('modal-footer')[0];
 
-    modalHeader.innerHTML = '<span class="close">&times;</span><h2>ACTION REQUIRED &nbsp; <i class="fa fa-exclamation-triangle" style="font-size:40px; color:red;"></i></h2>';
+    // modalHeader.innerHTML = ' <h2>ACTION REQUIRED &nbsp; <i class="fa fa-exclamation-triangle" style="font-size:40px; color:red;"></i></h2>';
     modalHeader.style.backgroundColor = '#ffcc00'; // yellow
     modalFooter.style.backgroundColor = '#ffcc00';
     playSound('audioAlert1', true);
@@ -377,7 +407,7 @@ function sendModalResponse(operatorResponse, serviceName) {
     // -----------------
     // First, we create a Service client with details of the service's name and service type.
     var serviceClient = new ROSLIB.Service({
-    ros : ros,
+    ros : g_ros,
     name : serviceName,
     serviceType : 'std_srvs/SetBool'
     });
@@ -604,7 +634,8 @@ function closeModal(action) {
 
             // Get the element with id="defaultOpen" and click on it
             // This needs to be outside a funtion to work.
-            document.getElementById('defaultOpen').click();
+            if(document.getElementById('defaultOpen')!=null)
+                document.getElementById('defaultOpen').click();
 
             //Update CAV buttons state back to Gray
             setCAVButtonState('DISABLED');

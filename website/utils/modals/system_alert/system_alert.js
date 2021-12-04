@@ -69,7 +69,7 @@ function createSystemAlertModal(systemAlertTitle,systemAlertBody,showRestartBtn,
         btnRestart = document.createElement('button');
         btnRestart.classList.add('btn','btn-primary','btn-lg','btnRestart');
         btnRestart.type = 'button';
-        btnRestart.innerHTML = 'RESTART';
+        btnRestart.innerHTML = 'Start A New Route';
         btnRestart.addEventListener('click', function(){
             $("#jqxLoader").jqxLoader({width: 150, height: 100, imagePosition: 'center', isModal: true});
             $('#jqxLoader').jqxLoader('open'); 

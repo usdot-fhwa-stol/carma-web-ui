@@ -50,7 +50,7 @@ jobs:
           name: Pull CARMAMsgs
           command: |
             source ${INIT_ENV}
-            git clone -b noetic/develop --depth 1 git@github.com:usdot-fhwa-stol/carma-msgs.git src/CARMAMsgs
+            git clone -b develop --depth 1 git@github.com:usdot-fhwa-stol/carma-msgs.git src/CARMAMsgs
       - run:
           name: Build Driver
           command: |

@@ -41,7 +41,7 @@ while [[ $# -gt 0 ]]; do
             ;;
         -d|--develop)
             USERNAME=usdotfhwastoldev
-            COMPONENT_VERSION_STRING=noetic-develop
+            COMPONENT_VERSION_STRING=develop
             shift
             ;;
     esac

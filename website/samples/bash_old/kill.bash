@@ -19,7 +19,7 @@ launch_pid=$1
 echo $launch_pid
 
 # Assumes ROS Java was installed as package and included in this source
-source /opt/ros/kinetic/setup.bash
+source /opt/ros/noetic/setup.bash
 
 # Source platform and set ros environment variables
 source /opt/carma/app/bin/setup.bash

@@ -591,8 +591,8 @@ function showPluginOptions() {
 
         for (i = 0; i < pluginList.length; i++) {
 
-            var cbTitle = pluginList[i].name + ' ' + pluginList[i].versionId + ' (' + pluginList[i].name.trim().match(/\b(\w)/g).join('') + ')'; //get abbreviation;
-            var cbId = pluginList[i].name.replace(/\s/g, '_') + '&' + pluginList[i].versionId.replace(/\./g, '_');
+            var cbTitle = pluginList[i].name + ' ' + pluginList[i].version_id + ' (' + pluginList[i].name.trim().match(/\b(\w)/g).join('') + ')'; //get abbreviation;
+            var cbId = pluginList[i].name.replace(/\s/g, '_') + '&' + pluginList[i].version_id.replace(/\./g, '_');
             var isChecked = pluginList[i].activated;
             var isRequired = pluginList[i].required;
 
@@ -999,8 +999,8 @@ function checkAvailability() {
 */
 function showAvailablePlugin(plugin) {
 
-    var cbTitle = plugin.name + ' ' + plugin.versionId;
-    var cbId = plugin.name.replace(/\s/g, '_') + '&' + plugin.versionId.replace(/\./g, '_');
+    var cbTitle = plugin.name + ' ' + plugin.version_id;
+    var cbId = plugin.name.replace(/\s/g, '_') + '&' + plugin.version_id.replace(/\./g, '_');
     var isActivated = plugin.activated;
     var isAvailable = plugin.available;
 

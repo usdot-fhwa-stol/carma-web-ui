@@ -34,15 +34,15 @@ function subscribeToGuidanceRegisteredPlugins ()
                             break;
                         case  STRATEGIC:
                             $('#change-plugins-no-strategic-plugins').html('');
-                            $('#strategic-plugins-section').append(createChangePluginSwitch(isPluginRequired,pluginItem.name, pluginItem.type,pluginItem.versionId,pluginItem.activated));
+                            $('#strategic-plugins-section').append(createChangePluginSwitch(isPluginRequired,pluginItem.name, pluginItem.type,pluginItem.version_id,pluginItem.activated));
                             break;
                         case  TACTICAL:
                             $('#change-plugins-no-tactical-plugins').html('');
-                            $('#tactical-plugins-section').append(createChangePluginSwitch(isPluginRequired,pluginItem.name, pluginItem.type,pluginItem.versionId,pluginItem.activated));
+                            $('#tactical-plugins-section').append(createChangePluginSwitch(isPluginRequired,pluginItem.name, pluginItem.type,pluginItem.version_id,pluginItem.activated));
                             break;
                         case  CONTROL:
                             $('#change-plugins-no-controlling-plugins').html('');
-                            $('#controlling-plugins-section').append(createChangePluginSwitch(isPluginRequired,pluginItem.name, pluginItem.type,pluginItem.versionId,pluginItem.activated));
+                            $('#controlling-plugins-section').append(createChangePluginSwitch(isPluginRequired,pluginItem.name, pluginItem.type,pluginItem.version_id,pluginItem.activated));
                             break;
                     }
                 }
@@ -92,7 +92,7 @@ function subscribeToGuidanceActivePlugins ()
                 if(pluginItem.available && pluginItem.activated)
                 {
                     $('#no-active-plugins').html('');
-                    $('#active-plugins-content').append(createActivePlugin(pluginItem.name,pluginItem.type,pluginItem.versionId,true,true));
+                    $('#active-plugins-content').append(createActivePlugin(pluginItem.name,pluginItem.type,pluginItem.version_id,true,true));
                 } 
             });
         }

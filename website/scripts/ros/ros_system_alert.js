@@ -10,12 +10,23 @@
 function checkSystemAlerts() {
 
     // Subscribing to a Topic
-    listenerSystemAlert = new ROSLIB.Topic({
-        ros: g_ros,
-        name: T_SYSTEM_ALERT,
-        messageType: M_SYSTEM_ALERT
-    });
-    let systemAlertQueue = [];
+    // Check if our global subscription variable is defined already
+    if (typeof listenerSystemAlert === 'undefined' || listenerSystemAlert === null) 
+    {
+        // Initialize a topic object
+        listenerSystemAlert = new ROSLIB.Topic({
+            ros: g_ros,
+            name: T_SYSTEM_ALERT,
+            messageType: M_SYSTEM_ALERT
+        });
+
+    } 
+    else // If it was defined, close the existing subscription so it can be reopened
+    {
+        listenerSystemAlert.unsubscribe()
+    }
+
+
     // Then we add a callback to be called every time a message is published on this topic.
     listenerSystemAlert.subscribe(function (message) 
     {

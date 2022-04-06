@@ -29,17 +29,17 @@ add-apt-repository \
         $(lsb_release -cs) \
         stable"
 
-# Ensure docker group id is 999. CARMA UI is dependent on having the group id be the same between the image and vehicle PC.
+# Ensure docker group id is 998. CARMA UI is dependent on having the group id be the same between the image and vehicle PC.
 if [[ -z $(grep  -i "docker" /etc/group) ]]; then
-    	echo "User docker does not exists in /etc/group, creating docker group id of 999"
-   	    addgroup --gid 999 docker
+    	echo "User docker does not exists in /etc/group, creating docker group id of 998"
+   	    addgroup --gid 998 docker
 else
 	echo "User docker already exists in /etc/group."
 
-	if [[ $(grep  -i "docker" /etc/group) == *"docker:x:999"* ]]; then
+	if [[ $(grep  -i "docker" /etc/group) == *"docker:x:998"* ]]; then
 	    echo "Docker group id is correct"
 	else
-	    echo "ERROR: CARMA requires the docker group id 999 in the host PC. Please update the Host PC to correct this before trying again."
+	    echo "ERROR: CARMA requires the docker group id 998 in the host PC. Please update the Host PC to correct this before trying again."
 	    exit
 	fi
 fi
@@ -47,7 +47,7 @@ fi
 # Install docker and docker-compose
 apt-get update
 apt-get -y install docker-ce 
-curl -L "https://github.com/docker/compose/releases/download/1.23.1/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
+curl -L "https://github.com/docker/compose/releases/download/1.29.1/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
 chmod +x /usr/local/bin/docker-compose
 
 # Configure user permissions for docker

@@ -66,7 +66,7 @@ function subscribeToGuidanceAvailaleRoutes ()
 
 /**
  * rostopic pub /guidance/route_state cav_msgs/RouteState "header: {seq: 0, stamp: 1232323,frame_id: '0'}
-routeID: 'test route'
+route_id: 'test route'
 state: 0 
 cross_track: 0 
 lanelet_downtrack: 0 
@@ -120,8 +120,8 @@ function setRoute(id,route_name)
 
     // Create a Service Request.
     var request = new ROSLIB.ServiceRequest({
-        choice: 0, // choice '0' indicates that a routeID is being provided for this setActiveRoute service request
-        routeID: selectedRouteid
+        choice: 0, // choice '0' indicates that a route_id is being provided for this setActiveRoute service request
+        route_id: selectedRouteid
     });
 
     //Selected Route
@@ -141,9 +141,9 @@ function setRoute(id,route_name)
         service.callService(request, function (result) 
         {
             let errorDescription = '';
-            if (result.errorStatus != ErrorStatus.NO_ERROR.value) 
+            if (result.error_status != ErrorStatus.NO_ERROR.value) 
             {             
-                switch (result.errorStatus) 
+                switch (result.error_status) 
                 {
                     case ErrorStatus.NO_ROUTE.value:
                         errorDescription = ErrorStatus.NO_ROUTE.text;
@@ -161,7 +161,7 @@ function setRoute(id,route_name)
                          errorDescription = ErrorStatus.TRANSFORM_ERROR.text;
                         break;
                     default: //unexpected value or error
-                        errorDescription = result.errorStatus; //print the number;
+                        errorDescription = result.error_status; //print the number;
                         break;
                 }
 
@@ -244,15 +244,15 @@ function abortActiveRoute()
         service.callService(request, function (result) 
         {
             let errorDescription = '';
-            if (result.errorStatus != ErrorStatus.NO_ERROR.value) 
+            if (result.error_status != ErrorStatus.NO_ERROR.value) 
             {             
-                switch (result.errorStatus) 
+                switch (result.error_status) 
                 {
                     case ErrorStatus.NO_ACTIVE_ROUTE.value:
                         errorDescription = ErrorStatus.NO_ACTIVE_ROUTE.text;
                         break;                    
                     default: //unexpected value or error
-                        errorDescription = result.errorStatus; //print the number;
+                        errorDescription = result.error_status; //print the number;
                         break;
                 }
             }

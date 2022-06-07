@@ -21,7 +21,7 @@ function subscribeToGuidanceAvailaleRoutes ()
         {
             //Check ROSBridge connection before subscribe a topic
             IsROSBridgeConnected();
-            var availableRoutes = result.availableRoutes;
+            var availableRoutes = result.available_routes;
             if(availableRoutes != null && availableRoutes.length > 0)
             {
                 $('#route-list-content-no-route-available').html('');           
@@ -32,7 +32,7 @@ function subscribeToGuidanceAvailaleRoutes ()
                     //display route list info in html <div id='route-list-content'>
                     $('#route-list-content').append(createRouteSelectionRadio(route.route_id,route.route_name));
                 });
-            }        
+            }
         });
     }
     catch(ex)

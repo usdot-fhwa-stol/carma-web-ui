@@ -21,12 +21,12 @@ function subscribeToGuidanceAvailaleRoutes ()
         {
             //Check ROSBridge connection before subscribe a topic
             IsROSBridgeConnected();
-            var availableRoutes = result.available_routes;
-            if(availableRoutes != null && availableRoutes.length > 0)
+            var available_routes = result.available_routes;
+            if(available_routes != null && available_routes.length > 0)
             {
                 $('#route-list-content-no-route-available').html('');           
                 $('#divCapabilitiesRoute').html('Please select a route.');           
-                availableRoutes.forEach(route=>{
+                available_routes.forEach(route=>{
                     // console.log('route name is: ' + route.route_name);
                     // console.log('route Id is: ' + route.route_id);                
                     //display route list info in html <div id='route-list-content'>

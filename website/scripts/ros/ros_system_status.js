@@ -775,7 +775,7 @@ function checkRouteInfo()
     {
          //Check ROSBridge connection before subscribe a topic
          IsROSBridgeConnected();
-        // insertNewTableRow('tblSecondA', 'Route ID', message.routeID);
+        // insertNewTableRow('tblSecondA', 'Route ID', message.route_id);
         // insertNewTableRow('tblSecondA', 'Route State', message.state);
         // insertNewTableRow('tblSecondA', 'Cross Track / Down Track', message.cross_track.toFixed(2) + ' / ' + message.down_track.toFixed(2));
         // insertNewTableRow('tblSecondA', 'LaneLet ID', message.lanelet_id);
@@ -791,7 +791,7 @@ function checkRouteInfo()
         if(!isRouteStateDisplayed)
         {
             $('#route_info_body').append('<tr><th scope="col" >Route ID</th>'+
-            '<td id="StatusRouteStateId">'+message.routeID+'</td></tr>');
+            '<td id="StatusRouteStateId">'+message.route_id+'</td></tr>');
 
             $('#route_info_body').append('<tr><th scope="col" >Route State</th>'+
             '<td id="StatusRouteStateStatusId">'+message.state+'</td></tr>');
@@ -826,7 +826,7 @@ function checkRouteInfo()
         }
         else
         {
-            $('#StatusRouteStateId').text(message.routeID);
+            $('#StatusRouteStateId').text(message.route_id);
             $('#StatusRouteStateStatusId').text(message.state);
             $('#StatusRouteStatetrackDivideId').text(message.cross_track.toFixed(2) + ' / ' + message.down_track.toFixed(2));
             $('#StatusRouteStateLaneletId').text(message.lanelet_id);

@@ -428,7 +428,7 @@ function showRouteOptions() {
         divSubCapabilities.innerHTML = '';
 
         //Dispay the Route selection.
-        var myRoutes = result.availableRoutes;
+        var myRoutes = result.available_routes;
         var divRoutes = document.getElementById('divRoutes');
         divRoutes.innerHTML = '';
         divRoutes.style.display = 'block'; //Show the route section

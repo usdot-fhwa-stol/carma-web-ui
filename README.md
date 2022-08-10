@@ -1,3 +1,7 @@
+| CicleCI Build Status | Sonar Code Quality | DockerHub Release | DockerHub Release Candidate | DockerHub Develop |
+|------|-----|-----|-----|-----|
+[![CircleCI](https://img.shields.io/circleci/build/gh/usdot-fhwa-stol/carma-web-ui/develop?label=CircleCI)](https://app.circleci.com/pipelines/github/usdot-fhwa-stol/carma-web-ui?branch=develop) | [![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=usdot-fhwa-stol_CARMAWebUi&metric=alert_status)](https://sonarcloud.io/dashboard?id=usdot-fhwa-stol_CARMAWebUi) | [![Docker Cloud Build Status](https://img.shields.io/docker/cloud/build/usdotfhwastol/carma-web-ui?label=Carma-Web-UI)](https://hub.docker.com/repository/docker/usdotfhwastol/carma-web-ui) | [![Docker Cloud Build Status](https://img.shields.io/docker/cloud/build/usdotfhwastolcandidate/carma-web-ui?label=Carma-Web-UI)](https://hub.docker.com/repository/docker/usdotfhwastolcandidate/carma-web-ui) | [![Docker Cloud Build Status](https://img.shields.io/docker/cloud/build/usdotfhwastoldev/carma-web-ui?label=Carma-Web-UI)](https://hub.docker.com/repository/docker/usdotfhwastoldev/carma-web-ui)
+
 # CARMAWebUi
 CARMAWebUi is the web-based user interface component of the CARMAPlatform.
 

@@ -65,7 +65,7 @@ function subscribeToGuidanceAvailaleRoutes ()
 }
 
 /**
- * rostopic pub /guidance/route_state cav_msgs/RouteState "header: {seq: 0, stamp: 1232323,frame_id: '0'}
+ * rostopic pub /guidance/route_state cav_msgs/msg/RouteState "header: {seq: 0, stamp: 1232323,frame_id: '0'}
 route_id: 'test route'
 state: 0 
 cross_track: 0 

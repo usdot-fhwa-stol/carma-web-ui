@@ -925,7 +925,7 @@ function publishCARMAVersion(response) {
 
 /***
  * 
-rostopic pub /environment/tcr_bounding_points cav_msgs/TrafficControlRequestPolygon "polygon_list:
+rostopic pub /environment/tcr_bounding_points cav_msgs/msg/TrafficControlRequestPolygon "polygon_list:
 - latitude: 38.955412
   longitude: -77.151418
   elevation: 0.0

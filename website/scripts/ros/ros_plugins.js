@@ -62,12 +62,12 @@ function subscribeToGuidanceRegisteredPlugins ()
          But any plugin in the current maneuver plan definitely has control authority over the vehicle
          Maneuver Plan.msg 
          ManeuverParameters.msg
-         cav_msgs/LaneFollowingManeuver lane_following_maneuver
-         cav_msgs/LaneChangeManeuver lane_change_maneuver
-         cav_msgs/IntersectionTransitStraightManeuver intersection_transit_straight_maneuver
-         cav_msgs/IntersectionTransitLeftTurnManeuver intersection_transit_left_turn_maneuver
-         cav_msgs/IntersectionTransitRightTurnManeuver intersection_transit_right_turn_maneuver
-         cav_msgs/StopAndWaitManeuver stop_and_wait_maneuver
+         cav_msgs/msg/LaneFollowingManeuver lane_following_maneuver
+         cav_msgs/msg/LaneChangeManeuver lane_change_maneuver
+         cav_msgs/msg/IntersectionTransitStraightManeuver intersection_transit_straight_maneuver
+         cav_msgs/msg/IntersectionTransitLeftTurnManeuver intersection_transit_left_turn_maneuver
+         cav_msgs/msg/IntersectionTransitRightTurnManeuver intersection_transit_right_turn_maneuver
+         cav_msgs/msg/StopAndWaitManeuver stop_and_wait_maneuver
  */
 
 function subscribeToGuidanceActivePlugins ()

@@ -77,8 +77,8 @@ function subscribeToDriverDiscovery()
 
 //Get Localization status
 /**
- * Localization status is at /localization/localization_status of type cav_msgs/LocalizationStatusReport
- rostopic pub -r 10 /localization/localization_status cav_msgs/LocalizationStatusReport "status: 2"
+ * Localization status is at /localization/localization_status of type carma_localization_msgs/msg/LocalizationStatusReport
+ rostopic pub -r 10 /localization/localization_status carma_localization_msgs/msg/LocalizationStatusReport "status: 2"
 
 enumeration values for status:
 uint8 status

@@ -409,7 +409,7 @@ function sendModalResponse(operatorResponse, serviceName) {
     var serviceClient = new ROSLIB.Service({
     ros : g_ros,
     name : serviceName,
-    serviceType : 'std_srvs/SetBool'
+    serviceType : 'std_srvs/srv/SetBool'
     });
 
     // Then we create a Service Request. The object we pass in to ROSLIB.ServiceRequest matches the

@@ -23,7 +23,7 @@ function showUIInstructions()
     var listenerUiInstructions = new ROSLIB.Topic({
         ros: g_ros,
         name: T_UI_INSTRUCTION,
-        messageType: 'cav_msgs/UIInstructions'
+        messageType: 'carma_msgs/msg/UIInstructions'
     });
 
     listenerUiInstructions.subscribe(function (message) {

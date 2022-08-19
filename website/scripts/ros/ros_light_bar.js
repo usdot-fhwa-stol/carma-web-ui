@@ -76,7 +76,10 @@ function subscribeLightBarStatus()
     listener.subscribe(function(message)
     {
         //Check ROSBridge connection before subscribe a topic
-        IsROSBridgeConnected();
+        if (!IsROSBridgeConnected())
+        {
+            return;
+        };
         
         let green_solid = message.green_solid;
         let yellow_solid = message.yellow_solid;

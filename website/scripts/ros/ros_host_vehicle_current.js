@@ -12,7 +12,10 @@ function subscribeToLocalizationEKFTwist()
     listener.subscribe(function(message)
     {
         //Check ROSBridge connection before subscribe a topic
-        IsROSBridgeConnected();
+        if (!IsROSBridgeConnected())
+        {
+            return;
+        };
         
         if(message!=null && message.twist !=null && message.twist.linear != null)
         {

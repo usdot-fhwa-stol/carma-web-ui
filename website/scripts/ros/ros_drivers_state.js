@@ -21,7 +21,10 @@ function subscribeToDriverDiscovery()
     listener.subscribe((message)=>
     {
         //Check ROSBridge connection before subscribe a topic
-        IsROSBridgeConnected();
+        if (!IsROSBridgeConnected())
+        {
+            return;
+        };
         
         //Get PinPoint status for now.
         let GPSStatus = document.getElementById('GPS-status');
@@ -99,7 +102,10 @@ function subscribeToLocalizationStatusReport()
 
     listener.subscribe((message) => {
         //Check ROSBridge connection before subscribe a topic
-        IsROSBridgeConnected();
+        if (!IsROSBridgeConnected())
+        {
+            return;
+        };
         switch (message.status) {
             case LOCALIZATION_STATUS_OPERATIONAL:
                 $('#localization-status').css('color', 'rgb(188, 250, 63)');

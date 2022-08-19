@@ -32,7 +32,10 @@ function subscribeToPlatoonInfo ()
     listener.subscribe((message)=>
     {
       //Check ROSBridge connection before subscribe a topic
-      IsROSBridgeConnected();
+      if (!IsROSBridgeConnected())
+      {
+            return;
+      };
       
       if(document.getElementById('platooning_info_wrapper') != null)
       {

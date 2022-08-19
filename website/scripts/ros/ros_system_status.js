@@ -304,7 +304,10 @@ function showSpeedAccelInfo()
     listenerSpeedAccel.subscribe(function (message) 
     {
         //Check ROSBridge connection before subscribe a topic
-        IsROSBridgeConnected();
+        if (!IsROSBridgeConnected())
+        {
+            return;
+        };
         var cmd_speed_mph = Math.round(message.speed * METER_TO_MPH);
         console.log(message);
         // insertNewTableRow('tblFirstB', 'Cmd Speed (m/s)', message.speed.toFixed(2));
@@ -325,7 +328,10 @@ function showDiagnostics()
     let isACCEngagedDisplayed = false;
     listenerACCEngaged.subscribe(function (message) {
         //Check ROSBridge connection before subscribe a topic
-        IsROSBridgeConnected();
+        if (!IsROSBridgeConnected())
+        {
+            return;
+        };
         // insertNewTableRow('tblFirstB', 'ACC Engaged', message.data);
         // console.log(message);
         if($('#guidance_info_no_data').length >0)
@@ -351,7 +357,10 @@ function showDiagnostics()
     let isDiagnosticsDisplayed = false;
     listenerDiagnostics.subscribe(function (messageList) {
         //Check ROSBridge connection before subscribe a topic
-        IsROSBridgeConnected();
+        if (!IsROSBridgeConnected())
+        {
+            return;
+        };
         messageList.status.forEach(
             function (myStatus) 
             {
@@ -448,7 +457,10 @@ function showCANSpeeds()
     listenerCANSpeed.subscribe(function (message) 
     {
         //Check ROSBridge connection before subscribe a topic
-        IsROSBridgeConnected();
+        if (!IsROSBridgeConnected())
+        {
+            return;
+        };
         var speedMPH = Math.round(message.data.toFixed(2) * METER_TO_MPH);
 	    // insertNewTableRow('tblFirstB', 'CAN Speed (m/s)', message.data);
         // insertNewTableRow('tblFirstB', 'CAN Speed (MPH)', speedMPH);
@@ -487,7 +499,10 @@ function showActualSpeed()
     listenerSFVelocity.subscribe(function (message) 
     {
          //Check ROSBridge connection before subscribe a topic
-         IsROSBridgeConnected();
+         if (!IsROSBridgeConnected())
+        {
+            return;
+        };
         //If nothing on the Twist, skip
         if (message.twist == null || message.twist.twist.linear == null || message.twist.twist.linear.x == null) {
             return;
@@ -529,7 +544,10 @@ function showControllingPlugins()
     listenerControllingPlugins.subscribe(function (message) 
     {
          //Check ROSBridge connection before subscribe a topic
-         IsROSBridgeConnected();
+         if (!IsROSBridgeConnected())
+        {
+            return;
+        };
         // insertNewTableRow('tblFirstB', 'Lon Plugin', message.longitudinal_plugin);
         // insertNewTableRow('tblFirstB', 'Lon Manuever', message.longitudinal_maneuver);
         // insertNewTableRow('tblFirstB', 'Lon Start Dist', message.longitudinal_start_dist.toFixed(6));
@@ -578,7 +596,10 @@ function checkLateralControlDriver()
 
     listenerLateralControl.subscribe(function (message) {
         //Check ROSBridge connection before subscribe a topic
-        IsROSBridgeConnected();
+        if (!IsROSBridgeConnected())
+        {
+            return;
+        };
         console.log(message);
         // insertNewTableRow('tblFirstB', 'Lateral Axle Angle', message.axle_angle);
         // insertNewTableRow('tblFirstB', 'Lateral Max Axle Angle Rate', message.max_axle_angle_rate);
@@ -602,7 +623,10 @@ function mapOtherVehicles()
     listenerClient.subscribe(function (message) 
     {
          //Check ROSBridge connection before subscribe a topic
-         IsROSBridgeConnected();
+         if (!IsROSBridgeConnected())
+        {
+            return;
+        };
         // console.log(message);
         // insertNewTableRow('tblSecondB', 'BSM Temp ID - ' + message.core_data.id + ': ', message.core_data.id);
         // insertNewTableRow('tblSecondB', 'BSM Latitude - ' + message.core_data.id + ': ', message.core_data.latitude.toFixed(6));
@@ -674,7 +698,10 @@ function checkRouteInfo()
     listenerRouteEvent.subscribe(function (message) 
     {
          //Check ROSBridge connection before subscribe a topic
-         IsROSBridgeConnected();
+         if (!IsROSBridgeConnected())
+        {
+            return;
+        };
         //insertNewTableRow('tblSecondA', 'Route Event', message.event);
         if($('#route_info_no_data').length >0)
         {
@@ -774,7 +801,10 @@ function checkRouteInfo()
     listenerRouteState.subscribe(function (message) 
     {
          //Check ROSBridge connection before subscribe a topic
-         IsROSBridgeConnected();
+         if (!IsROSBridgeConnected())
+        {
+            return;
+        };
         // insertNewTableRow('tblSecondA', 'Route ID', message.route_id);
         // insertNewTableRow('tblSecondA', 'Route State', message.state);
         // insertNewTableRow('tblSecondA', 'Cross Track / Down Track', message.cross_track.toFixed(2) + ' / ' + message.down_track.toFixed(2));
@@ -852,7 +882,10 @@ function checkRobotEnabled() {
      listenerRobotStatus.subscribe(function (message) 
      {
             //Check ROSBridge connection before subscribe a topic
-            IsROSBridgeConnected();
+            if (!IsROSBridgeConnected())
+        {
+            return;
+        };
             // insertNewTableRow('tblFirstB', 'Robot Active', message.robot_active);
             // insertNewTableRow('tblFirstB', 'Robot Enabled', message.robot_enabled);
             if($('#important_vehicle_info_no_data').length >0)

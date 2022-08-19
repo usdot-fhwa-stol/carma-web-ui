@@ -15,7 +15,10 @@ function subscribeToGuidanceRegisteredPlugins ()
     listener.callService(request, function (result) 
     {
         //Check ROSBridge connection before subscribe a topic
-        IsROSBridgeConnected();
+        if (!IsROSBridgeConnected())
+        {
+            return;
+        };
         // console.log('registered plugins are: ' + result.plugins);
         var plugins = result.plugins;
         if(plugins != null && plugins.length > 0){            
@@ -83,7 +86,10 @@ function subscribeToGuidanceActivePlugins ()
     listener.callService(request, function (result) 
     {
         //Check ROSBridge connection before subscribe a topic   
-        IsROSBridgeConnected();
+        if (!IsROSBridgeConnected())
+        {
+            return;
+        };
         var plugins = result.plugins;
         if(plugins != null && plugins.length > 0){
                 plugins.forEach(pluginItem=>{
@@ -172,7 +178,10 @@ function activatePlugin(pluginName,pluginType,pluginVersionId,changeToNewStatus,
     service.callService(request, function (result) 
     {
         //Check ROSBridge connection before subscribe a topic
-        IsROSBridgeConnected();
+        if (!IsROSBridgeConnected())
+        {
+            return;
+        };
         if (result.newState != changeToNewStatus) 
         {
             $('#divCapabilitiesContent').html('');

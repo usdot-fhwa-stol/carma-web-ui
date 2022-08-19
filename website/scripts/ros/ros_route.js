@@ -20,7 +20,10 @@ function subscribeToGuidanceAvailaleRoutes ()
         service.callService(request, function (result) 
         {
             //Check ROSBridge connection before subscribe a topic
-            IsROSBridgeConnected();
+            if (!IsROSBridgeConnected())
+        {
+            return;
+        };
             var available_routes = result.available_routes;
             if(available_routes != null && available_routes.length > 0)
             {
@@ -87,7 +90,10 @@ function subscribeToGuidanceRouteState()
     listener.subscribe(function(message)
     {
         //Check ROSBridge connection before subscribe a topic
-        IsROSBridgeConnected();
+        if (!IsROSBridgeConnected())
+        {
+            return;
+        };
         if(message!=null && message.speed_limit != null)
         {
             let speed_limit_converted = Math.floor(Math.abs(message.speed_limit * METER_TO_MPH));

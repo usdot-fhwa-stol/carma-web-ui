@@ -7,7 +7,7 @@
 // green_flash: 0
 // takedown: 0
 /**
-rostopic pub -r 10 /hardware_interface/lightbar/light_bar_status cav_msgs/LightBarStatus "green_solid: 1
+rostopic pub -r 10 /hardware_interface/lightbar/light_bar_status cav_msgs/msg/LightBarStatus "green_solid: 1
 yellow_solid: 0
 right_arrow: 1
 left_arrow: 0
@@ -76,7 +76,10 @@ function subscribeLightBarStatus()
     listener.subscribe(function(message)
     {
         //Check ROSBridge connection before subscribe a topic
-        IsROSBridgeConnected();
+        if (!IsROSBridgeConnected())
+        {
+            return;
+        };
         
         let green_solid = message.green_solid;
         let yellow_solid = message.yellow_solid;

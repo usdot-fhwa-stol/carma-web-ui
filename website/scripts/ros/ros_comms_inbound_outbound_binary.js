@@ -13,7 +13,10 @@ function subscribeToInboundBinary(){
     listener.subscribe(function(message)
     {
         //Check ROSBridge connection before subscribe a topic
-        IsROSBridgeConnected();
+        if (!IsROSBridgeConnected())
+        {
+            return;
+        }
         
         //Get PinPoint status for now.
         let OBUStatusOBJ = document.getElementById('OBU-status-svg');
@@ -69,7 +72,10 @@ function subscribeToOutboundBinary(){
     listener.subscribe(function(message)
     {
         //Check ROSBridge connection before subscribe a topic
-        IsROSBridgeConnected();
+        if (!IsROSBridgeConnected())
+        {
+            return;
+        };
         
         //Get OBU status for now.
         let OBUStatusOBJ = document.getElementById('OBU-status-svg');

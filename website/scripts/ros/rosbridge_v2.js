@@ -1,5 +1,5 @@
 /***
- * Defined ROS related functionalities
+ * Connect to the ROS network and create listeners for disconnection to notify user
  * 
  * Parameters:
  * g_ros: a global variable defined in global_variables.js
@@ -59,52 +59,9 @@ function connectToROS()
 /**
  * This is called before calling ros services 
  * and after the connectToROS() function is called 
- * because connectToROS() function initalize the ROS connection.
+ * because connectToROS() function initializes the ROS connection.
  */ 
 function IsROSBridgeConnected() 
 {
-    try
-    {
-        g_ros.on('error', function (error) 
-        {
-            
-            //Not Connected ROS bridge. Show alert to restart or disengage users
-             //If this modal does not exist, create one 
-             if( $('#systemAlertModal').length < 1 && (typeof createSystemAlertModal === "function")) 
-             { 
-                 $('#ModalsArea').append(createSystemAlertModal(
-                     '<span style="color:red"><i class="fas fa-exclamation-triangle"></i></span>&nbsp;&nbsp;SYSTEM ALERT', 
-                     "ROS Connection ERROR",
-                     false,true
-                     ));              
-             }
-             $('#systemAlertModal').modal({backdrop: 'static', keyboard: false}); 
-            console.log(error);
-        });
-
-        // Find out exactly when we made a connection.
-        g_ros.on('connection', function () 
-        {
-            console.log('connection success!!!');  
-        });
-
-        g_ros.on('close', function () 
-        {
-            
-            //Not Connected ROS bridge. Show alert to restart or disengage users
-            if( $('#systemAlertModal').length < 1 && (typeof createSystemAlertModal === "function")) 
-             { 
-                 $('#ModalsArea').append(createSystemAlertModal(
-                     '<span style="color:red"><i class="fas fa-exclamation-triangle"></i></span>&nbsp;&nbsp;SYSTEM ALERT', 
-                     "ROS Connection CLOSED",
-                     false,true
-                     ));              
-             }
-             $('#systemAlertModal').modal({backdrop: 'static', keyboard: false}); 
-            console.log('close'); 
-        });        
-    }
-    catch (err) {
-        console.log(err);        
-    }
+    return g_ros.isConnected
 }

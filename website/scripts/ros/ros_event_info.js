@@ -6,7 +6,7 @@ function GetEventInfo()
 //subscribe to topic event_info
 /*** 
  * Mockup publish topic
- * rostopic pub -r 10 /event_info cav_msgs/EventInfo "event_minimum_gap: 0.0
+ * rostopic pub -r 10 /event_info cav_msgs/msg/EventInfo "event_minimum_gap: 0.0
 event_advisory_speed: 0.0
 event_type: 0
 event_reason: 0"

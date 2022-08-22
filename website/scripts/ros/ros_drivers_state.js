@@ -21,7 +21,10 @@ function subscribeToDriverDiscovery()
     listener.subscribe((message)=>
     {
         //Check ROSBridge connection before subscribe a topic
-        IsROSBridgeConnected();
+        if (!IsROSBridgeConnected())
+        {
+            return;
+        };
         
         //Get PinPoint status for now.
         let GPSStatus = document.getElementById('GPS-status');
@@ -77,8 +80,8 @@ function subscribeToDriverDiscovery()
 
 //Get Localization status
 /**
- * Localization status is at /localization/localization_status of type cav_msgs/LocalizationStatusReport
- rostopic pub -r 10 /localization/localization_status cav_msgs/LocalizationStatusReport "status: 2"
+ * Localization status is at /localization/localization_status of type carma_localization_msgs/msg/LocalizationStatusReport
+ rostopic pub -r 10 /localization/localization_status carma_localization_msgs/msg/LocalizationStatusReport "status: 2"
 
 enumeration values for status:
 uint8 status
@@ -99,7 +102,10 @@ function subscribeToLocalizationStatusReport()
 
     listener.subscribe((message) => {
         //Check ROSBridge connection before subscribe a topic
-        IsROSBridgeConnected();
+        if (!IsROSBridgeConnected())
+        {
+            return;
+        };
         switch (message.status) {
             case LOCALIZATION_STATUS_OPERATIONAL:
                 $('#localization-status').css('color', 'rgb(188, 250, 63)');

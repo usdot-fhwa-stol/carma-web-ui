@@ -1,7 +1,7 @@
 
 /***
  * Mock topic: 
-rostopic pub -r 10 /platooning_info cav_msgs/PlatooningInfo "state: 4
+rostopic pub -r 10 /platooning_info cav_msgs/msg/PlatooningInfo "state: 4
 platoon_id: '1'
 size: 4
 size_limit: 2
@@ -32,7 +32,10 @@ function subscribeToPlatoonInfo ()
     listener.subscribe((message)=>
     {
       //Check ROSBridge connection before subscribe a topic
-      IsROSBridgeConnected();
+      if (!IsROSBridgeConnected())
+      {
+            return;
+      };
       
       if(document.getElementById('platooning_info_wrapper') != null)
       {

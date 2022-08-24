@@ -121,7 +121,7 @@ const M_J2735_SPAT="j2735_v2x_msgs/msg/SPAT";
 const M_MULTI_ARRAY="std_msgs/msg/Int32MultiArray";
 
 //ROS param names
-const P_REQUIRED_PLUGINS = '/guidance/health_monitor/required_plugins';
+const P_REQUIRED_PLUGINS = '/guidance/guidance_controller:required_plugins';
 
 // m/s to MPH
 const METER_TO_MPH = 2.23694;

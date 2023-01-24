@@ -59,6 +59,7 @@ function TrafficSignalInfoList(){
                                             //set timer to count down ONY for current changed phase
                                             let current_phase_max_sec = getCurPhaseMaxSecBySpatTiming(element.moy,event_ele.timing.min_end_time);
                                             remaining_time = current_phase_max_sec;
+                                            console.log("signal_state:"+signal_state + "remaining_time:"+ remaining_time);
 
                                             //Prevent repeating the same state                                    
                                             switch(signal_state)
@@ -87,6 +88,7 @@ function TrafficSignalInfoList(){
                                                     console.error("Traffic signal state is invalid");
                                                     break;
                                             } 
+                                            return;
                                     });
                             }
                             

@@ -52,7 +52,7 @@ function TrafficSignalInfoList(){
                             if(inner_ele.signal_group != unknown_signal_group && inner_ele.signal_group == intersection_signal_group_ids[1])
                             {
                                     latest_start_time = Date.now();
-                                    inner_ele.state_time_speed.movement_event_list.forEach(event_ele=>{
+                                    inner_ele.state_time_speed.movement_event_list.every(event_ele=>{
                                         let signal_state = event_ele.event_state.movement_phase_state;
 
                                             signalStateTracking = signal_state;
@@ -88,7 +88,7 @@ function TrafficSignalInfoList(){
                                                     console.error("Traffic signal state is invalid");
                                                     break;
                                             } 
-                                            return;
+                                            return false;
                                     });
                             }
                             

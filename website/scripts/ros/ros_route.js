@@ -30,8 +30,8 @@ function subscribeToGuidanceAvailaleRoutes ()
                 $('#route-list-content-no-route-available').html('');           
                 $('#divCapabilitiesRoute').html('Please select a route.');           
                 available_routes.forEach(route=>{
-                    // console.log('route name is: ' + route.route_name);
-                    // console.log('route Id is: ' + route.route_id);                
+                    console.log('route name is: ' + route.route_name);
+                    console.log('route Id is: ' + route.route_id);                
                     //display route list info in html <div id='route-list-content'>
                     $('#route-list-content').append(createRouteSelectionRadio(route.route_id,route.route_name));
                 });
@@ -89,9 +89,11 @@ function subscribeToGuidanceRouteState()
     });
     listener.subscribe(function(message)
     {
+        console.log("Subscribed to /guidance/route_state");
         //Check ROSBridge connection before subscribe a topic
         if (!IsROSBridgeConnected())
         {
+            console.log("Ros bridge is not connected, returning");
             return;
         };
         if(message!=null && message.speed_limit != null)
@@ -143,12 +145,14 @@ function setRoute(id,route_name)
     };
     try
     {
+        console.log("Trying to set route");
         // Call the service and get back the results in the callback.
         service.callService(request, function (result) 
         {
             let errorDescription = '';
             if (result.error_status != ErrorStatus.NO_ERROR.value) 
-            {             
+            {   
+                console.log("Set route service call failed");
                 switch (result.error_status) 
                 {
                     case ErrorStatus.NO_ROUTE.value:
@@ -170,7 +174,7 @@ function setRoute(id,route_name)
                         errorDescription = result.error_status; //print the number;
                         break;
                 }
-
+                console.log("Set route failed with error: " + errorDescription);
                 //Allow user to select it again.
                 rbRoute.checked = false;
             }

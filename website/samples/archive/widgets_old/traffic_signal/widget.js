@@ -151,7 +151,7 @@ CarmaJS.WidgetFramework.TrafficSignal = (function () {
                 //Loop thru to find the correct totaldistance
                 for (i = 0; i < message.traffic_signal_info_list.length; i++)
                 {
-                    //console.log('message.traffic_signal_info_list.length: ' + message.traffic_signal_info_list.length);
+                    console.log('message.traffic_signal_info_list.length: ' + message.traffic_signal_info_list.length);
 
                     if (i >= traffic_signal_max)
                         break; //exit if max reached
@@ -182,13 +182,13 @@ CarmaJS.WidgetFramework.TrafficSignal = (function () {
 
                 if (svgLayerForSignal == null)
                 {
-                    //console.log ('showEachTrafficSignal() svgLayerForSignal is null');
+                    console.log ('showEachTrafficSignal() svgLayerForSignal is null');
                     return;
                 }
 
                 if (svgLayerForSignal.getElementById('svgCircleTopText') == null)
                 {
-                    //console.log ('showEachTrafficSignal() svgCircleTopText is null');
+                    console.log ('showEachTrafficSignal() svgCircleTopText is null');
                     return;
                 }
 
@@ -196,7 +196,7 @@ CarmaJS.WidgetFramework.TrafficSignal = (function () {
                 if (item == null)
                 {
                     //Commenting out since called out too much when signal is no longer used or grayed out. Will use only for testing.
-                    //console.log ('showEachTrafficSignal() item is null');
+                    console.log ('showEachTrafficSignal() item is null');
 
                     //Clear info
                     svgLayerForSignal.getElementById('svgIntxHeaderText').innerHTML = 'INTERSECTION XXXX';

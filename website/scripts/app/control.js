@@ -563,7 +563,7 @@ function countUpTimer() {
 
     if (elapsedTime < 0)
     {
-        //console.log('elapsedTime is negative');
+        console.log('elapsedTime is negative');
         return;
     }
 
@@ -577,7 +577,7 @@ function countUpTimer() {
         engaged_timer = pad(hours, 2) + 'h '
             + pad(minutes, 2) + 'm ' + pad(seconds, 2) + 's ';
     }
-    //console.log('engaged_timer: ' + engaged_timer);
+    console.log('engaged_timer: ' + engaged_timer);
     if ((divRouteInfo != null || divRouteInfo != 'undefined') && selectedRoute!=null)
         divRouteInfo.innerHTML = selectedRoute.name + ' : ' + engaged_timer;
 }

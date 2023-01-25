@@ -49,7 +49,7 @@ function connectToROS()
 
         // Create a connection to the rosbridge WebSocket server.
         g_ros.connect('ws://' + ip + ':9090');
-        console.log('connect to ROS bridge...');
+        console.log('connect to ROS bridge... at ip:' + ip);
     }
     catch (err) {
         console.log(err);  

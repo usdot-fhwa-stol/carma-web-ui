@@ -12259,7 +12259,7 @@ Geometry.prototype = Object.assign( Object.create( EventDispatcher.prototype ), 
 
 			} else {
 
-				//console.log('Duplicate vertex found. ', i, ' could be using ', verticesMap[key]);
+				console.log('Duplicate vertex found. ', i, ' could be using ', verticesMap[key]);
 				changes[ i ] = changes[ verticesMap[ key ] ];
 
 			}
@@ -31646,7 +31646,7 @@ class ExtrudeBufferGeometry extends BufferGeometry {
 					let k = i - 1;
 					if ( k < 0 ) k = contour.length - 1;
 
-					//console.log('b', i,j, i-1, k,vertices.length);
+					console.log('b', i,j, i-1, k,vertices.length);
 
 					for ( let s = 0, sl = ( steps + bevelSegments * 2 ); s < sl; s ++ ) {
 
@@ -41924,13 +41924,13 @@ Object.assign( ShapePath.prototype, {
 				if ( holesFirst )	mainIdx ++;
 				newShapeHoles[ mainIdx ] = [];
 
-				//console.log('cw', i);
+				console.log('cw', i);
 
 			} else {
 
 				newShapeHoles[ mainIdx ].push( { h: tmpPath, p: tmpPoints[ 0 ] } );
 
-				//console.log('ccw', i);
+				console.log('ccw', i);
 
 			}
 
@@ -42016,7 +42016,7 @@ Object.assign( ShapePath.prototype, {
 
 		}
 
-		//console.log("shape", shapes);
+		console.log("shape", shapes);
 
 		return shapes;
 

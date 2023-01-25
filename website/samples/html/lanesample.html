@@ -136,11 +136,11 @@
             if (targetlane >= 0) {
                 var lineid = 'r' + rect_index + 'e' + (targetlane + 1) + '_line';
                 var targetline = SVG.get(lineid);
-                //console.log('TARGET: lineid: ' + lineid +  '; x1: ' + targetline.attr('x1'));
+                console.log('TARGET: lineid: ' + lineid +  '; x1: ' + targetline.attr('x1'));
 
                 if (targetline != null) {
                     var line_x = targetline.attr('x1');
-                    //console.log('TARGET: targetline.x1:' + line_x);
+                    console.log('TARGET: targetline.x1:' + line_x);
 
                     var targetlanestyle;
                     if (currentlaneid == targetlane)
@@ -167,11 +167,11 @@
 
                 var lineid = 'r' + rect_index + 'e' + (currentlaneid + 1) + '_line';
                 var targetline = SVG.get(lineid);
-                //console.log('CURRENT: lineid: ' + lineid + '; x1: ' + targetline.attr('x1'));
+                console.log('CURRENT: lineid: ' + lineid + '; x1: ' + targetline.attr('x1'));
 
                 if (targetline != null) {
                     var line_x = targetline.attr('x1');
-                    //console.log('CURRENT: targetline.x1:' + line_x);
+                    console.log('CURRENT: targetline.x1:' + line_x);
 
                     //To calculate image x position = e#_line.x1 - 19px
                     //TODO: Convert to svg to change colors.

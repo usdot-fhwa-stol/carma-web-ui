@@ -12400,7 +12400,7 @@
 
 				} else {
 
-					//console.log('Duplicate vertex found. ', i, ' could be using ', verticesMap[key]);
+					console.log('Duplicate vertex found. ', i, ' could be using ', verticesMap[key]);
 					changes[ i ] = changes[ verticesMap[ key ] ];
 
 				}
@@ -31504,7 +31504,7 @@
 					var k = i - 1;
 					if ( k < 0 ) { k = contour.length - 1; }
 
-					//console.log('b', i,j, i-1, k,vertices.length);
+					console.log('b', i,j, i-1, k,vertices.length);
 
 					for ( var s = 0, sl = ( steps + bevelSegments * 2 ); s < sl; s ++ ) {
 
@@ -41769,13 +41769,13 @@
 					if ( holesFirst )	{ mainIdx ++; }
 					newShapeHoles[ mainIdx ] = [];
 
-					//console.log('cw', i);
+					console.log('cw', i);
 
 				} else {
 
 					newShapeHoles[ mainIdx ].push( { h: tmpPath, p: tmpPoints[ 0 ] } );
 
-					//console.log('ccw', i);
+					console.log('ccw', i);
 
 				}
 
@@ -41861,7 +41861,7 @@
 
 			}
 
-			//console.log("shape", shapes);
+			console.log("shape", shapes);
 
 			return shapes;
 

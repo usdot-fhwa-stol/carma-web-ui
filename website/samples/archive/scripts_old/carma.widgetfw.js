@@ -65,7 +65,7 @@ CarmaJS.WidgetFramework = (function () {
                }
                else{
                    pluginsActivated = [];
-                   //console.log ('getPluginsActivated: No plugins activated.');
+                   console.log ('getPluginsActivated: No plugins activated.');
                }
 
                 pluginsActivated.sort(function(a, b) {
@@ -130,7 +130,7 @@ CarmaJS.WidgetFramework = (function () {
                     isPreviouslySelected = true;
                 }
 
-                //console.log('showWidgetOptions: ' + plugin.id + ' : exists ' + exists + '; isPreviouslySelected: ' + isPreviouslySelected);
+                console.log('showWidgetOptions: ' + plugin.id + ' : exists ' + exists + '; isPreviouslySelected: ' + isPreviouslySelected);
 
                 //Create the checkbox based on the plugin properties.
                 createCheckboxElement(divWidgetOptionsList, plugin.id, plugin.title, pluginsActivated.length, 'groupWidgets', isPreviouslySelected, false, 'CarmaJS.WidgetFramework.activateWidget');
@@ -138,7 +138,7 @@ CarmaJS.WidgetFramework = (function () {
             });
 
             var listWidgetOptionsFlag = sessionStorage.getItem('listWidgetOptionsFlag');
-            //console.log ('listWidgetOptionsFlag: ' + listWidgetOptionsFlag);
+            console.log ('listWidgetOptionsFlag: ' + listWidgetOptionsFlag);
 
             if (listWidgetOptionsFlag == 'true' ) {
 
@@ -160,7 +160,7 @@ CarmaJS.WidgetFramework = (function () {
         var listWidgetOptions = function (value) {
             //Save the selection.
             sessionStorage.setItem('listWidgetOptionsFlag', value);
-            //console.log('listWidgetOptionsFlag: ' + value);
+            console.log('listWidgetOptionsFlag: ' + value);
 
             //Save the options everytime.
             if (value == true )
@@ -247,7 +247,7 @@ CarmaJS.WidgetFramework = (function () {
             }
             else{
                 var isChecked = cbWidgetOption.checked; // this is new value
-                //console.log('activateWidget: id: ' + id + '; isChecked2: ' + isChecked);
+                console.log('activateWidget: id: ' + id + '; isChecked2: ' + isChecked);
 
                 //Update list
                 updateIsWidgetShownValue(id, isChecked);
@@ -285,7 +285,7 @@ CarmaJS.WidgetFramework = (function () {
             }
             //else {
               // multiple items found
-              //console.log(result.length + ' widgets to load');
+              console.log(result.length + ' widgets to load');
             //}
 
           //Hide the list of widgets
@@ -329,7 +329,7 @@ CarmaJS.WidgetFramework = (function () {
                      },
                      success: function()
                      {
-                        //console.log('cssFilePath: ' + cssFilePath);
+                        console.log('cssFilePath: ' + cssFilePath);
                         //1) Load css
                         var link = document.createElement('link');
                         link.setAttribute('rel', 'stylesheet');
@@ -338,7 +338,7 @@ CarmaJS.WidgetFramework = (function () {
                         document.getElementsByTagName('head')[0].appendChild(link);
 
                         //2) Load JS
-                        //console.log('jsFilePath1: ' + jsFilePath);
+                        console.log('jsFilePath1: ' + jsFilePath);
                         scriptLoader([jsFilePath],function()
                         {
                              // now you can use the code from loaded script files.
@@ -365,7 +365,7 @@ CarmaJS.WidgetFramework = (function () {
             if (result == null || result == 'undefined' || result == '')
                 return 0;
 
-            //console.log('countSelectedWidgets: ' + result.length);
+            console.log('countSelectedWidgets: ' + result.length);
             return result.length;
 
         };

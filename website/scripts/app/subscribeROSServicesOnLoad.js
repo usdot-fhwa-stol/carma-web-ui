@@ -255,12 +255,12 @@ function initializeSessionVariables()
                 if (isSystemAlert == 'true')
                     value = true;
             }
-            //console.log('get active - isSystemAlert: ' + isSystemAlert + ' ; value: ' + value + ' ; Boolean:' + Boolean(isSystemAlert));
+            console.log('get active - isSystemAlert: ' + isSystemAlert + ' ; value: ' + value + ' ; Boolean:' + Boolean(isSystemAlert));
             return value;
         },
         set ready(newValue) {
             sessionStorage.setItem('isSystemAlert', newValue);
-            //console.log('set active: ' + newValue + ' ; Boolean:' + Boolean(newValue));
+            console.log('set active: ' + newValue + ' ; Boolean:' + Boolean(newValue));
         },
         remove() {
             sessionStorage.removeItem('isSystemAlert');

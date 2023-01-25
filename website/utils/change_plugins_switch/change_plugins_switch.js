@@ -16,7 +16,7 @@ function createChangePluginSwitch(isRequired, pluginName,pluginType,pluginVersio
     checkboxInput.checked = isActivated;
     //onchange event change the OPPOSITE of current check status
     checkboxInput.onchange = function(){
-        //console.log(checkboxInput.checked);
+        console.log(checkboxInput.checked);
         activatePluginLisenter(pluginName,pluginType,pluginVersionId,checkboxInput.checked,isRequired);
     };
 

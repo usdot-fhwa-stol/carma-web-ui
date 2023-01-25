@@ -277,7 +277,7 @@ $(document).ready(function(){
      $('#CARMA_guidance_icon_png').click(function()
      {
           
-          //console.log(session_isGuidance + session_isGuidance.active)
+          console.log(session_isGuidance + session_isGuidance.active)
           if(session_isGuidance!= null && (session_isGuidance.engaged == true || session_isGuidance.active == true)) //already automated guidance-engaged
           {
                toggleLoading();

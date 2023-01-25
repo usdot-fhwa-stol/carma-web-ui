@@ -3,20 +3,20 @@ var startDateTime = {
     get value() 
     {
         var startDateTime = sessionStorage.getItem('startDateTime');
-        //console.log('get startDateTime ORIG: ' + startDateTime);
+        console.log('get startDateTime ORIG: ' + startDateTime);
         if (startDateTime == 'undefined' || startDateTime == null || startDateTime == '')
         {
             this.start();
             startDateTime = sessionStorage.getItem('startDateTime');
         }
 
-        //console.log('get startDateTime FINAL: ' + startDateTime);
+        console.log('get startDateTime FINAL: ' + startDateTime);
         return startDateTime;
     },
     set value(newValue) 
     {
         sessionStorage.setItem('startDateTime', newValue);
-        //console.log('set startDateTime: ' + newValue);
+        console.log('set startDateTime: ' + newValue);
     },
     remove() 
     {
@@ -118,7 +118,7 @@ function countUpTimer()
         let minutes = Math.floor((elapsedTime % (1000 * 60 * 60)) / (1000 * 60));
         let seconds = Math.floor((elapsedTime % (1000 * 60)) / 1000);
         
-        //console.log('engaged_timer: ' + pad(hours, 2) + 'h '+ pad(minutes, 2) + 'm ' + pad(seconds, 2) + 's ');
+        console.log('engaged_timer: ' + pad(hours, 2) + 'h '+ pad(minutes, 2) + 'm ' + pad(seconds, 2) + 's ');
         updateElapsedTime(pad(hours, 2), pad(minutes, 2), pad(seconds, 2));
     }
 }

@@ -130,12 +130,12 @@ var isGuidance = {
             if (isGuidanceActive == 'true')
                 value = true;
         }
-        //console.log('get active - isGuidanceActive: ' + isGuidanceActive + ' ; value: ' + value + ' ; Boolean:' + Boolean(isGuidanceActive));
+        console.log('get active - isGuidanceActive: ' + isGuidanceActive + ' ; value: ' + value + ' ; Boolean:' + Boolean(isGuidanceActive));
         return value;
     },
     set active(newValue) {
         sessionStorage.setItem('isGuidanceActive', newValue);
-        //console.log('set active: ' + newValue + ' ; Boolean:' + Boolean(newValue));
+        console.log('set active: ' + newValue + ' ; Boolean:' + Boolean(newValue));
     },
     get engaged() {
         var isGuidanceEngaged = sessionStorage.getItem('isGuidanceEngaged');
@@ -145,12 +145,12 @@ var isGuidance = {
             if (isGuidanceEngaged == 'true')
                 value = true;
         }
-        //console.log('get engaged  - isGuidanceEngaged: ' + isGuidanceEngaged + ' ; value: ' + value + ' ; Boolean:' + Boolean(isGuidanceEngaged));
+        console.log('get engaged  - isGuidanceEngaged: ' + isGuidanceEngaged + ' ; value: ' + value + ' ; Boolean:' + Boolean(isGuidanceEngaged));
         return value;
     },
     set engaged(newValue) {
         sessionStorage.setItem('isGuidanceEngaged', newValue);
-        //console.log('set engaged: ' + newValue + ' ; Boolean:' + Boolean(newValue));
+        console.log('set engaged: ' + newValue + ' ; Boolean:' + Boolean(newValue));
     },
     remove() {
         sessionStorage.removeItem('isGuidanceActive');
@@ -168,12 +168,12 @@ var isSystemAlert = {
             if (isSystemAlert == 'true')
                 value = true;
         }
-        //console.log('get active - isSystemAlert: ' + isSystemAlert + ' ; value: ' + value + ' ; Boolean:' + Boolean(isSystemAlert));
+        console.log('get active - isSystemAlert: ' + isSystemAlert + ' ; value: ' + value + ' ; Boolean:' + Boolean(isSystemAlert));
         return value;
     },
     set ready(newValue) {
         sessionStorage.setItem('isSystemAlert', newValue);
-        //console.log('set active: ' + newValue + ' ; Boolean:' + Boolean(newValue));
+        console.log('set active: ' + newValue + ' ; Boolean:' + Boolean(newValue));
     },
     remove() {
         sessionStorage.removeItem('isSystemAlert');
@@ -183,18 +183,18 @@ var isSystemAlert = {
 var startDateTime = {//startDateTime
     get value() {
         var startDateTime = sessionStorage.getItem('startDateTime');
-        //console.log('get startDateTime ORIG: ' + startDateTime);
+        console.log('get startDateTime ORIG: ' + startDateTime);
         if (startDateTime == 'undefined' || startDateTime == null || startDateTime == '') {
             this.start();
             startDateTime = sessionStorage.getItem('startDateTime');
         }
 
-        //console.log('get startDateTime FINAL: ' + startDateTime);
+        console.log('get startDateTime FINAL: ' + startDateTime);
         return startDateTime;
     },
     set value(newValue) {
         sessionStorage.setItem('startDateTime', newValue);
-        //console.log('set startDateTime: ' + newValue);
+        console.log('set startDateTime: ' + newValue);
     },
     remove() {
         sessionStorage.removeItem('startDateTime');
@@ -208,19 +208,19 @@ var selectedRoute = {
     get name() {
         var selectedRouteName = sessionStorage.getItem('selectedRouteName');
 
-        //console.log('get selectedRouteName INITIAL: ' + selectedRouteName);
+        console.log('get selectedRouteName INITIAL: ' + selectedRouteName);
 
         if (selectedRouteName == 'undefined' || selectedRouteName == null || selectedRouteName.length == 0) {
             selectedRouteName = 'No Route Selected';
         }
 
-        //console.log('get selectedRouteName FINAL: ' + selectedRouteName);
+        console.log('get selectedRouteName FINAL: ' + selectedRouteName);
 
         return selectedRouteName;
     },
     set name(newValue) {
         sessionStorage.setItem('selectedRouteName', newValue);
-        //console.log('set selectedRouteName: ' + newValue);
+        console.log('set selectedRouteName: ' + newValue);
     },
     remove() {
         sessionStorage.removeItem('selectedRouteName');
@@ -554,7 +554,7 @@ function showSubCapabilitiesView2() {
         //Need to wait for route current segment to publish to not get negative total lengths.
         setTimeout(function () {
             checkRouteInfo();
-            //console.log('Wait call for checkRouteInfo.');
+            console.log('Wait call for checkRouteInfo.');
             waitingForRouteStateSegmentStartup = true;
         }, 5000);
     }
@@ -562,7 +562,7 @@ function showSubCapabilitiesView2() {
         checkRouteInfo();
     }
 
-    //console.log('showPluginOptions called.');
+    console.log('showPluginOptions called.');
     showPluginOptions();
 }
 
@@ -1811,7 +1811,7 @@ function startEngagedTimer() {
     if (timer == null && isGuidance.engaged == true)
     {
         timer = setInterval(countUpTimer, 1000);
-        //console.log('*** setInterval & countUpTimer was called.');
+        console.log('*** setInterval & countUpTimer was called.');
     }
 }
 
@@ -1860,7 +1860,7 @@ function evaluateNextStep() {
 
     //Issue#1015 MF: Not used Commented out for now until further testing to make sure we don't need this again.
     //if (isDriverTopicsAllAvailable() == false){
-    //    //console.log ('evaluateNextStep: calling waitForGetDriversWithCapabilities')
+    //    console.log ('evaluateNextStep: calling waitForGetDriversWithCapabilities')
     //    waitForGetDriversWithCapabilities();
     //}
 

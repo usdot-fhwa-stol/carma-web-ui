@@ -159,7 +159,7 @@ CarmaJS.WidgetFramework.Platooning = (function () {
 
                 $('#gaugeDesiredGap').jqxLinearGauge('value', platoon_desired_gap);
                 $('#gaugeActualGap').jqxLinearGauge('value', host_actual_gap);
-                //console.log (platoon_desired_gap + '; ' + host_actual_gap);
+                console.log (platoon_desired_gap + '; ' + host_actual_gap);
 
             });
         };
@@ -216,7 +216,7 @@ CarmaJS.WidgetFramework.Platooning = (function () {
            drawGuages: function(){
 
               //*** Draw the guages and labels ***
-              //console.log('drawGuages!!!');
+              console.log('drawGuages!!!');
               //Top linear guage is the actual gap with ticker labels.
               var majorTicks = { size: '17%', interval: 20 },
                   minorTicks = { size: '12%', interval: 10, style: { 'stroke-width': 1, stroke: '#aaaaaa' } },

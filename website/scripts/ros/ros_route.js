@@ -147,6 +147,16 @@ function setRoute(id,route_name)
     {
         console.log("Trying to set route");
         // Call the service and get back the results in the callback.
+        
+        // Test if connection can still be made
+        g_ros.connect('ws://' + ip + ':9090');
+        console.log('connect g_ros to ROS bridge... at ip:' + ip);
+
+        // Testing connection 2
+        var g_ros2 = new ROSLIB.Ros();
+        g_ros2.connect('ws://' + '192.168.88.10' + ':9090');
+        console.log('connect g_ros2 to ROS bridge... at ip:' + ip);
+
         service.callService(request, function (result) 
         {
             let errorDescription = '';
@@ -208,6 +218,7 @@ function setRoute(id,route_name)
     }
     catch(ex)
     {
+        console.error("ros_route.js: call rosservice /guidance/set_active_route failed.")
         rbRoute.checked = false;
     }
 

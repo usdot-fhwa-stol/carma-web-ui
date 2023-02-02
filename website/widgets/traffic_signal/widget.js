@@ -12,7 +12,7 @@ CarmaJS.WidgetFramework.TrafficSignal = (function () {
 
         //*** Private Variables ***
         var t_traffic_signal_info = 'traffic_signal_info';
-        var traffic_signal_max = 3;
+        var traffic_signal_max = 1;
 
         var svgLayerSpeed;
         var svgLayer1;
@@ -22,6 +22,19 @@ CarmaJS.WidgetFramework.TrafficSignal = (function () {
         //Listeners
         var listenerSpeedAccel;
         var listenerSFVelocity;
+
+        // Implement max times for each phase to prevent display of erroneous data
+        var GREEN_MAX = 60;
+        var RED_MAX = 60;
+        var YELLOW_MAX = 10;
+
+        var prev_green_time = -1;
+        var prev_yellow_time = -1;
+        var prev_red_time = -1;
+
+        var prev_phase = -1;
+        var apply_decreasing_filter = true;
+        var apply_max_limits = true;
 
         //*** Widget Install Folder ***
         //Currently the URL path from document or window are pointing to the page, not the actual folder location.
@@ -59,6 +72,124 @@ CarmaJS.WidgetFramework.TrafficSignal = (function () {
                     svgLayerSpeed.getElementById('svgLimitText').innerHTML = speed_limit.padStart(2,'0');
                 }
             });
+        };
+
+        var filterGreenTime = function (remaining_time) {
+            if (remaining_time > GREEN_MAX) {
+                return GREEN_MAX;
+            } else {
+                return remaining_time;
+            }
+        };
+
+        var filterRedTime = function (remaining_time) {
+            if (remaining_time > RED_MAX) {
+                return RED_MAX;
+            } else {
+                return remaining_time;
+            }
+
+        };
+
+        var filterYellowTime = function (remaining_time) {
+            if (remaining_time > YELLOW_MAX) {
+                return YELLOW_MAX;
+            } else {
+                return remaining_time;
+            }
+        };
+
+        var makeMonotonicallyDecreasing = function (prev_rem_time, remaining_time) {
+            if (prev_rem_time < remaining_time) {
+                return prev_rem_time;
+            } else {
+                return remaining_time;
+            }
+        };
+
+        var filterGreenDecrease = function (remaining_time) {
+            var filtered_green = -1;
+            if (prev_green_time != -1) {
+                filtered_green = makeMonotonicallyDecreasing(prev_green_time, remaining_time);
+            } else {
+                filtered_green = remaining_time;
+            }
+
+            prev_green_time = remaining_time
+            return filtered_green;
+        };
+
+        var filterRedDecrease = function (remaining_time) {
+            var filtered_red = -1;
+            if (prev_red_time != -1) {
+                filtered_red = makeMonotonicallyDecreasing(prev_red_time, remaining_time);
+            } else {
+                filtered_red = remaining_time;
+            }
+
+            prev_red_time = remaining_time
+            return filtered_red;
+        };
+
+        var filterYellowDecrease = function (remaining_time) {
+            var filtered_yellow = -1;
+            if (prev_yellow_time != -1) {
+                filtered_yellow = makeMonotonicallyDecreasing(prev_yellow_time, remaining_time);
+            } else {
+                filtered_yellow = remaining_time;
+            }
+
+            prev_yellow_time = remaining_time
+            return filtered_yellow;
+        };
+
+        var resetDecreasingFilter = function() {
+            prev_green_time = -1;
+            prev_red_time = -1;
+            prev_yellow_time = -1;
+        };
+
+        var applyFilters = function(phase, remaining_time) {
+            if (phase != prev_phase) {
+                resetDecreasingFilter();
+                prev_phase = phase;
+            }
+
+            switch (phase) {
+                 case 1: //GREEN
+                     //Bottom Signal - Green
+                     if (apply_max_limits) {
+                        remaining_time = filterGreenTime(remaining_time);
+                     }
+                     if (apply_decreasing_filter) {
+                        remaining_time = filterGreenDecrease(remaining_time);
+                     }
+                     return remaining_time;
+                     break;
+                 case 2: //YELLOW
+                     //Middle Signal - Yellow
+                     if (apply_max_limits) {
+                        remaining_time = filterYellowTime(remaining_time);
+                     }
+                     if (apply_decreasing_filter) {
+                        remaining_time = filterYellowDecrease(remaining_time);
+                     }
+                     return remaining_time;
+                     break;
+                 case 3: //RED
+                     //Top Signal - Red
+                     if (apply_max_limits) {
+                        remaining_time = filterRedTime(remaining_time);
+                     }
+                     if (apply_decreasing_filter) {
+                        remaining_time = filterRedDecrease(remaining_time);
+                     }
+                     return remaining_time;
+                     break;
+                default: //not handled
+                    console.log('Traffic Signal Info state is unknown: ' + item.state)
+                    break;
+            }
         };
 
         /***
@@ -272,15 +403,15 @@ CarmaJS.WidgetFramework.TrafficSignal = (function () {
                         break;
                     case 1: //GREEN
                         //Bottom Signal - Green
-                        svgLayerForSignal.getElementById('svgCircleBottomText').innerHTML = String(item.remaining_time).padStart(2,'0');
+                        svgLayerForSignal.getElementById('svgCircleBottomText').innerHTML = String(applyFilters(item.state, item.remaining_time)).padStart(2,'0');
                         break;
                     case 2: //YELLOW
                         //Middle Signal - Yellow
-                        svgLayerForSignal.getElementById('svgCircleMiddleText').innerHTML = String(item.remaining_time).padStart(2,'0');
+                        svgLayerForSignal.getElementById('svgCircleMiddleText').innerHTML = String(applyFilters(item.state, item.remaining_time)).padStart(2,'0');
                         break;
                     case 3: //RED
                         //Top Signal - Red
-                        svgLayerForSignal.getElementById('svgCircleTopText').innerHTML = String(item.remaining_time).padStart(2,'0');
+                        svgLayerForSignal.getElementById('svgCircleTopText').innerHTML = String(applyFilters(item.state, item.remaining_time)).padStart(2,'0');
                         break;
                     case 4: //FLASHING_GREEN
                         //NOT applicable at this time.

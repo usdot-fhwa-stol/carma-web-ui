@@ -115,6 +115,11 @@ function subscribeToGuidanceRouteState()
 */
 function setRoute(id,route_name) 
 {
+    g_ros = new ROSLIB.Ros();
+    var ip = CarmaJS.Config.getIP();
+    g_ros.connect('ws://' + ip + ':9090');
+    console.log('connect to ROS bridge...');
+
     // Calling setActiveRoute service
     var service = new ROSLIB.Service({
         ros: g_ros,
@@ -143,6 +148,7 @@ function setRoute(id,route_name)
     };
     try
     {
+        console.log("Trying to call set route service");
         // Call the service and get back the results in the callback.
         service.callService(request, function (result) 
         {
@@ -207,6 +213,7 @@ function setRoute(id,route_name)
         rbRoute.checked = false;
     }
 
+    console.log("Crossed set route service");
     //Get Route Event
     var listenerRouteEvent = new ROSLIB.Topic({
         ros: g_ros,

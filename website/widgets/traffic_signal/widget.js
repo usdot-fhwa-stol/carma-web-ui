@@ -115,7 +115,7 @@ CarmaJS.WidgetFramework.TrafficSignal = (function () {
                 filtered_green = remaining_time;
             }
 
-            prev_green_time = remaining_time
+            prev_green_time = filtered_green;
             return filtered_green;
         };
 
@@ -127,7 +127,7 @@ CarmaJS.WidgetFramework.TrafficSignal = (function () {
                 filtered_red = remaining_time;
             }
 
-            prev_red_time = remaining_time
+            prev_red_time = filtered_red;
             return filtered_red;
         };
 
@@ -139,7 +139,7 @@ CarmaJS.WidgetFramework.TrafficSignal = (function () {
                 filtered_yellow = remaining_time;
             }
 
-            prev_yellow_time = remaining_time
+            prev_yellow_time = filtered_yellow;
             return filtered_yellow;
         };
 

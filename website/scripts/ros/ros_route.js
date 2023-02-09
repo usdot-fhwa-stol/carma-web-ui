@@ -269,7 +269,7 @@ function abortActiveRoute()
             { 
                 //Call succeeded
                 console.log('call abort active route success!');
-                if(session_selectedRoute!=null && session_selectedRoute.name!=null && session_selectedRoute.name.length()>0)
+                if(session_selectedRoute!=null && session_selectedRoute.name!=null && session_selectedRoute.name.length>0)
                 {
                     $('#divCapabilitiesRoute').html('Aborted Route: ' + session_selectedRoute.name );       
                     $('#divCapabilitiesContent').css('display','inline-block');

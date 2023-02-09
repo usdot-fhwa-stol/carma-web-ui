@@ -10,7 +10,11 @@ function UpdateIntersectionAndSignalGroupIds(){
     });
     listener.subscribe(function(message){
         //Check ROSBridge connection before subscribe a topic
-        IsROSBridgeConnected();
+        if (!IsROSBridgeConnected())
+        {
+            return;
+        };
+
         intersection_signal_group_ids[0] = message.data[0];
         intersection_signal_group_ids[1] = message.data[1];
     });
@@ -31,8 +35,12 @@ function TrafficSignalInfoList(){
     let remaining_time = 0;
     listener.subscribe(function (message) 
     {
-         //Check ROSBridge connection before subscribe a topic
-         IsROSBridgeConnected();
+        //Check ROSBridge connection before subscribe a topic
+        if (!IsROSBridgeConnected())
+        {
+            return;
+        };
+
          try{
             if(message!=undefined && message.intersections != undefined && Array.isArray(message.intersections.intersection_state_list)){
                 message.intersections.intersection_state_list.forEach(element=>{
@@ -44,7 +52,7 @@ function TrafficSignalInfoList(){
                             if(inner_ele.signal_group != unknown_signal_group && inner_ele.signal_group == intersection_signal_group_ids[1])
                             {
                                     latest_start_time = Date.now();
-                                    inner_ele.state_time_speed.movement_event_list.forEach(event_ele=>{
+                                    inner_ele.state_time_speed.movement_event_list.every(event_ele=>{
                                         let signal_state = event_ele.event_state.movement_phase_state;
 
                                             signalStateTracking = signal_state;
@@ -79,6 +87,7 @@ function TrafficSignalInfoList(){
                                                     console.error("Traffic signal state is invalid");
                                                     break;
                                             } 
+                                            return false;
                                     });
                             }
                             

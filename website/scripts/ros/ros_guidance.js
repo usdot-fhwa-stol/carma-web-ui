@@ -22,7 +22,10 @@ function subscribeToGuidanceState ()
     listener.subscribe(function(message)
     {
         //Check ROSBridge connection before subscribe a topic
-       IsROSBridgeConnected();
+       if (!IsROSBridgeConnected())
+        {
+            return;
+        };
        
        //reset session_isGuidance.engaged/active to false  
        session_isGuidance.engaged = false;
@@ -158,7 +161,10 @@ function subscribeToGuidanceState ()
 function activateGuidance(newStatus = true) 
 {
     //Check ROSBridge connection before subscribe a topic
-    IsROSBridgeConnected();
+    if (!IsROSBridgeConnected())
+    {
+        return;
+    };
 
     console.log('new guidance'+ newStatus);
     //Call the service to engage guidance.
@@ -177,7 +183,11 @@ function activateGuidance(newStatus = true)
     setGuidanceClient.callService(request, function (result) 
     {
         //Check ROSBridge connection before subscribe a topic
-        IsROSBridgeConnected();
+        if (!IsROSBridgeConnected())
+        {
+            return;
+        };
+        
         if (Boolean(result.guidance_status) != newStatus) //NOT SUCCESSFUL.
         {
             $('#divCapabilitiesContent').html('');

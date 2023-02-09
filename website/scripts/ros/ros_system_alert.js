@@ -13,6 +13,8 @@ function checkSystemAlerts() {
     // Check if our global subscription variable is defined already
     if (typeof listenerSystemAlert === 'undefined' || listenerSystemAlert === null) 
     {
+        console.log("Subscribing to " + T_SYSTEM_ALERT + " type: " + M_SYSTEM_ALERT);
+        
         // Initialize a topic object
         listenerSystemAlert = new ROSLIB.Topic({
             ros: g_ros,
@@ -24,7 +26,10 @@ function checkSystemAlerts() {
         systemAlertCallback = function (message) 
         {
             //Check ROSBridge connection before subscribe a topic
-            IsROSBridgeConnected();
+            if (!IsROSBridgeConnected())
+            {
+                return;
+            };
             var messageTypeFullDescription = 'NA';
             console.log("system alert type" + message.type);
             switch (message.type) 

@@ -51,7 +51,9 @@ $(document).ready(function(){
             $('#divCapabilitiesContent').css('display','inline-block');
             // Check System Ready:ros_system_alert.js
             let systemAlertInterval = setInterval(()=>{
-                checkSystemAlerts();
+                if (typeof listenerSystemAlert === 'undefined' || listenerSystemAlert === null)
+                    checkSystemAlerts();
+                
                 if(session_isSystemAlert != null && session_isSystemAlert.ready == true )
                 {
                     clearInterval(systemAlertInterval); //stop interval

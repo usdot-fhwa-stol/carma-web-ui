@@ -18,7 +18,10 @@ function subscribeToVehicleCMD()
     listener.subscribe(function(message)
     {
         //Check ROSBridge connection before subscribe a topic
-        IsROSBridgeConnected();
+        if (!IsROSBridgeConnected())
+        {
+            return;
+        };
         
         if(message!=null && message.ctrl_cmd !=null)
         {       
@@ -50,7 +53,11 @@ function sunscribeToThrottleFeedback()
     });
     listener.subscribe(function(message){
         //Check ROSBridge connection before subscribe a topic
-        IsROSBridgeConnected();
+        if (!IsROSBridgeConnected())
+        {
+            return;
+        };
+
         if(message!=null && message.throttle_pedal!=null)
         {
             let value = message.throttle_pedal;
@@ -81,7 +88,11 @@ function sunscribeToBrakeFeedback()
     });
     listener.subscribe(function(message){
         //Check ROSBridge connection before subscribe a topic
-        IsROSBridgeConnected();
+        if (!IsROSBridgeConnected())
+        {
+            return;
+        };
+
         if(message!=null && message.brake_pedal!=null)
         {
             let value = message.brake_pedal;
@@ -107,7 +118,11 @@ function subscribeToSpeedPedalsOLD()
     listener.subscribe(function(message)
     {
         //Check ROSBridge connection before subscribe a topic
-        IsROSBridgeConnected();
+        if (!IsROSBridgeConnected())
+        {
+            return;
+        };
+
         if(message!=null && message.brake !=null)
         {
               //Brake(0-1 percent)
@@ -133,7 +148,11 @@ function subscribeToSteeringWheelOLD()
     listener.subscribe(function(message)
     {
         //Check ROSBridge connection before subscribe a topic
-        IsROSBridgeConnected();
+        if (!IsROSBridgeConnected())
+        {
+            return;
+        };
+        
         //Steering wheel
         /**
          * compute the maximum_steering_wheel_angle with the following equation.
@@ -177,7 +196,10 @@ function sunscribeToSteeringFeedback()
     });
     listener.subscribe(function(message){
         //Check ROSBridge connection before subscribe a topic
-        IsROSBridgeConnected();
+        if (!IsROSBridgeConnected())
+        {
+            return;
+        };
 
         if(message!=null && message.steering_wheel_angle!=null)
         {

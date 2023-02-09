@@ -20,7 +20,10 @@ function subscribeToGuidanceAvailaleRoutes ()
         service.callService(request, function (result) 
         {
             //Check ROSBridge connection before subscribe a topic
-            IsROSBridgeConnected();
+            if (!IsROSBridgeConnected())
+        {
+            return;
+        };
             var available_routes = result.available_routes;
             if(available_routes != null && available_routes.length > 0)
             {
@@ -65,7 +68,7 @@ function subscribeToGuidanceAvailaleRoutes ()
 }
 
 /**
- * rostopic pub /guidance/route_state cav_msgs/RouteState "header: {seq: 0, stamp: 1232323,frame_id: '0'}
+ * rostopic pub /guidance/route_state cav_msgs/msg/RouteState "header: {seq: 0, stamp: 1232323,frame_id: '0'}
 route_id: 'test route'
 state: 0 
 cross_track: 0 
@@ -87,7 +90,10 @@ function subscribeToGuidanceRouteState()
     listener.subscribe(function(message)
     {
         //Check ROSBridge connection before subscribe a topic
-        IsROSBridgeConnected();
+        if (!IsROSBridgeConnected())
+        {
+            return;
+        };
         if(message!=null && message.speed_limit != null)
         {
             let speed_limit_converted = Math.floor(Math.abs(message.speed_limit * METER_TO_MPH));

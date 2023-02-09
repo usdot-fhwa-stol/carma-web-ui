@@ -1,5 +1,5 @@
 /**
- * rostopic pub -r 10 /lane_change cav_msgs/LaneChangeInfo "direction: 0 
+ * rostopic pub -r 10 /lane_change cav_msgs/msg/LaneChangeInfo "direction: 0 
 distance_to_lanechange: 3.2"
 **/
 
@@ -176,7 +176,7 @@ uint8   OTHER_RECEIVED=8
 uint8   PLANNING_SUCCESS=9
 uint8   TIMED_OUT=10
  * Mockup publish topic
- * rostopic pub -r 1 /lane_change_status cav_msgs/LaneChangeStatus "status: 0
+ * rostopic pub -r 1 /lane_change_status cav_msgs/msg/LaneChangeStatus "status: 0
 description: ''"
 */
 function SubscribeToLaneChangeStatus()

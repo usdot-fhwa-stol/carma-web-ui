@@ -18,7 +18,7 @@ set -ex
 
 # Configure apt with Docker repos
 apt-get update
-apt-get --yes --force-yes install apt-transport-https \
+apt-get -y --force-yes install apt-transport-https \
         ca-certificates \
         curl \
         gnupg2 \
@@ -46,7 +46,7 @@ fi
 
 # Install docker and docker-compose
 apt-get update
-apt-get --yes --force-yes install docker-ce 
+apt-get -y --force-yes install docker-ce 
 curl -L "https://github.com/docker/compose/releases/download/1.29.1/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
 chmod +x /usr/local/bin/docker-compose
 

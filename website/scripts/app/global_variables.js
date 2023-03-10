@@ -65,6 +65,7 @@ const T_GNSS_FIX_FUSED="/hardware_interface/gnss_fix_fused";
 const T_J2735_SPAT="/message/incoming_j2735_spat";
 const T_INTERSECTION_SIGNAL_GROUP_IDS="/environment/intersection_signal_group_ids";
 const T_UI_INSTRUCTION ="/ui/ui_instructions";
+const T_ERV_STATUS="/guidance/approaching_erv_status"
 
 //ROS Services names
 const S_GUIDANCE_AVAILABLE_ROUTES = '/guidance/get_available_routes';
@@ -119,6 +120,7 @@ const M_TCR_POLYGON = "carma_v2x_msgs/msg/TrafficControlRequestPolygon"
 const M_GPS_COMMON_GPSFIX="gps_msgs/msg/GPSFix";
 const M_J2735_SPAT="j2735_v2x_msgs/msg/SPAT";
 const M_MULTI_ARRAY="std_msgs/msg/Int32MultiArray";
+const M_ERV_UIInstruction="carma_msgs/msg/UIInstructions"
 
 //ROS param names
 const P_REQUIRED_PLUGINS = '/guidance/guidance_controller:required_plugins';

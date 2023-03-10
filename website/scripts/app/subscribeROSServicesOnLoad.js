@@ -127,6 +127,7 @@ $(document).ready(function(){
             subscribeToGuidanceActivePlugins();//Active plugins panel
             subscribeToPlatoonInfo(); //show platoon info
             GetEventInfo(); //Show Traffic Event Info
+            subscribeToERVStatusInfo();//Emergency response status
             // showStatusandLogs();
             /***
              * SECTION: Bottom Menu 

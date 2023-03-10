@@ -19,7 +19,10 @@ response_service: '''
 const HAS_APPROACHING_ERV = "HAS_APPROACHING_ERV";
 const TIME_UNTIL_PASSING = "TIME_UNTIL_PASSING";
 const EGO_VEHICLE_ACTION = "EGO_VEHICLE_ACTION";
-
+/***
+ * Subscribe ERV approaching status ROS2 topics and display the warning message on the UI if ERV is detected.
+ * If not ERV detected, hide the warning message.
+ */
 function subscribeToERVStatusInfo() {
     console.log("subscribeToERVStatusInfo")
     let imgPath = "../../images/ambulance-orange.svg";
@@ -57,7 +60,9 @@ function subscribeToERVStatusInfo() {
     });
 }
 
-
+/***
+ * Update the UI element given the input image, description and style
+ */
 function updateERVStatusDivByEventInfo(imgPath, description, borderClass) {
     let wrapper = document.getElementById('erv_status_wrapper');
     let description_dev = document.getElementById('erv_status_description_id');

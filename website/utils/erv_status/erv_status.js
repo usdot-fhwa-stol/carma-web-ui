@@ -1,4 +1,6 @@
-
+/***
+ * Create the ERV status warning UI element
+ */
 function createERVStatus(toHideStatus,img_path, description)
 {
     let divERVStatusWrapper = document.createElement('div');
@@ -27,6 +29,9 @@ function createERVStatus(toHideStatus,img_path, description)
     return divERVStatusWrapper;
 }
 
+/***
+ * Update the description of the ERV status UI element
+ */
 function updateERVStatus(toHideStatus,img_path, description)
 {    
     if(!toHideStatus)

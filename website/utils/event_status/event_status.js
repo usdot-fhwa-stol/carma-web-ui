@@ -1,3 +1,4 @@
+
 function createEventStatus(toHideStatus,img_path, description)
 {
     let divEventStatusWrapper = document.createElement('div');

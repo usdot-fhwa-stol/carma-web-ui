@@ -125,6 +125,7 @@ function setRoute(id,route_name)
     });
 
     var selectedRouteid = id.toString();
+    console.log("selected Route: "+ selectedRouteid)
 
     // Create a Service Request.
     var request = new ROSLIB.ServiceRequest({

@@ -74,11 +74,11 @@ $(document).ready(function(){
             ** After session initialized , ROS connected, and system alert is ready, subscribe to below services and topics.                
             ***/
             
-            //SECTION: Route Area
-            if(session_selectedRoute!=null && session_selectedRoute.id!=null && session_selectedRoute.id.length > 0)
-            {
-                abortActiveRoute();
-            } 
+            //SECTION: Route Area comment out due to bridge server error
+            // if(session_selectedRoute!=null && session_selectedRoute.id!=null && session_selectedRoute.id.length > 0)
+            // {
+                // abortActiveRoute();
+            // } 
             //Get available routes
             subscribeToGuidanceAvailaleRoutes(); 
 

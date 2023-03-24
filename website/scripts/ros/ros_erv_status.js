@@ -50,6 +50,8 @@ function subscribeToERVStatusInfo() {
                     + " <span style=\'color: rgb(167, 223, 57) !important\'>" +
                     statusMap[TIME_UNTIL_PASSING] + "</p><p> Ego Vehicle Status:: " +
                     statusMap[EGO_VEHICLE_ACTION] + "</p>", 'border-warning');
+                //Play sound to notify driver
+                playSound('audioAlert1', true);
             } else {
                 $('#divERVStatusContent').empty();
             }

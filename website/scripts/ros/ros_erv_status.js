@@ -48,7 +48,7 @@ function subscribeToERVStatusInfo() {
             if (statusMap[HAS_APPROACHING_ERV] === "1") {
                 updateERVStatusDivByEventInfo(imgPath, "<p>Approaching ERV detected!</p><p>Time until passing (secs):"
                     + " <span style=\'color: rgb(167, 223, 57) !important\'>" +
-                    statusMap[TIME_UNTIL_PASSING] + "</p><p> ERV Vehicle Status: " +
+                    statusMap[TIME_UNTIL_PASSING] + "</p><p> Ego Vehicle Status:: " +
                     statusMap[EGO_VEHICLE_ACTION] + "</p>", 'border-warning');
             } else {
                 $('#divERVStatusContent').empty();

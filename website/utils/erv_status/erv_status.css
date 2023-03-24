@@ -9,11 +9,6 @@
 }
 
 
-#erv_status_wrapper.border-good{
-    border: 1px solid rgb(188, 250, 63);
-    box-shadow: 2px 2px 8px rgb(188, 250, 63);
-}
-
 #erv_status_wrapper.border-warning{
     border: 1px solid #ff6600;
     box-shadow: 2px 2px 8px #ff6600;

@@ -10,14 +10,14 @@ function createERVStatus(toHideStatus,img_path, description)
 
     let p_erv_status_div = document.createElement('div');
     p_erv_status_div.id="erv_status_description_div";
-    //Lane Change description
+    //ERV description
     let p_erv_status = document.createElement("p");
     p_erv_status.innerHTML = description;
     p_erv_status.id = "erv_status_description_id";
     p_erv_status.alt = "Status";
     p_erv_status_div.append(p_erv_status);
 
-    //Lane Change status
+    //ERV status
     let img_erv_status_icon = document.createElement("img");
     img_erv_status_icon.src = img_path;
     img_erv_status_icon.id = "img_erv_status_icon_id";
@@ -41,10 +41,10 @@ function updateERVStatus(toHideStatus,img_path, description)
     }
     else
     {
-        //clear the lane change status bubble
+        //clear the ERV status bubble
         document.getElementById('divERVStatusContent').innerHTML="";
 
-        //hide the lane change status bubble
+        //hide the ERV status bubble
         document.getElementById('divERVStatusArea').style.display = 'none';
     }
 }

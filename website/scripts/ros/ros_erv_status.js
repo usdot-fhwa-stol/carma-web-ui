@@ -31,7 +31,7 @@ function subscribeToERVStatusInfo() {
         name: T_ERV_STATUS,
         messageType: M_ERV_UIInstruction
     });
-
+    let isERVStatusTransition = false;
     listener.subscribe(function (message) {
         if (message.msg !== undefined) {
             let statusMsg = message.msg.split(",");
@@ -45,15 +45,22 @@ function subscribeToERVStatusInfo() {
             if (statusMsg.length >= 3) {
                 statusMap[statusMsg[2].split(":")[0]] = statusMsg[2].split(":")[1];
             }
-            if (statusMap[HAS_APPROACHING_ERV] === "1") {
+            if (statusMap.hasOwnProperty(HAS_APPROACHING_ERV) && statusMap[HAS_APPROACHING_ERV] === "1") {
                 updateERVStatusDivByEventInfo(imgPath, "<p>Approaching ERV detected!</p><p>Time until passing (secs):"
                     + " <span style=\'color: rgb(167, 223, 57) !important\'>" +
                     statusMap[TIME_UNTIL_PASSING] + "</p><p> Ego Vehicle Status:: " +
                     statusMap[EGO_VEHICLE_ACTION] + "</p>", 'border-warning');
-                //Play sound to notify driver
-                playSound('audioAlert1', true);
+                    if( !isERVStatusTransition )
+                    {
+                        isERVStatusTransition = true;
+                    }
             } else {
                 $('#divERVStatusContent').empty();
+            }
+
+            if (isERVStatusTransition) {
+                //Play sound to notify driver
+                playSound('audioAlert1', true);
             }
         } else {
             $('#divERVStatusContent').empty();

@@ -50,17 +50,18 @@ function subscribeToERVStatusInfo() {
                     + " <span style=\'color: rgb(167, 223, 57) !important\'>" +
                     statusMap[TIME_UNTIL_PASSING] + "</p><p> Ego Vehicle Status:: " +
                     statusMap[EGO_VEHICLE_ACTION] + "</p>", 'border-warning');
-                    if( !isERVStatusTransition )
-                    {
-                        isERVStatusTransition = true;
-                    }
+                if (!isERVStatusTransition) {
+                    isERVStatusTransition = true;
+                    //Play sound to notify driver
+                    playSound('audioAlert1', true);
+                }
             } else {
                 $('#divERVStatusContent').empty();
-            }
-
-            if (isERVStatusTransition) {
-                //Play sound to notify driver
-                playSound('audioAlert1', true);
+                if(isERVStatusTransition)
+                {
+                    //reset transition status if the ERV has passed
+                    isERVStatusTransition= false;
+                }
             }
         } else {
             $('#divERVStatusContent').empty();

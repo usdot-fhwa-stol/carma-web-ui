@@ -3,6 +3,7 @@
  */
 function subscribeToGuidanceAvailaleRoutes ()
 {
+    console.log("Get available route");
     var service = new ROSLIB.Service({
         ros: g_ros,
         name: S_GUIDANCE_AVAILABLE_ROUTES,
@@ -28,7 +29,8 @@ function subscribeToGuidanceAvailaleRoutes ()
             if(available_routes != null && available_routes.length > 0)
             {
                 $('#route-list-content-no-route-available').html('');           
-                $('#divCapabilitiesRoute').html('Please select a route.');           
+                $('#divCapabilitiesRoute').html('Please select a route.');  
+                $('#route-list-content').empty();    
                 available_routes.forEach(route=>{
                     // console.log('route name is: ' + route.route_name);
                     // console.log('route Id is: ' + route.route_id);                
@@ -127,7 +129,8 @@ function setRoute(id,route_name)
     // Create a Service Request.
     var request = new ROSLIB.ServiceRequest({
         choice: 0, // choice '0' indicates that a route_id is being provided for this setActiveRoute service request
-        route_id: selectedRouteid
+        route_id: selectedRouteid,
+        destination_points: []
     });
 
     //Selected Route
@@ -229,6 +232,7 @@ function setRoute(id,route_name)
  */
 function abortActiveRoute()
 {
+    console.log("abort active route");
     let service = new ROSLIB.Service({
         ros: g_ros,
         name: S_ABORT_ACTIVE_ROUTE,
@@ -250,12 +254,17 @@ function abortActiveRoute()
         service.callService(request, function (result) 
         {
             let errorDescription = '';
+            console.log(result.error_status)
             if (result.error_status != ErrorStatus.NO_ERROR.value) 
             {             
                 switch (result.error_status) 
                 {
                     case ErrorStatus.NO_ACTIVE_ROUTE.value:
                         errorDescription = ErrorStatus.NO_ACTIVE_ROUTE.text;
+                        if(session_selectedRoute != null)
+                        {
+                            session_selectedRoute.remove();
+                        }                        
                         break;                    
                     default: //unexpected value or error
                         errorDescription = result.error_status; //print the number;
@@ -266,10 +275,14 @@ function abortActiveRoute()
             { 
                 //Call succeeded
                 console.log('call abort active route success!');
-                if(session_selectedRoute!=null && session_selectedRoute.name!=null && session_selectedRoute.name.length()>0)
+                if(session_selectedRoute!=null && session_selectedRoute.name!=null && session_selectedRoute.name.length>0)
                 {
+                    if(session_selectedRoute != null)
+                    {
+                        session_selectedRoute.remove();
+                    } 
                     $('#divCapabilitiesRoute').html('Aborted Route: ' + session_selectedRoute.name );       
-                    $('#divCapabilitiesContent').css('display','inline-block');
+                    $('#divCapabilitiesContent').css('display','inline-block');  
                 }             
             }
 

@@ -75,15 +75,10 @@ $(document).ready(function(){
             ***/
             
             //SECTION: Route Area
-            if(sessionStorage.getItem('selectedRouteName')===null ||
-                sessionStorage.getItem('selectedRouteId') ===null ||                
-                sessionStorage.getItem('isGuidanceActive') ===null)
+            if(session_selectedRoute!=null && session_selectedRoute.id!=null && session_selectedRoute.id.length > 0)
             {
-                console.log("Calling abort active route.");
-                //call abort active route to reinforce route transition to selection state
                 abortActiveRoute();
-            }
-
+            } 
             //Get available routes
             subscribeToGuidanceAvailaleRoutes(); 
 
@@ -132,6 +127,7 @@ $(document).ready(function(){
             subscribeToGuidanceActivePlugins();//Active plugins panel
             subscribeToPlatoonInfo(); //show platoon info
             GetEventInfo(); //Show Traffic Event Info
+            subscribeToERVStatusInfo();//Emergency response status
             showStatusandLogs();
             /***
              * SECTION: Bottom Menu 
@@ -214,13 +210,13 @@ function initializeSessionVariables()
             {
                 selectedRouteName = '';
             }
-            // console.log('get selectedRouteName: ' + selectedRouteName);
+            console.log('get selectedRouteName: ' + selectedRouteName);
             return selectedRouteName;
         },
         set name(newValue) 
         {
             sessionStorage.setItem('selectedRouteName', newValue);
-            // console.log('set selectedRouteName: ' + newValue);
+            console.log('set selectedRouteName: ' + newValue);
         },
         get id() 
         {

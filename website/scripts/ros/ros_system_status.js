@@ -11,11 +11,11 @@ function showStatusandLogs()
     showCANSpeeds();
     showActualSpeed();
     showDiagnostics();
-    showControllingPlugins();
+    // showControllingPlugins(); //Comment out as the message is not defined
     checkLateralControlDriver();
     mapOtherVehicles(); 
     checkRouteInfo();
-    checkRobotEnabled();
+   // checkRobotEnabled(); //Comment out as the message is not defined
     showTCRPolygon();
     UpdateHostVehicleMarkerLoc();
 }

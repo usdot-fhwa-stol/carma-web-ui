@@ -4,6 +4,7 @@
  */
 function subscribeToGuidanceState ()
 {
+    console.log("Subscribe to guidance state");
     let listener = new ROSLIB.Topic({
         ros: g_ros,
         name: T_GUIDANCE_STATE,

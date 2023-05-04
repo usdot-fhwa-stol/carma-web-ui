@@ -34,6 +34,7 @@
         <link rel="stylesheet" type="text/css" href="utils/event_info/event_info.css">
         <link rel="stylesheet" type="text/css" href="utils/event_status/event_status.css">
         <link rel="stylesheet" type="text/css" href="utils/lane_change_status/lane_change_status.css">
+        <link rel="stylesheet" type="text/css" href="utils/erv_status/erv_status.css">
 
 
         <!-- thirdparty js -->
@@ -88,6 +89,7 @@
         <script src="utils/wifi/wifi.js"></script>
         <script src="utils/cellular/cellular.js"></script>
         <script src="utils/lane_change_status/lane_change_status.js"></script>
+        <script src="utils/erv_status/erv_status.js"></script>
         <script src="utils/event_status/event_status.js"></script>
         <!--3D stored js libraries --> 
 
@@ -109,6 +111,7 @@
          <script src="scripts/ros/ros_event_info.js"></script>
          <script src="scripts/ros/ros_UIInstructions.js"></script>
         <script src="scripts/app/subscribeROSServicesOnLoad.js"></script>
+        <script src="scripts/ros/ros_erv_status.js"></script>
 	</head>
 	<body >  
         <!--Top Navigation-->
@@ -566,6 +569,9 @@
       </div>
       <div id="divEventStatusArea">
         <div id="divEventStatusContent" style="display: none;"></div>
+      </div>
+      <div id="divERVStatusArea">
+        <div id="divERVStatusContent" style="display: none;"></div>
       </div>
 
       <!-- 3D init/renders-->

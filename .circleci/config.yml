@@ -28,7 +28,7 @@ jobs:
     # Pull docker image from docker hub
     # XTERM used for better catkin_make output
     docker:
-      - image: usdotfhwastolcandidate/carma-base:lavida
+      - image: usdotfhwastol/carma-base:carma-system-4.5.0
         user: carma
         environment:
           TERM: xterm # use xterm to get full display output from build
@@ -50,7 +50,7 @@ jobs:
           name: Pull CARMAMsgs
           command: |
             source ${INIT_ENV}
-            git clone -b release/lavida --depth 1 git@github.com:usdot-fhwa-stol/carma-msgs.git src/CARMAMsgs
+            git clone -b carma-system-4.5.0 --depth 1 git@github.com:usdot-fhwa-stol/carma-msgs.git src/CARMAMsgs
       - run:
           name: Build Driver
           command: |

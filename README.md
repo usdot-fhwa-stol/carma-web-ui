@@ -1,6 +1,6 @@
-| Sonar Code Quality | DockerHub Release | DockerHub Release Candidate | DockerHub Develop |
-|-----|-----|-----|-----|
- [![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=usdot-fhwa-stol_carma-web-ui&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=usdot-fhwa-stol_carma-web-ui) | [![Docker Hub build](https://github.com/usdot-fhwa-stol/carma-web-ui/actions/workflows/dockerhub.yml/badge.svg?branch=carma-system-4.5.0)](https://github.com/usdot-fhwa-stol/carma-web-ui/actions/workflows/dockerhub.yml) | [![Docker Hub build](https://github.com/usdot-fhwa-stol/carma-web-ui/actions/workflows/dockerhub.yml/badge.svg?branch=release%2Flavida)](https://github.com/usdot-fhwa-stol/carma-web-ui/actions/workflows/dockerhub.yml) | [![Docker Hub build](https://github.com/usdot-fhwa-stol/carma-web-ui/actions/workflows/dockerhub.yml/badge.svg?branch=develop)](https://github.com/usdot-fhwa-stol/carma-web-ui/actions/workflows/dockerhub.yml)
+| Sonar Code Quality | DockerHub Develop |
+|-----|-----|
+ [![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=usdot-fhwa-stol_carma-web-ui&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=usdot-fhwa-stol_carma-web-ui) |[![Docker Hub build](https://github.com/usdot-fhwa-stol/carma-web-ui/actions/workflows/dockerhub.yml/badge.svg?branch=develop)](https://github.com/usdot-fhwa-stol/carma-web-ui/actions/workflows/dockerhub.yml)
 
 # CARMAWebUi
 CARMAWebUi is the web-based user interface component of the CARMAPlatform.

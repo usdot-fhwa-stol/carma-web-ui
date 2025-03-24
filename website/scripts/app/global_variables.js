@@ -32,7 +32,7 @@ const T_DRIVER_DISCOVERY = '/hardware_interface/driver_discovery';
 const T_ROUTE_STATE = '/guidance/route_state';
 const T_ROUTE_EVENT = '/guidance/route_event';
 const T_ROUTE = '/guidance/route';
-const T_ABBR_ROUTE_STATE = '/guidance/route_state'; 
+const T_ABBR_ROUTE_STATE = '/guidance/route_state';
 const T_ROBOTIC_STATUS = 'controller/robotic_status';
 const T_INCOMING_BSM = '/message/incoming_bsm';
 const T_NAV_SAT_FIX = '/hardware_interface/gnss/fix_raw';//'nav_sat_fix';
@@ -63,6 +63,7 @@ const T_LANE_CHANGE_STATUS = "/guidance/cooperative_lane_change_status";
 const T_TCR_BOUNDING_POINTS = "/environment/tcr_bounding_points";
 const T_GNSS_FIX_FUSED="/hardware_interface/gnss_fix_fused";
 const T_J2735_SPAT="/message/incoming_j2735_spat";
+const T_SIM_CLOCK="/sim_clock";
 const T_INTERSECTION_SIGNAL_GROUP_IDS="/environment/intersection_signal_group_ids";
 const T_UI_INSTRUCTION ="/ui/ui_instructions";
 const T_ERV_STATUS="/guidance/approaching_erv_status";
@@ -119,6 +120,7 @@ const M_LANE_CHANGE_STATUS = "carma_planning_msgs/msg/LaneChangeStatus";
 const M_TCR_POLYGON = "carma_v2x_msgs/msg/TrafficControlRequestPolygon"
 const M_GPS_COMMON_GPSFIX="gps_msgs/msg/GPSFix";
 const M_J2735_SPAT="j2735_v2x_msgs/msg/SPAT";
+const M_ROS_CLOCK="rosgraph_msgs/msg/Clock";
 const M_MULTI_ARRAY="std_msgs/msg/Int32MultiArray";
 const M_ERV_UIInstruction="carma_msgs/msg/UIInstructions";
 
@@ -225,12 +227,12 @@ var isModalPopupShowing = false;
 var sound_counter=0;
 var sound_counter_max=0;
 
-//map 
+//map
 var map;
 var bounds;
 var markers=[];
 var hostmarker;
-var map_frame = null;  //map iframe 
+var map_frame = null;  //map iframe
 var map_content_window = null; //map iframe content window
 var map_doc = null;
 var tcr_polygon = null;
@@ -255,5 +257,3 @@ var g_play_audio_error = false; //No Error
 var session_isGuidance = null;
 var session_selectedRoute = null;
 var session_isSystemAlert = null;
-
-

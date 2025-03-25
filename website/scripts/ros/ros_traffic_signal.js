@@ -87,12 +87,6 @@ function TrafficSignalInfoList(){
                                         sim_clock_time
                                     );
 
-                                    // Ensure we have a valid number
-                                    if (isNaN(current_phase_max_sec) || current_phase_max_sec === null) {
-                                        console.error("[ERROR] Invalid countdown value (NaN) - using default");
-                                        current_phase_max_sec = 30; // Default fallback value
-                                    }
-
                                     //Prevent repeating the same state
                                     switch(signal_state) {
                                         case TRAFFIC_SIGNAL_PHASE_STATE.protected_movement_allowed:
@@ -168,26 +162,22 @@ function getCurPhaseMaxSecBySpatTiming(moy, min_end_time, use_sim_clock = false,
     // Check for invalid inputs that could cause NaN
     if (moy === undefined || moy === null || isNaN(moy)) {
         console.error("[ERROR] Invalid moy value:", moy);
-        return 30; // Default fallback
+        return NaN; // Return NaN to indicate invalid input
     }
 
     if (min_end_time === undefined || min_end_time === null || isNaN(min_end_time)) {
         console.error("[ERROR] Invalid min_end_time value:", min_end_time);
-        return 30; // Default fallback
+        return NaN; // Return NaN to indicate invalid input
     }
 
     let current_phase_max_sec = 0;
 
-    //get current year
-    let current_date;
-    let now = Date.now();
+    //get current year (real time as a default)
+    let current_date = new Date();
 
     if (use_sim_clock && sim_clock_time !== null && !isNaN(sim_clock_time)) {
         // Use simulation time
         current_date = new Date(sim_clock_time);
-    } else {
-        // Use real time
-        current_date = new Date(now);
     }
 
     let current_year = current_date.getUTCFullYear();
@@ -231,7 +221,7 @@ function getCurPhaseMaxSecBySpatTiming(moy, min_end_time, use_sim_clock = false,
 
     if (isNaN(time_diff)) {
         console.error("[ERROR] Time difference calculation resulted in NaN");
-        return 30; // Default fallback
+        return NaN; // Default fallback
     }
 
     current_phase_max_sec = time_diff / 1000;

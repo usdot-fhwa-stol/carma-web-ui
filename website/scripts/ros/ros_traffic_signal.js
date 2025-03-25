@@ -37,11 +37,11 @@ function TrafficSignalInfoList(){
     });
 
     // Variables to track simulation vs real clock
-    let useSimClock = false;
-    let simClockTime = null;
-    let lastRealTime = Date.now();
-    let lastSimTime = null;
-
+    let use_sim_clock = false;
+    let sim_clock_time = null;
+    let last_real_time = Date.now();
+    let latest_msg_process_real_time = Date.now();
+    let latest_msg_process_sim_time = null;
     // Subscribe to simulation clock
     listener_sim_clock.subscribe(function(message) {
         if (!IsROSBridgeConnected()) {
@@ -52,21 +52,14 @@ function TrafficSignalInfoList(){
         if (message && message.clock) {
             // nsec is somehow not undefined, but we don't need it
             const nsec = message.clock.nsec !== undefined ? Number(message.clock.nsec) : 0;
-            useSimClock = true;
+            use_sim_clock = true;
             // Convert ROS time (seconds and nanoseconds) to milliseconds
-            let newSimTime = message.clock.sec * 1000 + Math.floor(nsec) / 1000000;
-            simClockTime = newSimTime;
-            lastSimTime = newSimTime;
-            lastRealTime = Date.now();
+            sim_clock_time = message.clock.sec * 1000 + Math.floor(nsec) / 1000000;
+            last_real_time = Date.now();
         } else {
             console.log("[WARN] Sim clock message received but invalid format");
         }
     });
-
-    let signalStateTracking = 0; //0 -> unavailable
-    let latest_start_time = Date.now();
-    let sim_start_time = null;
-    let remaining_time = 0;
 
     listener.subscribe(function (message) {
         //Check ROSBridge connection before subscribe a topic
@@ -82,23 +75,16 @@ function TrafficSignalInfoList(){
                         element.states.movement_list.forEach(inner_ele=>{
                             //Checking signal group id
                             if(inner_ele.signal_group != unknown_signal_group && inner_ele.signal_group == intersection_signal_group_ids[1]) {
-                                // Update start time based on clock mode
-                                latest_start_time = Date.now();
-                                if (useSimClock && simClockTime !== null) {
-                                    sim_start_time = simClockTime;
-                                }
-
                                 inner_ele.state_time_speed.movement_event_list.every(event_ele=>{
+                                    // update latest message process time
+                                    latest_msg_process_real_time = Date.now();
+                                    latest_msg_process_sim_time = sim_clock_time;
                                     let signal_state = event_ele.event_state.movement_phase_state;
-
-                                    signalStateTracking = signal_state;
-                                    //set timer to count down ONLY for current changed phase
-
                                     let current_phase_max_sec = getCurPhaseMaxSecBySpatTiming(
                                         element.moy,
                                         event_ele.timing.min_end_time,
-                                        useSimClock,
-                                        simClockTime
+                                        use_sim_clock,
+                                        sim_clock_time
                                     );
 
                                     // Ensure we have a valid number
@@ -107,28 +93,26 @@ function TrafficSignalInfoList(){
                                         current_phase_max_sec = 30; // Default fallback value
                                     }
 
-                                    remaining_time = current_phase_max_sec;
-
                                     //Prevent repeating the same state
                                     switch(signal_state) {
                                         case TRAFFIC_SIGNAL_PHASE_STATE.protected_movement_allowed:
-                                            $('.traffic-signal-col').html(updateTrafficSignal('green',remaining_time));
+                                            $('.traffic-signal-col').html(updateTrafficSignal('green',current_phase_max_sec));
                                             break;
                                         case TRAFFIC_SIGNAL_PHASE_STATE.stop_and_remain:
-                                            $('.traffic-signal-col').html(updateTrafficSignal('red',remaining_time));
+                                            $('.traffic-signal-col').html(updateTrafficSignal('red',current_phase_max_sec));
                                             break;
                                         case TRAFFIC_SIGNAL_PHASE_STATE.protected_clearance:
-                                            $('.traffic-signal-col').html(updateTrafficSignal('yellow',remaining_time));
+                                            $('.traffic-signal-col').html(updateTrafficSignal('yellow',current_phase_max_sec));
                                             break;
                                         case TRAFFIC_SIGNAL_PHASE_STATE.permissive_movement_allowed:
-                                            $('.traffic-signal-col').html(updateTrafficSignal('flash_green',remaining_time));
+                                            $('.traffic-signal-col').html(updateTrafficSignal('flash_green',current_phase_max_sec));
                                             break;
                                         case TRAFFIC_SIGNAL_PHASE_STATE.permissive_clearance:
                                         case TRAFFIC_SIGNAL_PHASE_STATE.caution_conflicting_traffic:
-                                            $('.traffic-signal-col').html(updateTrafficSignal('flash_yellow',remaining_time));
+                                            $('.traffic-signal-col').html(updateTrafficSignal('flash_yellow',current_phase_max_sec));
                                             break;
                                         case TRAFFIC_SIGNAL_PHASE_STATE.stop_then_proceed:
-                                            $('.traffic-signal-col').html(updateTrafficSignal('flash_red',remaining_time));
+                                            $('.traffic-signal-col').html(updateTrafficSignal('flash_red',current_phase_max_sec));
                                             break;
                                         default:
                                             $('.traffic-signal-col').html(updateTrafficSignal('',''));
@@ -153,19 +137,13 @@ function TrafficSignalInfoList(){
                 let elapsed_time;
 
                 // Use sim clock for timing if available
-                if (useSimClock && simClockTime !== null && sim_start_time !== null) {
+                if (use_sim_clock && sim_clock_time !== null) {
                     // Calculate elapsed time in simulation
-                    let currentRealTime = Date.now();
-                    let realTimeDiff = currentRealTime - lastRealTime;
-
-                    // Estimate current sim time based on real time elapsed and last known sim time
-                    // This handles the case where sim_clock messages come at lower frequency than needed
-                    let estimatedSimTime = lastSimTime + realTimeDiff;
-                    elapsed_time = estimatedSimTime - sim_start_time;
+                    elapsed_time = sim_clock_time - latest_msg_process_sim_time;
 
                 } else {
                     // Fall back to real clock
-                    elapsed_time = Date.now() - latest_start_time;
+                    elapsed_time = Date.now() - latest_msg_process_real_time;
                 }
 
                 if (elapsed_time >= 1000) {
@@ -181,11 +159,11 @@ function TrafficSignalInfoList(){
  * @brief Given the timing from the icoming spat message, and return the count down for traffic signal phase change
  * @param Input moy (unit of min): Min of current UTC year.
  *              min_end_time (unit of 1/10 sec): Timing data in UTC time stamps for event. Include min end times of phase confidentce and estimated next occurrence
- *              useSimClock: Boolean indicating whether to use simulation clock
- *              simClockTime: Current simulation time in milliseconds (if available)
+ *              use_sim_clock: Boolean indicating whether to use simulation clock
+ *              sim_clock_time: Current simulation time in milliseconds (if available)
  * @returns current_phase_max_sec: The traffic signal will change phase in number of seconds.
  */
-function getCurPhaseMaxSecBySpatTiming(moy, min_end_time, useSimClock = false, simClockTime = null) {
+function getCurPhaseMaxSecBySpatTiming(moy, min_end_time, use_sim_clock = false, sim_clock_time = null) {
 
     // Check for invalid inputs that could cause NaN
     if (moy === undefined || moy === null || isNaN(moy)) {
@@ -204,9 +182,9 @@ function getCurPhaseMaxSecBySpatTiming(moy, min_end_time, useSimClock = false, s
     let current_date;
     let now = Date.now();
 
-    if (useSimClock && simClockTime !== null && !isNaN(simClockTime)) {
+    if (use_sim_clock && sim_clock_time !== null && !isNaN(sim_clock_time)) {
         // Use simulation time
-        current_date = new Date(simClockTime);
+        current_date = new Date(sim_clock_time);
     } else {
         // Use real time
         current_date = new Date(now);

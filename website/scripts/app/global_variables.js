@@ -1,4 +1,4 @@
-//gobal constant variables
+//global constant variables
 const GREEN_COLOR = 'rgb(167, 223, 57)';
 const PURPLE_COLOR = 'rgb(153, 0, 153)';
 const BLUE_COLOR = 'rgb(0, 255, 255)';
@@ -23,7 +23,7 @@ const CELLULAR = 'cellular';
 const NONE = 'none';
 const DEG2RAD = 0.0174533;
 
-//ROS Topci names
+//ROS Topic names
 const T_GUIDANCE_STATE = '/guidance/state';
 const T_SYSTEM_ALERT = '/system_alert';
 const T_COMMS_INBOUND_BINARY_MSG = '/hardware_interface/comms/inbound_binary_msg';

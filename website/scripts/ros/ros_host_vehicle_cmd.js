@@ -44,7 +44,7 @@ function subscribeToVehicleCMD()
                 string frame_id
             float32 throttle_pedal
  */
-function sunscribeToThrottleFeedback()
+function subscribeToThrottleFeedback()
 {
     var listener = new ROSLIB.Topic({
         ros:g_ros,
@@ -79,7 +79,7 @@ function sunscribeToThrottleFeedback()
                 string frame_id
             float32 brake_pedal
  */
-function sunscribeToBrakeFeedback()
+function subscribeToBrakeFeedback()
 {
     var listener = new ROSLIB.Topic({
         ros:g_ros,
@@ -187,7 +187,7 @@ function subscribeToSteeringWheelOLD()
                 string frame_id
             float32 steering_wheel_angle
  */
-function sunscribeToSteeringFeedback()
+function subscribeToSteeringFeedback()
 {
     var listener = new ROSLIB.Topic({
         ros:g_ros,

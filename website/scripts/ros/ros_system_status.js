@@ -276,9 +276,9 @@ function UpdateHostVehicleMarkerLoc()
                 moveMarkerWithTimeout(hostmarker, avgPosition.avgLatitude.toString(), avgPosition.avglongitude.toString(), 0);
            }           
         }
+        window.lastGPSMessageTime = Date.now();
+        updateGPSStatusIcon(true);
     });
-    window.lastGPSMessageTime = Date.now();
-    updateGPSStatusIcon(true);
 }
 
 function AvgHostMarkerGeoPositions( vector_positions, buffer_size )

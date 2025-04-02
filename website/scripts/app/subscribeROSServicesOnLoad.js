@@ -85,7 +85,7 @@ $(document).ready(function(){
             /***
              * SECTION: Display Status icons 
              */        
-            subscribeToDriverDiscovery();//GPS or PinPoint status        
+            setInterval(checkGPSStatus, 100); //GPS status        
             subscribeToInboundBinary(); //OBU status
             subscribeToOutboundBinary(); //OBU status
             subscribeToLocalizationStatusReport(); //Localization Status

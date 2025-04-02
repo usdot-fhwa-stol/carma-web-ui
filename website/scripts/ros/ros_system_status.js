@@ -76,8 +76,27 @@ async function getVehicleInfo()
 */
 function showVehicleInfo(yamlData) 
 {
+    let isHostVehicleInfoDisplayed = false;
     for (const parameter in yamlData) {
         if (parameter.startsWith('vehicle') == true && parameter.indexOf('database_path') < 0) {
+            if(!isHostVehicleInfoDisplayed)
+            {
+                if($('#host_vehicle_info_no_data').length > 0)
+                {
+                    $('#host_vehicle_info_no_data').remove();
+                } 
+                $('#host_vehicle_info_body').append('<tr><th scope="col"  >' + toCamelCase(parameter)+'</th>'+
+                '<td id="host_vehicle_'+parameter+'">'+yamlData[parameter]+'</td></tr>');
+                isHostVehicleInfoDisplayed = true;
+            }
+            else
+            {
+                let element = document.getElementById('#host_vehicle_'+parameter);
+                if (element) {
+                    element.innerHTML = yamlData[parameter];
+                }
+            }
+
             /****load host vehicle info to session variables: 
              * brake limit, 
              * acceleration limit, 
@@ -258,6 +277,8 @@ function UpdateHostVehicleMarkerLoc()
            }           
         }
     });
+    window.lastGPSMessageTime = Date.now();
+    updateGPSStatusIcon(true);
 }
 
 function AvgHostMarkerGeoPositions( vector_positions, buffer_size )

@@ -8,6 +8,10 @@
     uint8  FAULT=3
  */
 //Get PinPoint status
+// TODO: The driver discovery message is no longer used. Currently, the UI updates the status icon
+// by checking if GPS messages have been received within the last 0.5 seconds. Eventually we want
+// to have a more sophisticated check that displays status options other than on/off
+/**
 function subscribeToDriverDiscovery()
 {
     let listener = new ROSLIB.Topic({
@@ -76,6 +80,24 @@ function subscribeToDriverDiscovery()
     });
 
      
+}
+*/
+
+function checkGPSStatus() {
+    if (window.lastGPSMessageTime && (Date.now() - window.lastGPSMessageTime) > 500) {
+        updateGPSStatusIcon(false);
+    }
+}
+
+function updateGPSStatusIcon(status) {
+    let GPSStatus = document.getElementById('GPS-status');
+    if (GPSStatus) {
+        if (status) {
+            GPSStatus.style.color = 'rgb(188, 250, 63)'; // Green
+        } else {
+            GPSStatus.style.color = ''; // Grey
+        }
+    }
 }
 
 //Get Localization status

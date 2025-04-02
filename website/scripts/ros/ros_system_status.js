@@ -61,7 +61,7 @@ async function getVehicleInfo()
     console.log('getVehicleInfo');
     // Get vehicle parameters from Yaml file
     try {
-        const response = await fetch('VehicleConfigParams.yaml');
+        const response = await fetch('/scripts/serveVehicleConfigParams.php');
         if (!response.ok) throw new Error(`HTTP error! Status: ${response.status}`);
         const yamlText = await response.text();
         const data = jsyaml.load(yamlText);
@@ -103,27 +103,27 @@ function showVehicleInfo(yamlData)
              * make, 
              * model
              * ***/
-            if(session_hostVehicle != null && parameter.includes('vehicle_make'))
+            if(session_hostVehicle != null && parameter == 'vehicle_make')
             {
                 session_hostVehicle.make = yamlData[parameter];
             }
-            else if(session_hostVehicle != null && parameter.includes('vehicle_model'))
+            else if(session_hostVehicle != null && parameter == 'vehicle_model')
             {
                 session_hostVehicle.model = yamlData[parameter];
             }
-            else if(session_hostVehicle != null && parameter.includes('vehicle_acceleration_limit'))
+            else if(session_hostVehicle != null && parameter == 'vehicle_acceleration_limit')
             {
                 session_hostVehicle.accelerationLimit = yamlData[parameter];
             }
-            else if(session_hostVehicle != null && parameter.includes('vehicle_deceleration_limit'))
+            else if(session_hostVehicle != null && parameter == 'vehicle_deceleration_limit')
             {
                 session_hostVehicle.brakeLimit = yamlData[parameter];
             }
-            else if(session_hostVehicle != null && parameter.includes('vehicle_steer_lim_deg'))
+            else if(session_hostVehicle != null && parameter == 'vehicle_steer_lim_deg')
             {
                 session_hostVehicle.steeringLimit = yamlData[parameter];
             }
-            else if(session_hostVehicle != null && parameter.includes('vehicle_steering_gear_ratio'))
+            else if(session_hostVehicle != null && parameter == 'vehicle_steering_gear_ratio')
             {
                 session_hostVehicle.steeringRatio = yamlData[parameter];
             }

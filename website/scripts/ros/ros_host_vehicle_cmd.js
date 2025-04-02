@@ -64,7 +64,7 @@ function sunscribeToThrottleFeedback()
             //Accelerator Progress
             if(g_acceleratorCircle != null)
             {
-                updateAccerator(g_acceleratorCircle,1,value);
+                updateAccelerator(g_acceleratorCircle,1,value);
             }
         }
     });

@@ -54,27 +54,26 @@ function printParam(itemName, index)
 }
 
 /*
-    Fetch the vehicle parameters Yaml file
+    Fetch the vehicle parameters Yaml file and load the data into the UI
 */
 async function getVehicleInfo() 
 {
-    console.log('getVehicleInfo');
     // Get vehicle parameters from Yaml file
     try {
         const response = await fetch('/scripts/serveVehicleConfigParams.php');
         if (!response.ok) throw new Error(`HTTP error! Status: ${response.status}`);
         const yamlText = await response.text();
         const data = jsyaml.load(yamlText);
-        showVehicleInfo(data);
+        loadVehicleInfo(data);
     } catch (error) {
         console.error('Error reading YAML file:', error);
     }
 }
 
 /*
-    Load the parameters data from the vehicle config file.
+    Load the parameters data from the vehicle config file into session variables
 */
-function showVehicleInfo(yamlData) 
+function loadVehicleInfo(yamlData) 
 {
     let isHostVehicleInfoDisplayed = false;
     for (const parameter in yamlData) {

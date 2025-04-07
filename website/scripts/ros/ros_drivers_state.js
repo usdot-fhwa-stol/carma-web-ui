@@ -11,6 +11,7 @@
 // TODO: The driver discovery message is no longer used. Currently, the UI updates the status icon
 // by checking if GPS messages have been received within the last 0.5 seconds. Eventually we want
 // to have a more sophisticated check that displays status options other than on/off
+// Story: https://usdot-carma.atlassian.net/browse/CAR-6117
 /**
 function subscribeToDriverDiscovery()
 {

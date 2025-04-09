@@ -85,7 +85,7 @@ $(document).ready(function(){
             /***
              * SECTION: Display Status icons 
              */        
-            subscribeToDriverDiscovery();//GPS or PinPoint status        
+            setInterval(checkGPSStatus, 100); //GPS status        
             subscribeToInboundBinary(); //OBU status
             subscribeToOutboundBinary(); //OBU status
             subscribeToLocalizationStatusReport(); //Localization Status
@@ -95,9 +95,9 @@ $(document).ready(function(){
              * **/
             subscribeToLocalizationEKFTwist(); //Current Vehicle Speed
             subscribeToVehicleCMD(); //Vechile Command;  applied speed; 
-            sunscribeToSteeringFeedback(); //Steering angle
-            sunscribeToBrakeFeedback(); //brake;
-            sunscribeToThrottleFeedback(); //accelerator  
+            subscribeToSteeringFeedback(); //Steering angle
+            subscribeToBrakeFeedback(); //brake;
+            subscribeToThrottleFeedback(); //accelerator  
             subscribeToGuidanceRouteState(); //Route - Speed Limit        
             TrafficSignalInfoList(); //Traffic Signal 
             subscribeLightBarStatus(); //light bar

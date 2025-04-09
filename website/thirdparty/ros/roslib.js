@@ -3334,7 +3334,7 @@
   Param.prototype.get = function(callback) {
     var paramClient = new Service({
       ros : this.ros,
-      name : '/ui/rosapi/get_param',
+      name : '/rosapi/get_param',
       serviceType : 'rosapi/GetParam'
     });
   
@@ -3356,7 +3356,7 @@
   Param.prototype.set = function(value, callback) {
     var paramClient = new Service({
       ros : this.ros,
-      name : '/ui/rosapi/set_param',
+      name : '/rosapi/set_param',
       serviceType : 'rosapi/SetParam'
     });
   
@@ -3374,7 +3374,7 @@
   Param.prototype.delete = function(callback) {
     var paramClient = new Service({
       ros : this.ros,
-      name : '/ui/rosapi/delete_param',
+      name : '/rosapi/delete_param',
       serviceType : 'rosapi/DeleteParam'
     });
   
@@ -3568,7 +3568,7 @@
   Ros.prototype.getActionServers = function(callback, failedCallback) {
     var getActionServers = new Service({
       ros : this,
-      name : '/ui/rosapi/action_servers',
+      name : '/rosapi/action_servers',
       serviceType : 'rosapi/GetActionServers'
     });
   
@@ -3601,7 +3601,7 @@
   Ros.prototype.getTopics = function(callback, failedCallback) {
     var topicsClient = new Service({
       ros : this,
-      name : '/ui/rosapi/topics',
+      name : '/rosapi/topics',
       serviceType : 'rosapi/Topics'
     });
   
@@ -3634,7 +3634,7 @@
   Ros.prototype.getTopicsForType = function(topicType, callback, failedCallback) {
     var topicsForTypeClient = new Service({
       ros : this,
-      name : '/ui/rosapi/topics_for_type',
+      name : '/rosapi/topics_for_type',
       serviceType : 'rosapi/TopicsForType'
     });
   
@@ -3668,7 +3668,7 @@
   Ros.prototype.getServices = function(callback, failedCallback) {
     var servicesClient = new Service({
       ros : this,
-      name : '/ui/rosapi/services',
+      name : '/rosapi/services',
       serviceType : 'rosapi/Services'
     });
   
@@ -3701,7 +3701,7 @@
   Ros.prototype.getServicesForType = function(serviceType, callback, failedCallback) {
     var servicesForTypeClient = new Service({
       ros : this,
-      name : '/ui/rosapi/services_for_type',
+      name : '/rosapi/services_for_type',
       serviceType : 'rosapi/ServicesForType'
     });
   
@@ -3736,7 +3736,7 @@
   Ros.prototype.getServiceRequestDetails = function(type, callback, failedCallback) {
     var serviceTypeClient = new Service({
       ros : this,
-      name : '/ui/rosapi/service_request_details',
+      name : '/rosapi/service_request_details',
       serviceType : 'rosapi/ServiceRequestDetails'
     });
     var request = new ServiceRequest({
@@ -3771,7 +3771,7 @@
   Ros.prototype.getServiceResponseDetails = function(type, callback, failedCallback) {
     var serviceTypeClient = new Service({
       ros : this,
-      name : '/ui/rosapi/service_response_details',
+      name : '/rosapi/service_response_details',
       serviceType : 'rosapi/ServiceResponseDetails'
     });
     var request = new ServiceRequest({
@@ -3805,7 +3805,7 @@
   Ros.prototype.getNodes = function(callback, failedCallback) {
     var nodesClient = new Service({
       ros : this,
-      name : '/ui/rosapi/nodes',
+      name : '/rosapi/nodes',
       serviceType : 'rosapi/Nodes'
     });
   
@@ -3840,7 +3840,7 @@
   Ros.prototype.getNodeDetails = function(node, callback, failedCallback) {
     var nodesClient = new Service({
       ros : this,
-      name : '/ui/rosapi/node_details',
+      name : '/rosapi/node_details',
       serviceType : 'rosapi/NodeDetails'
     });
   
@@ -3874,7 +3874,7 @@
   Ros.prototype.getParams = function(callback, failedCallback) {
     var paramsClient = new Service({
       ros : this,
-      name : '/ui/rosapi/get_param_names',
+      name : '/rosapi/get_param_names',
       serviceType : 'rosapi/GetParamNames'
     });
     var request = new ServiceRequest();
@@ -3906,7 +3906,7 @@
   Ros.prototype.getTopicType = function(topic, callback, failedCallback) {
     var topicTypeClient = new Service({
       ros : this,
-      name : '/ui/rosapi/topic_type',
+      name : '/rosapi/topic_type',
       serviceType : 'rosapi/TopicType'
     });
     var request = new ServiceRequest({
@@ -3941,7 +3941,7 @@
   Ros.prototype.getServiceType = function(service, callback, failedCallback) {
     var serviceTypeClient = new Service({
       ros : this,
-      name : '/ui/rosapi/service_type',
+      name : '/rosapi/service_type',
       serviceType : 'rosapi/ServiceType'
     });
     var request = new ServiceRequest({
@@ -3976,7 +3976,7 @@
   Ros.prototype.getMessageDetails = function(message, callback, failedCallback) {
     var messageDetailClient = new Service({
       ros : this,
-      name : '/ui/rosapi/message_details',
+      name : '/rosapi/message_details',
       serviceType : 'rosapi/MessageDetails'
     });
     var request = new ServiceRequest({
@@ -4064,7 +4064,7 @@
   Ros.prototype.getTopicsAndRawTypes = function(callback, failedCallback) {
     var topicsAndRawTypesClient = new Service({
       ros : this,
-      name : '/ui/rosapi/topics_and_raw_types',
+      name : '/rosapi/topics_and_raw_types',
       serviceType : 'rosapi/TopicsAndRawTypes'
     });
   

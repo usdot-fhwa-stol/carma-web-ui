@@ -1,8 +1,17 @@
 /*
- * Copyright (C) 2018-2021 LEIDOS.
- * Modernized Map Implementation with improved architecture and error handling
- * Fixed for Docker container environments
- */
+ * Copyright (C) 2018-2025 LEIDOS.
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not
+ * use this file except in compliance with the License. You may obtain a copy of
+ * the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
+ * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
+ * License for the specific language governing permissions and limitations under
+ * the License.
+*/
 
 class MapManager {
     constructor() {
@@ -173,15 +182,15 @@ class MapManager {
         try {
             const mapContainer = this.createMapContainer();
 
-            // Import required Google Maps libraries
+            // Import required Google Maps libraries with renamed destructuring
             const { Map: GoogleMap } = await this.state.mapContentWindow.google.maps.importLibrary("maps");
             const { AdvancedMarkerElement, PinElement } = await this.state.mapContentWindow.google.maps.importLibrary("marker");
 
-            // Store classes for later use
-            this.googleMapsClasses = { Map, AdvancedMarkerElement, PinElement };
+            // Store classes for later use (fixed the reference)
+            this.googleMapsClasses = { GoogleMap, AdvancedMarkerElement, PinElement };
 
-            // Create the map
-            this.state.map = new Map(mapContainer, {
+            // Create the map using the renamed GoogleMap class
+            this.state.map = new GoogleMap(mapContainer, {
                 zoom: this.config.defaultZoom,
                 center: this.config.defaultCenter,
                 mapTypeId: this.config.mapTypeId,
@@ -255,9 +264,6 @@ class MapManager {
                 <h3 style="color: #d32f2f;">Map Loading Error</h3>
                 <p>Unable to load Google Maps. Please check your configuration.</p>
                 <p style="font-size: 14px; color: #666;">Error: ${error}</p>
-                <p style="font-size: 12px; color: #888;">
-                    Expected API name: GOOGLE_MAPS_API_KEY
-                </p>
                 <button onclick="location.reload()" style="padding: 8px 16px; margin-top: 10px; background: #1976d2; color: white; border: none; border-radius: 4px; cursor: pointer;">
                     Retry
                 </button>
@@ -304,6 +310,7 @@ class MapManager {
     // Set host marker with improved error handling
     setHostMarker() {
         try {
+            // Use the correctly stored GoogleMap classes
             const { AdvancedMarkerElement, PinElement } = this.googleMapsClasses;
 
             if (this.state.hostMarker) {
@@ -581,7 +588,7 @@ class MapManager {
     }
 
     isMapReady() {
-        return !!(this.state.map && this.state.mapContentWindow && this.googleMapsClasses.Map);
+        return !!(this.state.map && this.state.mapContentWindow && this.googleMapsClasses.GoogleMap);
     }
 
     getMapState() {
@@ -666,6 +673,26 @@ function isMapReady() {
 function batchUpdateMarkers(markerUpdates) {
     if (mapManager) {
         mapManager.batchUpdateMarkers(markerUpdates);
+    }
+}
+
+/*
+    Move a marker.
+*/
+function updateHostMarkerPosition(latitude, longitude) {
+    if (mapManager && mapManager.isMapReady()) {
+        try {
+            // Update the host marker position
+            if (mapManager.state.hostMarker) {
+                mapManager.moveMarker(mapManager.state.hostMarker, latitude, longitude);
+            } else {
+                // Create host marker if it doesn't exist
+                mapManager.setHostMarker();
+                mapManager.moveMarker(mapManager.state.hostMarker, latitude, longitude);
+            }
+        } catch (error) {
+            console.error('Failed to update host marker position:', error);
+        }
     }
 }
 

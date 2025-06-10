@@ -11,7 +11,7 @@ class MapManager {
             defaultZoom: 17,
             mapTypeId: 'hybrid',
             markerTimeout: 3000,
-            mapId: "DEMO_MAP_ID"
+            mapId: "DEMO_MAP_ID",
         };
 
         // State management
@@ -25,7 +25,8 @@ class MapManager {
             routePath: null,
             tcrPolygon: null,
             routePlanCoordinates: null,
-            isInitialized: false
+            isInitialized: false,
+            apiKey: null
         };
 
         // Polygon types
@@ -45,6 +46,8 @@ class MapManager {
         }
 
         try {
+            // Load API key first
+            await this.loadApiKey();
             await this.createMapFrame();
             this.state.isInitialized = true;
             console.log('Map initialization completed');
@@ -53,6 +56,60 @@ class MapManager {
             this.handleError('Map initialization failed', error);
             throw error;
         }
+    }
+
+    // Load API key from environment file
+    async loadApiKey() {
+        try {
+            this.state.apiKey = await this.getApiKey();
+            if (!this.state.apiKey || this.state.apiKey === 'ERROR_API_KEY') {
+                throw new Error('Invalid or missing Google Maps API key');
+            }
+            console.log('Google Maps API key loaded successfully');
+        } catch (error) {
+            console.error('Failed to load API key:', error);
+            throw error;
+        }
+    }
+
+    // Get API key from configuration
+    async getApiKey() {
+        // Try to fetch the env file via HTTP (for browser environment)
+        try {
+            const response = await fetch('/google_map_api_key.env');
+            if (response.ok) {
+                const content = await response.text();
+                const lines = content.split('\n');
+                for (const line of lines) {
+                    const trimmed = line.trim();
+                    if (trimmed && !trimmed.startsWith('#') && trimmed.includes('=')) {
+                        const [key, ...valueParts] = trimmed.split('=');
+                        if (key.trim() === 'GOOGLE_MAPS_API_KEY' && valueParts.length > 0) {
+                            const apiKey = valueParts.join('=').replace(/^["']|["']$/g, '');
+                            console.log('API key loaded from env file');
+                            return apiKey.trim();
+                        }
+                    }
+                }
+            }
+        } catch (error) {
+            console.warn('Could not fetch env file via HTTP:', error.message);
+        }
+
+        // Check window object for client-side config
+        if (typeof window !== 'undefined' && window.GOOGLE_MAPS_API_KEY) {
+            console.log('API key loaded from window object');
+            return window.GOOGLE_MAPS_API_KEY;
+        }
+
+        // Check for global config object
+        if (typeof APP_CONFIG !== 'undefined' && APP_CONFIG.GOOGLE_MAPS_API_KEY) {
+            console.log('API key loaded from APP_CONFIG');
+            return APP_CONFIG.GOOGLE_MAPS_API_KEY;
+        }
+
+        console.error('GOOGLE_MAPS_API_KEY not found in any accessible location');
+        return 'ERROR_API_KEY';
     }
 
     // Create iframe with improved structure
@@ -183,33 +240,10 @@ class MapManager {
             this.handleGoogleMapsError('Failed to load Google Maps script');
         };
 
-        // Use environment variable or configuration for API key
-        const apiKey = this.getApiKey();
-        script.src = `https://maps.googleapis.com/maps/api/js?key=${apiKey}&callback=showNewMap&loading=async`;
+        // Use the loaded API key
+        script.src = `https://maps.googleapis.com/maps/api/js?key=${this.state.apiKey}&callback=showNewMap&loading=async`;
 
         this.state.mapDoc.head.appendChild(script);
-    }
-
-    // Get API key from configuration (Docker-compatible)
-    getApiKey() {
-        // Check multiple sources for Docker environments
-        if (typeof process !== 'undefined' && process.env && process.env.GOOGLE_MAPS_API_KEY) {
-            return process.env.GOOGLE_MAPS_API_KEY;
-        }
-
-        // Check window object for client-side config
-        if (typeof window !== 'undefined' && window.GOOGLE_MAPS_API_KEY) {
-            return window.GOOGLE_MAPS_API_KEY;
-        }
-
-        // Check for global config object
-        if (typeof APP_CONFIG !== 'undefined' && APP_CONFIG.GOOGLE_MAPS_API_KEY) {
-            return APP_CONFIG.GOOGLE_MAPS_API_KEY;
-        }
-
-        // Fallback to hardcoded key (should be avoided in production)
-        console.err('GOOGLE_MAPS_API_KEY is not set in /opt/carma/vehicle/calibration/ui/google_map_api_key.env');
-        return 'ERROR_API_KEY';
     }
 
     // Handle Google Maps errors
@@ -221,6 +255,9 @@ class MapManager {
                 <h3 style="color: #d32f2f;">Map Loading Error</h3>
                 <p>Unable to load Google Maps. Please check your configuration.</p>
                 <p style="font-size: 14px; color: #666;">Error: ${error}</p>
+                <p style="font-size: 12px; color: #888;">
+                    Expected API name: GOOGLE_MAPS_API_KEY
+                </p>
                 <button onclick="location.reload()" style="padding: 8px 16px; margin-top: 10px; background: #1976d2; color: white; border: none; border-radius: 4px; cursor: pointer;">
                     Retry
                 </button>
@@ -553,7 +590,8 @@ class MapManager {
             isReady: this.isMapReady(),
             markerCount: this.state.markers.length,
             hasRoute: !!this.state.routePath,
-            hasPolygon: !!this.state.tcrPolygon
+            hasPolygon: !!this.state.tcrPolygon,
+            apiKeyLoaded: !!this.state.apiKey && this.state.apiKey !== 'ERROR_API_KEY'
         };
     }
 }

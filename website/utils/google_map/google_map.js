@@ -135,18 +135,6 @@ async function getApiKey() {
         console.warn('Could not fetch env file via HTTP:', error.message);
     }
 
-    // Check window object for client-side config
-    if (typeof window !== 'undefined' && window.GOOGLE_MAPS_API_KEY) {
-        console.log('API key loaded from window object');
-        return window.GOOGLE_MAPS_API_KEY;
-    }
-
-    // Check for global config object
-    if (typeof APP_CONFIG !== 'undefined' && APP_CONFIG.GOOGLE_MAPS_API_KEY) {
-        console.log('API key loaded from APP_CONFIG');
-        return APP_CONFIG.GOOGLE_MAPS_API_KEY;
-    }
-
     console.error('GOOGLE_MAPS_API_KEY not found in any accessible location');
     return 'ERROR_API_KEY';
 }

@@ -108,7 +108,7 @@ async function getApiKey() {
                 if (trimmed && !trimmed.startsWith('#') && trimmed.includes('=')) {
                     const [key, ...valueParts] = trimmed.split('=');
                     if (key.trim() === 'GOOGLE_MAPS_API_KEY' && valueParts.length > 0) {
-                        const apiKey = valueParts.join('=').replace(/^(["'])|["']$/g, '');
+                        const apiKey = valueParts.join('=').replace(/^(["'])|(["'])$/g, '');
                         console.log('API key loaded from env file');
                         return apiKey.trim();
                     }

@@ -71,7 +71,7 @@ function initMap()
         try {
             const api = await loadApiKey();
             script.type = 'text/javascript';
-            script.src = `https://maps.googleapis.com/maps/api/js?key=${api}&callback=showNewMap`;
+            script.src = `https://maps.googleapis.com/maps/api/js?key=${api}&loading=async&callback=showNewMap`;
             map_frame.contentDocument.getElementsByTagName('head')[0].appendChild(script);
         } catch (error) {
             console.error('Failed to initialize map:', error);
@@ -100,19 +100,24 @@ async function getApiKey() {
     // Try to fetch the env file via HTTP (for browser environment)
     try {
         const response = await fetch('/google_map_api_key.env');
-        if (response.ok) {
-            const content = await response.text();
-            const lines = content.split('\n');
-            for (const line of lines) {
-                const trimmed = line.trim();
-                if (trimmed && !trimmed.startsWith('#') && trimmed.includes('=')) {
-                    const [key, ...valueParts] = trimmed.split('=');
-                    if (key.trim() === 'GOOGLE_MAPS_API_KEY' && valueParts.length > 0) {
-                        const apiKey = valueParts.join('=').replace(/^(["'])|(["'])$/g, '');
-                        console.log('API key loaded from env file');
-                        return apiKey.trim();
-                    }
-                }
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
+
+        const content = await response.text();
+        const lines = content.split('\n');
+
+        for (const line of lines) {
+            const trimmed = line.trim();
+            if (!trimmed || trimmed.startsWith('#') || !trimmed.includes('=')) {
+                continue; // Skip empty lines and comments
+            }
+
+            const [key, ...valueParts] = trimmed.split('=');
+            if (key.trim() === 'GOOGLE_MAPS_API_KEY' && valueParts.length > 0) {
+                const apiKey = valueParts.join('=').replace(/^(["'])|((["'])$)/g, '');
+                console.log('API key loaded from env file');
+                return apiKey.trim();
             }
         }
     } catch (error) {

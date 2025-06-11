@@ -108,16 +108,31 @@ async function getApiKey() {
         const lines = content.split('\n');
 
         for (const line of lines) {
-            const trimmed = line.trim();
+            const trimmed = line.trim(); // Remove leading and trailing whitespace from the line
+
+            // Skip line if it's empty, a comment (starts with '#'), or doesn't contain an '=' character
             if (!trimmed || trimmed.startsWith('#') || !trimmed.includes('=')) {
                 continue; // Skip empty lines and comments
             }
 
+            // Split the line into key and value parts using '='
             const [key, ...valueParts] = trimmed.split('=');
+
+            // Check if the key is 'GOOGLE_MAPS_API_KEY' and there is at least some value
             if (key.trim() === 'GOOGLE_MAPS_API_KEY' && valueParts.length > 0) {
-                const apiKey = valueParts.join('=').replace(/^(["'])|((["'])$)/g, '');
+                const rawValue = valueParts.join('='); // Join value parts in case the value contains '='
+
+                // Use regex to match the entire value wrapped in matching quotes
+                // ^(['"])   → match and capture a single or double quote at the start
+                // (.*)      → capture everything in between
+                // \1$       → match the same quote that was captured at the beginning, at the end of the string
+                const match = rawValue.match(/^(['"])(.*)\1$/);
+
+                // If match found, extract the inner content; otherwise use the raw value
+                const apiKey = match ? match[2] : rawValue;
+
                 console.log('API key loaded from env file');
-                return apiKey.trim();
+                return apiKey.trim(); // Return the API key without extra spaces
             }
         }
     } catch (error) {

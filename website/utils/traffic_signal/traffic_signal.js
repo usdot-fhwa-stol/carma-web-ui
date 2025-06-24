@@ -12,10 +12,10 @@ function updateTrafficSignal(signalType, signalCountDown)
     let  signalContainerDiv = document.getElementById('signal-container-id')
     if(signalContainerDiv == null || signalContainerDiv == "undefined"){
         signalContainerDiv = document.createElement('div');
-        signalContainerDiv.classList.add('signal-container'); 
+        signalContainerDiv.classList.add('signal-container');
         signalContainerDiv.id='signal-container-id';
     }
-    
+
     let signalCircleRed = document.getElementById('signal-circle-red');
     if(signalCircleRed == null || signalCircleRed == "undefined")
     {
@@ -23,11 +23,11 @@ function updateTrafficSignal(signalType, signalCountDown)
         signalCircleRed.classList.add('signal-circle');
         signalCircleRed.id = 'signal-circle-red';
     }
-    
+
     let signalCircleYellow = document.getElementById('signal-circle-yellow');
     if(signalCircleYellow == null || signalCircleYellow == "undefined")
     {
-        signalCircleYellow = document.createElement('div');        
+        signalCircleYellow = document.createElement('div');
         signalCircleYellow.classList.add('signal-circle');
         signalCircleYellow.id = 'signal-circle-yellow';
     }
@@ -37,7 +37,7 @@ function updateTrafficSignal(signalType, signalCountDown)
         signalCircleGreen = document.createElement('div');
         signalCircleGreen.classList.add('signal-circle');
         signalCircleGreen.id = 'signal-circle-green';
-    }   
+    }
     //reset signal state
     signalCircleRed.classList.remove(SIGNAL_RED,SIGNAL_FLASHING_RED);
     signalCircleGreen.classList.remove(SIGNAL_GREEN,SIGNAL_FLASHING_GREEN);
@@ -48,33 +48,33 @@ function updateTrafficSignal(signalType, signalCountDown)
 
     switch(signalType)
     {
-       
+
         case SIGNAL_RED:
             signalCircleRed.classList.add(signalType);
             signalCircleRed.innerHTML = signalCountDown;
             break;
-        case SIGNAL_GREEN: 
+        case SIGNAL_GREEN:
             signalCircleGreen.classList.add(signalType);
             signalCircleGreen.innerHTML = signalCountDown;
             break;
-        case SIGNAL_YELLOW: 
+        case SIGNAL_YELLOW:
             signalCircleYellow.classList.add(signalType);
             signalCircleYellow.innerHTML = signalCountDown;
             break;
-        case SIGNAL_FLASHING_YELLOW: 
+        case SIGNAL_FLASHING_YELLOW:
             signalCircleYellow.classList.add(signalType);
             signalCircleYellow.innerHTML = signalCountDown;
             break;
-        case SIGNAL_FLASHING_GREEN: 
+        case SIGNAL_FLASHING_GREEN:
             signalCircleGreen.classList.add(signalType);
             signalCircleGreen.innerHTML = signalCountDown;
             break;
-        case SIGNAL_FLASHING_RED: 
+        case SIGNAL_FLASHING_RED:
             signalCircleRed.classList.add(signalType);
             signalCircleRed.innerHTML = signalCountDown;
             break;
         default:
-            
+
             break;
     }
     signalContainerDiv.appendChild(signalCircleRed);

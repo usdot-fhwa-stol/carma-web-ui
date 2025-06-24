@@ -54,44 +54,46 @@ function printParam(itemName, index)
 }
 
 /*
-    Display the Vehicle Info in the System Status tab.
+    Fetch the vehicle parameters Yaml file and load the data into the UI
 */
-function getVehicleInfo() 
+async function getVehicleInfo() 
 {
-    // console.log('getVehicleInfo');
-    g_ros.getParams(function (params) {
-        params.forEach(showVehicleInfo); //Print each param into the log view.
-    });
+    // Get vehicle parameters from Yaml file
+    try {
+        const response = await fetch('/scripts/serveVehicleConfigParams.php');
+        if (!response.ok) throw new Error(`HTTP error! Status: ${response.status}`);
+        const yamlText = await response.text();
+        const data = jsyaml.load(yamlText);
+        loadVehicleInfo(data);
+    } catch (error) {
+        console.error('Error reading YAML file:', error);
+    }
 }
 
 /*
-   This called by forEach and doesn't introduce RACE condition compared to using for-in statement.
-   Shows only Vehicle related parameters in System Status table.
+    Load the parameters data from the vehicle config file into session variables
 */
-function showVehicleInfo(itemName, index) 
+function loadVehicleInfo(yamlData) 
 {
     let isHostVehicleInfoDisplayed = false;
-    if (itemName.startsWith('/vehicle') == true && itemName.indexOf('database_path') < 0) {
-        //Sample call to get param.
-        var myParam = new ROSLIB.Param({
-            ros: g_ros,
-            name: itemName
-        });
-        myParam.get(function (myValue) {        
-            //insertNewTableRow('tblSecondB', toCamelCase(itemName), myValue);
+    for (const parameter in yamlData) {
+        if (parameter.startsWith('vehicle') == true && parameter.indexOf('database_path') < 0) {
             if(!isHostVehicleInfoDisplayed)
             {
-                if($('#host_vehicle_info_no_data').length >0)
+                if($('#host_vehicle_info_no_data').length > 0)
                 {
                     $('#host_vehicle_info_no_data').remove();
                 } 
-                $('#host_vehicle_info_body').append('<tr><th scope="col"  >' + toCamelCase(itemName)+'</th>'+
-                '<td id="host_vehicle_'+itemName+'">'+myValue+'</td></tr>');
+                $('#host_vehicle_info_body').append('<tr><th scope="col"  >' + toCamelCase(parameter)+'</th>'+
+                '<td id="host_vehicle_'+parameter+'">'+yamlData[parameter]+'</td></tr>');
                 isHostVehicleInfoDisplayed = true;
             }
             else
             {
-                document.getElementById('#host_vehicle_'+itemName).innerHTML = myValue;
+                let element = document.getElementById('#host_vehicle_'+parameter);
+                if (element) {
+                    element.innerHTML = yamlData[parameter];
+                }
             }
 
             /****load host vehicle info to session variables: 
@@ -100,31 +102,31 @@ function showVehicleInfo(itemName, index)
              * make, 
              * model
              * ***/
-            if(session_hostVehicle != null && itemName.includes('vehicle_make'))
+            if(session_hostVehicle != null && parameter == 'vehicle_make')
             {
-                session_hostVehicle.make = myValue;
+                session_hostVehicle.make = yamlData[parameter];
             }
-            else if(session_hostVehicle != null && itemName.includes('vehicle_model'))
+            else if(session_hostVehicle != null && parameter == 'vehicle_model')
             {
-                session_hostVehicle.model = myValue;
+                session_hostVehicle.model = yamlData[parameter];
             }
-            else if(session_hostVehicle != null && itemName.includes('vehicle_acceleration_limit'))
+            else if(session_hostVehicle != null && parameter == 'vehicle_acceleration_limit')
             {
-                session_hostVehicle.accelerationLimit = myValue;
+                session_hostVehicle.accelerationLimit = yamlData[parameter];
             }
-            else if(session_hostVehicle != null && itemName.includes('vehicle_deceleration_limit'))
+            else if(session_hostVehicle != null && parameter == 'vehicle_deceleration_limit')
             {
-                session_hostVehicle.brakeLimit = myValue;
+                session_hostVehicle.brakeLimit = yamlData[parameter];
             }
-            else if(session_hostVehicle != null && itemName.includes('vehicle_steer_lim_deg'))
+            else if(session_hostVehicle != null && parameter == 'vehicle_steer_lim_deg')
             {
-                session_hostVehicle.steeringLimit = myValue
+                session_hostVehicle.steeringLimit = yamlData[parameter];
             }
-            else if(session_hostVehicle != null && itemName.includes('vehicle_steering_gear_ratio'))
+            else if(session_hostVehicle != null && parameter == 'vehicle_steering_gear_ratio')
             {
-                session_hostVehicle.steeringRatio = myValue
+                session_hostVehicle.steeringRatio = yamlData[parameter];
             }
-        });
+        }
     }
 }
 
@@ -273,6 +275,8 @@ function UpdateHostVehicleMarkerLoc()
                 moveMarkerWithTimeout(hostmarker, avgPosition.avgLatitude.toString(), avgPosition.avglongitude.toString(), 0);
            }           
         }
+        window.lastGPSMessageTime = Date.now();
+        updateGPSStatusIcon(true);
     });
 }
 

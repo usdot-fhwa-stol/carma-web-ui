@@ -1,6 +1,6 @@
-| Sonar Code Quality | DockerHub Release | DockerHub Release Candidate | DockerHub Develop |
-|-----|-----|-----|-----|
- [![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=usdot-fhwa-stol_carma-web-ui&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=usdot-fhwa-stol_carma-web-ui) | [![Docker Cloud Build Status](https://img.shields.io/docker/cloud/build/usdotfhwastol/carma-web-ui?label=Carma-Web-UI)](https://hub.docker.com/repository/docker/usdotfhwastol/carma-web-ui) | [![Docker Cloud Build Status](https://img.shields.io/docker/cloud/build/usdotfhwastolcandidate/carma-web-ui?label=Carma-Web-UI)](https://hub.docker.com/repository/docker/usdotfhwastolcandidate/carma-web-ui) | [![Docker Cloud Build Status](https://img.shields.io/docker/cloud/build/usdotfhwastoldev/carma-web-ui?label=Carma-Web-UI)](https://hub.docker.com/repository/docker/usdotfhwastoldev/carma-web-ui)
+| Sonar Code Quality | DockerHub Develop |
+|-----|-----|
+ [![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=usdot-fhwa-stol_carma-web-ui&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=usdot-fhwa-stol_carma-web-ui) |[![Docker Hub build](https://github.com/usdot-fhwa-stol/carma-web-ui/actions/workflows/dockerhub.yml/badge.svg?branch=develop)](https://github.com/usdot-fhwa-stol/carma-web-ui/actions/workflows/dockerhub.yml)
 
 # CARMAWebUi
 CARMAWebUi is the web-based user interface component of the CARMAPlatform.
@@ -24,6 +24,6 @@ The development team would like to acknowledge the people who have made direct c
 By contributing to the Federal Highway Administration (FHWA) Connected Automated Research Mobility Applications (CARMA), you agree that your contributions will be licensed under its Apache License 2.0 license. [CARMA License](https://github.com/usdot-fhwa-stol/carma-platform/blob/develop/docs/License.md) 
 
 ## Contact
-Please click on the CARMA logo below to visit the Federal Highway Adminstration(FHWA) CARMA website.
+Please click on the CARMA logo below to visit the Federal Highway Adminstration(FHWA) CARMA website. For technical support from the CARMA team, please contact the CARMA help desk at CAVSupportServices@dot.gov.
 
 [![CARMA Image](https://raw.githubusercontent.com/usdot-fhwa-stol/carma-platform/develop/docs/image/CARMA_icon.png)](https://highways.dot.gov/research/research-programs/operations/CARMA)

@@ -7,7 +7,7 @@ $(document).ready(function(){
     });   
 });
 
-function updateAccerator(element, max, value){
+function updateAccelerator(element, max, value){
     element.max = max;
     element.value = value;
 } 

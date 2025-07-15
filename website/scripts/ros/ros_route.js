@@ -325,7 +325,6 @@ function showActiveRoute()
         //If nothing on the list, set all selected checkboxes back to blue (or active).
         if (message.segments == null || message.segments.length == 0) 
         {
-            $('#divCapabilitiesRoute').append(' There were no segments found the active route. ');
             $('#divCapabilitiesContent').css('display','inline-block');
             return;
         }

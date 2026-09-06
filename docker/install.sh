@@ -16,18 +16,25 @@
 
 set -ex
 
-# Configure apt with Docker repos
+# Configure Docker repository for Debian Bookworm
 apt-get update
-apt-get -y --force-yes install apt-transport-https \
-        ca-certificates \
-        curl \
-        gnupg2 \
-        software-properties-common
-curl -fsSL https://download.docker.com/linux/$(. /etc/os-release; echo "$ID")/gpg > /tmp/dkey; apt-key add /tmp/dkey
-add-apt-repository \
-        "deb [arch=amd64] https://download.docker.com/linux/$(. /etc/os-release; echo "$ID") \
-        $(lsb_release -cs) \
-        stable"
+apt-get install -y ca-certificates curl
+
+install -m 0755 -d /etc/apt/keyrings
+curl -fsSL https://download.docker.com/linux/debian/gpg \
+        -o /etc/apt/keyrings/docker.asc
+chmod a+r /etc/apt/keyrings/docker.asc
+
+. /etc/os-release
+
+cat > /etc/apt/sources.list.d/docker.sources <<EOF
+Types: deb
+URIs: https://download.docker.com/linux/debian
+Suites: ${VERSION_CODENAME}
+Components: stable
+Architectures: $(dpkg --print-architecture)
+Signed-By: /etc/apt/keyrings/docker.asc
+EOF
 
 # Ensure docker group id is 998. CARMA UI is dependent on having the group id be the same between the image and vehicle PC.
 if [[ -z $(grep  -i "docker" /etc/group) ]]; then
@@ -46,8 +53,11 @@ fi
 
 # Install docker and docker-compose
 apt-get update
-apt-get -y --force-yes install docker-ce 
-curl -L "https://github.com/docker/compose/releases/download/1.29.1/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
+apt-get -y install docker-ce
+
+curl -L "https://github.com/docker/compose/releases/download/1.29.1/docker-compose-$(uname -s)-$(uname -m)" \
+        -o /usr/local/bin/docker-compose
+
 chmod +x /usr/local/bin/docker-compose
 
 # Configure user permissions for docker

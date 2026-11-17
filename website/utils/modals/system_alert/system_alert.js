@@ -75,8 +75,14 @@ function createSystemAlertModal(systemAlertTitle,systemAlertBody,showRestartBtn,
             $('#jqxLoader').jqxLoader('open'); 
             //Clear sesion variables
             sessionStorage.clear();
+            //Keep the system ready flag. Drivers were already ready earlier in this session (a route can only be
+            //selected after DRIVERS_READY), and that alert is published only once by the drivers controller.
+            //Without this flag, the reloaded page waits for a DRIVERS_READY alert that never comes again and
+            //never requests the available routes, so the route node stays in LOADING and a new route cannot be selected.
+            //Any later CAUTION/WARNING/FATAL/SHUTDOWN alert still resets this flag through the system alert listener.
+            sessionStorage.setItem('isSystemAlert', 'true');
             clearInterval(g_timer); //stops the execution
-            g_timer = null; //reset elapsed timer         
+            g_timer = null; //reset elapsed timer
             activateGuidanceListner(false); //de-activate guidance and change guidance state to DRIVER'S READY
 
             //pause any sounds.

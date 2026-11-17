@@ -147,12 +147,28 @@ function setRoute(id,route_name)
     try
     {
         // Call the service and get back the results in the callback.
-        service.callService(request, function (result) 
+        let hasRetried = false;
+        let handleSetRouteResult = function (result)
         {
+            //The vehicle is still following an older route (e.g. this page was reloaded or opened in a new tab mid-route,
+            //so it does not know about that route). The user picked a new route, so abort the old one,
+            //reload the available routes (moves the route node LOADING -> SELECTION) and retry once.
+            if (result.error_status == ErrorStatus.ALREADY_FOLLOWING_ROUTE.value && !hasRetried)
+            {
+                hasRetried = true;
+                console.log('Route node is already following a route. Aborting it and retrying route: ' + selectedRouteid);
+                $('#divCapabilitiesRoute').html('Replacing the active route with ' + route_name + '...');
+                $('#divCapabilitiesContent').css('display','inline-block');
+                replaceActiveRouteThenRetry(
+                    () => service.callService(request, handleSetRouteResult, () => handleSetRouteResult(result)),
+                    () => handleSetRouteResult(result));
+                return;
+            }
+
             let errorDescription = '';
-            if (result.error_status != ErrorStatus.NO_ERROR.value) 
-            {             
-                switch (result.error_status) 
+            if (result.error_status != ErrorStatus.NO_ERROR.value)
+            {
+                switch (result.error_status)
                 {
                     case ErrorStatus.NO_ROUTE.value:
                         errorDescription = ErrorStatus.NO_ROUTE.text;
@@ -203,7 +219,10 @@ function setRoute(id,route_name)
                 $('#divCapabilitiesRoute').html('Setting the route failed (' + errorDescription + '). <br/> Please try again or contact your System Administrator.');
                 $('#divCapabilitiesContent').css('display','inline-block');
             }
-        });
+        };
+
+        // Call the service and get back the results in the callback.
+        service.callService(request, handleSetRouteResult);
     }
     catch(ex)
     {
@@ -224,6 +243,46 @@ function setRoute(id,route_name)
             if(errorMsgByRouteId!= null && errorMsgByRouteId != 'undefined')
                 errorMsgByRouteId.style.display='block'; //show error mesage fo route generation failed
         }
+    });
+}
+
+/**
+ * Abort whatever route the route node is following, then request the available routes so the route node
+ * moves from LOADING back to SELECTION and accepts a new set_active_route request.
+ * @param {*} onReady called when the route node is ready for a new route
+ * @param {*} onFail called if a service call fails
+ */
+function replaceActiveRouteThenRetry(onReady, onFail)
+{
+    let abortService = new ROSLIB.Service({
+        ros: g_ros,
+        name: S_ABORT_ACTIVE_ROUTE,
+        serviceType: M_ABORT_ACTIVE_ROUTE_REQ
+    });
+    let availableRoutesService = new ROSLIB.Service({
+        ros: g_ros,
+        name: S_GUIDANCE_AVAILABLE_ROUTES,
+        messageType: M_GUIDANCE_AVAILABLE_ROUTES
+    });
+
+    abortService.callService(new ROSLIB.ServiceRequest({}), function (abortResult)
+    {
+        //NO_ACTIVE_ROUTE is fine here: still reload the routes and retry; the retry reports any remaining error.
+        console.log('replaceActiveRouteThenRetry: abort active route returned ' + abortResult.error_status);
+        availableRoutesService.callService(new ROSLIB.ServiceRequest({}), function ()
+        {
+            onReady();
+        },
+        function (error)
+        {
+            console.error('replaceActiveRouteThenRetry: get available routes failed: ' + error);
+            onFail();
+        });
+    },
+    function (error)
+    {
+        console.error('replaceActiveRouteThenRetry: abort active route failed: ' + error);
+        onFail();
     });
 }
 

@@ -725,6 +725,19 @@ function checkRouteInfo()
         //For UI purpose, only need to notify the USER and show them that route has completed.
         //Allow user to be notified of route completed/left route even if guidance is not active/engaged.
         let messageTypeFullDescription='';
+
+        //The route node publishes route_event as transient_local with KeepAll history, so every past event
+        //(including an old ROUTE_COMPLETED/LEFT_ROUTE/ROUTE_ABORTED) is replayed when this page (re)subscribes.
+        //Only alert on route end events while this page has a selected route; otherwise a replayed event re-opens
+        //the alert after "Start A New Route" and the user can never get back to route selection.
+        let hasSelectedRoute = session_selectedRoute != null && session_selectedRoute.id != null
+            && session_selectedRoute.id.length > 0;
+        if (!hasSelectedRoute && (message.event == 3 || message.event == 4 || message.event == 5))
+        {
+            console.log('Ignoring route event ' + message.event + ' because no route is currently selected (likely replayed history).');
+            return;
+        }
+
         if (message.event == 3) //ROUTE_COMPLETED=3
         {
             messageTypeFullDescription = 'PLEASE TAKE <strong>MANUAL</strong> CONTROL OF THE VEHICLE.<br/> <br/> ROUTE COMPLETED.  ';
